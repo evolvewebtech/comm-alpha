@@ -1,6 +1,8 @@
 <?php
 /**
  * Description of Database
+ * This class allow to insert, delete and update info
+ * into db
  *
  * @author francesco
  */
@@ -12,7 +14,7 @@ class Database {
     private $db_host = 'localhost';     // Database Host
     private $db_user = 'root';          // Username
     private $db_pass = '';              // Password
-    private $db_name = 'finetor';       // Database
+    private $db_name = 'commander';       // Database
     /*
      * End edit
      */

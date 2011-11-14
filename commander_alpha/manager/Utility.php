@@ -7,6 +7,12 @@
  */
 class Utility{
 
+    /**
+     *
+     * print html line
+     *
+     * @param <type> $data
+     */
     function println($data) {
         print $data . "<br>\n";
     }

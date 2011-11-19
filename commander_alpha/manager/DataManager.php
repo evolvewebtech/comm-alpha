@@ -52,6 +52,13 @@ class DataManager {
                 $db->delete('cmd_utente_registrato', "username='$username'");
             return false;
         }
+        
+        
+        /*
+         * prova commit!!!!!!!!!!!!!!
+         */
+        
+        
     }
 }
 ?>

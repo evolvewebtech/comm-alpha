@@ -6,23 +6,46 @@
  */
 class DataManager {
 
-    static function _getConnection() {
-        static $hDB;
-        static $database = "finetor";
+    /**
+     * inserisce un cassiere al'interno del db.
+     * utilizzo: DataManager::inserisciCassiere('NULL','NULL','NULL',...)
+     *
+     *
+     * @param <type> $cassiere_id
+     * @param <type> $utente_registrato_id
+     * @param <type> $utente_registrato_id2
+     * @param <type> $gestore_id
+     * @param <type> $username
+     * @param <type> $password
+     * @param <type> $email
+     * @param <type> $nome
+     * @param <type> $cognome
+     * @param <type> $livello_cassiere
+     * @return <type>
+     */
+    static function inseririCassiere($cassiere_id, $utente_registrato_id, $utente_registrato_id2, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        /*
+         * inserisco un profilo utente (tabella_ cmd_utente registrato)
+         */
+        $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username, $password, $email, $nome, $cognome));
 
-        if(isset($hDB)) {
-         return $hDB;
+        $db->select('cmd_utente_registrato', 'id', "username='$username'");
+        
+        $utente_registrato_id2 = $db->getResult();
+        $utente_registrato_id2 = $utente_registrato_id2['id'];
+        var_dump($utente_registrato_id2);
+        $ret2 = $db->insert('cmd_cassiere', array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
+
+        if ($ret && $ret2)
+            return true;
+        else {
+            if ($ret)
+                $db->delete('cmd_utente_registrato', "username='$username'");
+            return false;
         }
-
-        $hDB = mysql_connect("localhost", "root", "")
-         or die("Failure connecting to the database!");
-
-        if (!$hDB){
-          die('Could not connect: ' . mysql_error());
-        }
-        mysql_select_db($database);
-
-        return $hDB;
     }
 }
 ?>

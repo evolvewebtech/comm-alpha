@@ -87,23 +87,26 @@ class DataManager {
         /*
          * prelevo l'id dalla tabella cmd_cassiere appena aggiornata
          */
-        $db->select('cmd_utente_registrato', 'id', "username='$username'");
+        $db->select('cmd_cassiere', 'utente_registrato_id', "id='$cassiere_id'");
         $utente_registrato_id = $db->getResult();
-        $utente_registrato_id = $utente_registrato_id['id'];
+        $utente_registrato_id = intval($utente_registrato_id['utente_registrato_id']);
 
         if ($ret) {
             /*
              * aggiorno il profilo del cassiere
              */
             $ret2 = $db->update('cmd_utente_registrato',
-                                array('username' => $username,
-                                      'password' => $password,
-                                      'email'    => $email,
-                                      'nome'     => $nome,
-                                      'cognome'  =>$cognome),
-                                array('id',$utente_registrato_id));
-            if (!$ret2){
-                   $ret==false;
+                                    array(
+                                        'username' => $username,
+                                        'password' => $password,
+                                        'email'    => $email,
+                                        'nome'     => $nome,
+                                        'cognome'  => $cognome),
+                                    array(
+                                        'id',$utente_registrato_id)
+                                );
+            if ($ret2==false){
+                   $ret=false;
                 }
             }
         return $ret;

@@ -11,17 +11,17 @@ class DataManager {
      * utilizzo: DataManager::inserisciCassiere('NULL','NULL','NULL',...)
      *
      *
-     * @param <type> $cassiere_id
-     * @param <type> $utente_registrato_id
-     * @param <type> $utente_registrato_id2
-     * @param <type> $gestore_id
-     * @param <type> $username
-     * @param <type> $password
-     * @param <type> $email
-     * @param <type> $nome
-     * @param <type> $cognome
-     * @param <type> $livello_cassiere
-     * @return <type>
+     * @param <int> $cassiere_id
+     * @param <int> $utente_registrato_id
+     * @param <int> $utente_registrato_id2
+     * @param <int> $gestore_id
+     * @param <string> $username
+     * @param <string> $password
+     * @param <string> $email
+     * @param <string> $nome
+     * @param <string> $cognome
+     * @param <int> $livello_cassiere
+     * @return <bool>
      */
     static function inseririCassiere($cassiere_id, $utente_registrato_id, $utente_registrato_id2, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
         require_once 'Database.php';
@@ -36,7 +36,7 @@ class DataManager {
          * prelevo l'id appena assegnato (AI) dalla tabella cmd_utente_registrato
          */
         $db->select('cmd_utente_registrato', 'id', "username='$username'");
-        
+
         $utente_registrato_id2 = $db->getResult();
         $utente_registrato_id2 = $utente_registrato_id2['id'];
 
@@ -52,13 +52,36 @@ class DataManager {
                 $db->delete('cmd_utente_registrato', "username='$username'");
             return false;
         }
-        
-        
+
+    }//end inserisciCassiere
+
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @param <int> $utente_registrato_id
+     * @param <int> $utente_registrato_id2
+     * @param <int> $gestore_id
+     * @param <string> $username
+     * @param <string> $password
+     * @param <string> $email
+     * @param <string> $nome
+     * @param <string> $cognome
+     * @param <int> $livello_cassiere
+     * @return <bool>
+     */
+    static function aggiornaCassiere($cassiere_id, $utente_registrato_id, $utente_registrato_id2, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
         /*
-         * prova commit!!!!!!!!!!!!!!
+         * aggiorno il livello del cassiere
          */
-        
-        
-    }
+        $ret = $db->update('cmd_cassiere',
+                array('livello_cassiere' => $livello_cassiere),
+                       array('id',$cassiere_id));
+
+        return $ret;
+    }//end aggiornaCassiere
 }
 ?>

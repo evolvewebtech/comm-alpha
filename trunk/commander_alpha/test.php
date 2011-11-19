@@ -5,18 +5,20 @@
  */
 require_once 'manager/DataManager.php';
 
-$username = "cecco";
-$password = "password";
+$username = "cecco2";
+$password = "password2";
 $email = "a@a.a";
-$nome = "francesco";
-$cognome = "falanga";
-$livello_cassiere = 0;
+$nome = "francesco2";
+$cognome = "falanga2";
+$livello_cassiere = 1;
 
 $gestore_id = 1;
-
-$result = DataManager::inseririCassiere('NULL', 'NULL', 'NULL', $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
+$cassiere_id = 2;
+$utente_registrato_id = 6;
+$gestore_id = 1;
+$result = DataManager::aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
 if ($result){
-    echo "cassiere aggiunto";
+    echo "cassiere aggiornato";
 }else {
     echo "an error occurred";
 }

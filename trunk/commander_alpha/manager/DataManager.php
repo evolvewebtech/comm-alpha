@@ -89,6 +89,9 @@ class DataManager {
          */
         $db->select('cmd_cassiere', 'utente_registrato_id', "id='$cassiere_id'");
         $utente_registrato_id = $db->getResult();
+        /*
+         * trasformo per sicurezza utente_registrato in un numero intero
+         */
         $utente_registrato_id = intval($utente_registrato_id['utente_registrato_id']);
 
         if ($ret) {

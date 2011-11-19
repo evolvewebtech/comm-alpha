@@ -7,7 +7,9 @@
 class DataManager {
 
     /**
+     *
      * inserisce un cassiere al'interno del db.
+     *
      * utilizzo: DataManager::inserisciCassiere('NULL','NULL','NULL',...)
      *
      *
@@ -36,7 +38,6 @@ class DataManager {
          * prelevo l'id appena assegnato (AI) dalla tabella cmd_utente_registrato
          */
         $db->select('cmd_utente_registrato', 'id', "username='$username'");
-
         $utente_registrato_id2 = $db->getResult();
         $utente_registrato_id2 = $utente_registrato_id2['id'];
 
@@ -57,9 +58,11 @@ class DataManager {
 
     /**
      *
+     * aggiorna un cassiere all'interno del db.
+     *
+     * utilizzo: DataManager::aggiornaCassiere($cassiere_id, $gestore_id, $username, ...);
+     *
      * @param <int> $cassiere_id
-     * @param <int> $utente_registrato_id
-     * @param <int> $utente_registrato_id2
      * @param <int> $gestore_id
      * @param <string> $username
      * @param <string> $password
@@ -69,7 +72,7 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    static function aggiornaCassiere($cassiere_id, $utente_registrato_id, $utente_registrato_id2, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+    static function aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -79,9 +82,33 @@ class DataManager {
          */
         $ret = $db->update('cmd_cassiere',
                 array('livello_cassiere' => $livello_cassiere),
-                       array('id',$cassiere_id));
+                            array('id',$cassiere_id));
 
+        /*
+         * prelevo l'id dalla tabella cmd_cassiere appena aggiornata
+         */
+        $db->select('cmd_utente_registrato', 'id', "username='$username'");
+        $utente_registrato_id = $db->getResult();
+        $utente_registrato_id = $utente_registrato_id['id'];
+
+        if ($ret) {
+            /*
+             * aggiorno il profilo del cassiere
+             */
+            $ret2 = $db->update('cmd_utente_registrato',
+                                array('username' => $username,
+                                      'password' => $password,
+                                      'email'    => $email,
+                                      'nome'     => $nome,
+                                      'cognome'  =>$cognome),
+                                array('id',$utente_registrato_id));
+            if (!$ret2){
+                   $ret==false;
+                }
+            }
         return $ret;
     }//end aggiornaCassiere
+
+
 }
 ?>

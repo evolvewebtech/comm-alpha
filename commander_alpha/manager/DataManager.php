@@ -32,11 +32,17 @@ class DataManager {
          */
         $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username, $password, $email, $nome, $cognome));
 
+        /*
+         * prelevo l'id appena assegnato (AI) dalla tabella cmd_utente_registrato
+         */
         $db->select('cmd_utente_registrato', 'id', "username='$username'");
         
         $utente_registrato_id2 = $db->getResult();
         $utente_registrato_id2 = $utente_registrato_id2['id'];
-        var_dump($utente_registrato_id2);
+
+        /*
+         * inserisco il nuovo cassiere e lo associo al gestore e al suo profilo
+         */
         $ret2 = $db->insert('cmd_cassiere', array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
 
         if ($ret && $ret2)

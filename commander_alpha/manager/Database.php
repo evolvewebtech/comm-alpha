@@ -14,7 +14,7 @@ class Database {
     private $db_host = 'localhost';     // Database Host
     private $db_user = 'root';          // Username
     private $db_pass = '';              // Password
-    private $db_name = 'commander';       // Database
+    private $db_name = 'commander';     // Database
     /*
      * End edit
      */

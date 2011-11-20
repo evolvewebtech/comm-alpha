@@ -11,10 +11,11 @@ class Utility{
      *
      * print html line
      *
-     * @param <type> $data
+     * @param <string> $data
      */
     function println($data) {
         print $data . "<br>\n";
     }
+
 }
 ?>

@@ -4,7 +4,31 @@
  *
  * @author francesco
  */
+require_once './user/User.php';
+require_once './user/Gestore.php';
+require_once './user/Cassiere.php';
+
 class DataManager {
+
+    private static function _getConnection() {
+      static $hDB;
+      static $database = "commander";
+
+      if(isset($hDB)) {
+         return $hDB;
+      }
+
+      $hDB = mysql_connect("localhost", "root", "")
+         or die("Failure connecting to the database!");
+
+      if (!$hDB){
+          die('Could not connect: ' . mysql_error());
+      }
+      mysql_select_db($database);
+
+      return $hDB;
+    }
+
 
     /**
      *
@@ -25,7 +49,7 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    static function inseririCassiere($cassiere_id, $utente_registrato_id, $utente_registrato_id2, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+    public static function inserisciCassiere($cassiere_id, $utente_registrato_id, $utente_registrato_id2, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -72,7 +96,7 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    static function aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+    public static function aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -115,6 +139,187 @@ class DataManager {
         return $ret;
     }//end aggiornaCassiere
 
+
+    /**
+     * ritorno l'oggetto Gestore prendendo in ingresso l'id dell'utente
+     *
+     * @param <int> $cassiereID
+     * @return Gestore
+     */
+    public static function getGestore($cassiereID){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        $res = $db->select('cmd_cassiere', 'gestore_id', "id='$cassiereID'");
+        $gestore_id = $db->getResult();
+//        var_dump($gestore_id);
+        if(!$res) {
+            die("Failed getting gestore info for cassiere number $cassiereID");
+        }
+        $row = $gestore_id;//mysql_fetch_assoc($gestore_id);
+        if($row) {
+          return new Gestore(intval($row['gestore_id']));
+        } else {
+          return null;
+        }
+    }
+
+
+    /**
+     *
+     * prendo tutti i cassieri associati al gestore avente, li restituisco
+     * come oggetti
+     *
+     * @param <id> $gestoreID
+     * @return Cassiere
+     */
+    public static function getTuttiCassieri($gestoreID){
+        $sql = "SELECT * FROM cmd_cassiere WHERE gestore_id='$gestoreID'";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting cassieri data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = new Cassiere(intval($rec['id']));
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+
+    /**
+     * ritorno tutti i dati di un utente registrato:
+     * - id
+     * - nome
+     * - cognome
+     * - username
+     * - md5(password)
+     *
+     * @param <int> $userID
+     * @return <array string>
+     */
+    public static function getUserData($userID){
+        $sql = "SELECT * FROM cmd_utente_registrato WHERE id=$userID";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Failed getting entity User2");
+            }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     * - id
+     * - utente_registrato_id
+     * -
+     *
+     * @param <int> $userID
+     * @return <array string>
+     */
+    public static function getGestoreData($userID){
+        $sql = "SELECT * FROM cmd_gestore WHERE utente_registrato_id=$userID";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Failed getting entity Gestore");
+            }
+            return mysql_fetch_assoc($res);
+        }       
+    }
+
+    /**
+     * - id
+     * - utente_registrato_id
+     * - gestore_id
+     * - livello_cassiere
+     *
+     * @param <int> $userID
+     * @return <array cassiere>
+     */
+    public static function getCassiereData($userID){
+        $sql = "SELECT * FROM cmd_cassiere WHERE utente_registrato_id=$userID";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Cassiere");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <Utente registrato object
+     */
+    public static function getAllEntitiesAsObjects() {
+
+        $sql = "SELECT id,type FROM cmd_utente_registrato";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                if($row['type'] == 'G') {
+                    $id = intval($row['id']);
+                    $objs[] = new Gestore($id);
+                } elseif ($row['type'] == 'C') {
+                    $id = intval($row['id']);
+                    $objs[] = new Cassiere($id);
+                } else {
+                    die("Unknown entity type {$row['type']} encountered!");
+                }
+              }
+              return $objs;
+            } else {
+              return array();
+            }
+    }
+
+
+    /**
+     *
+     * ritorno l'oggetto Cassiere o Gestore in base all'id dell'utente_registrato
+     *
+     * @param <int> $id
+     * @return Utente_registrato object
+     */
+    public static function getUserAsObject($id){
+        $sql = "SELECT * FROM cmd_utente_registrato WHERE id=$id";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                if($row['type'] == 'G') {
+                    $id = intval($row['id']);
+                    $objs[] = new Gestore($id);
+                } elseif ($row['type'] == 'C') {
+                    $id = intval($row['id']);
+                    $objs[] = new Cassiere($id);
+                } else {
+                    die("Unknown entity type {$row['type']} encountered!");
+                }
+              }
+              return $objs;
+            } else {
+              return array();
+            }
+
+    }
 
 }
 ?>

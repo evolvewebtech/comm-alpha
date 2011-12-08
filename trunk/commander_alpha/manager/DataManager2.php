@@ -13,19 +13,21 @@ class DataManager2 {
      * @param <int> $id
      * @param <string> $nome
      * @param <double> $prezzo
+     * @param <double> $iva
      * @param <string> $colore_bottone
      * @param <text> $descrizione
      * @param <tinyint> $apeso
      * @param <string> $path_image
      * @param <string> $codice_prodotto
+     * @param <int> $quantita
      * @param <int> $gestore_id
      * @param <int> $categoria_id
      * @param <int> $alimento_id
      * @return <bool>
      */
-    static function inserisciAlimento($id, $nome, $prezzo, $colore_bottone,
-            $descrizione, $apeso, $path_image, $codice_prodotto, $gestore_id,
-            $categoria_id, $alimento_id){
+    static function inserisciAlimento($id, $nome, $prezzo, $iva, $colore_bottone,
+            $descrizione, $apeso, $path_image, $codice_prodotto, $quantita,
+            $gestore_id, $categoria_id, $alimento_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -34,8 +36,8 @@ class DataManager2 {
         /*
          * inserisco un alimento
          */
-        $ret = $db->insert('cmd_alimento', array($id, $nome, $prezzo, $colore_bottone,
-            $descrizione, $apeso, $path_image, $codice_prodotto, $gestore_id,
+        $ret = $db->insert('cmd_alimento', array($id, $nome, $prezzo, $iva, $colore_bottone,
+            $descrizione, $apeso, $path_image, $codice_prodotto, $quantita, $gestore_id,
             $categoria_id, $alimento_id));
                 
         if ($ret) return true;
@@ -49,19 +51,21 @@ class DataManager2 {
      * @param <int> $id
      * @param <string> $nome
      * @param <double> $prezzo
+     * @param <double> $iva
      * @param <string> $colore_bottone
      * @param <text> $descrizione
      * @param <tinyint> $apeso
      * @param <string> $path_image
      * @param <string> $codice_prodotto
+     * @param <int> $quantita
      * @param <int> $gestore_id
      * @param <int> $categoria_id
      * @param <int> $alimento_id
      * @return <bool>
      */
-    static function aggiornaAlimento($id, $nome, $prezzo, $colore_bottone,
-            $descrizione, $apeso, $path_image, $codice_prodotto, $gestore_id,
-            $categoria_id, $alimento_id){
+    static function aggiornaAlimento($id, $nome, $prezzo, $iva, $colore_bottone,
+            $descrizione, $apeso, $path_image, $codice_prodotto, $quantita,
+            $gestore_id, $categoria_id, $alimento_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -72,11 +76,13 @@ class DataManager2 {
          */        
         $ret = $db->update('cmd_alimento', array('nome' => $nome,
                                                   'prezzo' => $prezzo,
+                                                  'iva' => $iva,
                                                   'colore_bottone' => $colore_bottone,
                                                   'descrizione' => $descrizione,
                                                   'apeso' => $apeso,
                                                   'path_image' => $path_image,
                                                   'codice_prodotto' => $codice_prodotto,
+                                                  'quantita' => $quantita,
                                                   'gestore_id' =>  $gestore_id,
                                                   'categoria_id' => $categoria_id,
                                                   'alimento_id' => $alimento_id),
@@ -165,10 +171,10 @@ class DataManager2 {
     
     /**
      *
-     * @param <int> $id
+     * @param <int> $alimento_id
      * @return <bool> 
      */
-    static function cancellaAlimentoEsaurito($id){
+    static function cancellaAlimentoEsaurito($alimento_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -177,7 +183,7 @@ class DataManager2 {
         /*
          * cancello un alimento esaurito
          */
-        $ret = $db->delete('cmd_alimento_esaurito', "id = ".$id);
+        $ret = $db->delete('cmd_alimento_esaurito', "alimento_id = ".$alimento_id);
                 
         if ($ret) return true;
         else return false;
@@ -190,10 +196,10 @@ class DataManager2 {
      *
      * @param <int> $id
      * @param <int> $alimento_id
-     * @param <int> $menu_id
+     * @param <int> $menu_fisso_id
      * @return <bool> 
      */
-    static function inserisciAlimentoMenu($id, $alimento_id, $menu_id){
+    static function inserisciAlimentoMenu($id, $alimento_id, $menu_fisso_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -202,7 +208,7 @@ class DataManager2 {
         /*
          * inserisco una relazione alimento_menu
          */
-        $ret = $db->insert('cmd_alimento_menu', array($id, $alimento_id, $menu_id));
+        $ret = $db->insert('cmd_alimento_menu', array($id, $alimento_id, $menu_fisso_id));
                 
         if ($ret) return true;
         else return false;
@@ -214,10 +220,10 @@ class DataManager2 {
      *
      * @param <int> $id
      * @param <int> $alimento_id
-     * @param <int> $menu_id
+     * @param <int> $menu_fisso_id
      * @return <bool> 
      */
-    static function aggiornaAlimentoMenu($id, $alimento_id, $menu_id){
+    static function aggiornaAlimentoMenu($id, $alimento_id, $menu_fisso_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -227,7 +233,7 @@ class DataManager2 {
          * modifico una relazione alimento_menu
          */
         $ret = $db->update('cmd_alimento_menu', array('alimento_id' => $alimento_id,
-                                                  'menu_id' =>  $menu_id),
+                                                  'menu_fisso_id' =>  $menu_fisso_id),
                                             array('id', $id)
                     );
                 
@@ -249,7 +255,7 @@ class DataManager2 {
         $db->connect();
 
         /*
-         * cancello una relazione alimento_menu
+         * cancello una relazione alimento_menu 
          */
         $ret = $db->delete('cmd_alimento_menu', "id = ".$id);
                 
@@ -259,16 +265,89 @@ class DataManager2 {
     
     
     
+    /**
+     *
+     * @param <int> $alimento_menu_id
+     * @param <int> $alimento_id
+     * @return <bool> 
+     */
+    static function inserisciAlimentomenuAlimento($alimento_menu_id, $alimento_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        
+        /*
+         * inserisco una relazione alimento_menu alimento
+         */
+        $ret = $db->insert('rel_alimentomenu_alimento', array($alimento_menu_id, $alimento_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciAlimentomenuAlimento
+    
+    
     
     /**
      *
-     * @param <int> $id
-     * @param <string> $nome
+     * @param <int> $alimento_menu_id
+     * @param <int> $alimento_id
+     * @param <int> $new_alimento_menu_id
+     * @param <int> $new_alimento_id
+     * @return <bool> 
+     */
+    static function aggiornaAlimentomenuAlimento($alimento_menu_id, $alimento_id, $new_alimento_menu_id, $new_alimento_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione alimento_menu alimento
+         */
+        $ret = $db->update('rel_alimentomenu_alimento', array('alimento_menu_id' => $new_alimento_menu_id,
+                                                  'alimento_id' =>  $new_alimento_id),
+                                            array('alimento_menu_id', $alimento_menu_id, 'alimento_id', $alimento_id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaAlimentomenuAlimento
+    
+    
+    
+    /**
+     *
+     * @param <int> $alimento_menu_id
+     * @param <int> $alimento_id
+     * @return <bool> 
+     */
+    static function cancellaAlimentomenuAlimento($alimento_menu_id, $alimento_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione alimento_menu alimento
+         */
+        $ret = $db->delete('rel_alimentomenu_alimento', "alimento_menu_id = ".$alimento_menu_id.
+                        " AND "."alimento_id = ".$alimento_id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaAlimentomenuAlimento
+    
+    
+    
+    
+    /**
+     *
      * @param <int> $alimento_id
      * @param <int> $stampante_id
      * @return <bool> 
      */
-    static function inserisciAlimentoStampante($id, $nome, $alimento_id, $stampante_id){
+    static function inserisciAlimentoStampante($alimento_id, $stampante_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -277,7 +356,7 @@ class DataManager2 {
         /*
          * inserisco una relazione alimento_stampante
          */
-        $ret = $db->insert('cmd_alimento_stampante', array($id, $nome, $alimento_id, $stampante_id));
+        $ret = $db->insert('rel_alimento_stampante', array($alimento_id, $stampante_id));
                 
         if ($ret) return true;
         else return false;
@@ -287,13 +366,13 @@ class DataManager2 {
     
     /**
      *
-     * @param <int> $id
-     * @param <string> $nome
      * @param <int> $alimento_id
      * @param <int> $stampante_id
+     * @param <int> $new_alimento_id
+     * @param <int> $new_stampante_id
      * @return <bool> 
      */
-    static function aggiornaAlimentoStampante($id, $nome, $alimento_id, $stampante_id){
+    static function aggiornaAlimentoStampante($alimento_id, $stampante_id, $new_alimento_id, $new_stampante_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -302,11 +381,9 @@ class DataManager2 {
         /*
          * modifico una relazione alimento_stampante
          */
-        $ret = $db->update('cmd_alimento_stampante', array('nome' => $nome,
-                                                  'nome' => $nome,
-                                                  'alimento_id' => $alimento_id,
-                                                  'stampante_id' =>  $stampante_id),
-                                            array('id', $id)
+        $ret = $db->update('rel_alimento_stampante', array('alimento_id' => $new_alimento_id,
+                                                  'stampante_id' =>  $new_stampante_id),
+                                            array('alimento_id', $alimento_id, 'stampante_id', $stampante_id)
                     );
                 
         if ($ret) return true;
@@ -317,10 +394,11 @@ class DataManager2 {
     
     /**
      *
-     * @param <int> $id
+     * @param <int> $alimento_id
+     * @param <int> $stampante_id
      * @return <bool> 
      */
-    static function cancellaAlimentoStampante($id){
+    static function cancellaAlimentoStampante($alimento_id, $stampante_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -329,7 +407,8 @@ class DataManager2 {
         /*
          * cancello una relazione alimento_stampante
          */
-        $ret = $db->delete('cmd_alimento_stampante', "id = ".$id);
+        $ret = $db->delete('rel_alimento_stampante', "alimento_id = ".$alimento_id.
+                        " AND "."alimento_id = ".$alimento_id);
                 
         if ($ret) return true;
         else return false;
@@ -420,11 +499,12 @@ class DataManager2 {
      * @param <int> $id
      * @param <string> $nome
      * @param <double> $prezzo
+     * @param <double> $iva
      * @param <string> $descrizione
      * @param <int> $gestore_id
      * @return <bool> 
      */
-    static function inserisciMenuFisso($id, $nome, $prezzo, $descrizione, $gestore_id){
+    static function inserisciMenuFisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -433,7 +513,7 @@ class DataManager2 {
         /*
          * inserisco un menu fisso
          */
-        $ret = $db->insert('cmd_menu_fisso', array($id, $nome, $prezzo, $descrizione, $gestore_id));
+        $ret = $db->insert('cmd_menu_fisso', array($id, $nome, $prezzo, $iva, $descrizione, $gestore_id));
                 
         if ($ret) return true;
         else return false;
@@ -446,11 +526,12 @@ class DataManager2 {
      * @param <int> $id
      * @param <string> $nome
      * @param <double> $prezzo
+     * @param <double> $iva
      * @param <string> $descrizione
      * @param <int> $gestore_id
      * @return <bool> 
      */
-    static function aggiornaMenuFisso($id, $nome, $prezzo, $descrizione, $gestore_id){
+    static function aggiornaMenuFisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -461,6 +542,7 @@ class DataManager2 {
          */
         $ret = $db->update('cmd_menu_fisso', array('nome' => $nome,
                                                   'prezzo' => $prezzo,
+                                                  'iva' => $iva,
                                                   'descrizione' => $descrizione,
                                                   'gestore_id' => $gestore_id),
                                             array('id', $id)
@@ -580,10 +662,11 @@ class DataManager2 {
      * @param <int> $id
      * @param <string> $descrizione
      * @param <double> $prezzo
+     * @param <double> $iva
      * @param <int> $gestore_id
      * @return type 
      */
-    static function inserisciVariante($id, $descrizione, $prezzo, $gestore_id){
+    static function inserisciVariante($id, $descrizione, $prezzo, $iva, $gestore_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -592,7 +675,7 @@ class DataManager2 {
         /*
          * inserisco una variante
          */
-        $ret = $db->insert('cmd_variante', array($id, $descrizione, $prezzo, $gestore_id));
+        $ret = $db->insert('cmd_variante', array($id, $descrizione, $prezzo, $iva, $gestore_id));
                 
         if ($ret) return true;
         else return false;
@@ -605,10 +688,11 @@ class DataManager2 {
      * @param <int> $id
      * @param <string> $descrizione
      * @param <double> $prezzo
+     * @param <double> $iva
      * @param <int> $gestore_id
      * @return type 
      */
-    static function aggiornaVariante($id, $descrizione, $prezzo, $gestore_id){
+    static function aggiornaVariante($id, $descrizione, $prezzo, $iva, $gestore_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -619,6 +703,7 @@ class DataManager2 {
          */
         $ret = $db->update('cmd_variante', array('descrizione' => $descrizione,
                                                   'prezzo' =>  $prezzo,
+                                                  'iva' => $iva,
                                                   'gestore_id' => $gestore_id),
                                             array('id', $id)
                     );
@@ -648,6 +733,83 @@ class DataManager2 {
         if ($ret) return true;
         else return false;
     }//end cancellaVariante
+    
+    
+    
+    
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @return <bool> 
+     */
+    static function inserisciVarianteAlimento($variante_id, $alimento_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione variante_alimento
+         */
+        $ret = $db->insert('rel_variante_alimento', array($variante_id, $alimento_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciVarianteAlimento
+    
+    
+    
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @param <int> $new_variante_id
+     * @param <int> $new_alimento_id
+     * @return <bool> 
+     */
+    static function aggiornaVarianteAlimento($variante_id, $alimento_id, $new_variante_id, $new_alimento_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione variante_alimento
+         */
+        $ret = $db->update('rel_variante_alimento', array('variante_id' => $new_variante_id,
+                                                  'alimento_id' => $new_alimento_id),
+                                            array('variante_id', $variante_id, 'alimento_id', $alimento_id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaVarianteAlimento
+    
+    
+    
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @return <bool> 
+     */
+    static function cancellaVarianteAlimento($variante_id, $alimento_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione variante_alimento
+         */
+        $ret = $db->delete('rel_variante_alimento', "variante_id = ".$variante_id.
+                        " AND "."alimento_id = ".$alimento_id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaVarianteAlimento
+    
     
    } 
 ?>

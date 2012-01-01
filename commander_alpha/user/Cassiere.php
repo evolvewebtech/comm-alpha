@@ -55,7 +55,7 @@ class Cassiere extends User {
      */
     public function getLivelloCassiere(){
         $livello_cassiere =  DataManager::getCassiereData($this->id);
-        return $livello_cassiere['livello_cassiere'];
+        return intval($livello_cassiere['livello_cassiere']);
     }
 
 

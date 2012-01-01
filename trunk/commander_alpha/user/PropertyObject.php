@@ -21,7 +21,6 @@ abstract class PropertyObject implements Validator {
         protected $data;
 
         /*
-         *
          * qualsiasi errore di validazione
          */
         protected $errors = array();
@@ -31,7 +30,11 @@ abstract class PropertyObject implements Validator {
             $this->data = $arData;
         }
 
+        /*
+         *
+         */
         public function __get($propertyName) {
+
             if(!array_key_exists($propertyName, $this->propertyTable)) {
                 throw new Exception("Invalid property \"$propertyName\"! ");
             }
@@ -43,7 +46,11 @@ abstract class PropertyObject implements Validator {
             }
         }
 
+        /*
+         *
+         */
         public function __set($propertyName, $value) {
+
             if(!array_key_exists($propertyName, $this->propertyTable)) {
                 throw new Exception("Invalid property \"$propertyName\"!");
             }
@@ -53,14 +60,19 @@ abstract class PropertyObject implements Validator {
                                 $value);
             } else {
 
-                //If the value of the property really has changed
-                //and it's not already in the changedProperties array,
-                //add it.
+                /*
+                 * se il valore della proprietà è cambiato e non è ancora
+                 * nella array chagedProperties lo aggiungo
+                 *
+                 */
                 if($this->propertyTable[$propertyName] != $value &&
                     !in_array($propertyName, $this->changedProperties)) {
                         $this->changedProperties[] = $propertyName;
                 }
-                //Now set the new value
+                
+                /*
+                 * setto il nuovo valore
+                 */
                 $this->data[$this->propertyTable[$propertyName]] = $value;
             }
         }

@@ -21,11 +21,12 @@ if (isset ($username) && isset ($password)) {
     $objSession->Login($username, $password);
 } else {
     $objSession->LogOut();
+    die("LOGOUT");
 }
 
 
 if ($objSession->IsLoggedIn()){
-    
+
     $objUser = $objSession->GetUserObject();
     $objSession->UTENTE_REGISTRATO_ID = $objSession->GetUserID();
 
@@ -37,7 +38,6 @@ if ($objSession->IsLoggedIn()){
          * per il gestore
          *
          */
-        //echo '<a href="amministrazione.php">vai al pennello di controllo</a>';
         header("location: amministrazione.php");
 
     } elseif (get_class($objUser[0]) == 'Cassiere') {

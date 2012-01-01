@@ -91,18 +91,27 @@ class HTTPSession {
       # Check the cookie passed - if one is - if it looks wrong we'll
       # scrub it right away
       $strUserAgent = $_SERVER["HTTP_USER_AGENT"];
+
       if ($_COOKIE["PHPSESSID"]) {
-        
+
         # Security and age check
         $this->php_session_id = $_COOKIE["PHPSESSID"];
 
-        $stmt = "SELECT id FROM http_session WHERE ascii_session_id = '" . 
+        /*
+        $stmt_old = "SELECT id FROM http_session WHERE ascii_session_id = '" .
                         $this->php_session_id . "' AND ((now() - created) < ' " .
                         $this->session_lifespan . " seconds') AND user_agent='" . 
                         $strUserAgent . "' AND ((now() - last_impression) <= '".
                         $this->session_timeout ." seconds' OR last_impression IS NULL)";
-
+        */
+        $stmt = "SELECT id FROM http_session WHERE ascii_session_id = '" .
+                        $this->php_session_id . "' AND ((now() - created) < ' " .
+                        $this->session_lifespan . " seconds') AND ((now() - last_impression) <= '".
+                        $this->session_timeout ." seconds' OR last_impression IS NULL) AND user_agent='" .
+                        $strUserAgent . "'";
+        
         $result = mysql_query($stmt);
+
         if (!$result) {
             die('1 - Invalid query: ' . mysql_error());
         }
@@ -158,72 +167,118 @@ class HTTPSession {
 
     }
 
+    /**
+     *
+     * @return <type> 
+     */
     public function IsLoggedIn() {
-      return($this->logged_in);
+        /*
+        $stmt = "SELECT logged_in FROM http_session WHERE ascii_session_id = '" .
+                        $this->php_session_id . "' AND ((now() - created) < ' " .
+                        $this->session_lifespan . " seconds') AND ((now() - last_impression) <= '".
+                        $this->session_timeout ." seconds' OR last_impression IS NULL) AND user_agent='" .
+                        $strUserAgent . "'";
+        $result = mysql_query($stmt);
+        if(!$result){
+            return false;
+        }
+        $row = mysql_fetch_Row($result);
+        $this->logged_in = $row;
+        */
+        return($this->logged_in);
     }
 
+    /**
+     *
+     * @return <type>
+     */
     public function GetUserID() {
-      if ($this->logged_in) {
-        return($this->user_id);
-      } else {
-        return(false);
-      };
-    }
-
-    public function GetUserObject() {
-      if ($this->logged_in) {
-        //require_once 'manager/DataManager.php';
-        $objUser = DataManager::getUserAsObject($this->user_id);
-        if ($objUser) {
-          return($objUser);
+        if ($this->logged_in) {
+            return($this->user_id);
         } else {
             return(false);
         };
-      };
     }
 
+    /**
+     *
+     * @return <type>
+     */
+    public function GetUserObject() {
+
+        if ($this->logged_in) {
+            //require_once 'manager/DataManager.php';
+            $objUser = DataManager::getUserAsObject($this->user_id);
+            if ($objUser) {
+                return($objUser);
+            } else {
+                return(false);
+            };
+        };
+    }
+
+    /**
+     *
+     * @return <type>
+     */
     public function GetSessionIdentifier() {
-      return($this->php_session_id);
+        return($this->php_session_id);
     }
 
+    /**
+     *
+     * @param <type> $strUsername
+     * @param <type> $strPlainPassword
+     * @return <type>
+     */
     public function Login($strUsername, $strPlainPassword) {
-      $strMD5Password = md5($strPlainPassword);
-      $stmt = "select id FROM cmd_utente_registrato WHERE username='$strUsername' AND md5_pw='$strMD5Password'";
-      $result = mysql_query($stmt);
-      if (mysql_num_rows($result)>0) {
-        $row = mysql_fetch_array($result);
-        $this->user_id = $row["id"];
-        $this->logged_in = true;
-        $result = mysql_query("UPDATE http_session SET logged_in = true, user_id = " . $this->user_id . " WHERE id = " . $this->native_session_id);
-        return(true);
+
+        $strMD5Password = md5($strPlainPassword);
+        $stmt = "select id FROM cmd_utente_registrato WHERE username='$strUsername' AND md5_pw='$strMD5Password'";
+        $result = mysql_query($stmt);
+
+        if (mysql_num_rows($result)>0) {
+            $row = mysql_fetch_array($result);
+            $this->user_id = $row["id"];
+            $this->logged_in = true;
+            $result = mysql_query("UPDATE http_session SET logged_in = true, user_id = " . $this->user_id . " WHERE id = " . $this->native_session_id);
+            return(true);
       } else {
-        return(false);
+
+          return(false);
       };
     }
 
+    /**
+     *
+     * @return <type>
+     */
     public function LogOut() {
-      if ($this->logged_in == true) {
-        $result = mysql_query("UPDATE http_session SET logged_in = false, user_id = 0 WHERE id = " . $this->native_session_id);
-        $this->logged_in = false;
-        $this->user_id = 0;
-        return(true);
-      } else {
-        return(false);
-      };
+        
+        if ($this->logged_in == true) {
+            $result = mysql_query("UPDATE http_session SET logged_in = false, user_id = 0 WHERE id = " . $this->native_session_id);
+            $this->logged_in = false;
+            $this->user_id = 0;
+            return(true);
+        } else {
+            return(false);
+        }
     }
 
     public function __get($nm) {
-      $result = mysql_query("SELECT variable_value FROM session_variable WHERE session_id = " .
+
+        $result = mysql_query("SELECT variable_value FROM session_variable WHERE session_id = " .
                                     $this->native_session_id . " AND variable_name = '" . $nm . "'");
-      if (mysql_num_rows($result)>0) {
-        $row = mysql_fetch_array($result);
-        return(unserialize($row["variable_value"]));
+        if (mysql_num_rows($result)>0) {
+            $row = mysql_fetch_array($result);
+            return(unserialize($row["variable_value"]));
       } else {
-        return(false);
+            return(false);
       };
     }
 
     public function __set($nm, $val) {
+
         $strSer = serialize($val);
         $stmt = "INSERT INTO session_variable(session_id, variable_name, variable_value) VALUES(" .
                                     $this->native_session_id . ", '$nm', '$strSer')";
@@ -236,6 +291,7 @@ class HTTPSession {
     }
 
     public function _session_close_method() {
+
         mysql_close($this->dbhandle);
         return(true);
     }
@@ -265,7 +321,7 @@ class HTTPSession {
         if (mysql_num_rows($result)>0) {
             $row = mysql_fetch_array($result);
             $this->native_session_id = $row["id"];
-            if ($row["logged_in"]=="t") {
+            if ($row["logged_in"]==1) {
                 $this->logged_in = true;
                 $this->user_id = $row["user_id"];
             } else {

@@ -4,6 +4,11 @@
  *
  * @author alessandro
  */
+require_once '../food/Alimento.php';
+require_once '../food/Categoria.php';
+require_once '../food/Stampante.php';
+require_once '../food/Variante.php';
+
 
 class DataManager2 {
     
@@ -809,6 +814,270 @@ class DataManager2 {
         if ($ret) return true;
         else return false;
     }//end cancellaVarianteAlimento
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    private static function _getConnection() {
+      static $hDB;
+      static $database = "commander";
+
+      if(isset($hDB)) {
+         return $hDB;
+      }
+
+      $hDB = mysql_connect("localhost", "root", "")
+         or die("Failure connecting to the database!");
+
+      if (!$hDB){
+          die('Could not connect: ' . mysql_error());
+      }
+      mysql_select_db($database);
+
+      return $hDB;
+    }
+    
+    
+    public static function getAlimentoData($alimentoID){
+        $sql = "SELECT * FROM cmd_alimento WHERE id=$alimentoID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Alimento");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getCategoriaData($categoriaID){
+        $sql = "SELECT * FROM cmd_categoria WHERE id=$categoriaID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Categoria");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getMenuFissoData($menuID){
+        $sql = "SELECT * FROM cmd_menu_fisso WHERE id=$menuID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity MenuFisso");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getStampanteData($stampanteID){
+        $sql = "SELECT * FROM cmd_stampante WHERE id=$stampanteID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Stampante ".$stampanteID);
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getVarianteData($varianteID){
+        $sql = "SELECT * FROM cmd_variante WHERE id=$varianteID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Variante");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getAlimentoAsObject($alimentoID){
+        $sql = "SELECT * FROM cmd_alimento WHERE id=$alimentoID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAlimentoAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Alimento($alimentoID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getCategoriaAsObject($categoriaID){
+        $sql = "SELECT * FROM cmd_categoria WHERE id=$categoriaID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getCategoriaAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Categoria($categoriaID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getMenuFissoAsObject($menuID){
+        $sql = "SELECT * FROM cmd_menu_fisso WHERE id=$menuID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getMenuFissoAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new MenuFisso($menuID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getStampanteAsObject($stampanteID){
+        $sql = "SELECT * FROM cmd_stampante WHERE id=$stampanteID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getStampanteAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Stampante($stampanteID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getVarianteAsObject($varianteID){
+        $sql = "SELECT * FROM cmd_variante WHERE id=$varianteID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getVarianteAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Variante($varianteID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getAlimentoObjectsForEntity($categoriaID){
+        $sql = "SELECT * FROM cmd_alimento WHERE categoria_id=$categoriaID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAlimentoObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['id']);
+                $objs[] = new Alimento($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+        
+    public static function getStampanteObjectsForEntity($alimentoID){
+        $sql = "SELECT * FROM rel_alimento_stampante WHERE alimento_id=$alimentoID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getStampanteObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['stampante_id']);
+                $objs[] = DataManager2::getStampanteAsObject($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getVarianteObjectsForEntity($alimentoID){
+        $sql = "SELECT * FROM rel_variante_alimento WHERE alimento_id=$alimentoID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getVarianteObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['variante_id']);
+                $objs[] = DataManager2::getVarianteAsObject($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getAllEntitiesAsObjects() {
+
+        $sql = "SELECT id FROM cmd_categoria";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllEntitiesAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Categoria($id);                
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
     
     
    } 

@@ -251,7 +251,6 @@ class Database {
             $where2 = array_combine($chiavi, $valori);
             $new_array = array_map(create_function('$key, $value', 'return $key."=".$value." ";'), array_keys($where2), array_values($where2));
             
-            //for aggiunto Alessandro
             for($i = 0; $i < (count($new_array)-1); $i++) {
                 if(($i+1) != null) $new_array[$i] .= " AND ";
             }

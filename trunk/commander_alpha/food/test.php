@@ -2,13 +2,13 @@
 
 require '../manager/DataManager2.php';
 
-echo "Prova estrazione da DB Categorie-Alimenti"."<BR>";
+echo "Prova query da DB Categorie-Alimenti"."<BR>";
 
 
 print "<hr>\n";
 
 //*
-$arContacts = DataManager2::getAllEntitiesAsObjects();
+$arContacts = DataManager2::getAllCategoriesAsObjects();
 
 foreach($arContacts as $objEntity) {
     if(get_class($objEntity) == 'Categoria') {
@@ -34,6 +34,24 @@ foreach($arContacts as $objEntity) {
 
 }//*/   //End foreach
 
+
+
+
+
+print "<hr>\n";
+print "<hr>\n";
+print "<hr>\n";
+print "<hr>\n";
+
+print "Prova query da DB"."<BR>";
+
+$arContacts = DataManager2::getAllStampantiAsObjects();
+        
+foreach($arContacts as $objEntity) {
+    if(get_class($objEntity) == 'Stampante') {
+        print "<h3>Stampante - {$objEntity->__toString()}</h3>";
+    }
+}
 
 
 ?>

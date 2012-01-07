@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of Alimento
+ *
+ * @author alessandro
+ */
 require_once 'Entity.php';
 
 class Alimento extends Entity {
@@ -29,6 +34,11 @@ class Alimento extends Entity {
     }
 
     
+    /**
+     *
+     * @param <int> $num
+     * @return <Stampante object>
+     */
     public function getStampante($num) {
         if (!isset($this->_stampanti[$num])) {
             //throw new Exception('Stampante non presente');
@@ -39,6 +49,29 @@ class Alimento extends Entity {
     }
     
     
+    /**
+     *
+     * @param <Stampante> $stampante 
+     */
+    public function setStampante($stampante) {
+        
+    }
+    
+    
+    /**
+     *
+     * @param <Variante> $variante 
+     */
+    public function addVariante($variante) {
+        
+    }
+
+    
+    /**
+     *
+     * @param <int> $num
+     * @return <Variante object>
+     */
     public function getVariante($num) {
         if (!isset($this->_varianti[$num])) {
             //throw new Exception('Variante non presente');
@@ -49,16 +82,28 @@ class Alimento extends Entity {
     }
     
     
+    /**
+     *
+     * @return <int>
+     */
     public function getNumberOfStampanti() {
         return count($this->_stampanti);
     }
     
     
+    /**
+     *
+     * @return <int>
+     */
     public function getNumberOfVarianti() {
         return count($this->_varianti);
     }
     
     
+    /**
+     *
+     * @return <string>
+     */
     public function __toString() {
         return 'id: ' . $this->id .
                ', nome: '. $this->nome .

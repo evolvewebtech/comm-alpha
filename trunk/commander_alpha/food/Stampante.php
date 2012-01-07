@@ -1,7 +1,12 @@
 <?php
-require_once 'PropertyObject.php';
+/**
+ * Description of Stampante
+ *
+ * @author alessandro
+ */
+require_once 'Entity.php';
 
-class Stampante extends PropertyObject {
+class Stampante extends Entity {
     
     public function __construct($stampanteID) {
         
@@ -10,9 +15,16 @@ class Stampante extends PropertyObject {
         
         $this->propertyTable['id'] = 'id';
         $this->propertyTable['nome'] = 'nome';     
+        $this->propertyTable['posizione'] = 'posizione';
+        $this->propertyTable['indirizzo'] = 'indirizzo';
+        $this->propertyTable['gestore_id'] = 'gestore_id';
     }
       
-      
+    
+    /**
+     *
+     * @return <string>
+     */
     public function __toString() {
         return 'id: ' . $this->id .
                ', nome: '. $this->nome;

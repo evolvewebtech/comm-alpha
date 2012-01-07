@@ -1060,6 +1060,10 @@ class DataManager2 {
     }
     
     public static function getAllEntitiesAsObjects() {
+        return null;
+    }
+    
+    public static function getAllCategoriesAsObjects() {
 
         $sql = "SELECT id FROM cmd_categoria";
         
@@ -1079,6 +1083,45 @@ class DataManager2 {
         }
     }
     
+    public static function getAllMenuAsObjects() {
+
+        $sql = "SELECT id FROM cmd_menu_fisso";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllMenuAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new MenuFisso($id);                
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getAllStampantiAsObjects() {
+
+        $sql = "SELECT id FROM cmd_stampante";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllStampantiAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Stampante($id);                
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
     
    } 
 ?>

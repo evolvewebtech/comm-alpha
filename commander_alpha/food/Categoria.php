@@ -1,4 +1,9 @@
 <?php
+/**
+ * Description of Categoria
+ *
+ * @author alessandro
+ */
 require_once 'Entity.php';
 
 class Categoria extends Entity {
@@ -12,10 +17,26 @@ class Categoria extends Entity {
 
       $this->propertyTable['id'] = 'id';
       $this->propertyTable['nome'] = 'nome';
+      $this->propertyTable['colore_bottone_predef'] = 'colore_bottone_predef';
+      $this->propertyTable['gestore_id'] = 'gestore_id';
       $this->_alimenti = DataManager2::getAlimentoObjectsForEntity($categoriaID);
     }
 
     
+    /**
+     *
+     * @param <Alimento> $alimento 
+     */
+    public function addAlimento($alimento) {
+        
+    }
+    
+    
+    /**
+     *
+     * @param <int> $num
+     * @return <Alimento>
+     */
     public function getAlimento($num) {
         if (!isset($this->_alimenti[$num])) {
             throw new Exception('Alimento non presente');
@@ -26,11 +47,19 @@ class Categoria extends Entity {
     }
     
     
+    /**
+     *
+     * @return <int>
+     */
     public function getNumberOfAlimenti() {
         return count($this->_alimenti);
     }
     
     
+    /**
+     *
+     * @return <string>
+     */
     public function __toString() {
         return 'id: ' . $this->id .
                ', nome: '. $this->nome;

@@ -3,7 +3,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-require('manager/HTML_Form.php');
+require_once 'manager/HTML_Form.php';
 
 $frm = new HTML_Form();
 

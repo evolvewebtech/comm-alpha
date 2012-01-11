@@ -4,10 +4,9 @@
  *
  * @author francesco
  */
-//echo $_SERVER['PHP_SELF'];
-require_once 'user/User.php';
-require_once 'user/Gestore.php';
-require_once 'user/Cassiere.php';
+require_once '../user/User.php';
+require_once '../user/Gestore.php';
+require_once '../user/Cassiere.php';
 
 class DataManager {
 

@@ -1,5 +1,6 @@
 <?php
-require_once './object/PropertyObject.php';
+//echo $_SERVER['PHP_SELF'];
+require_once 'object/PropertyObject.php';
 
 abstract class User extends PropertyObject {
 

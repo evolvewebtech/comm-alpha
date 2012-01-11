@@ -1,0 +1,88 @@
+/* 
+    Document   : testIsotope
+    Created on : 8-gen-2012, 16.39.32
+    Author     : alessandro
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+/**** Isotope Filtering ****/
+
+.isotope-item {
+  z-index: 2;
+}
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1;
+}
+
+/**** Isotope CSS3 transitions ****/
+
+.isotope,
+.isotope .isotope-item {
+  -webkit-transition-duration: 0.8s;
+     -moz-transition-duration: 0.8s;
+       -o-transition-duration: 0.8s;
+          transition-duration: 0.8s;
+}
+
+.isotope {
+  -webkit-transition-property: height, width;
+     -moz-transition-property: height, width;
+       -o-transition-property: height, width;
+          transition-property: height, width;
+}
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+     -moz-transition-property:    -moz-transform, opacity;
+       -o-transition-property:         top, left, opacity;
+          transition-property:         transform, opacity;
+}
+
+/**** disabling Isotope CSS3 transitions ****/
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+     -moz-transition-duration: 0s;
+       -o-transition-duration: 0s;
+          transition-duration: 0s;
+}
+
+
+
+
+#container {
+  /* either of these will work for horizontal Isotope layouts */
+  /*height: 80%;*/
+  width: 480px;
+  border-color: #00A700;
+  background-color: #DDD;
+}
+
+#items {
+  /* either of these will work for horizontal Isotope layouts */
+  /*height: 80%;*/
+  width: 180px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+  background-color: lightskyblue;
+  border-style: dashed;
+  border-color: #00A700;
+  padding: 2px;
+}
+
+div.item {
+  background-color: moccasin;
+  margin: 5px;
+}
+

@@ -11,15 +11,15 @@ abstract class User extends PropertyObject {
 
         $utente_registrato = DataManager::getUserData($this->id);
 
-        $this->propertyTable['username'] = 'username';
-        $this->propertyTable['md5_pw'] = 'md5_pw';
-        $this->propertyTable['first_name'] = 'first_name';
-        $this->propertyTable['last_name'] = 'last_name';
+        $this->propertyTable['username']    = 'username';
+        $this->propertyTable['md5_pw']      = 'md5_pw';
+        $this->propertyTable['first_name']  = 'first_name';
+        $this->propertyTable['last_name']   = 'last_name';
 
-        $this->username = $utente_registrato['username'];
-        $this->md5_pw = $utente_registrato['md5_pw'];
-        $this->first_name = $utente_registrato['first_name'];
-        $this->last_name = $utente_registrato['last_name'];
+        $this->username     = $utente_registrato['username'];
+        $this->md5_pw       = $utente_registrato['md5_pw'];
+        $this->first_name   = $utente_registrato['first_name'];
+        $this->last_name    = $utente_registrato['last_name'];
 
         //      $this->_emails = DataManager::getEmailObjectsForEntity($entityID);
         //      $this->_addresses = DataManager::getAddressObjectsForEntity($entityID);

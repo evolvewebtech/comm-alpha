@@ -14,7 +14,7 @@ $frmLogin = $frm->startForm('login_process.php', 'post', 'LoginForm',
 $frmLogin .= $frm->addLabelFor('username', 'username: ');
 $frmLogin .= $frm->addInput('text', 'username', 'ed',
                        array('id'=>'username',
-                             'size'=>16, 'username'=>15));
+                             'size'=>16, 'maxlength'=>15));
 
 $frmLogin .= $frm->addLabelFor('password', 'password: ');
 $frmLogin .= $frm->addInput('password', 'password', '12345',

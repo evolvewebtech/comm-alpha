@@ -1,7 +1,7 @@
 <?php
 
-require_once('User.php');
-require_once('Cassiere.php');
+require_once 'User.php';
+require_once 'Cassiere.php';
 
 class Gestore extends User {
 

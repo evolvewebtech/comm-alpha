@@ -207,7 +207,7 @@ class HTTPSession {
     public function GetUserObject() {
 
         if ($this->logged_in) {
-            //require_once 'manager/DataManager.php';
+            require_once  dirname(__FILE__).'/DataManager.php';
             $objUser = DataManager::getUserAsObject($this->user_id);
             if ($objUser) {
                 return($objUser);

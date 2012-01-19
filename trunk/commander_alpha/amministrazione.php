@@ -14,3 +14,17 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 <br />SESSION ID: [ <?= $sess_id ?> ]
 <br />variabile di sessione UTENTE_REGISTRATO_ID: [ <?= $utente_registrato ?> ]
 <br />variabile di sessione RUOLO: [ <?= $objSession->RUOLO ?> ]
+
+<h4>Aggiungo sala nel db</h4>
+<?php
+    if($objSession->IsLoggedIn()){
+        $objUser = $objSession->GetUserObject();
+        $gestore = $objUser[0];
+        if(get_class($gestore) == 'Gestore') {
+            $ret_addSala = $gestore->addSala('NULL','sala1','NULL');
+            if ($ret_addSala){
+                echo "<p>Sala aggiunta correttamente</p>";
+            }
+        }
+    }
+?>

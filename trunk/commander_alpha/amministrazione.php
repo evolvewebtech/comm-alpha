@@ -21,10 +21,19 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
         $objUser = $objSession->GetUserObject();
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
+
             $ret_addSala = $gestore->addSala('NULL','sala1','NULL');
             if ($ret_addSala){
                 echo "<p>Sala aggiunta correttamente</p>";
             }
-        }
+
+            
+
+
+
+
+
+
+        }//end
     }
 ?>

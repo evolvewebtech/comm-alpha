@@ -39,8 +39,7 @@ class Cassiere extends User {
      * @return <int>
      */
     public function getGestoreID(){
-        $gestore_id =  DataManager::getCassiereData($this->id);
-        return intval($gestore_id['gestore_id']);
+        return intval($this->gestore_id);
     }
 
 
@@ -54,8 +53,7 @@ class Cassiere extends User {
      * @return <int> 
      */
     public function getLivelloCassiere(){
-        $livello_cassiere =  DataManager::getCassiereData($this->id);
-        return intval($livello_cassiere['livello_cassiere']);
+        return intval($this->livello_cassiere);
     }
 
 

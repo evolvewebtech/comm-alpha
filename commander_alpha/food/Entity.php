@@ -1,5 +1,5 @@
 <?php
-require_once '../object/PropertyObject.php';
+require_once dirname(__FILE__).'/../object/PropertyObject.php';
 
 
 abstract class Entity extends PropertyObject {    

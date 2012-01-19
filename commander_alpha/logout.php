@@ -3,10 +3,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-require_once 'manager/DataManager.php';
-require_once('manager/Config.php');
-require_once('manager/Logger.php');
-require_once("manager/HTTPSession.php");
+require_once dirname(__FILE__).'/manager/DataManager.php';
+require_once dirname(__FILE__).'/manager/Config.php';
+require_once dirname(__FILE__).'/manager/Logger.php';
+require_once dirname(__FILE__).'/manager/HTTPSession.php';
 
 
 $objSession = new HTTPSession();

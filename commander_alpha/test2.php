@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-require_once 'manager/DataManager2.php';
+require_once dirname(__FILE__).'/manager/DataManager2.php';
 
 $nome = "abc";
 $prezzo = 1;

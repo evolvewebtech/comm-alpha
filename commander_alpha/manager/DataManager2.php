@@ -4,10 +4,10 @@
  *
  * @author alessandro
  */
-require_once '../food/Alimento.php';
-require_once '../food/Categoria.php';
-require_once '../food/Stampante.php';
-require_once '../food/Variante.php';
+require_once dirname(__FILE__).'/../food/Alimento.php';
+require_once dirname(__FILE__).'/../food/Categoria.php';
+require_once dirname(__FILE__).'/../food/Stampante.php';
+require_once dirname(__FILE__).'/../food/Variante.php';
 
 
 class DataManager2 {

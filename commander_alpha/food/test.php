@@ -1,6 +1,6 @@
 <?php
 
-require '../manager/DataManager2.php';
+require dirname(__FILE__).'/../manager/DataManager2.php';
 
 echo "Prova query da DB Categorie-Alimenti"."<BR>";
 

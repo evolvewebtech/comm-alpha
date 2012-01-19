@@ -4,7 +4,7 @@
  *
  * @author alessandro
  */
-require_once 'Entity.php';
+require_once dirname(__FILE__).'/Entity.php';
 
 class MenuFisso extends Entity {
     

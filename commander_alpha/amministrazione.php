@@ -1,5 +1,5 @@
 <?php
-require_once("manager/HTTPSession.php");
+require_once dirname(__FILE__).'/manager/HTTPSession.php';
 
 $objSession = new HTTPSession();
 

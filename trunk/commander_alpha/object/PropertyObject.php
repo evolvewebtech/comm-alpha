@@ -1,5 +1,5 @@
 <?php
-require_once 'Validator.php';
+require_once dirname(__FILE__).'/Validator.php';
 
 abstract class PropertyObject implements Validator {
 

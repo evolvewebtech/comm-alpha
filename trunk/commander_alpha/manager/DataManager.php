@@ -4,9 +4,9 @@
  *
  * @author francesco
  */
-require_once '../user/User.php';
-require_once '../user/Gestore.php';
-require_once '../user/Cassiere.php';
+require_once dirname(__FILE__).'/../user/User.php';
+require_once dirname(__FILE__).'/../user/Gestore.php';
+require_once dirname(__FILE__).'/../user/Cassiere.php';
 
 class DataManager {
 

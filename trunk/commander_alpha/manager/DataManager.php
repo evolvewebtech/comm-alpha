@@ -321,5 +321,28 @@ class DataManager {
 
     }
 
+    /**
+     *
+     * inserisco una sala nel db
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $posizione utilizzo futuro per la mappa del locale
+     * @return <type>
+     */
+    public static function addSala($id, $nome, $posizione){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una Sala nel db
+         */
+        $ret = $db->insert('cmd_sala', array($id,$nome, $posizione));
+
+        if ($ret) return true;
+        else return false;
+    }//inserisci sala
+
 }
 ?>

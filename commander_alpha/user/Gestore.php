@@ -30,5 +30,9 @@ class Gestore extends User {
     //add individual-specific validation
     }
 
+    public function addSala($id, $nome,$posizione){
+        $ret = DataManager::addSala($id, $nome, $posizione);
+        return true;
+    }
 }
 ?>

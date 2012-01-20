@@ -26,7 +26,16 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
             if ($ret_addSala){
                 echo "<p>Sala aggiunta correttamente</p>";
             }
-
+            $ret_addSala = $gestore->addSala('NULL','sala2','NULL');
+            if ($ret_addSala){
+                echo "<p>Sala aggiunta correttamente</p>";
+            }
+            $allSala = $gestore->getAllSala();
+            if ($allSala){
+                echo "<pre>";
+                echo print_r($allSala);
+                echo "</pre>";
+            }
             
 
 

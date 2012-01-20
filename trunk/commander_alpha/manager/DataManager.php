@@ -334,15 +334,87 @@ class DataManager {
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
-
-        /*
-         * inserisco una Sala nel db
-         */
         $ret = $db->insert('cmd_sala', array($id,$nome, $posizione));
 
         if ($ret) return true;
         else return false;
     }//inserisci sala
+
+    /**
+     *
+     * @param <type> $id
+     * @return <bool>
+     */
+    public static function delSala($id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        $ret = $db->delete('cmd_sala', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @return <array>
+     */
+    public static function getSala($id){
+        $sql = "SELECT * FROM cmd_salaalimento WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Sala");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $posizione
+     * @return <type> 
+     */
+    public static function editSala($id, $nome, $posizione){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        $ret = $db->update('cmd_sala', array('nome' => $nome,
+                                             'posizione' => $posizione
+                                            ),
+                                        array('id', $id)
+                            );
+        if ($ret) return true;
+        else return false;
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllSala(){
+        $sql = "SELECT * FROM cmd_sala";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting Sala data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
 
 }
 ?>

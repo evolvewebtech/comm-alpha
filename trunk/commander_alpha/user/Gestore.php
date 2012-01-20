@@ -30,9 +30,81 @@ class Gestore extends User {
     //add individual-specific validation
     }
 
+
+/*
+     * -------------------------------------------------------------------------
+     * GESTIONE CASSIERI    --------------------------------------------------------
+     * - addCassiere()
+     * - editCassiere()
+     * - getCassiere()
+     * - delCassiere()
+     *
+     * - getAllCassiere()
+     */
+
+
+
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE SALA    --------------------------------------------------------
+     * - addSala()
+     * - editSala()
+     * - getSala()
+     * - delSala()
+     *
+     * - getAllSala()
+     */
+    
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $posizione
+     * @return <bool>
+     */
     public function addSala($id, $nome,$posizione){
-        $ret = DataManager::addSala($id, $nome, $posizione);
-        return true;
+        return DataManager::addSala($id, $nome, $posizione);
+    }
+
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $posizione
+     * @return <type>
+     */
+    public function editSala($id, $nome, $posizione){
+        return DataManager::editSala($id, $nome, $posizione);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @return <type>
+     */
+    public function getSala($id){
+        $sala =  DataManager::getSala($id);
+        return $sala;
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @return <type> 
+     */
+    public function delSala($id){
+        return DataManager::delSala($id);
+    }
+
+    /**
+     * inserisco in un array tutte le sale presenti nel db
+     *
+     * @return <type>
+     */
+    public function getAllSala(){
+        $allSala = DataManager::getAllSala();
+        return $allSala;
     }
 }
 ?>

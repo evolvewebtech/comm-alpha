@@ -15,28 +15,44 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 <br />variabile di sessione UTENTE_REGISTRATO_ID: [ <?= $utente_registrato ?> ]
 <br />variabile di sessione RUOLO: [ <?= $objSession->RUOLO ?> ]
 
-<h4>Aggiungo sala nel db</h4>
 <?php
     if($objSession->IsLoggedIn()){
         $objUser = $objSession->GetUserObject();
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-            $ret_addSala = $gestore->addSala('NULL','sala1','NULL');
+            $ret_addSala = $gestore->addSala('NULL','sala343','NULL');
             if ($ret_addSala){
-                echo "<p>Sala aggiunta correttamente</p>";
-            }
-            $ret_addSala = $gestore->addSala('NULL','sala2','NULL');
-            if ($ret_addSala){
-                echo "<p>Sala aggiunta correttamente</p>";
+                echo "<p>Sala aggiunta correttamente!</p>";
             }
             $allSala = $gestore->getAllSala();
             if ($allSala){
-                echo "<pre>";
+                echo "SALE: <pre>";
                 echo print_r($allSala);
                 echo "</pre>";
             }
-            
+            $delSala = $gestore->delSala(1);
+            if ($delSala){
+                echo "SALE 2:<pre>";
+                echo print_r($allSala);
+                echo "</pre>";
+            }
+
+            $ret_addCassiere = $gestore->addCassiere('NULL', 'NULL', 'utenteProva', 'passProva', 'email@email.email', 'nome', 'cognome', 1);
+            if($ret_addCassiere){
+                echo "<pre>";
+                print_r($gestore->getAllCassieri());
+                echo "</pre>";
+            }
+            /*
+            $ret_aggiornaCassiere = $gestore->editCassiere($cassiere_id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
+            if($ret_editCassiere){
+                echo "<pre>";
+                print_r($gestore->getAllCassieri());
+                echo "</pre>";
+            }
+            */
+            echo "ciao";
 
 
 

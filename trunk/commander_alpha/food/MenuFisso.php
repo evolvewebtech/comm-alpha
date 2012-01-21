@@ -29,15 +29,6 @@ class MenuFisso extends Entity {
     
     /**
      *
-     * @param <Alimento> $alimento 
-     */
-    public function addAlimento($alimento) {
-        
-    }
-    
-    
-    /**
-     *
      * @param <int> $num
      * @return <Alimento>
      */
@@ -48,15 +39,6 @@ class MenuFisso extends Entity {
         else  {
             return $this->_alimenti[$num];
         }
-    }
-    
-    
-    /**
-     *
-     * @param <Categoria> $categoria 
-     */
-    public function addCategoria($categoria) {
-        
     }
     
     

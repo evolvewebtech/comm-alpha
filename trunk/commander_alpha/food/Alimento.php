@@ -48,25 +48,7 @@ class Alimento extends Entity {
         }
     }
     
-    
-    /**
-     *
-     * @param <Stampante> $stampante 
-     */
-    public function setStampante($stampante) {
         
-    }
-    
-    
-    /**
-     *
-     * @param <Variante> $variante 
-     */
-    public function addVariante($variante) {
-        
-    }
-
-    
     /**
      *
      * @param <int> $num

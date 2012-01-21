@@ -25,15 +25,6 @@ class Categoria extends Entity {
     
     /**
      *
-     * @param <Alimento> $alimento 
-     */
-    public function addAlimento($alimento) {
-        
-    }
-    
-    
-    /**
-     *
      * @param <int> $num
      * @return <Alimento>
      */

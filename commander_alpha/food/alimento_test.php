@@ -80,4 +80,5 @@ $frmLogin .= $frm->addInput('submit', 'submitMyForm', 'CONFERMA');
 $frmLogin .=  $frm->endForm();
 
 echo $frmLogin;
+
 ?>

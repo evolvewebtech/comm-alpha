@@ -9,7 +9,13 @@ require_once dirname(__FILE__).'/Gestore.php';
 class Cassiere extends User {
 
     public function __construct($userID) {
+
         $arData = DataManager::getCassiereData($userID);
+        /*
+        echo "<pre>";
+        print_r($arData);
+        echo "</pre>";
+        */
         parent::__construct($arData);
 
         $this->propertyTable['id'] = 'id';

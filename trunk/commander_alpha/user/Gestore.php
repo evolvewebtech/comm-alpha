@@ -70,7 +70,7 @@ class Gestore extends User {
      * @param <type> $livello_cassiere
      */
     public function editCassiere($cassiere_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
-        return DataManager::aggiornaCassiere($cassiere_id, $this->id, $username, $password, $email, $nome, $cognome, $livello_cassiere)
+        return DataManager::aggiornaCassiere($cassiere_id, $this->id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
     }
 
     

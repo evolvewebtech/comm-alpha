@@ -8,7 +8,7 @@ abstract class User extends PropertyObject {
 
         parent::__construct($arData);
 
-        $this->propertyTable['id'] = 'id';
+        $this->propertyTable['id'] = 'utente_registrato_id';
 
         $utente_registrato = DataManager::getUserData($this->id);
 

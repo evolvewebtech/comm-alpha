@@ -21,38 +21,35 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-            $ret_addSala = $gestore->addSala('NULL','sala343','NULL');
+            //$ret_addSala = $gestore->addSala('NULL','sala343','NULL');
             if ($ret_addSala){
                 echo "<p>Sala aggiunta correttamente!</p>";
             }
             $allSala = $gestore->getAllSala();
             if ($allSala){
-                echo "SALE: <pre>";
+                echo "<br />TUTTE LE SALE: <pre>";
                 echo print_r($allSala);
                 echo "</pre>";
             }
-            $delSala = $gestore->delSala(1);
+            //$delSala = $gestore->delSala(1);
             if ($delSala){
                 echo "SALE 2:<pre>";
                 echo print_r($allSala);
                 echo "</pre>";
             }
 
-            $ret_addCassiere = $gestore->addCassiere('NULL', 'NULL', 'utenteProva', 'passProva', 'email@email.email', 'nome', 'cognome', 1);
-            if($ret_addCassiere){
+            //$ret_addCassiere = $gestore->addCassiere('NULL', 'NULL', 'utenteProva', 'passProva', 'nome1', 'nome2', 'G', 1);
+            echo "<pre>";
+            print_r($gestore->getAllCassiere());
+            echo "</pre>";
+            
+            $ret_aggiornaCassiere = $gestore->editCassiere(10, 'piero', '827ccb0eea8a706c4c34a16891f84e7b', 'piero', 'po', 'C', 3);
+            if($ret_aggiornaCassiere){
                 echo "<pre>";
-                print_r($gestore->getAllCassieri());
+                print_r($gestore->getAllCassiere());
                 echo "</pre>";
             }
-            /*
-            $ret_aggiornaCassiere = $gestore->editCassiere($cassiere_id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
-            if($ret_editCassiere){
-                echo "<pre>";
-                print_r($gestore->getAllCassieri());
-                echo "</pre>";
-            }
-            */
-            echo "ciao";
+            
 
 
 

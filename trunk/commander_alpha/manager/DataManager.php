@@ -69,19 +69,30 @@ class DataManager {
         $sql = "SELECT * FROM cmd_cassiere WHERE gestore_id='$gestoreID'";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
-            if(! ($res && mysql_num_rows($res))) {
-                die("Failed getting cassieri data");
-            }
-            if(mysql_num_rows($res)) {
-                  $objs = array();
-                  while($rec = mysql_fetch_assoc($res)) {
-                    $objs[] = new Cassiere(intval($rec['id']));
-                    }
-                  return $objs;
-            } else {
-                return array();
+
+        /*
+        var_dump($res);
+        echo "<br />";
+         * 
+         */
+        if(! ($res && mysql_num_rows($res))) {
+            die("Failed getting cassieri data");
+        }
+        if(mysql_num_rows($res)) {
+              $objs = array();
+              while($rec = mysql_fetch_assoc($res)) {
+                  /*
+                  echo "<pre>";
+                  print_r($rec);
+                  echo "</pre>";
+                  */
+                $objs[] = new Cassiere(intval($rec['utente_registrato_id']));
                 }
+              return $objs;
+        } else {
+            return array();
             }
+        }
     }
 
 
@@ -98,6 +109,7 @@ class DataManager {
      */
     public static function getUserData($userID){
         $sql = "SELECT * FROM cmd_utente_registrato WHERE id=$userID";
+        //print_r($sql);
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
@@ -135,8 +147,13 @@ class DataManager {
      * @param <int> $userID
      * @return <array cassiere>
      */
-    public static function getCassiereData($userID){
-        $sql = "SELECT * FROM cmd_cassiere WHERE utente_registrato_id=$userID";
+    public static function getCassiereData($id){
+        $sql = "SELECT * FROM cmd_cassiere WHERE utente_registrato_id=$id";
+        //$sql = "SELECT * FROM cmd_cassiere WHERE id=$id";
+        /*
+        print_r($sql);
+        echo "<pre>";
+        */
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
@@ -187,7 +204,6 @@ class DataManager {
      */
     public static function getUserAsObject($id){
         $sql = "SELECT * FROM cmd_utente_registrato WHERE id=$id";
-
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
@@ -233,14 +249,14 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    public static function inserisciCassiere($cassiere_id, $utente_registrato_id, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+    public static function inserisciCassiere($cassiere_id, $utente_registrato_id, $gestore_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
         /*
          * inserisco un profilo utente (tabella_ cmd_utente registrato)
          */
-        $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username, $password, $email, $nome, $cognome));
+        $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username, $password, $nome, $cognome, $tipo));
 
         /*
          * prelevo l'id appena assegnato (AI) dalla tabella cmd_utente_registrato
@@ -251,9 +267,21 @@ class DataManager {
 
         /*
          * inserisco il nuovo cassiere e lo associo al gestore e al suo profilo
+         * (solo se l'operzione precedente è andata a bun fine.)
          */
-        $ret2 = $db->insert('cmd_cassiere', array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
+        if ($ret)
+            $ret2 = $db->insert('cmd_cassiere', array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
+        else
+            $ret2 = false;
 
+        /* -- debug
+        echo "<br />ins 1: ";
+        var_dump($ret);
+        echo "<br />ins 2: ";
+        var_dump($ret2);
+        echo "<br />";
+         *
+         */
         if ($ret && $ret2)
             return true;
         else {
@@ -281,7 +309,7 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    public static function aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
+    public static function aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -290,7 +318,7 @@ class DataManager {
          * aggiorno il livello del cassiere
          */
         $ret = $db->update('cmd_cassiere',
-                array('livello_cassiere' => $livello_cassiere),
+                            array('livello_cassiere' => $livello_cassiere),
                             array('id',$cassiere_id));
 
         /*
@@ -309,11 +337,11 @@ class DataManager {
              */
             $ret2 = $db->update('cmd_utente_registrato',
                                     array(
-                                        'username' => $username,
-                                        'password' => $password,
-                                        'email'    => $email,
-                                        'nome'     => $nome,
-                                        'cognome'  => $cognome),
+                                        'username'   => $username,
+                                        'md5_pw'     => $password,
+                                        'first_name' => $nome,
+                                        'last_name'  => $cognome,
+                                        'type'       => $tipo),
                                     array(
                                         'id',$utente_registrato_id)
                                 );

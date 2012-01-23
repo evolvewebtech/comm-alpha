@@ -214,9 +214,9 @@
         //devo prelevare l'oggetto con questa categoria
         //per poter aggiungerlgi la classe selected
         var $this = $($categoria);
+        //console.log($this);
 
-
-        console.log($cat);
+        //non dovrebbe + occorrere, da testare
         // don't proceed if already selected
         if ( $this.hasClass('selected') ) {
           alert('azz');

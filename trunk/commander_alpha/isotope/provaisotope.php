@@ -14,75 +14,70 @@
 </head>
 <body class="homepage ">
   
-  <nav id="site-nav">
-    <h1><a href="index.html">Prova Isotope</a></h1>
+    <nav id="site-nav">
+        <h1><a href="index.html">Prova Isotope</a></h1>
+        <h2>Menu 1</h2>
+        <ul></ul>
 
-    <h2>Menu 1</h2>    
-    <ul>    
+        <h2>Menu 2</h2>
+        <ul></ul>
 
-    </ul>
-    
-    <h2>Menu 2</h2>    
-    <ul>
-   
-    </ul>
-    
-    <h2>Menu 3</h2>    
-    <ul>     
-     
-    </ul>
-    
-    <!-- <h2><a href="tests/index.html">Tests</a></h2> -->
-    
-  </nav> <!-- #site-nav -->
+        <h2>Menu 3</h2>
+        <ul></ul>
+
+        <!-- <h2><a href="tests/index.html">Tests</a></h2> -->
+    </nav> <!-- #site-nav -->
   
-  <section id="content">
-    
+<section id="content">
+    <section id="options" class="clearfix">
+        <div class="option-combo">
 
-      <section id="options" class="clearfix">
-    <div class="option-combo">
-      <h2>Filter:</h2>
-      <ul id="filter" class="option-set clearfix" data-option-key="filter">
-        <li><a href="#show-all" data-option-value="*:not(.categorie)" class="selected">show all</a></li>
-        <li><a href="#categorie" data-option-value=".categorie">categorie</a></li>
-        
-        <?php
-            require_once dirname(__FILE__).'/../manager/DataManager2.php';            
-            $arContacts = DataManager2::getAllCategoriesAsObjects();    
-            $echostr = "";
-            foreach($arContacts as $objEntity) {
-                $echostr .= '<li>';
-                $echostr .= '<a href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">'.$objEntity->nome.'</a>';
-                $echostr .= '</li>';
-            }
-            echo $echostr;
-        ?>
-        
-        <!--
-        <li><a href="#primi" data-option-value=".primi">primi</a></li>
-        <li><a href="#secondi" data-option-value=".secondi">secondi</a></li>
-        <li><a href="#bevande" data-option-value=".bevande">bevande</a></li>
-        <li><a href="#caffe" data-option-value=".caffe">caffe</a></li>
-        -->
-      </ul>
-    </div>
-    <div class="option-combo">
-      <h2>Sort:</h2>
-      <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
-        <li><a href="#mixed" data-option-value="number" class="selected">mixed</a></li>
-        <li><a href="#categorie" data-option-value="original-order">categorie</a></li>
-        <li><a href="#alphabetical" data-option-value="alphabetical">alphabetical</a></li>
-      </ul>
-    </div>
-    <div class="option-combo">
-      <h2>Layout: </h2>
-      <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
-        <li><a href="#masonry" data-option-value="masonry" class="selected">masonry</a></li>
-        <li><a href="#fitRows" data-option-value="fitRows">fitRows</a></li>
-        <li><a href="#straightDown" data-option-value="straightDown">straightDown</a></li>
-      </ul>
-    </div>
-  </section>
+            <!--
+                ho aggiunto un id ad ogni link, il valore è uguale al
+                valore di ogni attributo href
+            -->
+            <h2>Filter:</h2>
+                <ul id="filter" class="option-set clearfix" data-option-key="filter">
+                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie)" class="selected">show all</a></li>
+                    <li><a id="categorie" href="#categorie" data-option-value=".categorie">categorie</a></li>
+
+                    <?php
+                        require_once dirname(__FILE__).'/../manager/DataManager2.php';
+                        $arContacts = DataManager2::getAllCategoriesAsObjects();
+                        $echostr = "";
+                        foreach($arContacts as $objEntity) {
+                            $echostr .= '<li>';
+                            $echostr .= '<a id="'.$objEntity->nome.'" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">'.$objEntity->nome.'</a>';
+                            $echostr .= '</li>';
+                        }
+                        echo $echostr;
+                    ?>
+
+                <!--
+                <li><a href="#primi" data-option-value=".primi">primi</a></li>
+                <li><a href="#secondi" data-option-value=".secondi">secondi</a></li>
+                <li><a href="#bevande" data-option-value=".bevande">bevande</a></li>
+                <li><a href="#caffe" data-option-value=".caffe">caffe</a></li>
+                -->
+              </ul>
+        </div>
+        <div class="option-combo">
+          <h2>Sort:</h2>
+          <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
+            <li><a href="#mixed" data-option-value="number" class="selected">mixed</a></li>
+            <li><a href="#categorie" data-option-value="original-order">categorie</a></li>
+            <li><a href="#alphabetical" data-option-value="alphabetical">alphabetical</a></li>
+          </ul>
+        </div>
+        <div class="option-combo">
+          <h2>Layout: </h2>
+          <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
+            <li><a href="#masonry" data-option-value="masonry" class="selected">masonry</a></li>
+            <li><a href="#fitRows" data-option-value="fitRows">fitRows</a></li>
+            <li><a href="#straightDown" data-option-value="straightDown">straightDown</a></li>
+          </ul>
+        </div>
+    </section>
   
   <div id="container" class="super-list variable-sizes clearfix">
     
@@ -111,15 +106,16 @@
         
         foreach($arContacts as $objEntity) {
             $numAlmt = $objEntity->getNumberOfAlimenti();
-            
-            //$echostr .= '<a href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">';
+
+            //ho aggiunto il tag <a></a>
+            $echostr .= '<a class="options-set2" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">';
             $echostr .= '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
             $echostr .= '<p class="number">'.$num.'</p>';
             $echostr .= '<h3 class="symbol">'.$num.'</h3>';
             $echostr .= '<h2 class="name">'.$objEntity->nome.'</h2>';
             $echostr .= '<p class="weight">'.$num.'</p>';
             $echostr .= '</div>';
-            //$echostr .= '</a>';
+            $echostr .= '</a>';
             $num += 1;
             
             for($j=0; $j<$numAlmt; $j++) {
@@ -137,15 +133,8 @@
         echo $echostr;
 
     ?>
-
-
-      
-      
-
   </div>
-
   <div id="sites"></div>
-  
   
   <script src="js/jquery-1.7.1.min.js"></script>
   <script src="jquery.isotope.min.js"></script>
@@ -180,6 +169,7 @@
 
       $optionLinks.click(function(){
         var $this = $(this);
+
         // don't proceed if already selected
         if ( $this.hasClass('selected') ) {
           return false;
@@ -203,6 +193,58 @@
           $container.isotope( options );
         }
         
+        return false;
+      });
+
+      /*
+       *  Script che permette di filtrare gli elementi
+       *  cliccando anche su di essi.
+       *  Funziona solo per il menu "#filter"
+       *
+       */
+      var $optionSets2 = $('.options-set2');
+      $optionSets2.click(function(){
+
+        var $this = $(this);
+        
+        //salvo nella var $categoria il valore della
+        //categoria che desidero impostare a selected
+        var $categoria = $this.attr('href');
+        
+        //devo prelevare l'oggetto con questa categoria
+        //per poter aggiungerlgi la classe selected
+        var $this = $($categoria);
+
+
+        console.log($cat);
+        // don't proceed if already selected
+        if ( $this.hasClass('selected') ) {
+          alert('azz');
+          return false;
+        }        
+   
+                
+        //ul#filter.option-set]
+        var $optionSet = $('#filter');
+        
+        $optionSet.find('.selected').removeClass('selected');
+        $this.addClass('selected');
+
+        // make option object dynamically, i.e. { filter: '.my-filter-class' }
+        var options = {},
+            key = $optionSet.attr('data-option-key'),
+            value = $this.attr('data-option-value');
+        // parse 'false' as false boolean
+        value = value === 'false' ? false : value;
+        options[ key ] = value;
+        if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
+          // changes in layout modes need extra logic
+          changeLayoutMode( $this, options )
+        } else {
+          // otherwise, apply new options
+          $container.isotope( options );
+        }
+
         return false;
       });
 
@@ -285,13 +327,10 @@
     });
   </script>
 
-
-    
-    <footer>
-      
-    </footer>
-    
-  </section> <!-- #content -->
+  <footer>
+  </footer>
+  
+</section> <!-- #content -->
   
 
 </body>

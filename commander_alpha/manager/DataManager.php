@@ -249,14 +249,17 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    public static function inserisciCassiere($cassiere_id, $utente_registrato_id, $gestore_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
+    public static function inserisciCassiere($cassiere_id, $utente_registrato_id, 
+                                             $gestore_id, $username, $password, $nome,
+                                             $cognome, $tipo, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
         /*
          * inserisco un profilo utente (tabella_ cmd_utente registrato)
          */
-        $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username, $password, $nome, $cognome, $tipo));
+        $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username,
+                                                          $password, $nome, $cognome, $tipo));
 
         /*
          * prelevo l'id appena assegnato (AI) dalla tabella cmd_utente_registrato
@@ -270,7 +273,8 @@ class DataManager {
          * (solo se l'operzione precedente è andata a bun fine.)
          */
         if ($ret)
-            $ret2 = $db->insert('cmd_cassiere', array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
+            $ret2 = $db->insert('cmd_cassiere',
+                            array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
         else
             $ret2 = false;
 
@@ -309,7 +313,8 @@ class DataManager {
      * @param <int> $livello_cassiere
      * @return <bool>
      */
-    public static function aggiornaCassiere($cassiere_id, $gestore_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
+    public static function aggiornaCassiere($cassiere_id, $gestore_id, $username,
+                                            $password, $nome, $cognome, $tipo, $livello_cassiere){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -352,6 +357,21 @@ class DataManager {
         return $ret;
     }//end aggiornaCassiere
 
+    /**
+     *
+     * @param <type> $id
+     * @return <bool>
+     */
+    public static function delCassiere($id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        $ret1 = $db->delete('cmd_utente_registrato', "id = ".$id);
+        $ret2 = $db->delete('cmd_cassiere', "utente_registrato_id = ".$id);
+
+        if ($ret1 && $ret2) return true;
+        else return false;
+    }
     
 
     //--------------------------------------------------------------------------
@@ -396,7 +416,7 @@ class DataManager {
      * @return <array>
      */
     public static function getSala($id){
-        $sql = "SELECT * FROM cmd_salaalimento WHERE id=$id";
+        $sql = "SELECT * FROM cmd_sala WHERE id=$id";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
@@ -418,7 +438,7 @@ class DataManager {
         $db = new Database();
         $db->connect();
 
-        $ret = $db->update('cmd_sala', array('nome' => $nome,
+        $ret = $db->update('cmd_sala', array('nome'      => $nome,
                                              'posizione' => $posizione
                                             ),
                                         array('id', $id)
@@ -437,6 +457,446 @@ class DataManager {
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
                 die("Failed getting Sala data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    //--------------------------------------------------------------------------
+
+    public static function addTavolo($id,$nome,$numero,$nmax_coperti,$posizione,$sala_id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        $ret = $db->insert('cmd_tavolo', array($id,$nome,$numero,$nmax_coperti,$posizione,$sala_id));
+
+        if ($ret) return true;
+        else return false;
+    }//inserisci tavolo
+
+    public static function delTavolo($id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        $ret = $db->delete('cmd_tavolo', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }
+
+    public static function getTavolo($id){
+        $sql = "SELECT * FROM cmd_tavolo WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Tavolo");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    public static function editTavolo($id, $nome, $numero, $nmax_coperti, $posizione,$sala_id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        $ret = $db->update('cmd_tavolo', array('nome'         => $nome,
+                                               'numero'       => $numero,
+                                               'nmax_coperti' => $nmax_coperti,
+                                               'posizione'    => $posizione,
+                                               'sala_id'      => $sala_id
+                                              ),
+                                         array('id', $id)
+                            );
+        if ($ret) return true;
+        else return false;
+    }
+
+    public static function getAllTavolo(){
+        $sql = "SELECT * FROM cmd_tavolo";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting Tavolo data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <double> $prezzo
+     * @param <double> $iva
+     * @param <string> $colore_bottone
+     * @param <text> $descrizione
+     * @param <tinyint> $apeso
+     * @param <string> $path_image
+     * @param <string> $codice_prodotto
+     * @param <int> $quantita
+     * @param <int> $gestore_id
+     * @param <int> $categoria_id
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function inserisciAlimento($id, $nome, $prezzo, $iva, $colore_bottone,
+                                      $descrizione, $apeso, $path_image, $codice_prodotto, $quantita,
+                                      $gestore_id, $categoria_id, $alimento_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco un alimento
+         */
+        $ret = $db->insert('cmd_alimento', array($id, $nome, $prezzo, $iva, $colore_bottone,
+            $descrizione, $apeso, $path_image, $codice_prodotto, $quantita, $gestore_id,
+            $categoria_id, $alimento_id));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciAlimento
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <double> $prezzo
+     * @param <double> $iva
+     * @param <string> $colore_bottone
+     * @param <text> $descrizione
+     * @param <tinyint> $apeso
+     * @param <string> $path_image
+     * @param <string> $codice_prodotto
+     * @param <int> $quantita
+     * @param <int> $gestore_id
+     * @param <int> $categoria_id
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function aggiornaAlimento($id, $nome, $prezzo, $iva, $colore_bottone,
+            $descrizione, $apeso, $path_image, $codice_prodotto, $quantita,
+            $gestore_id, $categoria_id, $alimento_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico un alimento
+         */
+        $ret = $db->update('cmd_alimento', array('nome'            => $nome,
+                                                 'prezzo'          => $prezzo,
+                                                 'iva'             => $iva,
+                                                 'colore_bottone'  => $colore_bottone,
+                                                 'descrizione'     => $descrizione,
+                                                 'apeso'           => $apeso,
+                                                 'path_image'      => $path_image,
+                                                 'codice_prodotto' => $codice_prodotto,
+                                                 'quantita'        => $quantita,
+                                                 'gestore_id'      =>  $gestore_id,
+                                                 'categoria_id'    => $categoria_id,
+                                                 'alimento_id'     => $alimento_id),
+                                           array('id', $id)
+                );
+
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaAlimento
+
+
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    static function cancellaAlimento($id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello un alimento
+         */
+        $ret = $db->delete('cmd_alimento', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaAlimento
+
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array> 
+     */
+    public static function getAlimento($id){
+        $sql = "SELECT * FROM cmd_alimento WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Alimento");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllAlimento(){
+        $sql = "SELECT * FROM cmd_alimento";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting Alimento data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    //--------------------------------------------------------------------------
+
+
+    /**
+     *
+     * @param <int> $id
+     * @param <int> $alimento_id
+     * @param <datetime> $data_esaurito
+     * @return <bool>
+     */
+    static function inserisciAlimentoEsaurito($id, $alimento_id, $data_esaurito){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco un alimento esaurito
+         */
+        $ret = $db->insert('cmd_alimento_esaurito', array($id, $alimento_id, $data_esaurito));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciAlimentoEsaurito
+
+
+
+    /**
+     *
+     * @param <int> $id
+     * @param <int> $alimento_id
+     * @param <datetime> $data_esaurito
+     * @return <bool>
+     */
+    static function aggiornaAlimentoEsaurito($id, $alimento_id, $data_esaurito){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico un alimento esaurito
+         */
+        $ret = $db->update('cmd_alimento_esaurito', array('alimento_id'   => $alimento_id,
+                                                          'data_esaurito' =>  $data_esaurito),
+                                                    array('id', $id)
+                    );
+
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaAlimentoEsaurito
+
+
+
+    /**
+     *
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function cancellaAlimentoEsaurito($alimento_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello un alimento esaurito
+         */
+        $ret = $db->delete('cmd_alimento_esaurito', "alimento_id = ".$alimento_id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaAlimentoEsaurito
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getAlimentoEsaurito($id){
+        $sql = "SELECT * FROM cmd_alimento_esaurito WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Alimento_esaurito");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllAlimentoEsaurito(){
+        $sql = "SELECT * FROM cmd_alimento_esaurito";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting Alimento_ESAURITO data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    //--------------------------------------------------------------------------
+
+   /**
+     *
+     * @param <int> $id
+     * @param <string> $descrizione
+     * @param <double> $prezzo
+     * @param <double> $iva
+     * @param <int> $gestore_id
+     * @return type
+     */
+    static function inserisciVariante($id, $descrizione, $prezzo, $iva, $gestore_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una variante
+         */
+        $ret = $db->insert('cmd_variante', array($id, $descrizione, $prezzo, $iva, $gestore_id));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciVariante
+
+
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $descrizione
+     * @param <double> $prezzo
+     * @param <double> $iva
+     * @param <int> $gestore_id
+     * @return type
+     */
+    static function aggiornaVariante($id, $descrizione, $prezzo, $iva, $gestore_id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        /*
+         * modifico una variante
+         */
+        $ret = $db->update('cmd_variante', array('descrizione' => $descrizione,
+                                                 'prezzo'      => $prezzo,
+                                                 'iva'         => $iva,
+                                                 'gestore_id'  => $gestore_id),
+                                            array('id', $id)
+                    );
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaVariante
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    static function cancellaVariante($id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        /*
+         * cancello una variante
+         */
+        $ret = $db->delete('cmd_variante', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaVariante
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getVariante($id){
+        $sql = "SELECT * FROM cmd_variante WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Variante");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllVariante(){
+        $sql = "SELECT * FROM cmd_variante";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting Variante data");
             }
             if(mysql_num_rows($res)) {
                   $objs = array();

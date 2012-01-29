@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="it-IT">
 <head>
   
   <meta charset="utf-8" />
@@ -15,7 +15,7 @@
 <body class="homepage ">
   
     <nav id="site-nav">
-        <h1><a href="index.html">Prova Isotope</a></h1>
+        <h1><a href="provaisotope.php">Prova Isotope</a></h1>
         <h2>Menu 1</h2>
         <ul></ul>
 
@@ -38,8 +38,8 @@
             -->
             <h2>Filter:</h2>
                 <ul id="filter" class="option-set clearfix" data-option-key="filter">
-                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie)" class="selected">show all</a></li>
-                    <li><a id="categorie" href="#categorie" data-option-value=".categorie">categorie</a></li>
+                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie)">show all</a></li>
+                    <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">categorie</a></li>
 
                     <?php
                         require_once dirname(__FILE__).'/../manager/DataManager2.php';
@@ -52,20 +52,13 @@
                         }
                         echo $echostr;
                     ?>
-
-                <!--
-                <li><a href="#primi" data-option-value=".primi">primi</a></li>
-                <li><a href="#secondi" data-option-value=".secondi">secondi</a></li>
-                <li><a href="#bevande" data-option-value=".bevande">bevande</a></li>
-                <li><a href="#caffe" data-option-value=".caffe">caffe</a></li>
-                -->
               </ul>
         </div>
         <div class="option-combo">
           <h2>Sort:</h2>
           <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
-            <li><a href="#mixed" data-option-value="number" class="selected">mixed</a></li>
-            <li><a href="#categorie" data-option-value="original-order">categorie</a></li>
+            <li><a href="#mixed" data-option-value="number">mixed</a></li>
+            <li><a href="#categorie" data-option-value="original-order" class="selected">categorie</a></li>
             <li><a href="#alphabetical" data-option-value="alphabetical">alphabetical</a></li>
           </ul>
         </div>
@@ -80,23 +73,8 @@
     </section>
   
   <div id="container" class="super-list variable-sizes clearfix">
-    
-      
-  <!--
-    <div class="element alkaline-earth metal   " data-symbol="Mg" data-category="alkaline-earth">
-      <p class="number">12</p>
-      <h3 class="symbol">Mg</h3>
-      <h2 class="name">Magnesium</h2>
-      <p class="weight">24.305</p>
-    </div>
-    
-  -->
-      
-
-
-
-    <?php
-        
+  
+    <?php        
         require_once dirname(__FILE__).'/../manager/DataManager2.php';
         
         $arContacts = DataManager2::getAllCategoriesAsObjects();
@@ -107,34 +85,44 @@
         foreach($arContacts as $objEntity) {
             $numAlmt = $objEntity->getNumberOfAlimenti();
 
-            //ho aggiunto il tag <a></a>
-            $echostr .= '<a class="options-set2" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">';
             $echostr .= '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
+            $echostr .= '<a class="options-set2" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">';
+            $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
             $echostr .= '<p class="number">'.$num.'</p>';
             $echostr .= '<h3 class="symbol">'.$num.'</h3>';
             $echostr .= '<h2 class="name">'.$objEntity->nome.'</h2>';
             $echostr .= '<p class="weight">'.$num.'</p>';
             $echostr .= '</div>';
             $echostr .= '</a>';
+            $echostr .= '</div>';
             $num += 1;
             
             for($j=0; $j<$numAlmt; $j++) {
                 $Almnt = $objEntity->getAlimento($j);
                 
                 $echostr .= '<div class="element '.$objEntity->nome.'" data-symbol="Sc" data-category="'.$objEntity->nome.'">';
+                $echostr .= '<a class="options-set2" href="#categorie" data-option-value=".'.$objEntity->nome.'">';
+                if ($Almnt->colore_bottone == ""){
+                    $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
+                }
+                else $echostr .= '<div class="element" style="background: #'.$Almnt->colore_bottone.'">';
                 $echostr .= '<p class="number">'.$j.'</p>';
                 $echostr .= '<h3 class="symbol">'.$j.'</h3>';
                 $echostr .= '<h2 class="name">'.$Almnt->nome.'</h2>';
                 $echostr .= '<p class="weight">'.$j.'</p>';
                 $echostr .= '</div>';
+                $echostr .= '</a>';
+                $echostr .= '</div>';
             }
         }
-
+        
+        $echostr .= '<href="#categorie">';
         echo $echostr;
-
+        
     ?>
   </div>
   <div id="sites"></div>
+  
   
   <script src="js/jquery-1.7.1.min.js"></script>
   <script src="jquery.isotope.min.js"></script>
@@ -147,7 +135,7 @@
         masonry: {
           columnWidth: 120
         },
-        sortBy: 'number',
+        sortBy: 'categorie',
         getSortData: {
           number: function( $elem ) {
             var number = $elem.hasClass('element') ? 
@@ -160,7 +148,10 @@
                 itemText = name.length ? name : $elem;
             return itemText.text();
           }
-        }
+        },
+        //Aggiunto per visualizzare solo le categorie
+        //al caricamento della pagina
+        filter: '.categorie'
       });
     
       
@@ -236,7 +227,7 @@
             value = $this.attr('data-option-value');
         // parse 'false' as false boolean
         value = value === 'false' ? false : value;
-        options[ key ] = value;
+        options[ key ] = value;$
         if ( key === 'layoutMode' && typeof changeLayoutMode === 'function' ) {
           // changes in layout modes need extra logic
           changeLayoutMode( $this, options )
@@ -244,7 +235,7 @@
           // otherwise, apply new options
           $container.isotope( options );
         }
-
+        
         return false;
       });
 
@@ -327,6 +318,7 @@
     });
   </script>
 
+  
   <footer>
   </footer>
   

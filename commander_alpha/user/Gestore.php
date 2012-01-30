@@ -465,7 +465,7 @@ class Gestore extends User {
      * @param <int> $id
      * @return <bool>
      */
-    public function getVariante($id){
+    public function getCategoria($id){
         return DataManager::getCategoria($id);
     }
 
@@ -474,7 +474,7 @@ class Gestore extends User {
      * @param <int> $id
      * @return <bool>
      */
-    public function delVariante($id){
+    public function delCategoria($id){
         return DataManager::cancellaCategoria($id);
     }
 
@@ -482,7 +482,7 @@ class Gestore extends User {
      *
      * @return <array>
      */
-    public function getAllAlimentoVariante(){
+    public function getAllCategoria(){
         return DataManager::getAllAlimentoCategoria();
     }
 

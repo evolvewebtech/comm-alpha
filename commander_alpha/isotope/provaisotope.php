@@ -25,7 +25,8 @@
         <h2>Menu 3</h2>
         <ul></ul>
 
-        <!-- <h2><a href="tests/index.html">Tests</a></h2> -->
+        <!-- Lista degli alimenti selezionati -->
+        <div id="container2" class="super-list variable-sizes clearfix"></div>
     </nav> <!-- #site-nav -->
   
 <section id="content">
@@ -38,7 +39,8 @@
             -->
             <h2>Filter:</h2>
                 <ul id="filter" class="option-set clearfix" data-option-key="filter">
-                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie)">show all</a></li>
+                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">show all</a></li>
+                    <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">menu fissi</a></li>
                     <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">categorie</a></li>
 
                     <?php
@@ -101,7 +103,7 @@
                 $Almnt = $objEntity->getAlimento($j);
                 
                 $echostr .= '<div class="element '.$objEntity->nome.'" data-symbol="Sc" data-category="'.$objEntity->nome.'">';
-                $echostr .= '<a class="options-set2" href="#categorie" data-option-value=".'.$objEntity->nome.'">';
+                $echostr .= '<a class="options-set3" href="#'.$Almnt->nome.'" data-option-value=".'.$Almnt->nome.'">';
                 if ($Almnt->colore_bottone == ""){
                     $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
                 }
@@ -116,7 +118,7 @@
             }
         }
         
-        $echostr .= '<href="#categorie">';
+        //$echostr .= '<href="#categorie">';
         echo $echostr;
         
     ?>
@@ -242,79 +244,27 @@
 
 
 
-          
-/*
-
-      //Questa parte aggiunge le caselle con i link ai siti
-
-    
-      // Sites using Isotope markup
-      var $sites = $('#sites'),
-          $sitesTitle = $('<h2 class="loading"><img src="http://i.imgur.com/qkKy8.gif" />Loading sites using Isotope</h2>'),
-          $sitesList = $('<ul class="clearfix"></ul>');
+ 
+      var $optionSets3 = $('.options-set3');
+      $optionSets3.click(function(){
         
-      $sites.append( $sitesTitle ).append( $sitesList );
-
-      $sitesList.isotope({
-        layoutMode: 'cellsByRow',
-        cellsByRow: {
-          columnWidth: 290,
-          rowHeight: 400
-        }
+        var $this = $(this);
+        
+        //salvo nella var $nome il nome dell'alimento
+        var $nome = $this.attr('href');
+        
+        //aggiungo al container2 il nome degli alimenti cliccati
+        var $itemString = '<div>' + $nome + '</div>';
+        var $newItems = $($itemString);
+        $('#container2').append( $newItems ).isotope( 'addItems', $newItems );
+       
+        //alert($nome);
+        
+        return false;
       });
-    
-      var ajaxError = function(){
-        $sitesTitle.removeClass('loading').addClass('error')
-          .text('Could not load sites using Isotope :(');
-      };
-    
-      // dynamically load sites using Isotope from Zootool
-      $.getJSON('http://zootool.com/api/users/items/?username=desandro' +
-          '&apikey=8b604e5d4841c2cd976241dd90d319d7' +
-          '&tag=bestofisotope&callback=?')
-        .error( ajaxError )
-        .success(function( data ){
-
-          // proceed only if we have data
-          if ( !data || !data.length ) {
-            ajaxError();
-            return;
-          }
-          var items = [],
-              item, datum;
-
-          for ( var i=0, len = data.length; i < len; i++ ) {
-            datum = data[i];
-            item = '<li><a href="' + datum.url + '">'
-              + '<img src="' + datum.image.replace('/l.', '/m.') + '" />'
-              + '<b>' + datum.title + '</b>'
-              + '</a></li>';
-            items.push( item );
-          }
-        
-          var $items = $( items.join('') )
-            .addClass('example');
-            
-          // set random number for each item
-          $items.each(function(){
-            $(this).attr('data-number', ~~( Math.random() * 100 + 15 ));
-          });
-        
-          $items.imagesLoaded(function(){
-            $sitesTitle.removeClass('loading').text('Sites using Isotope');
-            $container.append( $items );
-            $items.each(function(){
-              var $this = $(this),
-                  itemHeight = Math.ceil( $this.height() / 120 ) * 120 - 10;
-              $this.height( itemHeight );
-            });
-            $container.isotope( 'insert', $items );
-          });
-        
-        });
-    
-    */
-
+      
+      
+      
     });
   </script>
 

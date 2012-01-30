@@ -483,7 +483,7 @@ class Gestore extends User {
      * @return <array>
      */
     public function getAllCategoria(){
-        return DataManager::getAllAlimentoCategoria();
+        return DataManager::getAllCategoria();
     }
 
     /*

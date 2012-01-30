@@ -428,14 +428,75 @@ class Gestore extends User {
      * -------------------------------------------------------------------------
      * GESTIONE CATEGORIA  ------------------------------------------------------
      *
-     * - addAlimentoEsaurito()
-     * - editAlimentoEsaurito()
-     * - getAlimentoEsaurito()
-     * - delAlimentoEsaurito()
+     * - addCategoria()
+     * - editCategoria()
+     * - getCategoria()
+     * - delCategoria()
      *
-     * - getAllAlimentoEsaurito()
+     * - getAllCategoria()
      */
 
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $colore_bottone_predef
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    public function addCategoria($id, $nome, $colore_bottone_predef, $gestore_id){
+        return DataManager::inserisciCategoria($id, $nome, $colore_bottone_predef, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $colore_bottone_predef
+     * @param <type> $gestore_id
+     * @return <bool>
+     */
+    public function editCategoria($id, $nome, $colore_bottone_predef, $gestore_id){
+        return DataManager::aggiornaCategoria($id, $nome, $colore_bottone_predef, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getVariante($id){
+        return DataManager::getCategoria($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delVariante($id){
+        return DataManager::cancellaCategoria($id);
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public function getAllAlimentoVariante(){
+        return DataManager::getAllAlimentoCategoria();
+    }
+
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE MENUFISSO  ------------------------------------------------------
+     *
+     * - addMenufisso()
+     * - editMenufisso()
+     * - getMenufisso()
+     * - delMenufisso()
+     *
+     * - getAllMenufisso()
+     */
 
 }
 ?>

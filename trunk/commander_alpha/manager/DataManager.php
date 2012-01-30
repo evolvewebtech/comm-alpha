@@ -910,6 +910,232 @@ class DataManager {
             }
     }
 
+    //--------------------------------------------------------------------------
+
+    /**
+     *
+     * @param <int> $id
+     * @param <varchar> $nome
+     * @param <varchar> $colore_bottone_predef
+     * @param <int> $gestore_id
+     * @return <bool> 
+     */
+    static function inserisciCategoria($id, $nome, $colore_bottone_predef, $gestore_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una categoria
+         */
+        $ret = $db->insert('cmd_categoria', array($id, $colore_bottone_predef, $nome, $gestore_id));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciCategoria
+
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $colore_bottone_predef
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    static function aggiornaCategoria($id, $nome, $colore_bottone_predef, $gestore_id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        /*
+         * modifico una categoria
+         */
+        $ret = $db->update('cmd_categoria', array('colore_bottone_predef' => $colore_bottone_predef,
+                                                  'nome'                  => $nome,
+                                                  'gestore_id'            => $gestore_id),
+                                            array('id', $id)
+                    );
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaCategoria
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    static function cancellaCategoria($id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        /*
+         * cancello una categoria
+         */
+        $ret = $db->delete('cmd_categoria', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaCategoria
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getCategoria($id){
+        $sql = "SELECT * FROM cmd_categoria WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity categoria");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllCategoria(){
+        $sql = "SELECT * FROM cmd_categoria";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting categoria data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+
+    //--------------------------------------------------------------------------
+
+   /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <double> $prezzo
+     * @param <double> $iva
+     * @param <string> $descrizione
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    static function inserisciMenufisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco un menu fisso
+         */
+        $ret = $db->insert('cmd_menu_fisso', array($id, $nome, $prezzo, $iva, $descrizione, $gestore_id));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciMenuFisso
+
+
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <double> $prezzo
+     * @param <double> $iva
+     * @param <string> $descrizione
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    static function aggiornaMenufisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico un menu fisso
+         */
+        $ret = $db->update('cmd_menu_fisso', array('nome' => $nome,
+                                                  'prezzo' => $prezzo,
+                                                  'iva' => $iva,
+                                                  'descrizione' => $descrizione,
+                                                  'gestore_id' => $gestore_id),
+                                            array('id', $id)
+                    );
+
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaMenuFisso
+
+
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    static function cancellaMenufisso($id){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+        /*
+         * cancello un menu fisso
+         */
+        $ret = $db->delete('cmd_menu_fisso', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaMenuFisso
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getMenufisso($id){
+        $sql = "SELECT * FROM cmd_menufisso WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity menufisso");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllMenufisso(){
+        $sql = "SELECT * FROM cmd_menufisso";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                die("Failed getting menufisso data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
 
 }
 ?>

@@ -40,6 +40,11 @@ class HTML_Form {
         }
         return $str;
     }
+    private function addHTML5option( $options ) {
+        $str = '';
+        $str .= $options;
+        return $str;
+    }
 
     public function addInput($type, $name, $value, $attr_ar = array() ) {
         $str = "<input type=\"$type\" name=\"$name\" value=\"$value\"";
@@ -47,6 +52,19 @@ class HTML_Form {
             $str .= $this->addAttributes( $attr_ar );
         }
         $str .= ' />';
+        return $str;
+    }
+
+    public function HTML5addInput($type, $name, $value, $attr_ar = array(), $option ) {
+        $str = "<input type=\"$type\" name=\"$name\" value=\"$value\"";
+        if ($attr_ar) {
+            $str .= $this->addAttributes( $attr_ar );
+        }
+        if ($option) {
+            $str .= $this->addHTML5option($option) .' >';
+        }  else {
+            $str .= ' />';
+        }
         return $str;
     }
 

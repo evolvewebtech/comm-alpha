@@ -1,9 +1,11 @@
 <link href="media/css/login.css" rel="stylesheet" type="text/css" />
 <link href="media/css/main.css" rel="stylesheet" type="text/css" />
 
+<div id="content" class="login">
 <header>
     <h1>Commander</h1>
 </header>
+
 <?php
 /* 
  * To change this template, choose Tools | Templates
@@ -34,8 +36,7 @@ $frmLogin .= '</fieldset>';
 $frmLogin .=  $frm->endForm();
 
 echo $frmLogin;
-    ?>
+?>
 
-<footer>
     <small>&copy; commander</small>
-</footer>
+</div>

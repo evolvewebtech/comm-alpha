@@ -498,5 +498,63 @@ class Gestore extends User {
      * - getAllMenufisso()
      */
 
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $prezzo
+     * @param <string> $iva
+     * @param <string> $descrizione
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    public function addMenufisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id){
+        return DataManager::inserisciMenufisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $prezzo
+     * @param <string> $iva
+     * @param <string> $descrizione
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    public function editMenufisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id){
+        return DataManager::aggiornaMenufisso($id, $nome, $prezzo, $iva, $descrizione, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getMenufisso($id){
+        return DataManager::getMenufisso($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delMenufisso($id){
+        return DataManager::cancellaMenufisso($id);
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public function getAllMenufisso(){
+        return DataManager::getAllMenufisso();
+    }
+
+
+    
+
 }
 ?>

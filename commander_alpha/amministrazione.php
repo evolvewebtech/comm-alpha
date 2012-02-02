@@ -139,7 +139,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 		</div>
 
 		<div class="clearfix"></div>
-                <h4 style="margin-left: 10px;"><a style="color:#fff;" href="logout.php">logout</a></h4>
+                <h4 style="margin-left: 10px;"><a style="color:#fff;" href="logout.php">esci</a></h4>
 	</div>
 
 <!--

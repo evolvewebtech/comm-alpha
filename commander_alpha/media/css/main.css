@@ -11,7 +11,8 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 body{
-    background-color:  rgb(77, 81, 85);
+    background:#e9e8e4 url('../../img/bg-black.png');
     font-family: MisoRegular, Helvetica, Arial, sans-serif;
 }
+#content{ width:920px; margin:20px auto; padding:10px 30px; }
 

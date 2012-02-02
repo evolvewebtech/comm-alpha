@@ -8,13 +8,146 @@ $log_in = $objSession->IsLoggedIn();
 $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 
 ?>
-<a href="logout.php">logout</a>
-<h1>Pannello amministrazione</h1>
-<br />ISLOGGEDIN:[ <?= var_dump($log_in) ?> ]
-<br />SESSION ID: [ <?= $sess_id ?> ]
-<br />variabile di sessione UTENTE_REGISTRATO_ID: [ <?= $utente_registrato ?> ]
-<br />variabile di sessione RUOLO: [ <?= $objSession->RUOLO ?> ]
+<!--
+-->
+<link rel="stylesheet" href="media/css/mosaic.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
+<script type="text/javascript" src="media/js/jquery.js"></script>
+<script type="text/javascript" src="media/js/mosaic.js"></script>
 
+<script type="text/javascript">
+        jQuery(function($){
+
+                $('.circle').mosaic({
+                        opacity		:	0.8		//Opacity for overlay (0-1)
+                });
+
+                $('.fade').mosaic();
+
+                $('.bar').mosaic({
+                        animation	:	'slide'		//fade or slide
+                });
+
+                $('.bar2').mosaic({
+                        animation	:	'slide'		//fade or slide
+                });
+
+                $('.bar3').mosaic({
+                        animation	:	'slide',	//fade or slide
+                        anchor_y	:	'top'		//Vertical anchor position
+                });
+
+                $('.cover').mosaic({
+                        animation	:	'slide',	//fade or slide
+                        hover_x		:	'400px'		//Horizontal position on hover
+                });
+
+                $('.cover2').mosaic({
+                        animation	:	'slide',	//fade or slide
+                        anchor_y	:	'top',		//Vertical anchor position
+                        hover_y		:	'80px'		//Vertical position on hover
+                });
+
+                $('.cover3').mosaic({
+                        animation	:	'slide',	//fade or slide
+                        hover_x		:	'400px',	//Horizontal position on hover
+                        hover_y		:	'300px'		//Vertical position on hover
+                });
+
+    });
+
+</script>
+<style type="text/css">
+    /*Demo Styles*/
+    body{ background:#e9e8e4 url('img/bg-black.png');; }
+    #content{ width:920px; margin:20px auto; padding:10px 30px; }
+    .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
+    .details{ margin:15px 20px; }	
+    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height:160%; letter-spacing:0.15em; color:#fff; text-shadow:1px 1px 0 rgb(0,0,0); }
+    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif; color:#aaa; text-shadow:1px 1px 0 rgb(0,0,0);}
+    a{ text-decoration:none; }
+
+</style>
+
+	<div id="content">
+		<!--Fade-->
+		<div class="mosaic-block fade">
+			<a href="#" target="_blank" class="mosaic-overlay">
+				<div class="details">
+					<h4>CONFIGURA IL RISTORANTE</h4>
+					<p>Crea le sale, aggiungi i tavoli e rinominali!</p>
+				</div>
+			</a>
+			<div style="background-color:#fff" class="mosaic-backdrop"><img alt="ristorante" src="img/restaurant.png"/></div>
+		</div>
+
+		<!--Bar-->
+		<div class="mosaic-block bar">
+			<a href="#" target="_blank" class="mosaic-overlay">
+				<div class="details">
+					<h4>GESTISCI I CASSIERI</h4>
+					<p>Aggiungi nuovi cassieri al tuo ristorante, modifica i dati di un cassiere gi&agrave; esistente o elimanane l'account.</p>
+				</div>
+			</a>
+			<div style="background-color:#fff" class="mosaic-backdrop"><img src="img/waiter.png"/></div>
+		</div>
+
+		<!--Bar 2-->
+		<div class="mosaic-block bar2">
+			<a href="#" target="_blank" class="mosaic-overlay">
+				<div class="details">
+					<h4>GESTISCI GLI ALIMENTI</h4><br/>
+                                        <p>
+                                            Iserisci tutte le categorie (primi - secondi - contorni...), iserisci nuovi alimentie ed iserisci le varianti ai tuoi piatti!
+                                        </p>
+				</div>
+			</a>
+			<div style="background-color:#fff" class="mosaic-backdrop"><img src="img/food.png"/></div>
+		</div>
+
+		<!--Bar 3-->
+		<div class="mosaic-block bar3">
+			<a href="#" target="_blank" class="mosaic-overlay">
+				<div class="details">
+					<h4>GESTISCI I MENU</h4>
+                                        <p>Crea e personalizza i tuoi men&ugrave.</p>
+				</div>
+			</a>
+			<div style="background-color:#fff" class="mosaic-backdrop"><img style="padding:60px"src="img/menu.png"/></div>
+		</div>
+
+		<!--Cover-->
+		<div class="mosaic-block cover">
+			<div class="mosaic-overlay" style="background-color:#fff"><img src="img/printer.png"/></div>
+			<a href="#" target="_blank" class="mosaic-backdrop">
+				<div class="details">
+					<h4>GESTISCI LE STAMPANTI</h4>
+					<p>Aggiungi nuove stampanti e associale alle casse del tuo ristorante!</p>
+				</div>
+			</a>
+		</div>
+
+		<!--Cover 2-->
+		<div class="mosaic-block cover2">
+			<div style="background-color:#fff" class="mosaic-overlay"><img src="img/stat.png"/></div>
+			<a href="#" target="_blank" class="mosaic-backdrop">
+				<div class="details">
+					<h4>STATISTICHE</h4>
+					<p>Qui trovi tutte le informazioni che ti interessano.</p>
+				</div>
+			</a>
+		</div>
+
+		<div class="clearfix"></div>
+                <h4 style="margin-left: 10px;"><a style="color:#fff;" href="logout.php">logout</a></h4>
+	</div>
+
+<!--
+<br />ISLOGGEDIN:[ <?//= var_dump($log_in) ?> ]
+<br />SESSION ID: [ <?//= $sess_id ?> ]
+<br />variabile di sessione UTENTE_REGISTRATO_ID: [ <?//= $utente_registrato ?> ]
+<br />variabile di sessione RUOLO: [ <?//= $objSession->RUOLO ?> ]
+-->
 <?php
     if($objSession->IsLoggedIn()){
         $objUser = $objSession->GetUserObject();

@@ -20,7 +20,7 @@ $frmLogin = $frm->startForm('login_process.php', 'post', 'LoginForm',
           'onsubmit'=>'return checkBeforeSubmit(this)') );
 $frmLogin .= '<fieldset>';
 $frmLogin .= $frm->addLabelFor('username', 'username: ');
-$frmLogin .= $frm->HTML5addInput('text', 'username', 'ed',
+$frmLogin .= $frm->HTML5addInput('text', 'username', 'cec',
                        array('id'=>'username'),'required autofocus');
 
 $frmLogin .= '<br />';

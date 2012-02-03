@@ -59,7 +59,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 </script>
 <style type="text/css">
     /*Demo Styles*/
-    body{ background:#e9e8e4 url('img/bg-black.png');; }
+    body{ background:#e9e8e4 url('img/bg-black.png'); }
     #content{ width:920px; margin:20px auto; padding:10px 30px; }
     .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
     .details{ margin:15px 20px; }	
@@ -139,7 +139,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 		</div>
 
 		<div class="clearfix"></div>
-                <h4 style="margin-left: 10px;"><a style="color:#fff;" href="logout.php">esci</a></h4>
+                <h4 style="margin-left: 10px;"><a style="color:#fff;" href="logout.php">esci</a> | <a style="color:#fff;" href="license.php">credit</a></h4>
 	</div>
 
 <!--

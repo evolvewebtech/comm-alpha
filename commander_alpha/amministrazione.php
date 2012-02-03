@@ -12,7 +12,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 -->
 <link rel="stylesheet" href="media/css/mosaic.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
-<script type="text/javascript" src="media/js/jquery.js"></script>
+<script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="media/js/mosaic.js"></script>
 
 <script type="text/javascript">

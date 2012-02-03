@@ -74,6 +74,7 @@ label, button {
     border: none;
     float: left;
     background:#fff url('../../img/bullet.png');
+    font-size: 30px;
     /*
     background: greenyellow;/*#363535*/;
     /*

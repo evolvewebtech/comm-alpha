@@ -14,5 +14,12 @@ body{
     background:#e9e8e4 url('../../img/bg-black.png');
     font-family: MisoRegular, Helvetica, Arial, sans-serif;
 }
-#content{ width:920px; margin:20px auto; padding:10px 30px; }
-
+#content{ 
+    width:920px; margin:20px auto; padding:10px 30px;
+}
+h1{
+    color: #fff;
+    font-size: 2.0em;
+    /*padding: 10px;*/
+    letter-spacing: 2px;
+}

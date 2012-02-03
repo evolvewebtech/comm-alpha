@@ -63,84 +63,108 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
     #content{ width:920px; margin:20px auto; padding:10px 30px; }
     .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
     .details{ margin:15px 20px; }	
-    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif; line-height:160%; letter-spacing:0.15em; color:#fff; text-shadow:1px 1px 0 rgb(0,0,0); }
-    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif; color:#aaa; text-shadow:1px 1px 0 rgb(0,0,0);}
+    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        line-height:160%; letter-spacing:0.15em; color:#fff;
+        text-shadow:1px 1px 0 rgb(0,0,0); }
+    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
+       color:#aaa; text-shadow:1px 1px 0 rgb(0,0,0);}
     a{ text-decoration:none; }
 
 </style>
+<div id="content">
+    <?php
+    if($objSession->IsLoggedIn()){
+        $objUser = $objSession->GetUserObject();
+        $gestore = $objUser[0];
+        if(get_class($gestore) == 'Gestore') {
+    ?>
+        <!--Fade-->
+        <div class="mosaic-block fade">
+            <a href="test.php" class="mosaic-overlay">
+                    <div class="details">
+                            <h4>CONFIGURA IL RISTORANTE</h4>
+                            <p>Crea le sale, aggiungi i tavoli e rinominali!</p>
+                    </div>
+            </a>
+            <div style="background-color:#fff" class="mosaic-backdrop">
+                <img alt="ristorante" src="img/restaurant.png"/>
+            </div>
+        </div>
 
-	<div id="content">
-		<!--Fade-->
-		<div class="mosaic-block fade">
-			<a href="#" target="_blank" class="mosaic-overlay">
-				<div class="details">
-					<h4>CONFIGURA IL RISTORANTE</h4>
-					<p>Crea le sale, aggiungi i tavoli e rinominali!</p>
-				</div>
-			</a>
-			<div style="background-color:#fff" class="mosaic-backdrop"><img alt="ristorante" src="img/restaurant.png"/></div>
-		</div>
+        <!--Bar-->
+        <div class="mosaic-block bar">
+            <a href="#" target="_blank" class="mosaic-overlay">
+                    <div class="details">
+                            <h4>GESTISCI I CASSIERI</h4>
+                            <p>Aggiungi nuovi cassieri al tuo ristorante,
+                                modifica i dati di un cassiere gi&agrave;
+                                esistente o elimanane l'account.</p>
+                    </div>
+            </a>
+            <div style="background-color:#fff" class="mosaic-backdrop">
+                <img src="img/waiter.png"/>
+            </div>
+        </div>
 
-		<!--Bar-->
-		<div class="mosaic-block bar">
-			<a href="#" target="_blank" class="mosaic-overlay">
-				<div class="details">
-					<h4>GESTISCI I CASSIERI</h4>
-					<p>Aggiungi nuovi cassieri al tuo ristorante, modifica i dati di un cassiere gi&agrave; esistente o elimanane l'account.</p>
-				</div>
-			</a>
-			<div style="background-color:#fff" class="mosaic-backdrop"><img src="img/waiter.png"/></div>
-		</div>
+        <!--Bar 2-->
+        <div class="mosaic-block bar2">
+            <a href="#" target="_blank" class="mosaic-overlay">
+                <div class="details">
+                        <h4>GESTISCI GLI ALIMENTI</h4><br/>
+                        <p>
+                            Iserisci tutte le categorie (primi - secondi - contorni...),
+                            iserisci nuovi alimentie ed iserisci le varianti ai tuoi piatti!
+                        </p>
+                </div>
+            </a>
+            <div style="background-color:#fff" class="mosaic-backdrop">
+                <img src="img/food.png"/>
+            </div>
+        </div>
 
-		<!--Bar 2-->
-		<div class="mosaic-block bar2">
-			<a href="#" target="_blank" class="mosaic-overlay">
-				<div class="details">
-					<h4>GESTISCI GLI ALIMENTI</h4><br/>
-                                        <p>
-                                            Iserisci tutte le categorie (primi - secondi - contorni...), iserisci nuovi alimentie ed iserisci le varianti ai tuoi piatti!
-                                        </p>
-				</div>
-			</a>
-			<div style="background-color:#fff" class="mosaic-backdrop"><img src="img/food.png"/></div>
-		</div>
+        <!--Bar 3-->
+        <div class="mosaic-block bar3">
+            <a href="#" target="_blank" class="mosaic-overlay">
+                    <div class="details">
+                            <h4>GESTISCI I MENU</h4>
+                            <p>Crea e personalizza i tuoi men&ugrave.</p>
+                    </div>
+            </a>
+            <div style="background-color:#fff" class="mosaic-backdrop">
+                <img style="padding:60px"src="img/menu.png"/>
+            </div>
+        </div>
 
-		<!--Bar 3-->
-		<div class="mosaic-block bar3">
-			<a href="#" target="_blank" class="mosaic-overlay">
-				<div class="details">
-					<h4>GESTISCI I MENU</h4>
-                                        <p>Crea e personalizza i tuoi men&ugrave.</p>
-				</div>
-			</a>
-			<div style="background-color:#fff" class="mosaic-backdrop"><img style="padding:60px"src="img/menu.png"/></div>
-		</div>
+        <!--Cover-->
+        <div class="mosaic-block cover">
+            <div class="mosaic-overlay" style="background-color:#fff">
+                <img src="img/printer.png"/>
+            </div>
+            <a href="#" target="_blank" class="mosaic-backdrop">
+                <div class="details">
+                        <h4>GESTISCI LE STAMPANTI</h4>
+                        <p>Aggiungi nuove stampanti e associale alle casse del tuo ristorante!</p>
+                </div>
+            </a>
+        </div>
 
-		<!--Cover-->
-		<div class="mosaic-block cover">
-			<div class="mosaic-overlay" style="background-color:#fff"><img src="img/printer.png"/></div>
-			<a href="#" target="_blank" class="mosaic-backdrop">
-				<div class="details">
-					<h4>GESTISCI LE STAMPANTI</h4>
-					<p>Aggiungi nuove stampanti e associale alle casse del tuo ristorante!</p>
-				</div>
-			</a>
-		</div>
+        <!--Cover 2-->
+        <div class="mosaic-block cover2">
+            <div style="background-color:#fff" class="mosaic-overlay"><img src="img/stat.png"/></div>
+            <a href="#" target="_blank" class="mosaic-backdrop">
+                    <div class="details">
+                            <h4>STATISTICHE</h4>
+                            <p>Qui trovi tutte le informazioni che ti interessano.</p>
+                    </div>
+            </a>
+        </div>
 
-		<!--Cover 2-->
-		<div class="mosaic-block cover2">
-			<div style="background-color:#fff" class="mosaic-overlay"><img src="img/stat.png"/></div>
-			<a href="#" target="_blank" class="mosaic-backdrop">
-				<div class="details">
-					<h4>STATISTICHE</h4>
-					<p>Qui trovi tutte le informazioni che ti interessano.</p>
-				</div>
-			</a>
-		</div>
-
-		<div class="clearfix"></div>
-                <h4 style="margin-left: 10px;"><a style="color:#fff;" href="logout.php">esci</a> | <a style="color:#fff;" href="license.php">credit</a></h4>
-	</div>
+        <div class="clearfix"></div>
+        <h4 style="margin-left: 10px;">
+            <a style="color:#fff;" href="logout.php">esci</a> |
+            <a style="color:#fff;" href="license.php">credit</a>
+        </h4>
+</div>
 
 <!--
 <br />ISLOGGEDIN:[ <?//= var_dump($log_in) ?> ]
@@ -149,11 +173,6 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 <br />variabile di sessione RUOLO: [ <?//= $objSession->RUOLO ?> ]
 -->
 <?php
-    if($objSession->IsLoggedIn()){
-        $objUser = $objSession->GetUserObject();
-        $gestore = $objUser[0];
-        if(get_class($gestore) == 'Gestore') {
-
             //prova sala
             /*
             //$ret_addSala = $gestore->addSala('NULL','sala343','NULL');
@@ -167,12 +186,14 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                 echo "</pre>";
             }
 
-            //$ret_addCassiere = $gestore->addCassiere('NULL', 'NULL', 'utenteProva', 'passProva', 'nome1', 'nome2', 'G', 1);
+            //$ret_addCassiere = $gestore->addCassiere('NULL', 'NULL', 'utenteProva',
+              'passProva', 'nome1', 'nome2', 'G', 1);
             echo "<pre>";
             print_r($gestore->getAllCassiere());
             echo "</pre>";
             
-            $ret_aggiornaCassiere = $gestore->editCassiere(10, 'piero', '827ccb0eea8a706c4c34a16891f84e7b', 'piero', 'po', 'C', 3);
+            $ret_aggiornaCassiere = $gestore->editCassiere(10, 'piero',
+               '827ccb0eea8a706c4c34a16891f84e7b', 'piero', 'po', 'C', 3);
             if($ret_aggiornaCassiere){
                 echo "TUTTI I CASSIERI:";
                 echo "<pre>";
@@ -240,7 +261,15 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
             var_dump($delT);
             */
 
-
-        }//end
+        }//gestore
+        else{
+            echo "<h4>Non possiedi i permessi necessari per visualizzare questa pagina.
+                Contatta l'amministratore.</h4>";
+        }
+    }//isLoggedin
+    else {
+       echo '<h4 style="margin-left: 10px;">Sessione scaduta o autenticazione errata.
+                <a style="color:#fff;" href="logout.php"> --> LOGIN</a>
+            </h4>';
     }
 ?>

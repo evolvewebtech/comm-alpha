@@ -48,17 +48,19 @@
     span.ui-dialog-title{
         color:white;
     }
-    .save{
+    #save_sala{
        height: 50px;
        width: 100px;
        background-color: green;
        text-transform: uppercase;
+       cursor: pointer;
     }
-    .delete{
+    #delete_sala{
        width: 100px;
        height: 50px;
        background-color: red;
        text-transform: uppercase;
+       cursor: pointer;
     }
 
     form label.tab_title{
@@ -76,7 +78,7 @@
     ?>
     <h1>Configura il ristorante
         <small>
-            <a style="color:#fff;text-align: right; font-size: 14px; float: right;" href="logout.php">
+            <a style="color:#fff;text-align: right; font-size: 14px; float: right;" href="amministrazione.php">
                 <-- menu principale
             </a>
         </small>
@@ -97,18 +99,19 @@ $(function() {
             add: function( event, ui ) {
                     var tab_content = $tab_ntavoli_input.val() || "Tab " + tab_counter + " content.";
                     var tab_content2 = $tab_title_input.val() || "Tab " + tab_counter + " tite.";
-                    $( ui.panel ).append('<form style="min-height:100px">'+
+                    $( ui.panel ).append('<div style="min-height:100px;"><form id="salaForm" style="min-height:100px; float:left;">'+
                                              '<fieldset style="float:left" class="ui-helper-reset">'+
                                                 '<label class="tab_title" for="tab_title">Nome sala: </label>'+
                                                 '<input type="text" name="tab_title" id="tab_title" value="'+tab_content2+'" class="ui-widget-content ui-corner-all" />'+
                                                 '<br /><label for="tab_ntavoli">Numero tavoli: </label>'+
                                                 '<input type="text" name="tab_ntavoli" id="tab_ntavoli" value="'+tab_content+'" class="ui-widget-content ui-corner-all" />'+
                                              '</fieldset>'+
+                                         '</form>'+
                                              '<fieldset style="float:right" class="ui-helper-reset">'+
-                                                 '<input class="save" type="submit" value="salva" /><br />'+
-                                                 '<input class="delete" type="submit" value="elimina" />'+
-                                             '</fieldset>'+
-                                         '</form>' );
+                                                 '<button type="submit" id="save_sala">SALVA</button><br />'+
+                                                 '<button type="submit" id="delete_sala">ELIMINA</button>'+
+                                             '</fieldset></div>'
+                                         /* '</form>' */ );
             }
     });
 
@@ -162,6 +165,59 @@ $(function() {
             $tabs.tabs( "remove", index );
     });
 
+
+    /*
+     *
+     * salvo la nuova sal aggiunta al premere del bottone: salva.
+     *
+     */
+    $("#save_sala").live("click", function() {
+        $.ajax({
+            url: "user/sala.php",
+            dataType: 'json',
+            cache: false,
+            success: onSalaSuccess,
+            error: onSalaError
+        });
+    });
+
+    var $dialogOK = $( "#dialogOK" ).dialog({
+            position: 'center',
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                    Chiudi: function() {
+                            $( this ).dialog( "close" );
+                    }
+            },
+            open: function() {
+            },
+            close: function() {
+            }
+    });
+    var $dialogERR = $( "#dialogERR" ).dialog({
+            position: 'center',
+            autoOpen: false,
+            modal: true,
+            buttons: {
+                    Chiudi: function() {
+                            $( this ).dialog( "close" );
+                    }
+            },
+            open: function() {
+            },
+            close: function() {
+            }
+    });
+
+    function onSalaSuccess(data, status) {
+        $dialogOK.dialog( "open" );
+    }
+    function onSalaError(data, status) {
+        $dialogERR.dialog( "open" );
+    }
+
+
 });
 
 	</script>
@@ -178,6 +234,16 @@ $(function() {
                         -->
                 </fieldset>
             </form>
+  	</div>
+	<div id="dialogOK" title="Operazione andata a buon fine">
+            <fieldset style="background-color:#00CF00">
+                <p>La nuova sala &egrave; sta salvata con successo nel sistema.</p>
+            </fieldset>
+  	</div>
+	<div id="dialogERR" title="Errore">
+            <fieldset style="background-color:red">
+                <p>OPS! Si &egrave; verificato un errore, riprova.<br />Se l'errore persiste contatta l'assistenza.</p>
+            </fieldset>
   	</div>
 
         <div class="demo">
@@ -204,7 +270,7 @@ $(function() {
     }//isLoggedin
     else {
        echo '<h4 style="margin-left: 10px;">Sessione scaduta o autenticazione errata.
-                <a style="color:#fff;" href="logout.php"> --> LOGIN</a>
+                <br /><a style="color:#fff;" href="logout.php"> <-- LOGIN</a>
             </h4>';
     }
 ?>

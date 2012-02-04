@@ -270,7 +270,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
     }//isLoggedin
     else {
        echo '<h4 style="margin-left: 10px;">Sessione scaduta o autenticazione errata.
-                <a style="color:#fff;" href="logout.php"> --> LOGIN</a>
+                <br /><a style="color:#fff;" href="logout.php"> <-- LOGIN</a>
             </h4>';
     }
 ?>

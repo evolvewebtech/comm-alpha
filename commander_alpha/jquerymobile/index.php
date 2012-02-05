@@ -3,9 +3,10 @@
 <head>
     <title>jQueryMoblie</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/latest/jquery.mobile.min.css" />
-    <script src="http://code.jquery.com/jquery-1.5.2.min.js"></script>
-    <script src="http://code.jquery.com/mobile/latest/jquery.mobile.min.js"></script></a>
+    
+    <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.mobile-1.0.1.min.js"></script>
 </head>
 <body>
     
@@ -16,7 +17,9 @@
         </div>
         <div data-role="content">
             <p>Questa è la prima pagina</p>
-            <a href="#tavoli" data-icon="home" class="ui-btn-right">Nuovo ordine</a>
+            <a href="#tavoli" data-role="button" data-icon="home" class="ui-btn-right">Nuovo tavolo</a>
+            <a data-role="button" data-icon="home" class="ui-btn-right">Info</a>
+            <a data-role="button" data-icon="home" class="ui-btn-right">Ordini aperti</a>
         </div>
     </div>
     
@@ -27,7 +30,7 @@
         </div>
         <div data-role="content">
             <p>Questa è la pagina dei tavoli</p>
-            <a href="#ordine" data-icon="home" class="ui-btn-right">Ordine</a>
+            <a href="#ordine" data-role="button" data-icon="grid" class="ui-btn-right">Ordine</a>
         </div>
     </div>
     
@@ -37,10 +40,17 @@
             <h1>Ordinazione</h1>
             <link rel="stylesheet" href="css/style.css" />
         </div>
-        <div data-role="content">
-            <p>Questa è la pagina dell'ordine</p>
-            <a href="#chiusura" data-icon="home" class="ui-btn-right">Conferma ordine</a>
-            <?php include dirname(__FILE__).'/scelta_ordine.php';  ?>
+        <div data-role="content">          
+            <div class="ui-grid-a">
+                <div class="ui-block-a">
+                    <p>Questa è la pagina dell'ordine</p>
+                    <div id="container2" class="super-list variable-sizes clearfix"></div>
+                    <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
+                </div>
+                <div class="ui-block-b">
+                    <?php include dirname(__FILE__).'/scelta_ordine.php';  ?>
+                </div>
+            </div><!-- /grid-a -->   
         </div>
     </div>
     
@@ -52,6 +62,8 @@
         </div>
         <div data-role="content">
             <p>Questa è la pagina di chiusura ordine</p>
+            <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Chiudi ordine</a>
+            <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Mantieni ordine aperto</a>
         </div>
     </div>
 </body>

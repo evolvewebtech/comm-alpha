@@ -432,7 +432,8 @@ body {
 }
 
 #content {
-  margin-left: 210px;
+  /* margin-left: 10px; */
+  margin-left: 10px;
 }
 
 .demos #content {

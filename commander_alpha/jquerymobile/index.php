@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>jQueryMoblie</title>
+    <title>jQueryMobile</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
@@ -44,7 +44,8 @@
             <div class="ui-grid-a">
                 <div class="ui-block-a">
                     <p>Questa è la pagina dell'ordine</p>
-                    <div id="container2" class="super-list variable-sizes clearfix"></div>
+                    <?php include dirname(__FILE__).'/lista_ordine.php';  ?>
+                    <script> var arrList = new Array(); </script>
                     <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
                 </div>
                 <div class="ui-block-b">

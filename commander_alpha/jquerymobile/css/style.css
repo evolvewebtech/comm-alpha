@@ -89,7 +89,6 @@ body {
   font-size: 13px;
   line-height: 1.7em;
   background: #1F1E1D;
-  /* background: #DDD; */
   color: #FFF;
 }
 
@@ -181,16 +180,71 @@ body {
           border-top-right-radius: 1.2em;
 }
 
-.element.alkali          { background: #F00; background: hsl(   0, 100%, 50%); }
-.element.alkaline-earth  { background: #F80; background: hsl(  36, 100%, 50%); }
-.element.lanthanoid      { background: #FF0; background: hsl(  72, 100%, 50%); }
-.element.actinoid        { background: #0F0; background: hsl( 108, 100%, 50%); }
-.element.transition      { background: #0F8; background: hsl( 144, 100%, 50%); }
-.element.post-transition { background: #0FF; background: hsl( 180, 100%, 50%); }
-.element.metalloid       { background: #08F; background: hsl( 216, 100%, 50%); }
-.element.other.nonmetal  { background: #00F; background: hsl( 252, 100%, 50%); }
-.element.halogen         { background: #F0F; background: hsl( 288, 100%, 50%); }
-.element.noble-gas       { background: #F08; background: hsl( 324, 100%, 50%); }
+
+
+/**** List styles Commander ****/
+.element_list {
+  height: 50px;
+  margin: 2px;
+  float: center;
+  overflow: hidden;
+  position: relative;
+  background: #888;
+  color: #222;
+
+  
+  box-shadow: 0px 0px 5px #000000;
+  background: rgb(254,255,232); /* Old browsers */
+  background: -moz-linear-gradient(top,  rgba(254,255,232,1) 0%, rgba(214,219,191,1) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,255,232,1)), color-stop(100%,rgba(214,219,191,1))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  rgba(254,255,232,1) 0%,rgba(214,219,191,1) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  rgba(254,255,232,1) 0%,rgba(214,219,191,1) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  rgba(254,255,232,1) 0%,rgba(214,219,191,1) 100%); /* IE10+ */
+  background: linear-gradient(top,  rgba(254,255,232,1) 0%,rgba(214,219,191,1) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#feffe8', endColorstr='#d6dbbf',GradientType=0 ); /* IE6-9 */
+  border-radius: 5px 5px 5px 5px;
+}
+
+.element_list .num {
+  margin: 5px;
+  margin-left: 20px;
+  width: 80px;
+  float: left;
+  font-size: 300%;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.element_list .name {
+  margin: 5px;
+  float: left;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  top: 25%;
+}
+
+.element_list .cat {
+  margin: 5px;
+  float: right;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  top: 25%;
+}
+
+.element_list .prezzo {
+  margin: 5px;
+  margin-right: 50px;
+  float: right;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  top: 25%;
+}
+
+
+/*******************************/
 
 
 

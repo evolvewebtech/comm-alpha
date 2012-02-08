@@ -72,22 +72,21 @@
                 $Almnt = $objEntity->getAlimento($j);
                 
                 $echostr .= '<div class="element '.$objEntity->nome.'" data-symbol="Sc" data-category="'.$objEntity->nome.'">';
-                $echostr .= '<a class="options-set3" href="#'.$Almnt->nome.'" data-option-value=".'.$Almnt->nome.'">';
+                $echostr .= '<a class="options-set3" href="'.$Almnt->id.'&'.$objEntity->nome.'&'.$Almnt->nome.'&'.$Almnt->prezzo.'" data-option-value=".'.$Almnt->nome.'">';
                 if ($Almnt->colore_bottone == ""){
                     $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
                 }
                 else $echostr .= '<div class="element" style="background: #'.$Almnt->colore_bottone.'">';
-                $echostr .= '<p class="number">'.$j.'</p>';
-                $echostr .= '<h3 class="symbol">'.$j.'</h3>';
+                $echostr .= '<p class="number">'.$Almnt->id.'</p>';
+                $echostr .= '<h3 class="symbol">'.$Almnt->id.'</h3>';
                 $echostr .= '<h2 class="name">'.$Almnt->nome.'</h2>';
-                $echostr .= '<p class="weight">'.$j.'</p>';
+                $echostr .= '<p class="weight">'.$Almnt->id.'</p>';
                 $echostr .= '</div>';
                 $echostr .= '</a>';
                 $echostr .= '</div>';
             }
         }
         
-        //$echostr .= '<href="#categorie">';
         echo $echostr;
         
     ?>
@@ -126,6 +125,11 @@
       });
     
       
+      /*
+       *  Script che permette di filtrare gli elementi
+       *  cliccando anche sui pulsanti "Filtro"
+       *
+       */
       var $optionSets = $('#options .option-set'),
           $optionLinks = $optionSets.find('a');
 
@@ -158,6 +162,7 @@
         return false;
       });
 
+
       /*
        *  Script che permette di filtrare gli elementi
        *  cliccando anche su di essi.
@@ -185,7 +190,7 @@
           return false;
         }        
    
-                
+   
         //ul#filter.option-set]
         var $optionSet = $('#filter');
         
@@ -210,33 +215,96 @@
         return false;
       });
 
-
-
-
- 
+      
+      /*
+       *  Script per aggiungere gli alimenti selezionati
+       *  alla lista dell'ordine
+       *  
+       */
       var $optionSets3 = $('.options-set3');
       $optionSets3.click(function(){
         
         var $this = $(this);
         
-        //salvo nella var $nome il nome dell'alimento
-        var $nome = $this.attr('href');
+        //salvo nella var $param i parametri passati
+        var $param = $this.attr('href');
         
-        //aggiungo al container2 il nome degli alimenti cliccati
-        var $itemString = '<div>' + $nome + '</div>';
-        var $newItems = $($itemString);
-        $('#container2').append( $newItems ).isotope( 'addItems', $newItems );
-       
-        //alert($nome);
+        //separazione dei parametri passati con "href"  
+        var $arrParam = $param.split('&');
         
+        //creazione oggetto alimento contente i parametri
+        var alimento = new Alim($arrParam[0], $arrParam[1], $arrParam[2], $arrParam[3], 0);
+        
+        //verifica se l'alimento è già stato aggiunto all'array
+        var ver = false;  
+        var memI = 0;
+        for(var $i=0; $i<arrList.length; $i++) {
+            if(arrList[$i]._id == $arrParam[0]) {
+                arrList[$i]._num += 1;
+                memI = $i;
+                ver=true;
+                break;
+            }           
+        }
+
+        //aggiunta alimento alla lista
+        if (ver == false) {           
+            alimento._num = 1;
+            arrList.push(alimento);
+            
+            var $itemString = '<div id='+$arrParam[0]+' class="element_list '+$arrParam[1]+'" data-symbol="Sc" data-category="'+$arrParam[1]+'" data-option-value=".'+$arrParam[0]+'">';
+            $itemString = $itemString + '<h1 class="num">'+alimento._num+'</h1>';
+            $itemString = $itemString + '<h2 class="name">'+$arrParam[2]+'</h2>';
+            $itemString = $itemString + '<h2 class="prezzo">'+$arrParam[3]+' €</h2>';
+            $itemString = $itemString + '</div>';
+                       
+            var $newItems = $itemString;
+            $('#container2').append( $newItems ).isotope( 'addItems', $newItems );          
+        }
+        //incremento quantità alimento
+        else { 
+            var costo = arrList[memI]._num * $arrParam[3];
+            
+            var $itemString = '';
+            $itemString = $itemString + '<h1 class="num">'+arrList[memI]._num+'</h1>';
+            $itemString = $itemString + '<h2 class="name">'+$arrParam[2]+'</h2>';
+            $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
+            
+            //modifica del div già creato
+            document.getElementById($arrParam[0]).innerHTML= $itemString;
+        }
+        
+        
+        var totale = 0;
+        for(var $i=0; $i<arrList.length; $i++) {
+            totale += arrList[$i]._prezzo * arrList[$i]._num;           
+        }
+        var $itemString = '';
+        $itemString = $itemString + '<h2 class="name">Totale:</h2>';
+        $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';
+        
+        //modifica del div già creato
+        document.getElementById("totale").innerHTML= $itemString;
+          
         return false;
       });
       
       
       
+      /*
+       *  Oggetto alimento
+       *  
+       */
+      function Alim(id, cat, nome, prezzo, num) {
+        this._id = id;
+        this._cat = cat;
+        this._nome = nome;
+        this._prezzo = prezzo;
+        this._num = num;
+      }
+      
+      
     });
   </script>
-
-
-  
+ 
 </section> <!-- #content -->

@@ -30,6 +30,21 @@ class DataManager {
     }
 
 
+    /**
+     * ritorno l'id con valore massimo
+     * all'interno della tabella di nome
+     * $table_name
+     * 
+     * 
+     * @param <string> $table_name
+     * @return <int> 
+     */
+    public static function getMAXID($table_name){
+        $q = "select MAX(id) from $table_name";
+        $result = mysql_query($q);
+        $data = mysql_fetch_array($result);
+        return $data[0];
+    }
 
     /**
      * ritorno l'oggetto Gestore prendendo in ingresso l'id dell'utente
@@ -456,7 +471,9 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
-                die("Failed getting Sala data");
+                //die("Failed getting Sala data");
+                $objs = array();
+                return $objs;
             }
             if(mysql_num_rows($res)) {
                   $objs = array();

@@ -93,7 +93,7 @@
   </div>
   <div id="sites"></div>
   
-  
+   
   <script src="../isotope/js/jquery-1.7.1.min.js"></script>
   <script src="../isotope/jquery.isotope.min.js"></script>
   <script>
@@ -243,19 +243,23 @@
                 arrList[$i]._num += 1;
                 memI = $i;
                 ver=true;
-                break;
-            }           
+                break
+            }          
         }
 
         //aggiunta alimento alla lista
-        if (ver == false) {           
+        if (!ver) {           
             alimento._num = 1;
             arrList.push(alimento);
             
             var $itemString = '<div id='+$arrParam[0]+' class="element_list '+$arrParam[1]+'" data-symbol="Sc" data-category="'+$arrParam[1]+'" data-option-value=".'+$arrParam[0]+'">';
+            $itemString = $itemString + '<a href="#" onClick="cancella('+$arrParam[0]+');">';
+            $itemString = $itemString + '<div class="element_list el">';
             $itemString = $itemString + '<h1 class="num">'+alimento._num+'</h1>';
             $itemString = $itemString + '<h2 class="name">'+$arrParam[2]+'</h2>';
             $itemString = $itemString + '<h2 class="prezzo">'+$arrParam[3]+' €</h2>';
+            $itemString = $itemString + '</div>';
+            $itemString = $itemString + '</a>';
             $itemString = $itemString + '</div>';
                        
             var $newItems = $itemString;
@@ -266,9 +270,13 @@
             var costo = arrList[memI]._num * $arrParam[3];
             
             var $itemString = '';
+            $itemString = $itemString + '<a href="#" onClick="cancella('+arrList[memI]._id+');">';
+            $itemString = $itemString + '<div class="element_list el">';
             $itemString = $itemString + '<h1 class="num">'+arrList[memI]._num+'</h1>';
-            $itemString = $itemString + '<h2 class="name">'+$arrParam[2]+'</h2>';
+            $itemString = $itemString + '<h2 class="name">'+arrList[memI]._nome+'</h2>';
             $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
+            $itemString = $itemString + '</div>';
+            $itemString = $itemString + '</a>';
             
             //modifica del div già creato
             document.getElementById($arrParam[0]).innerHTML= $itemString;
@@ -285,7 +293,7 @@
         
         //modifica del div già creato
         document.getElementById("totale").innerHTML= $itemString;
-          
+        
         return false;
       });
       
@@ -305,6 +313,55 @@
       
       
     });
+  </script>
+  
+  
+  
+  
+  <script language="JavaScript">
+    function cancella($id){        
+        for(var $i=0; $i<arrList.length; $i++) {
+            if (arrList[$i]._id == $id) {
+                if (arrList[$i]._num > 1) {
+                    arrList[$i]._num -= 1;
+                    var costo = arrList[$i]._num * arrList[$i]._prezzo;
+
+                    var $itemString = '';
+                    $itemString = $itemString + '<a href="#" onClick="cancella('+$id+');">';
+                    $itemString = $itemString + '<div class="element_list el">';
+                    $itemString = $itemString + '<h1 class="num">'+arrList[$i]._num+'</h1>';
+                    $itemString = $itemString + '<h2 class="name">'+arrList[$i]._nome+'</h2>';
+                    $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
+                    $itemString = $itemString + '</div>';
+                    $itemString = $itemString + '</a>';
+
+                    //modifica del div già creato
+                    document.getElementById($id).innerHTML= $itemString;
+                }
+                else { 
+                    arrList.splice($i, 1);
+                    var box = document.getElementById($id);
+                    box.innerHTML= "";
+                    box.parentNode.removeChild(box);
+                }
+                break;
+            }
+        }
+        
+        var totale = 0;
+        for(var $i=0; $i<arrList.length; $i++) {
+            totale += arrList[$i]._prezzo * arrList[$i]._num;           
+        }
+        var $itemString = '';
+        $itemString = $itemString + '<h2 class="name">Totale:</h2>';
+        $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';
+        
+        //modifica del div già creato
+        document.getElementById("totale").innerHTML= $itemString; 
+    }
+    
+
+       
   </script>
  
 </section> <!-- #content -->

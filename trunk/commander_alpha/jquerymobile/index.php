@@ -16,10 +16,18 @@
             <h1>Scelta operazioni</h1>
         </div>
         <div data-role="content">
-            <p>Questa è la prima pagina</p>
-            <a href="#tavoli" data-role="button" data-icon="home" class="ui-btn-right">Nuovo tavolo</a>
-            <a data-role="button" data-icon="home" class="ui-btn-right">Info</a>
-            <a data-role="button" data-icon="home" class="ui-btn-right">Ordini aperti</a>
+            <div class="scelta_op">
+                <div class="button_opz">
+                    <a href="#tavoli"><img src="images/symbol_add.png"/></a>
+                </div>
+                <div class="button_opz">
+                    <img src="images/symbol_information.png"/>
+                </div>
+                <!--
+                <a href="#tavoli" data-role="button" data-icon="home" class="ui-btn-right">Nuovo tavolo</a>
+                <a data-role="button" data-icon="home" class="ui-btn-right">Info</a>
+                <a data-role="button" data-icon="home" class="ui-btn-right">Ordini aperti</a> -->
+            </div>    
         </div>
     </div>
     

@@ -49,17 +49,12 @@
             <link rel="stylesheet" href="css/style.css" />
         </div>
         <div data-role="content">          
-            <div class="ui-grid-a">
-                <div class="ui-block-a">
-                    <p>Questa è la pagina dell'ordine</p>
-                    <?php include dirname(__FILE__).'/lista_ordine.php';  ?>
-                    <script> var arrList = new Array(); </script>
-                    <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
-                </div>
-                <div class="ui-block-b">
-                    <?php include dirname(__FILE__).'/scelta_ordine.php';  ?>
-                </div>
-            </div><!-- /grid-a -->   
+            <div class="comm-a">
+                <?php include dirname(__FILE__).'/lista_ordine.php';  ?>
+            </div>
+            <div class="comm-b">
+                <?php include dirname(__FILE__).'/scelta_ordine.php';  ?>
+            </div> 
         </div>
     </div>
     

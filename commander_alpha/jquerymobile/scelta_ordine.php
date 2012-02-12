@@ -6,11 +6,11 @@
                 ho aggiunto un id ad ogni link, il valore è uguale al
                 valore di ogni attributo href
             -->
-            <h2>Filter:</h2>
+            <!-- <h2>Filter:</h2> -->
                 <ul id="filter" class="option-set clearfix" data-option-key="filter">
-                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">show all</a></li>
-                    <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">menu fissi</a></li>
-                    <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">categorie</a></li>
+                    <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">Mostra tutto</a></li>
+                    <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">Menù</a></li>
+                    <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">Categorie</a></li>
 
                        <?php
                         require_once dirname(__FILE__).'/../manager/DataManager2.php';
@@ -22,19 +22,19 @@
                             $echostr .= '</li>';
                         }
                         echo $echostr;
-                    ?>
+                       ?>
               </ul>
         </div>
         <div class="option-combo">
-          <h2>Sort:</h2>
+          <!-- <h2>Sort:</h2> -->
           <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
-            <li><a href="#mixed" data-option-value="number">mixed</a></li>
-            <li><a href="#categorie" data-option-value="original-order" class="selected">categorie</a></li>
-            <li><a href="#alphabetical" data-option-value="alphabetical">alphabetical</a></li>
+            <!-- <li><a href="#mixed" data-option-value="number">mixed</a></li> -->
+            <li><a href="#categorie" data-option-value="original-order" class="selected">Categorie</a></li>
+            <li><a href="#alphabetical" data-option-value="alphabetical">Alfabetico</a></li>
           </ul>
         </div>
         <div class="option-combo">
-          <h2>Layout: </h2>
+          <!-- <h2>Layout: </h2> -->
           <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
             <li><a href="#masonry" data-option-value="masonry" class="selected">masonry</a></li>
             <li><a href="#fitRows" data-option-value="fitRows">fitRows</a></li>

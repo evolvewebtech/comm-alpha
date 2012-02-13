@@ -2,9 +2,9 @@
 <div id="list-ord_nav" class="list-ord_nav">
     <section id="options" class="clearfix">
         <div class="option-combo">
-            <ul id="sort_list" class="option-set_list clearfix" data-option-key="sortBy">
-                <li><a href="#categorie_list" data-option-value="original-order" class="selected">Categorie</a></li>
-                <li><a href="#alphabetical_list" data-option-value="alphabetical_list">Alfabetico</a></li>
+            <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
+                <li><a href="#categorie" data-option-value="original-order" class="selected">Categorie</a></li>
+                <li><a href="#alphabetical" data-option-value="alphabetical">Alfabetico</a></li>
             </ul>
         </div>
     </section>
@@ -31,7 +31,9 @@
 </script>
 
 
-<script type="text/javascript">
+<script src="../isotope/js/jquery-1.7.1.min.js"></script>
+<script src="../isotope/jquery.isotope.min.js"></script>
+<script>
     
     $(function(){
     
@@ -39,20 +41,19 @@
       
       /*
       $('#container2').isotope({
-        
-        //sortBy: 'categorie_list',
-        itemSelector : '.element_list',
+        sortBy: 'alphabetical',
+        //itemSelector : '.element_list',
         getSortData: {
-          categorie_list : function( $elem ) {
-            return parseInt( $elem.find('.number').text(), 10 );
+          categorie: function( $elem ) {
+            return parseInt( $elem.find('.num').text(), 10 );
           },
-          alphabetical_list: function( $elem ) {
+          alphabetical: function( $elem ) {
             return $elem.find('.name').text();
           }
         }
         
       });*/
-      
+     
       
       /*
       var $optionSets2 = $('#options .option-set_list'),

@@ -43,6 +43,7 @@ class DataManager {
         $q = "select MAX(id) from $table_name";
         $result = mysql_query($q);
         $data = mysql_fetch_array($result);
+
         return $data[0];
     }
 
@@ -433,11 +434,11 @@ class DataManager {
     public static function getSala($id){
         $sql = "SELECT * FROM cmd_sala WHERE id=$id";
         if (DataManager::_getConnection()){
-        $res = mysql_query($sql);
-        if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Sala");
-        }
-            return mysql_fetch_assoc($res);
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return 0;
+            }
+        return mysql_fetch_assoc($res);
         }
     }
 
@@ -489,6 +490,16 @@ class DataManager {
 
     //--------------------------------------------------------------------------
 
+    /**
+     *
+     * @param <int> $id
+     * @param <type> $nome
+     * @param <int> $numero
+     * @param <int> $nmax_coperti
+     * @param <type> $posizione
+     * @param <int> $sala_id
+     * @return <bool>
+     */
     public static function addTavolo($id,$nome,$numero,$nmax_coperti,$posizione,$sala_id){
         require_once 'Database.php';
         $db = new Database();
@@ -499,6 +510,11 @@ class DataManager {
         else return false;
     }//inserisci tavolo
 
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
     public static function delTavolo($id){
         require_once 'Database.php';
         $db = new Database();
@@ -509,6 +525,11 @@ class DataManager {
         else return false;
     }
 
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
     public static function getTavolo($id){
         $sql = "SELECT * FROM cmd_tavolo WHERE id=$id";
         if (DataManager::_getConnection()){
@@ -520,6 +541,16 @@ class DataManager {
         }
     }
 
+    /**
+     *
+     * @param <int> $id
+     * @param <type> $nome
+     * @param <int> $numero
+     * @param <int> $nmax_coperti
+     * @param <type> $posizione
+     * @param <int> $sala_id
+     * @return <bool>
+     */
     public static function editTavolo($id, $nome, $numero, $nmax_coperti, $posizione,$sala_id){
         require_once 'Database.php';
         $db = new Database();
@@ -537,6 +568,34 @@ class DataManager {
         else return false;
     }
 
+    /**
+     *
+     * @param <int> $sala_id
+     * @return <array>
+     */
+    public static function getAllTavoloBySalaID($sala_id){
+        $sql = "SELECT * FROM cmd_tavolo WHERE sala_id=$sala_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
     public static function getAllTavolo(){
         $sql = "SELECT * FROM cmd_tavolo";
         if (DataManager::_getConnection()){

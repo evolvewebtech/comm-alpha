@@ -80,7 +80,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
     ?>
         <!--Fade-->
         <div class="mosaic-block fade">
-            <a href="test.php" class="mosaic-overlay">
+            <a href="amministrazioneSale.php" class="mosaic-overlay">
                     <div class="details">
                             <h4>CONFIGURA IL RISTORANTE</h4>
                             <p>Crea le sale, aggiungi i tavoli e rinominali!</p>

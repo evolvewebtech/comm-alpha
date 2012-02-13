@@ -91,22 +91,17 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-           $sala_id = intval(mysql_real_escape_string($_GET['id']));
-           $data_sala = DataManager::getSala($sala_id);
-           if ($data_sala==0){
-               die('<p style="background-color:white;color:black;">Err</p>');
-           }
-           
-           $data_tavolo = DataManager::getAllTavoloBySalaID($sala_id);
-           $numero_tavolo = count($data_tavolo);
-           $max_id = DataManager::getMAXID('cmd_tavolo');
-//           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
+           $data_sala = DataManager::getAllSala();
+           $numero_sale = count($data_sala);
+           $max_id = DataManager::getMAXID('cmd_sala');
+
+           /*echo '<p style="background-color:white">'.$diff.'</p>';*/
+
     ?>
-    <h1>Gestisci i tavoli di <?=$data_sala['nome']?>
+    <h1>Gestisci le Sale
         <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
             Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-                     <a style="color:#fff; font-size: 12px;" href="amministrazioneSale.php">Sale</a> >
-                     <a style="color:#fff; font-size: 14px;" href="#">Tavoli</a>
+                     <a style="color:#fff; font-size: 14px;" href="amministrazioneSale.php">Sale</a>
         </small>
     </h1>
 
@@ -418,9 +413,80 @@ $(function() {
 </script>
 
         <!-- dialogs -->
+	<div id="dialog" title="Dati nuova sala">
+            <form id="addNewTab">
+                <fieldset class="ui-helper-reset">
+                        <label for="tab_title">Nome nuova sala</label>
+                        <input type="text" name="tab_title" id="tab_title" value="" class="ui-widget-content ui-corner-all required" minlength="2"/>
+                        <label for="tab_ntavoli">Numero tavoli</label>
+                        <input type="text" name="tab_ntavoli" id="tab_ntavoli" class="ui-widget-content ui-corner-all required" />
+                        <!--
+                        <label for="tab_posizione">Coordinate posizione</label>
+                        <textarea name="tab_posizione" id="tab_posizione" class="ui-widget-content ui-corner-all"></textarea>
+                        -->
+                </fieldset>
+            </form>
+  	</div>
+        <div id="dialogOK" title="Operazione andata a buon fine">
+            <fieldset style="background-color:#00CF00">
+                <p>La nuova sala &egrave; stata salvata con successo nel sistema.</p>
+            </fieldset>
+  	</div>
+	<div id="dialogERR" title="Errore">
+            <fieldset style="background-color:red">
+                <p>OPS! Si &egrave; verificato un errore, riprova.<br />Se l'errore persiste contatta l'assistenza.</p>
+            </fieldset>
+  	</div>
+	<div id="dialogE005" title="OPS!">
+            <fieldset style="background-color:white">
+                <p>OPS! Non &egrave; possibile diminuire il numero di tavoli da qui. Per eliminare un tavolo sceglierne uno dalla sezione tavoli.</p>
+            </fieldset>
+  	</div>
 
         <!-- tabs container -->
-        <div class="tavolo_tab">
+        <div class="demo">
+            <div id="tabs">
+                    <ul>
+                        <?php
+                            $count = 1;
+                            foreach ($data_sala as $sala) {
+                              echo '<li><a href="ui-tabs-'.$count.'">'.$sala['nome'].'</a></li>';
+                              $count++;
+                            }
+                        ?>
+                        <li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi nuova sala</span></button>
+                    </ul>
+            <?php
+                $count = 1;
+                foreach ($data_sala as $sala) {
+                    $numero_tavoli = DataManager::getAllTavoloBySalaID($sala['id']);
+                    $numero_tavoli = count($numero_tavoli);
+                    echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
+                ?>
+                <div style="min-height:120px;">
+                    <form id="salaForm-<?=$count?>" style="min-height:60px; float:left;">
+                        <fieldset style="float:left" class="ui-helper-reset">
+                            <label class="tab_title" for="tab_title">Nome sala: </label>
+                            <input type="text" name="tab_title" id="tab_title" value="<?=$sala['nome']?>" class="ui-widget-content ui-corner-all" />
+                            <br /><label for="tab_ntavoli">Numero tavoli: </label>
+                            <input type="text" name="tab_ntavoli" id="tab_ntavoli" value="<?=$numero_tavoli?>" class="ui-widget-content ui-corner-all" />
+                            <input type="hidden" name="sala_id" id="sala_id" value="<?=$sala['id']?>" class="ui-widget-content ui-corner-all" />
+                        </fieldset>
+                    </form>
+                    <fieldset style="float:right" class="ui-helper-reset">
+                        <button type="submit" id="save_sala">SALVA</button><br />
+                        <button type="submit" id="delete_sala">ELIMINA</button>
+                    </fieldset>
+                    <fieldset style="float:left; width: 400px">
+                        <a style="float:left" href="test.php?id=<?=$sala['id']?>">Gestisci i tavoli di questa sala</a>
+                    </fieldset>
+                </div>
+                <?php
+                    $count++;
+                    echo '</div>';
+                }
+            ?>
+            </div>
         </div><!-- End demo -->
 
         <h4 style="margin-left: 10px;">

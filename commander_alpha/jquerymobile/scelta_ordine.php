@@ -59,10 +59,7 @@
             $echostr .= '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
             $echostr .= '<a class="options-set2" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">';
             $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
-            $echostr .= '<p class="number">'.$num.'</p>';
-            $echostr .= '<h3 class="symbol">'.$num.'</h3>';
-            $echostr .= '<h2 class="name">'.$objEntity->nome.'</h2>';
-            $echostr .= '<p class="weight">'.$num.'</p>';
+            $echostr .= '<h2 class="el-name">'.$objEntity->nome.'</h2>';
             $echostr .= '</div>';
             $echostr .= '</a>';
             $echostr .= '</div>';
@@ -77,10 +74,9 @@
                     $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
                 }
                 else $echostr .= '<div class="element" style="background: #'.$Almnt->colore_bottone.'">';
-                $echostr .= '<p class="number">'.$Almnt->id.'</p>';
-                $echostr .= '<h3 class="symbol">'.$Almnt->id.'</h3>';
-                $echostr .= '<h2 class="name">'.$Almnt->nome.'</h2>';
-                $echostr .= '<p class="weight">'.$Almnt->id.'</p>';
+                $echostr .= '<h2 class="el-name">'.$Almnt->nome.'</h2>';
+                $echostr .= '<h2 class="el-prezzo">'.$Almnt->prezzo.' €</h2>';
+                $echostr .= '<h3 class="el-cat">'.$objEntity->nome.'</h3>';
                 $echostr .= '</div>';
                 $echostr .= '</a>';
                 $echostr .= '</div>';
@@ -263,7 +259,7 @@
             $itemString = $itemString + '</div>';
                        
             var $newItems = $itemString;
-            $('#container2').append( $newItems ).isotope( 'addItems', $newItems );          
+            $('#container2').append( $newItems ).isotope( 'addItems', $newItems );   
         }
         //incremento quantità alimento
         else { 

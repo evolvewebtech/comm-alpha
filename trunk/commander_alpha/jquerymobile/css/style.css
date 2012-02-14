@@ -335,6 +335,20 @@ body {
   top: 25%;
 }
 
+div#id-cat.element_list {
+  height: 20px;
+  background: -moz-linear-gradient(top, #fefcea 0%, #f1da36 100%); /* FF3.6+ */
+}
+
+div#id-cat.element_list .name{
+  margin-top: -2px;
+  margin-left: 25px;
+  float: left;
+  font-size: 0.9em;
+  position:relative;
+  font-weight: bold;
+}
+
 .scelta_op {
     width:320px;
     margin:auto;

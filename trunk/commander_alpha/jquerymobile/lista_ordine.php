@@ -12,7 +12,11 @@
 
 <div id="list-ord" class="list-ord">
     <div id="container2" class="super-list variable-sizes clearfix"></div>
-    <script> var arrList = new Array(); </script>               
+    <script>
+        //Dichiarazione variabili;
+        var arrList = new Array();
+        var totale = 0;
+    </script>               
 </div>
 
 <div id="list-ord_footer" class="list-ord_footer">
@@ -30,7 +34,7 @@
     document.getElementById("list-ord").style.height = (window.innerHeight-250) - h_nav - h_foo + "px";
 </script>
 
-
+<!--
 <script src="../isotope/js/jquery-1.7.1.min.js"></script>
 <script src="../isotope/jquery.isotope.min.js"></script>
 <script>
@@ -90,3 +94,4 @@
       
     });  
 </script>
+-->

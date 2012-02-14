@@ -36,8 +36,8 @@
         <div class="option-combo">
           <!-- <h2>Layout: </h2> -->
           <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
-            <li><a href="#masonry" data-option-value="masonry" class="selected">masonry</a></li>
-            <li><a href="#fitRows" data-option-value="fitRows">fitRows</a></li>
+            <li><a href="#masonry" data-option-value="masonry">masonry</a></li>
+            <li><a href="#fitRows" data-option-value="fitRows" class="selected">fitRows</a></li>
             <li><a href="#straightDown" data-option-value="straightDown">straightDown</a></li>
           </ul>
         </div>
@@ -117,7 +117,8 @@
         },
         //Aggiunto per visualizzare solo le categorie
         //al caricamento della pagina
-        filter: '.categorie'
+        filter: '.categorie',
+        layoutMode: 'fitRows'
       });
     
       
@@ -248,18 +249,13 @@
             alimento._num = 1;
             arrList.push(alimento);
             
-            var $itemString = '<div id='+$arrParam[0]+' class="element_list '+$arrParam[1]+'" data-symbol="Sc" data-category="'+$arrParam[1]+'" data-option-value=".'+$arrParam[0]+'">';
-            $itemString = $itemString + '<a href="#" onClick="cancella('+$arrParam[0]+');">';
-            $itemString = $itemString + '<div class="element_list el">';
-            $itemString = $itemString + '<h1 class="num">'+alimento._num+'</h1>';
-            $itemString = $itemString + '<h2 class="name">'+$arrParam[2]+'</h2>';
-            $itemString = $itemString + '<h2 class="prezzo">'+$arrParam[3]+' €</h2>';
-            $itemString = $itemString + '</div>';
-            $itemString = $itemString + '</a>';
-            $itemString = $itemString + '</div>';
-                       
+            //ordinamento lista           
+            $itemString = ordinaLista("cat");
+                   
             var $newItems = $itemString;
-            $('#container2').append( $newItems ).isotope( 'addItems', $newItems );   
+            //$('#container2').append( $newItems ).isotope( 'addItems', $newItems );   
+            //$('#container2').append( $newItems );  
+            document.getElementById('container2').innerHTML = $newItems;
         }
         //incremento quantità alimento
         else { 
@@ -276,17 +272,18 @@
             
             //modifica del div già creato
             document.getElementById($arrParam[0]).innerHTML= $itemString;
+            
+            //aggiorna totale costo
+            totale = 0;
+            for(var $i=0; $i<arrList.length; $i++) {
+                totale += arrList[$i]._num * arrList[$i]._prezzo;           
+            }
         }
         
-        
-        var totale = 0;
-        for(var $i=0; $i<arrList.length; $i++) {
-            totale += arrList[$i]._prezzo * arrList[$i]._num;           
-        }
+        //aggiornamento visualizzazione totale costo
         var $itemString = '';
         $itemString = $itemString + '<h2 class="name">Totale:</h2>';
-        $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';
-        
+        $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';       
         //modifica del div già creato
         document.getElementById("totale").innerHTML= $itemString;
         
@@ -305,6 +302,103 @@
         this._nome = nome;
         this._prezzo = prezzo;
         this._num = num;
+      }
+      
+      
+      
+      /*
+       * Confronto tra stringhe
+       * 
+       */
+      function confrontaStringhe(a,b) {
+        var minA = a.toLowerCase();
+        var minB = b.toLowerCase();
+        if (minA > minB) { return true; }
+        else { return false; }
+      }
+      
+      
+      function ordinaLista(type) {
+        //Ordinamento array in ordine afabetico
+        if (type == "nome") {
+            for(var i=0; i<arrList.length-1; i++) {
+                for(var j=i+1; j<arrList.length; j++) {
+                    //ordinato per ID
+                    //if(arr[i]._id > arr[j]._id) {
+                    //ordinato in ordine alfabetico
+                    if (confrontaStringhe(arrList[i]._nome, arrList[j]._nome)) {
+                        var t = arrList[i];
+                        arrList[i] = arrList[j];
+                        arrList[j] = t;
+                    }                  
+                }   
+            }
+        }
+        //Ordinamento array per categorie
+        if (type == "cat" ) {
+            //1° ordinamento -> categorie
+            for(var i=0; i<arrList.length-1; i++) {
+                for(var j=i+1; j<arrList.length; j++) {
+                    //ordinato per ID
+                    //if(arr[i]._id > arr[j]._id) {
+                    //ordinato in ordine alfabetico
+                    if (confrontaStringhe(arrList[i]._cat, arrList[j]._cat)) {
+                        var t = arrList[i];
+                        arrList[i] = arrList[j];
+                        arrList[j] = t;
+                    }                  
+                }   
+            }
+            //2° ordinamento -> nomi
+            for(var i=0; i<arrList.length-1; i++) {
+                for(var j=i+1; j<arrList.length; j++) {
+                    //ordinato per ID
+                    //if(arr[i]._id > arr[j]._id) {
+                    //ordinato in ordine alfabetico
+                    if (arrList[i]._cat == arrList[j]._cat) {
+                        if (confrontaStringhe(arrList[i]._nome, arrList[j]._nome)) {
+                            var t = arrList[i];
+                            arrList[i] = arrList[j];
+                            arrList[j] = t;
+                        }
+                    }
+                }   
+            }
+        }
+        return aggiornaLista(type);
+      }
+      
+      
+      function aggiornaLista(type) {
+        //Ricreo tutti i div della lista
+        //dopo aver ordinato l'array
+        var $itemString = "";  
+        var memCat = "";
+        totale = 0;
+        for(var i=0; i<arrList.length; i++) {
+            //calcolo costo per alimento
+            var costo = arrList[i]._num * arrList[i]._prezzo;
+            //calcolo totale costo
+            totale += costo; 
+            //aggiunta separatore categorie
+            if (type == "cat" & memCat != arrList[i]._cat) {
+                $itemString = $itemString + '<div id="id-cat" class="element_list">';
+                $itemString = $itemString + '<h2 class="name">'+arrList[i]._cat+'</h2>';
+                $itemString = $itemString + '</div>';
+                memCat = arrList[i]._cat;
+            }
+            //creazione div
+            $itemString = $itemString + '<div id='+arrList[i]._id+' class="element_list '+arrList[i]._cat+'" data-symbol="Sc" data-category="'+arrList[i]._cat+'" data-option-value=".'+arrList[i]._id+'">';
+            $itemString = $itemString + '<a href="#" onClick="cancella('+arrList[i]._id+');">';
+            $itemString = $itemString + '<div class="element_list el">';
+            $itemString = $itemString + '<h1 class="num">'+arrList[i]._num+'</h1>';
+            $itemString = $itemString + '<h2 class="name">'+arrList[i]._nome+'</h2>';
+            $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
+            $itemString = $itemString + '</div>';
+            $itemString = $itemString + '</a>';
+            $itemString = $itemString + '</div>';
+        }
+        return $itemString;
       }
       
       
@@ -346,7 +440,7 @@
         
         var totale = 0;
         for(var $i=0; $i<arrList.length; $i++) {
-            totale += arrList[$i]._prezzo * arrList[$i]._num;           
+            totale += arrList[$i]._num * arrList[$i]._prezzo;           
         }
         var $itemString = '';
         $itemString = $itemString + '<h2 class="name">Totale:</h2>';

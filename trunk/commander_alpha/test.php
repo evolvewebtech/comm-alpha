@@ -3,7 +3,7 @@
     $objSession = new HTTPSession();
 ?>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
-<link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom_tavoli.css" type="text/css" media="screen" />
 
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 <script src="media/js/ui/jquery.ui.core.js"></script>
@@ -149,7 +149,7 @@ $(function() {
         $tab_posizione_input = $('#tab_posizione'), //non utilizzata per
         $tab_ntavoli_input   = $('#tab_ntavoli');
 
-    var tab_counter = <?=$numero_sale?>;
+    var tab_counter = <?=$numero_tavolo?>;
     var max_id = <?=$max_id?>;
 
     tab_counter++;
@@ -176,10 +176,7 @@ $(function() {
                                              '<fieldset style="float:right" class="ui-helper-reset">'+
                                                  '<button type="submit" id="save_sala">SALVA</button><br />'+
                                                  '<button type="submit" id="delete_sala">ELIMINA</button>'+
-                                             '</fieldset>'+
-                                             '<fieldset style="float:left">'+
-                                                '<a href="test.php?'+next_id+'">Gestisci i tavoli di questa sala</a>'+
-                                             '</fieldset></div>'
+                                             '</fieldset>'
                                           );
                     $tabs.tabs('select', '#' + ui.panel.id);
             },
@@ -276,144 +273,6 @@ $(function() {
             $tabs.tabs( "remove", index );
     });
 
-
-    /*
-     *
-     * salvo la nuova sala aggiunta al premere del bottone: salva.
-     *
-     */
-    $("#save_sala").live("click", function() {
-
-        var selected = $tabs.tabs('option', 'selected');
-        selected+=1;
-        $('#debug').append('<br />selected: '+selected);
-
-        var formSala = $("#salaForm-"+selected).serialize();
-        formSala = formSala+'&action=save&current_tab='+selected;
-
-        $.ajax({
-            type: "POST",
-            data: formSala,
-            url: "manager/gestore/sala.php",
-            dataType: 'json',
-            cache: false,
-            success: onSalaSuccess,
-            error: onSalaError
-        });
-    });
-
-    /*
-     *
-     * Elimina la sala aggiunta al premere del bottone: salva.
-     * io farei il reload della pagina dal db dopo avere eliminato la sala.
-     *
-     */
-    $("#delete_sala").live("click", function() {
-            var answer = confirm("Sei sicuro di voler eliminare questa Sala?");
-
-            if (answer){
-
-            var selected = $tabs.tabs('option', 'selected');
-            selected+=1;
-            $('#debug').append('<br />selected: '+selected);
-
-            var formSala = $("#salaForm-"+selected).serialize();
-            formSala = formSala+'&action=del&current_tab='+selected;
-
-            $.ajax({
-                type: "POST",
-                data: formSala,
-                url: "manager/gestore/sala.php",
-                dataType: 'json',
-                cache: false,
-                success: onSalaSuccess,
-                error: onSalaError
-            });
-        }
-    });
-
-    var $dialogOK = $( "#dialogOK" ).dialog({
-            position: 'center',
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                    Chiudi: function() {
-                            $( this ).dialog( "close" );
-                    }
-            },
-            open: function() {
-            },
-            close: function() {
-            }
-    });
-
-    var $dialogERR = $( "#dialogERR" ).dialog({
-            position: 'center',
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                    Chiudi: function() {
-                            $( this ).dialog( "close" );
-                    }
-            },
-            open: function() {
-            },
-            close: function() {
-            }
-    });
-
-    var $dialogE005 = $( "#dialogE005" ).dialog({
-            position: 'center',
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                    Chiudi: function() {
-                            $( this ).dialog( "close" );
-                    }
-            },
-            open: function() {
-            },
-            close: function() {
-            }
-    });
-
-    function onSalaSuccess(data, status) {
-
-        if (data.action=='del'){
-
-           var current_tab = parseInt(data.current_tab,10);
-           current_tab -= 1;
-
-           $('#debug').append('<br />data removed: '+current_tab+' type: '+typeof current_tab+'<br />');
-           $tabs.tabs( "option", "disabled",[ current_tab ] );
-
-
-           $tabs.tabs( "remove", data.current_tab );
-           $('#debug').append('<br />data removed:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
-           location.reload();
-        }
-        /*
-        else{
-
-           $dialogOK.dialog( "open" );
-           $('#debug').append('<br />data saved:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
-        }
-        */
-        if(data.action=='save' && data.err==''){
-           $dialogOK.dialog( "open" );
-           $('#debug').append('<br />data saved:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
-        }
-        if(data.action=='save' && data.err=='E005'){
-           $dialogE005.dialog( "open" );
-           $('#debug').append('<br />data err:<br />'+ 'ID: '+data.err);
-        }
-    }
-    function onSalaError(data, status) {
-        $dialogERR.dialog( "open" );
-        $('#debug').append(data);
-    }
-
-
 });
 </script>
 
@@ -421,9 +280,57 @@ $(function() {
 
         <!-- tabs container -->
         <div class="tavolo_tab">
+            <div id="tabs">
+                <div class="top" style="">
+                    <div class="header-left" style="float:left; width: 700px;">
+                        <ul>
+                            <?php
+                                $count = 1;
+                                foreach ($data_tavolo as $tavolo) {
+                                  echo '<li><a href="ui-tabs-'.$count.'">'.$tavolo['numero'].'</a></li>';
+                                  $count++;
+                                }
+                            ?>
+                            <!--<li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi tavolo1</span></button>-->
+                        </ul>
+                    </div>
+                    <div class="header-right" style="float:right; width: 210px;">
+                        <li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi tavolo1</span></button>
+                    </div>
+                </div>
+                    <div class="pot" style="float:left; width: 913px; background-color: #ffffff; -webkit-border-radius: 10px; -moz-border-radius: 10px; border-radius: 10px;">
+                <?php
+                    $count = 1;
+                    foreach ($data_tavolo as $tavolo) {
+                        echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
+                    ?>
+                    <div style="min-height:120px;">
+                        <form id="tavoloForm-<?=$count?>" style="min-height:60px; float:left;">
+                            <fieldset style="float:left" class="ui-helper-reset">
+                                <label class="tab_numero" for="tab_numero">Numero tavolo: </label>
+                                <input type="text" name="tab_numero" id="tab_numero" value="<?=$tavolo['numero']?>" class="ui-widget-content ui-corner-all" />
+                                <br /><label class="tab_title" for="tab_title">Nome del tavolo: </label>
+                                <input type="text" name="tab_title" id="tab_title" value="<?=$tavolo['nome']?>" class="ui-widget-content ui-corner-all" />
+                                <br /><label for="tab_nmax_coperti">Numero max coperti: </label>
+                                <input type="text" name="tab_nmax_coperti" id="tab_nmax_coperti" value="<?=$tavolo['nmax_coperti']?>" class="ui-widget-content ui-corner-all" />
+                                <input type="hidden" name="tavolo_id" id="tavolo_id" value="<?=$tavolo['id']?>" class="ui-widget-content ui-corner-all" />
+                            </fieldset>
+                        </form>
+                        <fieldset style="float:right" class="ui-helper-reset">
+                            <button type="submit" id="save_sala">SALVA</button><br />
+                            <button type="submit" id="delete_sala">ELIMINA</button>
+                        </fieldset>
+                    </div>
+                    <?php
+                        $count++;
+                        echo '</div>';
+                    }
+                ?>
+                </div>
+            </div>
         </div><!-- End demo -->
 
-        <h4 style="margin-left: 10px;">
+        <h4 style="margin-left: 10px; float:left; width: 920px;">
             <a style="color:#fff;" href="logout.php">esci</a> |
             <a style="color:#fff;" href="support.php">supporto</a> |
             <a style="color:#fff;" href="license.php">credit</a>
@@ -431,7 +338,7 @@ $(function() {
 </div><!-- end content -->
 
         <!-- DEBUG -->
-        <div id="debug" style="margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
+        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

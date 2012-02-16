@@ -51,7 +51,7 @@
                 $max_id_table = DataManager::getMAXID('cmd_tavolo');
                 $max_id_table++;
                 for ($i = 1; $i <= $n_tavoli; $i++) {
-                    $ret2 = DataManager::addTavolo($max_id_table, 'NULL', 'NULL', 4, 'NULL', $sala_id);
+                    $ret2 = DataManager::addTavolo($max_id_table, 'NULL', $i, 4, 'NULL', $sala_id);
                     $max_id_table++;
                 }
 
@@ -92,7 +92,7 @@
                      $max_id_table2 = DataManager::getMAXID('cmd_tavolo');
                      $max_id_table2++;
                      for ($i = 1; $i <= $diff; $i++) {
-                         $ret2 = DataManager::addTavolo($max_id_table2, 'NULL', 'NULL', 4, 'NULL', $sala_id);
+                         $ret2 = DataManager::addTavolo($max_id_table2, 'NULL', $i, 4, 'NULL', $sala_id);
                          $max_id_table2++;
                       }
 

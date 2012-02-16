@@ -173,7 +173,7 @@ $(function() {
                                                  '<button type="submit" id="delete_sala">ELIMINA</button>'+
                                              '</fieldset>'+
                                              '<fieldset style="float:left">'+
-                                                '<a href="test.php?'+next_id+'">Gestisci i tavoli di questa sala</a>'+
+                                                '<a href="test.php?id='+next_id+'">Gestisci i tavoli di questa sala</a>'+
                                              '</fieldset></div>'
                                           );
                     $tabs.tabs('select', '#' + ui.panel.id);

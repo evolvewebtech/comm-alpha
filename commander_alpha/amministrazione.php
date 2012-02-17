@@ -93,7 +93,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 
         <!--Bar-->
         <div class="mosaic-block bar">
-            <a href="#" target="_blank" class="mosaic-overlay">
+            <a href="amministrazioneCassieri.php" class="mosaic-overlay">
                     <div class="details">
                             <h4>GESTISCI I CASSIERI</h4>
                             <p>Aggiungi nuovi cassieri al tuo ristorante,

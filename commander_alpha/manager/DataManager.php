@@ -92,7 +92,7 @@ class DataManager {
          * 
          */
         if(! ($res && mysql_num_rows($res))) {
-            die("Failed getting cassieri data");
+            return 0;
         }
         if(mysql_num_rows($res)) {
               $objs = array();
@@ -173,7 +173,7 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Cassiere");
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }
@@ -335,13 +335,13 @@ class DataManager {
         $db = new Database();
         $db->connect();
 
+
         /*
          * aggiorno il livello del cassiere
          */
         $ret = $db->update('cmd_cassiere',
                             array('livello_cassiere' => $livello_cassiere),
                             array('id',$cassiere_id));
-
         /*
          * prelevo l'id dalla tabella cmd_cassiere appena aggiornata
          */
@@ -535,7 +535,7 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Tavolo");
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }

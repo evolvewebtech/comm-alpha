@@ -335,6 +335,56 @@ body {
   top: 25%;
 }
 
+
+.comm-li-alim {
+  margin: 0px; 
+  height: 39px;
+}
+
+.comm-li-link {
+  height: 22px;  
+}
+
+.comm-li-alim .num{
+  margin: 0px;
+  margin-left: 20px;
+  width: 80px;
+  float: left;
+  font-size: 250%;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.comm-li-alim .name{
+  margin: 0px;
+  float: left;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.comm-li-alim .cat {
+  margin: 0px;
+  float: right;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.comm-li-alim .prezzo {
+  margin: 0px;
+  margin-right: 30px;
+  float: right;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+
+
 div#id-cat.element_list {
   height: 20px;
   background: -moz-linear-gradient(top, #fefcea 0%, #f1da36 100%); /* FF3.6+ */
@@ -595,7 +645,7 @@ div#id-cat.element_list .name{
 }
 
 /**** Photo demo ****/
-
+/*
 .photos .photo {
   width: 320px;
   margin: 5px;
@@ -606,18 +656,30 @@ div#id-cat.element_list .name{
   display: block;
   width: 100%;
 }
-
+*/
 #content {
   /* margin-left: 10px; */
   margin-left: 10px;
 }
 
+#cont-comm-ord {
+  
+}
+
+#cont-comm-opt {
+  height: 400px;
+  padding: 20px;
+  background-color: #999999;
+  box-shadow: 3px 3px 10px #aaaaaa;
+}
+
+/*
 .demos #content {
   height: 100%;
 }
-
+*/
 /**** Docs ****/
-
+/*
 .docs #content {
   max-width: 640px;
 }
@@ -625,11 +687,11 @@ div#id-cat.element_list .name{
 .docs #content a:hover {
   border-bottom: 1px dotted;
 }
-
+*/
 /**** Doc page nav ****/
 
 
-
+/*
 #site-nav {
   width: 200px;
   position: absolute;
@@ -683,9 +745,9 @@ div#id-cat.element_list .name{
   padding-left: 1.2em;
   font-weight: normal;
 }
-
+*/
 /**** Doc content ****/
-
+/*
 .docs #content h2 {
   border-top: 1px solid #333;
   padding-top: 0.8em;
@@ -710,8 +772,8 @@ div#id-cat.element_list .name{
   margin-bottom: 0.5em;
   font-size: 14px;
 }
-
-
+*/
+/*
 footer {
   font-size: 12px;
   font-style: italic;
@@ -764,22 +826,22 @@ h3#options {
 .option-def dl dd {
   border-left: 1px solid #222;
 }
-
+*/
 /* Tagline */
-
+/*
 .docs .tagline {
   font-size: 22px;
   font-weight: 300;
 }
-
+*/
 /* as-is from MIT */
-
+/*
 .docs .as-is {
   font-size: 95%;
 }
-
+*/
 /* Commercial license blurb */
-
+/*
 .docs #commercial {
   background: white;
   padding: 10px;
@@ -788,7 +850,7 @@ h3#options {
 }
 
 .docs #commercial a { font-weight: bold;}
-
+*/
 /**** Pygments ****/
 
 code .s1,
@@ -820,7 +882,7 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
 
 
 /**** Sites using Isotope ****/
-
+/*
 #sites h2 {
   display: none;
   padding: 0.4em;
@@ -943,9 +1005,9 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
   left: 18px;
   font-size: 20px;
 }
-
+*/
 /**** BIG Graph ****/
-
+/*
 .big-graph {
   background: white;
   height: 600px;
@@ -1001,9 +1063,9 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
   color: black;
   margin-left: 7px;
 }
-
+*/
 /**** Infinite Scroll ****/
-
+/*
 #infscr-loading {
   position: fixed;
   text-align: center;
@@ -1020,7 +1082,7 @@ code .nd { color: #9FAD7E; } /* CSS pseudo selector */
      -moz-border-radius: 10px;
           border-radius: 10px;
 }
-
+*/
 
 
 /* The Magnificent Clearfix: nicolasgallagher.com/micro-clearfix-hack/ */

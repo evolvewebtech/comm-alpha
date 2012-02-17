@@ -45,19 +45,25 @@ class Gestore extends User {
         return DataManager::getTuttiCassieri($this->id);
     }
 
+    public function getCassiere($cassiere_id){
+        $cassiere =  DataManager::getCassiereData($cassiere_id);
+        return $cassiere;
+    }
+
     /**
      *
      * @param <type> $cassiere_id
      * @param <type> $utente_registrato_id
      * @param <type> $username
      * @param <type> $password
-     * @param <type> $email
      * @param <type> $nome
      * @param <type> $cognome
+     * @param <type> $tipo
      * @param <type> $livello_cassiere
+     * @return <type>
      */
-    public function addCassiere($cassiere_id, $utente_registrato_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
-        return DataManager::inserisciCassiere($cassiere_id, $utente_registrato_id, $this->id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
+    public function addCassiere($cassiere_id, $utente_registrato_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
+        return DataManager::inserisciCassiere($cassiere_id, $utente_registrato_id, $this->id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere);
     }
 
     /**
@@ -65,13 +71,14 @@ class Gestore extends User {
      * @param <type> $cassiere_id
      * @param <type> $username
      * @param <type> $password
-     * @param <type> $email
      * @param <type> $nome
      * @param <type> $cognome
+     * @param <type> $tipo
      * @param <type> $livello_cassiere
+     * @return <type>
      */
-    public function editCassiere($cassiere_id, $username, $password, $email, $nome, $cognome, $livello_cassiere){
-        return DataManager::aggiornaCassiere($cassiere_id, $this->id, $username, $password, $email, $nome, $cognome, $livello_cassiere);
+    public function editCassiere($cassiere_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
+        return DataManager::aggiornaCassiere($cassiere_id, $this->id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere);
     }
 
     

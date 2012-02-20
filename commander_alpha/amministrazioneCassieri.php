@@ -121,30 +121,60 @@
 $(function() {
 
        $("#addNewTab").validate({
-            rules: {
-                tab_ntavoli: {
-                    required: true,
-                    digits: true,
-                    rangelength: [1, 2]
-                },
-                tab_title: {
-                    required: true,
-                    minlength: 2,
-                    maxlength: 10
-                }
-            },
-            messages: {
-                tab_ncoperti:{
-                    required: "Inserisci il numero di coperti",
-                    digits: "Inserisci solo cifre",
-                    rangelength: "Inserisci un valore compreso tra 1 e 99"
-                },
-                tab_title: {
-                    required: "Inserisci il nome del tavolo",
-                    minlength: "minimo 2 caratteri",
-                    maxlength: "massimo 10 caratteri"
-                }
-            }
+rules: {
+                        tab_livello_cassiere: {
+                            required: true,
+                            digits: true,
+                            rangelength: [1, 1]
+                        },
+                        tab_username: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 10
+                        },
+                        tab_nome: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 15
+                        },
+                        tab_cognome: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 15
+                        },
+                        tab_password: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 40
+                        }
+                    },
+                    messages: {
+                        tab_livello_cassiere:{
+                            required: "Inserisci il livello del cassiere",
+                            digits: "Inserisci solo cifre",
+                            rangelength: "Inserisci un valore compreso tra 1 e 3"
+                        },
+                        tab_username: {
+                            required: "Inserisci l'username del cassiere.",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 10 caratteri"
+                        },
+                        tab_password: {
+                            required: "Inserisci una password per il cassiere",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 40 caratteri"
+                        },
+                        tab_nome: {
+                            required: "Inserisci il nome del cassiere.",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 15 caratteri"
+                        },
+                        tab_cognome: {
+                            required: "Inserisci il cognome del cassiere",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 15 caratteri"
+                        }
+                    }
         });
 
     //$( "#tabs" ).tabs();
@@ -255,22 +285,22 @@ $(function() {
                             rangelength: "Inserisci un valore compreso tra 1 e 3"
                         },
                         tab_username: {
-                            required: "Inserisci l'username del cassiere, deve essere unico.",
+                            required: "Inserisci l'username del cassiere.",
                             minlength: "minimo 2 caratteri",
                             maxlength: "massimo 10 caratteri"
                         },
                         tab_password: {
-                            required: true,
+                            required: "Inserisci una password per il cassiere",
                             minlength: "minimo 2 caratteri",
                             maxlength: "massimo 40 caratteri"
                         },
                         tab_nome: {
-                            required: true,
+                            required: "Inserisci il nome del cassiere.",
                             minlength: "minimo 2 caratteri",
                             maxlength: "massimo 15 caratteri"
                         },
                         tab_cognome: {
-                            required: true,
+                            required: "Inserisci il cognome del cassiere",
                             minlength: "minimo 2 caratteri",
                             maxlength: "massimo 15 caratteri"
                         }
@@ -349,18 +379,22 @@ $(function() {
         selected+=1;
         $('#debug').append('<br />selected: '+selected);
 
-        var cassiereForm = $("#cassiereForm-"+selected).serialize();
-        cassiereForm = cassiereForm+'&action=save&current_tab='+selected;
+        if($("#cassiereForm-"+selected).valid()){
+            
+            var cassiereForm = $("#cassiereForm-"+selected).serialize();
+            cassiereForm = cassiereForm+'&action=save&current_tab='+selected;
 
-        $.ajax({
-            type: "POST",
-            data: cassiereForm,
-            url: "manager/gestore/cassiere.php",
-            dataType: 'json',
-            cache: false,
-            success: onCassiereSuccess,
-            error: onCassiereError
-        });
+            $.ajax({
+                type: "POST",
+                data: cassiereForm,
+                url: "manager/gestore/cassiere.php",
+                dataType: 'json',
+                cache: false,
+                success: onCassiereSuccess,
+                error: onCassiereError
+            });    
+        }
+
     });
 
     /*

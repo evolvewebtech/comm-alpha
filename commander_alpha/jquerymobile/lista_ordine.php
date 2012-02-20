@@ -25,10 +25,14 @@
     </div>
 
     <div id="list-ord_footer" class="list-ord_footer">
-        <div id="totale" class="element_list">
+        <ul class="ui-listview" data-role="listview" style="margin: 0px">
+        <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <div id="totale">
             <h2 class="name">Totale:</h2>
             <h2 class="prezzo">0 €</h2>
-        </div>
+            </div>
+        </li>
+        </ul>
         <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
     </div>
 

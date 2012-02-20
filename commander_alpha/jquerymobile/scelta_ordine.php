@@ -50,12 +50,12 @@
         <?php        
             require_once dirname(__FILE__).'/../manager/DataManager2.php';
 
-            $arContacts = DataManager2::getAllCategoriesAsObjects();
-
+            $arCat = DataManager2::getAllCategoriesAsObjects();
+            
             $echostr = "";
             $num = 0;
 
-            foreach($arContacts as $objEntity) {
+            foreach($arCat as $objEntity) {
                 $numAlmt = $objEntity->getNumberOfAlimenti();
 
                 $echostr .= '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
@@ -116,7 +116,7 @@
         </div>
     </section>
   
-   
+  
   <script src="../isotope/js/jquery-1.7.1.min.js"></script>
   <script src="../isotope/jquery.isotope.min.js"></script>
   <script>
@@ -370,13 +370,26 @@
        *  Oggetto alimento
        *  
        */
-      function Alim(id, cat, nome, prezzo, num) {
+      function Alim(id, cat, nome, prezzo, num, varianti) {
         this._id = id;
         this._cat = cat;
         this._nome = nome;
         this._prezzo = prezzo;
         this._num = num;
+        this._varianti = varianti;
       }
+      
+      
+      /*
+       *  Oggetto variante
+       *  
+       */
+      function Variante(id, descrizione, prezzo) {
+        this._id = id;
+        this._descrizione = descrizione;
+        this._prezzo = prezzo;
+      }
+      
           
       /*
        * Confronto tra stringhe
@@ -517,21 +530,40 @@
             $('#cont-comm-ord').hide('fast');
             $('#cont-comm-opt').show('fast');
             show_opt = true;
+            //var $optionSet = $(this).parents('.comm-li-link');
+            //$optionSet.find('.selected').removeClass('selected');
+            //$(this).addClass('selected');
         }
         else {
             $('#cont-comm-ord').show('fast');
             $('#cont-comm-opt').hide('fast');
             show_opt = false;
+            //var $optionSet = $(this).parents('.comm-li-link');
+            //$optionSet.find('.selected').removeClass('selected');
         }
-        mem_id = $id;
+        mem_id = $id;       
+    }
+    
+    
+    function aggiornaTotale(){
+        var totale = 0;
+        for(var $i=0; $i<arrList.length; $i++) {
+            totale += arrList[$i]._num * arrList[$i]._prezzo;           
+        }
+        var $itemString = '';
+        $itemString = $itemString + '<h2 class="name">Totale:</h2>';
+        $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';
+        
+        //modifica del div già creato
+        document.getElementById("totale").innerHTML= $itemString; 
     }
         
     
     /*
-     * Cancellazione alimento dalla lista
+     * Decremento o cancellazione alimento dalla lista
      * 
      */
-    $('#canc').click(function() {
+    $('#canc').bind("click", function() {
         $id = mem_id;
         for(var $i=0; $i<arrList.length; $i++) {
             if (arrList[$i]._id == $id) {
@@ -574,19 +606,33 @@
             }
         }
         
-        var totale = 0;
-        for(var $i=0; $i<arrList.length; $i++) {
-            totale += arrList[$i]._num * arrList[$i]._prezzo;           
-        }
-        var $itemString = '';
-        $itemString = $itemString + '<h2 class="name">Totale:</h2>';
-        $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';
-        
-        //modifica del div già creato
-        document.getElementById("totale").innerHTML= $itemString; 
+        aggiornaTotale();
     });
     
+    
+    /*
+     * Cancellazione alimento dalla lista
+     * 
+     */
+    $('#canc-all').bind("click", function() {
+        $id = mem_id;
+        for(var $i=0; $i<arrList.length; $i++) {
+            if (arrList[$i]._id == $id) {
+                arrList.splice($i, 1);
+                var box = document.getElementById($id);
+                box.innerHTML= "";
+                box.parentNode.removeChild(box);
 
+                $('#cont-comm-ord').show('fast');
+                $('#cont-comm-opt').hide('fast');
+                show_opt = false;
+                break;
+            }
+        }
+        
+        aggiornaTotale();
+    });
+    
        
   </script>
   

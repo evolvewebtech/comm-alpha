@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
+    <script type="text/javascript" src="categorie.js"></script>
 </head>
 <body>
     
@@ -68,6 +69,17 @@
             <p>Questa è la pagina di chiusura ordine</p>
             <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Chiudi ordine</a>
             <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Mantieni ordine aperto</a>
+        </div>
+    </div>
+    
+    <!-- DIALOG CONFERMA CANCELLA TUTTO -->
+    <div data-role="page" id="diag-conf-canc-all">
+        <div data-role="header">
+            <h1>Cancellare tutto?</h1>
+        </div>
+        <div data-role="content">
+            <a href="#canc-all" data-role="button" data-icon="home" class="ui-btn-right">Cancella tutto</a>
+            <a href="#ordine" data-role="button" data-icon="home" class="ui-btn-right">Annulla</a>
         </div>
     </div>
 </body>

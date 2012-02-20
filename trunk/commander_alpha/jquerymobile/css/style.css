@@ -179,12 +179,13 @@ body {
       -moz-border-radius-topright: 1.2em;
           border-top-right-radius: 1.2em;*/
   
-  border-radius: 10px 10px 10px 10px;
-  box-shadow: 3px 3px 3px #aaaaaa;
+  /*border-radius: 10px 10px 10px 10px;*/
+  box-shadow: 0px 0px 10px #aaaaaa;
+  border: 2px;
 }
 
 .element:hover {
-   box-shadow: 5px 5px 5px #666666;
+   box-shadow: 5px 5px 5px #888888;
 }
 
 .element .el-name{
@@ -342,7 +343,18 @@ body {
 }
 
 .comm-li-link {
-  height: 22px;  
+  height: 22px;
+}
+
+.comm-li-link .selected{
+  background: #fbeca3; /* Old browsers */
+  background: -moz-linear-gradient(top,  #fbeca3 0%, #fadb4e 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbeca3), color-stop(100%,#fadb4e)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #fbeca3 0%,#fadb4e 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #fbeca3 0%,#fadb4e 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #fbeca3 0%,#fadb4e 100%); /* IE10+ */
+  background: linear-gradient(top,  #fbeca3 0%,#fadb4e 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fbeca3', endColorstr='#fadb4e',GradientType=0 ); /* IE6-9 */
 }
 
 .comm-li-alim .num{
@@ -378,6 +390,33 @@ body {
   margin-right: 30px;
   float: right;
   font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.comm-li-tot {
+    margin: 0px;
+    height: 20px;
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: bold;
+}
+
+.comm-li-tot .name{
+  margin: 0px;
+  margin-left: 20px;
+  float: left;
+  font-size: 150%;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.comm-li-tot .prezzo{
+  margin: 0px;
+  margin-right: 35px;
+  float: right;
+  font-size: 150%;
   position:relative;
   height: 100%;
   vertical-align: middle;

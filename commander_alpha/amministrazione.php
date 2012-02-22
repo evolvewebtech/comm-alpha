@@ -144,9 +144,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                 <a href="#" class="mosaic-overlay accordion-alimento">
                     <div class="details">
                             <h4>GESTISCI GLI ALIMENTI</h4><br/>
-                            <p>
-                                Iserisci tutte le categorie (primi - secondi - contorni...),
-                                iserisci nuovi alimentie ed iserisci le varianti ai tuoi piatti!
+                            <p>Iserisci le categorie, nuovi alimenti e tutte le varianti ai tuoi piatti!
                             </p>
                     </div>
                 </a>
@@ -173,7 +171,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                 <div class="mosaic-overlay" style="background-color:#fff">
                     <img src="img/printer.png"/>
                 </div>
-                <a href="#" target="_blank" class="mosaic-backdrop">
+                <a href="amministrazioneStampanti.php" class="mosaic-backdrop">
                     <div class="details">
                             <h4>GESTISCI LE STAMPANTI</h4>
                             <p>Aggiungi nuove stampanti e associale alle casse del tuo ristorante!</p>
@@ -206,7 +204,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                 </div>
             </div>
             <div class="mosaic-block fade">
-                <a href="#" class="mosaic-overlay">
+                <a href="amministrazioneCategorie.php" class="mosaic-overlay">
                         <div class="details">
                                 <h4>CATEGORIE</h4>
                                 <p>Visualizza le categorie, inseriscine di nuove o modifica quelle esistenti.</p>

@@ -561,7 +561,67 @@ class Gestore extends User {
     }
 
 
-    
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE STAMPANTE  ------------------------------------------------------
+     *
+     * - addStampante()
+     * - editStampante()
+     * - getStampante()
+     * - delStampante()
+     *
+     * - getAllStampante()
+     */
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $colore_bottone_predef
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    public function addStampante($id, $nome, $posizione, $indirizzo, $gestore_id){
+        return DataManager::inserisciStampante($id, $nome, $posizione, $indirizzo, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $colore_bottone_predef
+     * @param <type> $gestore_id
+     * @return <bool>
+     */
+    public function editStampante($id, $nome, $posizione, $indirizzo, $gestore_id){
+        return DataManager::aggiornaStampante($id, $nome, $posizione, $indirizzo, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getStampante($id){
+        return DataManager::getStampante($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delStampante($id){
+        return DataManager::cancellaStampante($id);
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public function getAllStampante(){
+        return DataManager::getAllStampante();
+    }
 
 }
 ?>

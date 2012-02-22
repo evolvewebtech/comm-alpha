@@ -1005,7 +1005,7 @@ class DataManager {
         /*
          * inserisco una categoria
          */
-        $ret = $db->insert('cmd_categoria', array($id, $colore_bottone_predef, $nome, $gestore_id));
+        $ret = $db->insert('cmd_categoria', array($id, $nome, $colore_bottone_predef, $gestore_id));
 
         if ($ret) return true;
         else return false;
@@ -1064,7 +1064,7 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity categoria");
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1093,6 +1093,24 @@ class DataManager {
             }
     }
 
+    public static function getAllCategoriaByGestoreID($gestore_id){
+        $sql = "SELECT * FROM cmd_categoria WHERE gestore_id=$gestore_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
 
     //--------------------------------------------------------------------------
 
@@ -1217,7 +1235,150 @@ class DataManager {
 
     //--------------------------------------------------------------------------
 
-    
+
+   /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $posizione
+     * @param <string> $indirizzo
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    static function inserisciStampante($id, $nome, $posizione, $indirizzo, $gestore_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una stampante
+         */
+        $ret = $db->insert('cmd_stampante', array($id, $nome, $posizione, $indirizzo, $gestore_id));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciStampante
+
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $posizione
+     * @param <string> $indirizzo
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    static function aggiornaStampante($id, $nome, $posizione, $indirizzo, $gestore_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una stampante
+         */
+        $ret = $db->update('cmd_stampante', array('nome'       => $nome,
+                                                  'posizione'  => $posizione,
+                                                  'indirizzo'  => $indirizzo,
+                                                  'gestore_id' =>  $gestore_id),
+                                            array('id', $id)
+                );
+
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaStampante
+
+
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    static function cancellaStampante($id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una stampante
+         */
+        $ret = $db->delete('cmd_stampante', "id = ".$id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaStampante
+
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getStampante($id){
+        $sql = "SELECT * FROM cmd_stampante WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting stampante data");
+            return array();
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <array>
+     */
+    public static function getAllStampante(){
+        $sql = "SELECT * FROM cmd_stampante";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    /**
+     *
+     * @param <int> $gestore_id
+     * @return <array>
+     */
+    public static function getAllStampanteByGestoreID($gestore_id){
+        $sql = "SELECT * FROM cmd_stampante WHERE gestore_id=$gestore_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+    //--------------------------------------------------------------------------
 
 }
 ?>

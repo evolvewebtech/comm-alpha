@@ -1,20 +1,22 @@
 /**
- * Isotope v1.5.07
+ * Isotope v1.5.11
  * An exquisite jQuery plugin for magical layouts
  * http://isotope.metafizzy.co
  *
  * Commercial use requires one-time license fee
  * http://metafizzy.co/#licenses
  *
- * Copyright 2011 David DeSandro / Metafizzy
+ * Copyright 2012 David DeSandro / Metafizzy
  */
 
 /*jshint curly: true, eqeqeq: true, forin: false, immed: false, newcap: true, noempty: true, undef: true */
-/*global Modernizr: true, jQuery: true */
+/*global window: true, jQuery: true */
 
 (function( window, $, undefined ){
 
-  'use strict';
+  // get global vars
+  var document = window.document;
+  var Modernizr = window.Modernizr;
 
   // helper function
   var capitalize = function( str ) {
@@ -24,7 +26,7 @@
   // ========================= getStyleProperty by kangax ===============================
   // http://perfectionkills.com/feature-testing-css-properties/
 
-  var prefixes = 'Moz Webkit Khtml O Ms'.split(' ');
+  var prefixes = 'Moz Webkit O Ms'.split(' ');
 
   var getStyleProperty = function( propName ) {
     var style = document.documentElement.style,
@@ -100,9 +102,11 @@
     }
   };
 
-  if ( window.Modernizr ) {
+  var testName;
+
+  if ( Modernizr ) {
     // if there's a previous Modernzir, check if there are necessary tests
-    for ( var testName in tests) {
+    for ( testName in tests) {
       if ( !Modernizr.hasOwnProperty( testName ) ) {
         // if test hasn't been run, use addTest to run it
         Modernizr.addTest( testName, tests[ testName ] );
@@ -110,28 +114,23 @@
     }
   } else {
     // or create new mini Modernizr that just has the 3 tests
-    window.Modernizr = (function(){
+    Modernizr = window.Modernizr = {
+      _version : '1.6ish: miniModernizr for Isotope'
+    };
 
-      var miniModernizr = {
-            _version : '1.6ish: miniModernizr for Isotope'
-          },
-          classes = ' ',
-          result, testName;
+    var classes = ' ';
+    var result;
 
-      // Run through tests
-      for ( testName in tests) {
-        result = tests[ testName ]();
-        miniModernizr[ testName ] = result;
-        classes += ' ' + ( result ?  '' : 'no-' ) + testName;
-      }
+    // Run through tests
+    for ( testName in tests) {
+      result = tests[ testName ]();
+      Modernizr[ testName ] = result;
+      classes += ' ' + ( result ?  '' : 'no-' ) + testName;
+    }
 
-      // Add the new classes to the <html> element.
-      $('html').addClass( classes );
-
-      return miniModernizr;
-    })();
+    // Add the new classes to the <html> element.
+    $('html').addClass( classes );
   }
-
 
 
   // ========================= isoTransform ===============================
@@ -388,9 +387,10 @@
       this.reloadItems();
       
       // get top left position of where the bricks should be
-      var $cursor = $( document.createElement('div') ).prependTo( this.element );
-      this.offset = $cursor.position();
-      $cursor.remove();
+      this.offset = {
+        left: parseInt( this.element.css('padding-left'), 10 ),
+        top: parseInt( this.element.css('padding-top'), 10 )
+      };
 
       // add isotope class first time around
       var instance = this;
@@ -623,6 +623,7 @@
             this.isUsingJQueryAnimation ? 'animate' : 'css'
           ),
           animOpts = this.options.animationOptions,
+          onLayout = this.options.onLayout,
           objStyleFn, processor,
           triggerCallbackNow, callbackFn;
 
@@ -639,9 +640,11 @@
           obj.$el[ objStyleFn ]( obj.style, animOpts );
         };
         
-      } else if ( callback ) {
+      } else if ( callback || onLayout || animOpts.complete ) {
         // has callback
         var isCallbackTriggered = false,
+            // array of possible callbacks to trigger
+            callbacks = [ callback, onLayout, animOpts.complete ],
             instance = this;
         triggerCallbackNow = true;
         // trigger callback only once
@@ -649,7 +652,13 @@
           if ( isCallbackTriggered ) {
             return;
           }
-          callback.call( instance.element, $elems );
+          var hollaback;
+          for (var i=0, len = callbacks.length; i < len; i++) {
+            hollaback = callbacks[i];
+            if ( typeof hollaback === 'function' ) {
+              hollaback.call( instance.element, $elems );
+            }
+          }
           isCallbackTriggered = true;
         };
         
@@ -785,7 +794,7 @@
     },
     
     // removes elements from Isotope widget
-    remove: function( $content ) {
+    remove: function( $content, callback ) {
       // remove elements from Isotope instance in callback
       var instance = this;
       var removeContent = function() {
@@ -798,10 +807,13 @@
         this.styleQueue.push({ $el: $content, style: this.options.hiddenStyle });
         this.$filteredAtoms = this.$filteredAtoms.not( $content );
         this._sort();
-        this.reLayout( removeContent );
+        this.reLayout( removeContent, callback );
       } else {
         // remove it now
         removeContent();
+        if ( callback ) {
+          callback.call( this.element );
+        }
       }
 
     },

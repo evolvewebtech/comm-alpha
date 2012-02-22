@@ -48,7 +48,7 @@
         <div id="container" class="super-list variable-sizes clearfix">
 
         <?php        
-            require_once dirname(__FILE__).'/../manager/DataManager2.php';
+            /*require_once dirname(__FILE__).'/../manager/DataManager2.php';
 
             $arCat = DataManager2::getAllCategoriesAsObjects();
             
@@ -85,7 +85,7 @@
                 }
             }
 
-            echo $echostr;
+            echo $echostr;*/
 
         ?>
         </div>
@@ -115,7 +115,7 @@
             </div>
         </div>
     </section>
-  
+    
   
   <script src="../isotope/js/jquery-1.7.1.min.js"></script>
   <script src="../isotope/jquery.isotope.min.js"></script>
@@ -128,7 +128,7 @@
        * Inizializzazione Isotope
        *
        */
-      $container.isotope({
+      /*$container.isotope({
         masonry: {
           columnWidth: 120
         },
@@ -150,7 +150,7 @@
         //al caricamento della pagina
         filter: '.categorie',
         layoutMode: 'fitRows'
-      });
+      });*/
     
       
       /*
@@ -198,7 +198,7 @@
        *
        */
       var $optionSets2 = $('.options-set2');
-      $optionSets2.click(function(){
+      $optionSets2.live("click", function() {
 
         var $this = $(this);
         
@@ -249,12 +249,15 @@
        *  
        */
       var $optionSets3 = $('.options-set3');
-      $optionSets3.click(function(){
+      $optionSets3.live("click", function() {
         
         var $this = $(this);
         
         //salvo nella var $param i parametri passati
         var $param = $this.attr('href');
+        
+        //eliminazione carattere iniziale '#'
+        $param = $param.replace('#','');
         
         //separazione dei parametri passati con "href"  
         var $arrParam = $param.split('&');
@@ -633,7 +636,7 @@
         aggiornaTotale();
     });
     
-       
+
   </script>
   
 </section> <!-- #content -->

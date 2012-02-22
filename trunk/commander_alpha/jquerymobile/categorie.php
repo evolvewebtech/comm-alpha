@@ -4,7 +4,29 @@
         $arCat = DataManager2::getAllCategoriesAsObjects();
         
         if ($arCat){
-            echo json_encode($arCat);
+            
+            //Creazione array da passare con JSON
+            $arr = array();           
+            for($i=0; $i<count($arCat); $i++) {
+                
+                $arrAlim = array();
+                for($j=0; $j<$arCat[$i]->getNumberOfAlimenti(); $j++) {
+                    $alim = $arCat[$i]->getAlimento($j);
+                    $arrTemp = array(   "id"    => $alim->id,
+                                        "nome"  => $alim->nome,
+                                        "prezzo"  => $alim->prezzo);
+                    $arrAlim[$j] = $arrTemp;
+                }
+                
+                $var = array(   "id"                    => $arCat[$i]->id,
+                                "nome"                  => $arCat[$i]->nome,
+                                "colore_bottone_predef" => $arCat[$i]->colore_bottone_predef,
+                                "alimenti"              => $arrAlim);
+                
+                $arr[$i] = $var;
+            }
+            
+            echo json_encode($arr);
         }else {
             echo json_encode("an error occurred");
         }

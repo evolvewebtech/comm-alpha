@@ -1255,7 +1255,7 @@ class DataManager {
          * inserisco una stampante
          */
         $ret = $db->insert('cmd_stampante', array($id, $nome, $posizione, $indirizzo, $gestore_id));
-
+        
         if ($ret) return true;
         else return false;
     }//end inserisciStampante
@@ -1324,7 +1324,8 @@ class DataManager {
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
             //die("Failed getting stampante data");
-            return array();
+            //return array();
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }

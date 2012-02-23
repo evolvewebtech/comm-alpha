@@ -7,12 +7,12 @@
 
         $nome                   = mysql_real_escape_string($_POST['tab_nome']);
         $indirizzo              = mysql_real_escape_string($_POST['tab_indirizzo']);
-        //$posizione              = mysql_real_escape_string($_POST['tab_posizione']);
+        $posizione              = "NULL";//mysql_real_escape_string($_POST['tab_posizione']);
         $stampante_id           = intval(mysql_real_escape_string($_POST['stampante_id']));
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));
         $current_tab            = intval(mysql_real_escape_string($_POST['current_tab']));
         $action                 = mysql_real_escape_string($_POST['action']);
-
+        
         $var = array("nome"                 => $nome,
                      "indirizzo"            => $indirizzo,
                      "stampante_id"         => $stampante_id,
@@ -35,12 +35,12 @@
 
         if ($action == 'del'){
 
-            /*
+            
             $ret = $gestore->delStampante($stampante_id);
             if(!$ret){
                 $var['err'] = $ret;
             }
-            */
+            
 
 	}elseif($action == 'save'){
 
@@ -51,30 +51,28 @@
                  */
 
                 $nome_stampante_db = $gestore->getStampante($stampante_id);
-
+                
                 if($nome_stampante_db==0){
 
                     /*
                      * stampante non presente, devo aggiungerla
                      */
-                    /*
-                    $ret = $gestore->addStampante($id, $nome, $posizione, $indirizzo, $gestore_id);
+                    $ret = $gestore->addStampante($stampante_id, $nome, $posizione, $indirizzo, $gestore_id);
+                    //$ret = $gestore->addStampante(3, 'Cucina', 'NULL', '192.168.1.20', 2);
                     if(!$ret){
                         $var['err'] = $ret;
                     }
-                    */
-
+                    
                 }else{
 
                     /*
                      * aggiorno la stampante
                      */
-                    /*
-                    $ret = $gestore->editStampante($id, $nome, $posizione, $indirizzo, $gestore_id);
+                    $ret = $gestore->editStampante($stampante_id, $nome, $posizione, $indirizzo, $gestore_id);
                     if(!$ret){
                         $var['err'] = $ret;
                     }
-                    */
+                    
                 }//add or edit
 
             }//end del/save

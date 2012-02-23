@@ -215,7 +215,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                 </div>
             </div>
             <div class="mosaic-block fade">
-                <a href="#" class="mosaic-overlay">
+                <a href="amministrazioneAlimenti.php" class="mosaic-overlay">
                         <div class="details">
                                 <h4>ALIMENTI</h4>
                                 <p>Visualizza gli alimenti, inseriscine di nuovi o modifica quelli esistenti.</p>

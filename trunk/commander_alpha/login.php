@@ -16,8 +16,7 @@ require dirname(__FILE__).'/manager/HTML_Form.php';
 $frm = new HTML_Form();
 
 $frmLogin = $frm->startForm('login_process.php', 'post', 'LoginForm',
-    array('class'=>'myFormClass',
-          'onsubmit'=>'return checkBeforeSubmit(this)') );
+    array('class'=>'myFormClass') );
 $frmLogin .= '<fieldset>';
 $frmLogin .= $frm->addLabelFor('username', 'username: ');
 $frmLogin .= $frm->HTML5addInput('text', 'username', 'cec',

@@ -126,12 +126,12 @@ $(function() {
                     messages: {
                         tab_indirizzo: {
                             required: "Inserisci un indirizzo IP.",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                            url: "Inserisci un indirizzo valido (es: http://100.100.100.100)"
                         },
                         tab_nome: {
                             required: "Inserisci il nome della stampante",
-                            url: "Inserisci un indirizzo valido (es: http://100.100.100.100)"
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 10 caratteri"
                         }
                     }
         });
@@ -209,14 +209,15 @@ $(function() {
                     messages: {
                         tab_indirizzo: {
                             required: "Inserisci un indirizzo IP.",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                            url: "Inserisci un indirizzo valido (es: http://100.100.100.100)"
                         },
                         tab_nome: {
                             required: "Inserisci il nome della stampante",
-                            url: "Inserisci un indirizzo valido: (es http://100.100.100.100)"
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 10 caratteri"
                         }
                     }
+                    
                 });
             }
 

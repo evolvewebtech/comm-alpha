@@ -293,6 +293,7 @@ $(function() {
 
         if($("#stampanteForm-"+selected).valid()){
 
+            $('#debug').append('<br />form valid');
             var stampanteForm = $("#stampanteForm-"+selected).serialize();
             stampanteForm = stampanteForm+'&action=save&current_tab='+selected;
 
@@ -322,6 +323,7 @@ $(function() {
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
             $('#debug').append('<br />selected: '+selected);
+            $('#debug').append('<br />deleting ...');
 
             var stampanteForm = $("#stampanteForm-"+selected).serialize();
             stampanteForm = stampanteForm+'&action=del&current_tab='+selected;
@@ -370,6 +372,8 @@ $(function() {
 
     function onStampanteSuccess(data, status) {
 
+        $('#debug').append('<br />ajax: success');
+
         if (data.action=='del'){
 
            if (data.err=='E002'){
@@ -409,6 +413,8 @@ $(function() {
          *  verico che l'operazione di salvataggio sia andata a buon fine.
          */
         if(data.action=='save'){
+
+           $('#debug').append('<br />ajax op: save');
 
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');

@@ -15,9 +15,6 @@
 <script src="media/js/ui/jquery.ui.position.js"></script>
 <script src="media/js/ui/jquery.ui.draggable.js"></script>
 <script src="media/js/color-picker.js"></script>
-
-<script src="media/js/jquery.validate.min.js"></script>
-
 <script type='text/javascript'>
     /*
      *  rgb2hex. 
@@ -30,6 +27,9 @@
         return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
     }
 </script>
+
+
+<script src="media/js/jquery.validate.min.js"></script>
 
 <style type="text/css">
     /*

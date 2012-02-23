@@ -733,7 +733,8 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Alimento");
+            //die("Failed getting entity Alimento");
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }
@@ -749,6 +750,31 @@ class DataManager {
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
                 die("Failed getting Alimento data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    /**
+     *
+     * @param <int> $gestore_id
+     * @return <array>
+     */
+    public static function getAllAlimentoByGestoreID($gestore_id){
+        $sql = "SELECT * FROM cmd_alimento WHERE gestore_id=$gestore_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
             }
             if(mysql_num_rows($res)) {
                   $objs = array();

@@ -95,6 +95,9 @@
            $data_stampante = DataManager::getAllStampanteByGestoreID($gestore_id);//($gestore_id);
            $numero_stampante = count($data_stampante);
            $max_id = DataManager::getMAXID('cmd_stampante');
+           if (!$max_id){
+               $max_id=0;
+           }
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci le stampanti

@@ -1,8 +1,17 @@
 <?php
     require_once dirname(__FILE__)  . '/manager/HTTPSession.php';
-
     $objSession = new HTTPSession();
 ?>
+<!--
+
+todo: 1. selezionare le checkbox come checked in base alle stampanti assiociate
+         al caricamento della pagina
+      2. Creare chiamata ajax per segnalare come esaurito (o meno) un alimento
+      3. Creare tutti i controlli del form
+
+-->
+
+
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/color-picker.css" type="text/css" media="screen" />
@@ -100,6 +109,27 @@
        text-transform: uppercase;
        cursor: pointer;
     }
+
+    a.finish {
+        /*background: #ccc;*/
+        background: red;
+        cursor: pointer;
+        border-top: solid 2px #eaeaea;
+        border-left: solid 2px #eaeaea;
+        border-bottom: solid 2px #777;
+        border-right: solid 2px #777;
+        padding: 5px 5px;
+        }
+
+    a.down.finish{
+        /*background: #bbb;*/
+        background: green;
+        border-top: solid 2px #777;
+        border-left: solid 2px #777;
+        border-bottom:solid 2px  #eaeaea;
+        border-right: solid 2px #eaeaea;
+        }
+
 </style>
 
 <div id="content">
@@ -115,9 +145,12 @@
            $data_alimento = DataManager::getAllAlimentoByGestoreID($gestore_id);//($gestore_id);
            $numero_alimento = count($data_alimento);
            $max_id = DataManager::getMAXID('cmd_alimento');
+           if (!$max_id){
+               $max_id=0;
+           }
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
-    <h1>Gestisci le stampanti
+    <h1>Gestisci gli Alimenti
         <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
             Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
                      <a style="color:#fff; font-size: 14px;" href="amministrazioneAlimento.php"><b>Alimenti</b></a>
@@ -139,6 +172,16 @@ $(function() {
             }
    	});
 
+        $('a#button').click(function(){
+            $(this).toggleClass("down");
+//            alert($(this).attr('class'));
+            if ($(this).attr('class')=='finish down'){
+                $(this).html('SEGNALA COME DISPONIBILE');
+            }else{
+                $(this).html('SEGNALA COME ESAURITO');
+            }
+
+        });
 
         $("#addNewTab").validate({
                     rules: {
@@ -167,16 +210,17 @@ $(function() {
                     }
         });
 
-    var $tab_nome_input                 = $("#tab_nome"),
-        $tab_prezzo_input               = $('#tab_prezzo'),
-        $tab_iva_input                  = $('#tab_iva'),
-        $tab_colore_bottone_input       = $('#tab_colore_bottone'),
-        $tab_descrizione_input          = $('#tab_descrizione'),
-        $tab_apeso_input                = $('#tab_apeso'),
-        $tab_codice_prodotto_input      = $('#tab_codice_prodotto'),
-        $tab_quantita_input             = $('#tab_quantita'),
-        $tab_categoria_id_input         = $('#tab_categoria_id'),
-        $tab_secondo_alimento_id_input  = $('#tab_secondo_alimento_id');
+    var $tab_nome_input                     = $("#tab_nome"),
+        $tab_prezzo_input                   = $('#tab_prezzo'),
+        $tab_iva_input                      = $('#tab_iva'),
+        $tab_colore_bottone_input           = $('#tab_colore_bottone'),
+        $tab_descrizione_input              = $('#tab_descrizione'),
+        $tab_apeso_input                    = $('#tab_apeso'),
+        $tab_codice_prodotto_input          = $('#tab_codice_prodotto'),
+        $tab_quantita_input                 = $('#tab_quantita'),
+        $tab_categoria_id_input             = $('#tab_categoria_id'),
+        $tab_secondo_alimento_id_input      = $('#tab_secondo_alimento_id'),
+        $tab_stampante_associata_id_input   = $('#tab_stampante_associata_id');
 
 
     var tab_counter = <?=$numero_alimento?>,
@@ -198,22 +242,24 @@ $(function() {
 
             add: function( event, ui ) {
 
-                    var tab_content_nome                = $tab_nome_input.val(),
-                        tab_content_prezzo              = $tab_prezzo_input.val(),
-                        tab_content_iva                 = $tab_iva_input.val(),
-                        tab_content_colore_bottone      = $tab_colore_bottone_input.val(),
-                        tab_content_descrizione         = $tab_descrizione_input.val(),
-                        tab_content_apeso               = $tab_apeso_input.val(),
-                        tab_content_codice_prodotto     = $tab_codice_prodotto_input.val(),
-                        tab_content_quantita            = $tab_quantita_input.val(),
-                        tab_content_categoria_id        = $tab_categoria_id_input.val(),
-                        tab_content_secondo_alimento_id = $tab_secondo_alimento_id_input.val();
+                    var tab_content_nome                    = $tab_nome_input.val(),
+                        tab_content_prezzo                  = $tab_prezzo_input.val(),
+                        tab_content_iva                     = $tab_iva_input.val(),
+                        tab_content_colore_bottone          = $tab_colore_bottone_input.val(),
+                        tab_content_descrizione             = $tab_descrizione_input.val(),
+                        tab_content_apeso                   = $tab_apeso_input.val(),
+                        tab_content_codice_prodotto         = $tab_codice_prodotto_input.val(),
+                        tab_content_quantita                = $tab_quantita_input.val(),
+                        tab_content_categoria_id            = $tab_categoria_id_input.val(),
+                        tab_content_secondo_alimento_id     = $tab_secondo_alimento_id_input.val(),
+                        tab_content_stampante_associata_id  = $tab_stampante_associata_id_input.val();
 
 
 /*
  * ----------------------------------------------------------
  *
  * crea array con categorie e confronta, poi carica nel selct
+ * idem per stampanti
  *
  * ----------------------------------------------------------
  */
@@ -229,7 +275,7 @@ $(function() {
                                 '<input style="margin-right: 9px;" type="text" name="tab_iva" id="tab_iva" value="'+tab_content_iva+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 58px;" class="tab_colore_bottone" for="tab_colore_bottone">Colore del bottone: </label>'+
                                 '<div id="color-picker-'+tab_counter+'"></div>'+
-                                '<input style="float:right; margin-right: 9px;" type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="'+tab_content_colore_bottone+'" class="ui-widget-content ui-corner-all" />'+
+                                '<input style="margin-right: 9px;" type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="'+tab_content_colore_bottone+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 89px;" class="tab_descrizione" for="tab_descrizione">Descrizione: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_descrizione" id="tab_descrizione" value="'+tab_content_descrizione+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 132px;" class="tab_apeso" for="tab_apeso">A peso: </label>'+
@@ -239,17 +285,25 @@ $(function() {
                                 '<br /><label style="margin-right: 20px;" class="tab_path_imageo" for="tab_path_image">Carica immagine: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_path_image" id="tab_path_image" value="<?//$alimento['path_image']?>" class="ui-widget-content ui-corner-all" />'+
                                 '-->'+
-                                '<br /><label style="margin-right: 49px;" class="tab_codice_prodotto" for="tab_codice_prodotto">Codice prodotto: </label>'+
+                                '<br /><label style="margin-right: 52px;" class="tab_codice_prodotto" for="tab_codice_prodotto">Codice prodotto: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_codice_prodotto" id="tab_codice_prodotto" value="'+tab_content_codice_prodotto+'" class="ui-widget-content ui-corner-all" />'+
-                                '<br /><label style="margin-right: 115px;" class="tab_quantita" for="tab_quantita">Quantit&agrave;: </label>'+
+                                '<br /><label style="margin-right: 116px;" class="tab_quantita" for="tab_quantita">Quantit&agrave;: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_quantita" id="tab_quantita" value="'+tab_content_quantita+'" class="ui-widget-content ui-corner-all" />'+
-                                '<br /><label style="margin-right: 105px;" class="tab_categoria_id" for="tab_categoria_id">Categoria: </label>'+
+                                '<br /><label style="margin-right: 106px;" class="tab_categoria_id" for="tab_categoria_id">Categoria: </label>'+
                         '<select id="tab_categoria_id" name="tab_categoria_id">'+
                             '<option value="0"> - nessuna categoria - </option>'+
                             '<option selected="selected" value="'+tab_content_categoria_id+'">salva e ricarica</option>'+
                         '</select>'+
                                 '<br /><label style="margin-right: 20px;" class="tab_secondo_alimento_id" for="tab_secondo_alimento_id">Alimento composto: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="'+tab_content_secondo_alimento_id+'" class="ui-widget-content ui-corner-all" />'+
+
+                                '<!-- //stampante -->'+
+                                '<br /><label style="margin-right: 94px;" class="tab_stampante_associata" for="tab_stampante_associata">Stampante: </label>'+
+
+                        '<select id="tab_stampante_associata_id" name="tab_stampante_associata_id">'+
+                            '<option value="0"> - nessuna categoria - </option>'+
+                            '<option selected="selected" value="'+tab_content_stampante_associata_id+'">salva e ricarica</option>'+
+                        '</select>'+
 
                                 '<input type="hidden" name="alimento_id" id="alimento_id" value="'+next_id+'" />'+
                                 '<input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>" />'+
@@ -270,8 +324,6 @@ $(function() {
             },
 
             select: function( event, ui ) {
-
-
 
                 ui.index+=1;
 
@@ -388,8 +440,33 @@ $(function() {
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
         $('#debug').append('<br />selected: '+selected);
-        
+
+        /*
+         * controllo che il form sia valido
+         */
         if($("#alimentoForm-"+selected).valid()){
+
+            /*
+             * prelevo tutti i valori delle checkbox e ritorno una stringa
+             * formattata json così costruita:
+             *
+             * tabID-stamapnteID=bool&tabID-stamapnteID=bool&tabID-stamapnteID=bool...
+             * dove bool = true se la checkbox è selezionata, false altrimenti
+             *
+             */
+            var params = $.param($(':checkbox').map(function() {
+               return { name: this.id, value: !!this.checked };
+            }));
+            $('#debug').append('<br />'+params);
+            $.ajax({
+                type: "POST",
+                data: params,
+                url: "manager/gestore/alimentiStampanti.php",
+                dataType: 'json',
+                cache: false,
+                success: onAlimentiStampantiSuccess,
+                error: onAlimentiStampantiError
+            });
 
             $('#debug').append('<br />form valid');
             var alimentoForm = $("#alimentoForm-"+selected).serialize();
@@ -404,6 +481,7 @@ $(function() {
                 success: onAlimentoSuccess,
                 error: onAlimentoError
             });
+
         }
 
     });
@@ -548,7 +626,42 @@ $(function() {
            }
         }
     }
+
+
+function onAlimentiStampantiSuccess(data, status) {
+
+        $('#debug').append('<br />ajax stampanti: success');
+
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante l\'aggiornamento delle stampanti.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               $('#code-ok').html('Le stampanti sono state aggiornate correttamente.');
+               $dialogOK.dialog( "open" );
+               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+           }
+
+    }
+
+    /*
+     *  se si presentano errori durante le chiamate ajax
+     */
     function onAlimentoError(data, status) {
+        $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
+        $dialogERR.dialog( "open" );
+        $('#debug').append(data);
+
+    }
+    function onAlimentiStampantiError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
         $('#debug').append(data);
@@ -596,6 +709,22 @@ $(function() {
                     </select>
                     <label for="tab_secondo_alimento_id">Alimento composto: </label>
                     <input type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="" class="ui-widget-content ui-corner-all" />
+
+                    <!-- //stampante -->
+                    <label for="tab_stampante_associata_id">Stampante: </label>
+                    <select id="tab_stampante_associata_id" name="tab_stampante_associata_id">
+                        <option value="0"> - nessuna stampante - </option>
+                        <?php
+                            $data_stampante = DataManager::getAllStampanteByGestoreID($gestore_id);//($gestore_id);
+                            $numero_stampante = count($data_stampante);
+                            foreach ($data_stampante as $stampante) {
+                                    echo '<option value="'.$stampante['id'].'" >'.$stampante['nome'].'</option>';
+                            }
+                        ?>
+                    </select>
+                    <!--
+                    <input type="text" name="tab_stampante_associata" id="tab_stampante_associata" value="" class="ui-widget-content ui-corner-all" />
+                    -->
                 </fieldset>
             </form>
   	</div>
@@ -630,7 +759,10 @@ $(function() {
                     foreach ($data_alimento as $alimento) {
                         echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
                     ?>
-                    <div style="min-height:400px;">
+                    <div style="min-height:450px;">
+                        <div style="height: 40px;">
+                            <a style="float: left;min-height: 20px; min-width: 400px;" id="button" class="finish" title="button">SEGNALA COME ESAURITO</a>
+                        </div>
                         <form id="alimentoForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
                                 <br /><label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
@@ -651,11 +783,11 @@ $(function() {
                                 <br /><label style="margin-right: 20px;" class="tab_path_imageo" for="tab_path_image">Carica immagine: </label>
                                 <input style="float:right; margin-right: 9px;" type="text" name="tab_path_image" id="tab_path_image" value="<?//=$alimento['path_image']?>" class="ui-widget-content ui-corner-all" />
                                 -->
-                                <br /><label style="margin-right: 49px;" class="tab_codice_prodotto" for="tab_codice_prodotto">Codice prodotto: </label>
+                                <br /><label style="margin-right: 52px;" class="tab_codice_prodotto" for="tab_codice_prodotto">Codice prodotto: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_codice_prodotto" id="tab_codice_prodotto" value="<?=$alimento['codice_prodotto']?>" class="ui-widget-content ui-corner-all" />
-                                <br /><label style="margin-right: 115px;" class="tab_quantita" for="tab_quantita">Quantit&agrave;: </label>
+                                <br /><label style="margin-right: 116px;" class="tab_quantita" for="tab_quantita">Quantit&agrave;: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_quantita" id="tab_quantita" value="<?=$alimento['quantita']?>" class="ui-widget-content ui-corner-all" />
-                                <br /><label style="margin-right: 105px;" class="tab_categoria_id" for="tab_categoria_id">Categoria: </label>
+                                <br /><label style="margin-right: 106px;" class="tab_categoria_id" for="tab_categoria_id">Categoria: </label>
                                 <!--
                                 <input style="margin-right: 9px;" type="text" name="tab_categoria_id" id="tab_categoria_id" value="<?=$alimento['categoria_id']?>" class="ui-widget-content ui-corner-all" />
                                 -->
@@ -677,23 +809,29 @@ $(function() {
                                 <br /><label style="margin-right: 20px;" class="tab_secondo_alimento_id" for="tab_secondo_alimento_id">Alimento composto: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="<?=$alimento['secondo_alimento_id']?>" class="ui-widget-content ui-corner-all" />
 
-                                <!-- //stampante -->
-                                <br /><label style="margin-right: 50px;" class="tab_stampante_associata" for="tab_stampante_associata">Stampante: </label>
-                                <input style="margin-right: 9px;" type="text" name="tab_stampante_associata" id="tab_stampante_associata" value="" class="ui-widget-content ui-corner-all" />
-
                                 <input type="hidden" name="alimento_id" id="alimento_id" value="<?=$alimento['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$alimento['gestore_id']?>" />
                            </fieldset>
                         </form>
-                       <fieldset style="float:left" class="ui-helper-reset">
-                            <button type="submit" id="print_alimento">ESAURITO</button><br />
-                            <button type="submit" id="print_alimento">NON ESAURITO</button><br />
-                            <button type="submit" id="print_alimento">ASSOCIA STAMPANTE</button>
-                        </fieldset>
                         <fieldset style="float:right" class="ui-helper-reset">
                             <button type="submit" id="save_alimento">SALVA</button><br />
                             <button type="submit" id="delete_alimento">ELIMINA</button>
                         </fieldset>
+                        
+                        <form style="float:left;" id="stampanteAlimentoForm-<?=$count?>">
+                            <fieldset>
+                                <!-- //stampante -->
+                                <label style="margin-right: 94px;" class="tab_stampante_associata_id" for="tab_stampante_associata_id">Stampante: </label><br />
+                                    <?php
+                                        $data_stampante = DataManager::getAllStampanteByGestoreID($gestore_id);//($gestore_id);
+                                        $numero_stampante = count($data_stampante);
+                                        foreach ($data_stampante as $stampante) {
+                                            echo '<input type="checkbox" name="stampanti[]" id="'.$alimento['id'].'-'.$stampante['id'].'" value="'.$stampante['id'].'" />'.$stampante['nome'].'<br />';
+                                        }
+                                    ?>
+                                <input type="hidden" name="alimento_id" id="alimento_id" value="3" />
+                            </fieldset>
+                        </form>
                     </div>
                     <?php
                         $count++;

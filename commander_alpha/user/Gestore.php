@@ -623,5 +623,61 @@ class Gestore extends User {
         return DataManager::getAllStampante();
     }
 
+
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE RELAZIONE ALIMENTO STAMPANTE  ------------------------------------------------------
+     *
+     * - addAlimentoStampante()
+     * - editAlimentoStampante()
+     * - getAlimentoStampante()
+     * - delAlimentoStampante()
+     *
+     * - getAllAlimentoStampante()
+     */
+
+    /**
+     *
+     * @param <int> $id
+     * @param <string> $nome
+     * @param <string> $colore_bottone_predef
+     * @param <int> $gestore_id
+     * @return <bool>
+     */
+    public function addAlimentoStampante($alimento_id, $stampante_id){
+        return DataManager::inserisciAlimentoStampante($alimento_id, $stampante_id);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $nome
+     * @param <type> $colore_bottone_predef
+     * @param <type> $gestore_id
+     * @return <bool>
+     */
+    public function editAlimentoStampante($alimento_id, $stampante_id, $new_alimento_id, $new_stampante_id){
+        return DataManager::aggiornaAlimentoStampante($alimento_id, $stampante_id, $new_alimento_id, $new_stampante_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getAlimentoStampante($id){
+        return DataManager::getAlimentoStampante($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delAlimentoStampante($alimento_id, $stampante_id){
+        return DataManager::cancellaAlimentoStampante($alimento_id, $stampante_id);
+    }
+
+
 }
 ?>

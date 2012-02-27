@@ -454,6 +454,23 @@ div#id-cat.element_list .name{
     float: left;
 }
 
+.var-class {
+    margin: 5px;
+    padding: 2px;
+    width: max-content;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size:	16px;
+    font-weight: 700;
+    font-style:	normal;
+    background-color: #254f7a;
+    border-radius: 5px;
+}
+
+.var-class:hover {
+    background-color: #00A700;
+}
+
+
 
 /*******************************/
 

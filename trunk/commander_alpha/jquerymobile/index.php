@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
+    <script>
+        //Dichiarazione variabili;
+        var arrAlim = new Array();
+        var arrList = new Array();
+        var totale = 0;
+        var show_opt = false;
+        var mem_id = 0;
+    </script>
     <script type="text/javascript" src="categorie.js"></script>
 </head>
 <body>
@@ -78,8 +86,8 @@
             <h1>Cancellare tutto?</h1>
         </div>
         <div data-role="content">
-            <a href="#canc-all" data-role="button" data-icon="home" class="ui-btn-right">Cancella tutto</a>
-            <a href="#ordine" data-role="button" data-icon="home" class="ui-btn-right">Annulla</a>
+            <a href="#ordine" data-role="button" data-icon="check" class="ui-btn-right canc-all-conf">Cancella tutto</a>
+            <a href="#ordine" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
         </div>
     </div>
 </body>

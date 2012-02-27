@@ -9,19 +9,30 @@
             $arr = array();           
             for($i=0; $i<count($arCat); $i++) {
                 
-                $arrAlim = array();
+                $arrA = array();
                 for($j=0; $j<$arCat[$i]->getNumberOfAlimenti(); $j++) {
                     $alim = $arCat[$i]->getAlimento($j);
+                    
+                    $arrV = array();
+                    for($t=0; $t<$alim->getNumberOfVarianti(); $t++) {
+                        $variante = $alim->getVariante($t);
+                        $arrTemp2 = array(  "id"            => $variante->id,
+                                            "descrizione"   => $variante->descrizione,
+                                            "prezzo"        => $alim->prezzo);
+                        $arrV[$t] = $arrTemp2;
+                    }
+                    
                     $arrTemp = array(   "id"    => $alim->id,
                                         "nome"  => $alim->nome,
-                                        "prezzo"  => $alim->prezzo);
-                    $arrAlim[$j] = $arrTemp;
+                                        "prezzo"  => $alim->prezzo,
+                                        "varianti" => $arrV);
+                    $arrA[$j] = $arrTemp;
                 }
                 
                 $var = array(   "id"                    => $arCat[$i]->id,
                                 "nome"                  => $arCat[$i]->nome,
                                 "colore_bottone_predef" => $arCat[$i]->colore_bottone_predef,
-                                "alimenti"              => $arrAlim);
+                                "alimenti"              => $arrA);
                 
                 $arr[$i] = $var;
             }

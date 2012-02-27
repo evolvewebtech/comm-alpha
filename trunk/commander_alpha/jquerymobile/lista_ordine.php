@@ -14,13 +14,6 @@
 
     <div id="list-ord" class="list-ord">
         <div id="container2"></div>
-        <script>
-            //Dichiarazione variabili;
-            var arrList = new Array();
-            var totale = 0;
-            var show_opt = false;
-            var mem_id = 0;
-        </script>
         <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul>
     </div>
 
@@ -33,7 +26,7 @@
             </div>
         </li>
         </ul>
-        <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
+        <a href="#chiusura" data-role="button" data-icon="check" class="ui-btn-right">Conferma ordine</a>
     </div>
 
 

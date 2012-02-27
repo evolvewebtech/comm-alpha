@@ -9,13 +9,16 @@ $("#ordine").live('pageshow', function() {
             success: onEventoInfoSuccess,
             error: onEventoInfoError
         });
-        return false;    
+        
+        //Nascosta finestra "opzioni"
+        $('#cont-comm-ord').show('fast');
+        $('#cont-comm-opt').hide('fast');
+        show_opt = false;   
  });
 
 
 function onEventoInfoSuccess(data, status) { 
     //alert("Successo lettura da database con Ajax!")
-    //alert(data[0].alimenti[0].nome);
     
     //Aggiunta elementi al container Isotope    
     var $str = "";
@@ -31,7 +34,7 @@ function onEventoInfoSuccess(data, status) {
         for($j=0; $j<data[$i].alimenti.length; $j++) {
             var $strAl = "";
             $strAl = $strAl + '<div class="element '+data[$i].nome+'" data-symbol="Sc" data-category='+data[$i].nome+'>';
-            $strAl = $strAl + '<a class="options-set3" href="#'+data[$i].alimenti[$j].id+'&'+data[$i].nome+'&'+data[$i].alimenti[$j].nome+'&'+data[$i].alimenti[$j].prezzo+'" data-option-value=".'+data[$i].alimenti[$j].nome+'">';
+            $strAl = $strAl + '<a class="options-set3" href="#'+data[$i].alimenti[$j].id+'" data-option-value=".'+data[$i].alimenti[$j].nome+'">';
             $strAl = $strAl + '<div class="element" style="background: #'+data[$i].colore_bottone_predef+'">';
             $strAl = $strAl + '<h2 class="el-name">'+data[$i].alimenti[$j].nome+'</h2>';
             $strAl = $strAl + '<h2 class="el-prezzo">'+data[$i].alimenti[$j].prezzo+' €</h2>';
@@ -41,7 +44,28 @@ function onEventoInfoSuccess(data, status) {
             $strAl = $strAl + '</div>';
             
             $str = $str + $strAl;
-        }   
+            
+            //Creazione oggetti Variante
+            var arrVar = new Array();;
+            for($t=0; $t<data[$i].alimenti[$j].varianti.length; $t++) {
+                //Creazione oggetto Variante contente i parametri
+                var tempIdV = data[$i].alimenti[$j].varianti[$t].id;
+                var tempDescrV = data[$i].alimenti[$j].varianti[$t].descrizione;
+                var tempPrezzoV = data[$i].alimenti[$j].varianti[$t].prezzo;
+                var variante = new Variante(tempIdV, tempDescrV, tempPrezzoV);
+                //Aggiunta elementi all'array delle Varianti
+                arrVar.push(variante);
+            }
+            
+            //Creazione oggetto Alimento contente i parametri
+            var tempId = data[$i].alimenti[$j].id;
+            var tempCat = data[$i].nome;
+            var tempNome = data[$i].alimenti[$j].nome;
+            var tempPrezzo = data[$i].alimenti[$j].prezzo;
+            var alimento = new Alim(tempId, tempCat, tempNome, tempPrezzo, 0, arrVar);
+            //Aggiunta elementi all'array degli Alimenti
+            arrAlim[tempId] = alimento;
+        }
     }
     
     //Svuotamento container Isotope
@@ -82,4 +106,28 @@ function onEventoInfoSuccess(data, status) {
 
 function onEventoInfoError(data, status) {
     alert("Errore Ajax")
+}
+
+/*
+ *  Oggetto alimento
+ *  
+ */
+function Alim(id, cat, nome, prezzo, num, varianti) {
+    this._id = id;
+    this._cat = cat;
+    this._nome = nome;
+    this._prezzo = prezzo;
+    this._num = num;
+    this._varianti = varianti;
+}
+
+
+/*
+ *  Oggetto variante
+ *  
+ */
+function Variante(id, descrizione, prezzo) {
+    this._id = id;
+    this._descrizione = descrizione;
+    this._prezzo = prezzo;
 }

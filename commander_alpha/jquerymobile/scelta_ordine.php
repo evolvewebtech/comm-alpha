@@ -103,15 +103,16 @@
         </div>
         <div class="comm-opt-foo"></div> 
         
-        <div data-role="collapsible" data-collapsed="false" data-theme="a">
+        <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
             <!-- <h1>H1 Heading</h1> -->
             <div class="ui-collapsible ui-collapsible-collapsed" data-content-theme="e" data-theme="e" data-collapsed="false" data-role="collapsible">
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Aggiungi - Elimina</h3>
-                <a id="canc" data-role="button" data-icon="home" class="ui-btn-right">Cancella</a>
-                <a id="canc-all" data-role="button" data-icon="home" class="ui-btn-right">Cancella tutto</a>
+                <a id="canc" data-role="button" data-icon="delete" class="ui-btn-right">Cancella</a>
+                <a id="canc-all" href="#diag-conf-canc-all" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Cancella tutto</a>
             </div>
             <div class="ui-collapsible ui-collapsible-collapsed" data-content-theme="b" data-theme="b" data-collapsed="true" data-role="collapsible">
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Varianti</h3>
+                <div id="opt-var"></div>
             </div>
         </div>
     </section>
@@ -258,18 +259,20 @@
         
         //eliminazione carattere iniziale '#'
         $param = $param.replace('#','');
-        
-        //separazione dei parametri passati con "href"  
-        var $arrParam = $param.split('&');
-        
+                
         //creazione oggetto alimento contente i parametri
-        var alimento = new Alim($arrParam[0], $arrParam[1], $arrParam[2], $arrParam[3], 0);
+        var alimento = new alimList($param,
+                                    arrAlim[$param]._cat,
+                                    arrAlim[$param]._nome,
+                                    arrAlim[$param]._prezzo,
+                                    0,
+                                    null);
         
         //verifica se l'alimento è già stato aggiunto all'array
         var ver = false;  
         var memI = 0;
         for(var $i=0; $i<arrList.length; $i++) {
-            if(arrList[$i]._id == $arrParam[0]) {
+            if(arrList[$i]._id == $param) {
                 arrList[$i]._num += 1;
                 memI = $i;
                 ver=true;
@@ -281,6 +284,7 @@
         if (!ver) {           
             alimento._num = 1;
             arrList.push(alimento);
+            alimento = null;
             
             //ordinamento lista           
             $itemString = ordinaLista("cat");
@@ -290,17 +294,9 @@
         }
         //incremento quantità alimento
         else { 
-            var costo = arrList[memI]._num * $arrParam[3];
+            var costo = arrList[memI]._num * arrList[memI]._prezzo;
             
             var $itemString = '';
-            /*$itemString = $itemString + '<a href="#" onClick="itemOpt('+arrList[memI]._id+');">';
-            $itemString = $itemString + '<div class="element_list el">';
-            $itemString = $itemString + '<h1 class="num">'+arrList[memI]._num+'</h1>';
-            $itemString = $itemString + '<h2 class="name">'+arrList[memI]._nome+'</h2>';
-            $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
-            $itemString = $itemString + '</div>';
-            $itemString = $itemString + '</a>';
-            */
             $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
             $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#" onClick="itemOpt('+arrList[memI]._id+');">';
             $itemString = $itemString + '<div class="num">'+arrList[memI]._num+'</div>';
@@ -310,7 +306,7 @@
             $itemString = $itemString + '</div>';
             
             //modifica del div già creato
-            document.getElementById($arrParam[0]).innerHTML= $itemString;
+            document.getElementById($param).innerHTML= $itemString;
             
             //aggiorna totale costo
             totale = 0;
@@ -370,31 +366,6 @@
       
       
       /*
-       *  Oggetto alimento
-       *  
-       */
-      function Alim(id, cat, nome, prezzo, num, varianti) {
-        this._id = id;
-        this._cat = cat;
-        this._nome = nome;
-        this._prezzo = prezzo;
-        this._num = num;
-        this._varianti = varianti;
-      }
-      
-      
-      /*
-       *  Oggetto variante
-       *  
-       */
-      function Variante(id, descrizione, prezzo) {
-        this._id = id;
-        this._descrizione = descrizione;
-        this._prezzo = prezzo;
-      }
-      
-          
-      /*
        * Confronto tra stringhe
        * 
        */
@@ -404,6 +375,7 @@
         if (minA > minB) { return true; }
         else { return false; }
       }
+      
       
       /*
        * Ordinamento lista
@@ -459,6 +431,7 @@
         return aggiornaLista(type);
       }
       
+      
       /*
        * Aggiornamento visualizzazione lista
        * 
@@ -476,24 +449,10 @@
             totale += costo; 
             //aggiunta separatore categorie
             if (type == "cat" & memCat != arrList[i]._cat) {
-                //$itemString = $itemString + '<div id="id-cat" class="element_list">';
-                //$itemString = $itemString + '<h2 class="name">'+arrList[i]._cat+'</h2>';
-                //$itemString = $itemString + '</div>';
                 $itemString = $itemString + '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-up-undefined" data-role="list-divider" role="heading" style="height:20px;padding-top:0px;padding-bottom:0px">'+arrList[i]._cat+'</li>';
                 memCat = arrList[i]._cat;
             }
             //creazione div
-            /*$itemString = $itemString + '<div id='+arrList[i]._id+' class="element_list '+arrList[i]._cat+'" data-symbol="Sc" data-category="'+arrList[i]._cat+'" data-option-value=".'+arrList[i]._id+'">';
-            $itemString = $itemString + '<a href="#" onClick="itemOpt('+arrList[i]._id+');">';
-            $itemString = $itemString + '<div class="element_list el">';
-            $itemString = $itemString + '<h1 class="num">'+arrList[i]._num+'</h1>';
-            $itemString = $itemString + '<h2 class="name">'+arrList[i]._nome+'</h2>';
-            $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
-            $itemString = $itemString + '</div>';
-            $itemString = $itemString + '</a>';
-            $itemString = $itemString + '</div>';
-            */
-            
             $itemString = $itemString + '<li id='+arrList[i]._id+' class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c" data-theme="c">';
             $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
             $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#" onClick="itemOpt('+arrList[i]._id+');">';
@@ -507,6 +466,32 @@
         return $itemString;
       }
       
+      
+      /*
+       *  Oggetto alimento
+       *  
+       */
+      function alimList(id, cat, nome, prezzo, num, varianti) {
+          this._id = id;
+          this._cat = cat;
+          this._nome = nome;
+          this._prezzo = prezzo;
+          this._num = num;
+          this._varianti = varianti;
+      }
+
+
+      /*
+       *  Oggetto variante
+       *  
+       */
+      function varList(id, descrizione, prezzo) {
+          this._id = id;
+          this._descrizione = descrizione;
+          this._prezzo = prezzo;
+      }
+      
+      
     });
   </script>
   
@@ -518,10 +503,11 @@
      * Inizializzazione sezione "opzioni"
      * 
      */
-    $(function() {
+    /*$(function() {
         $('#cont-comm-ord').show('fast');
         $('#cont-comm-opt').hide('fast');
-    });
+        show_opt = false;
+    });*/
     
     
     /*
@@ -536,6 +522,19 @@
             //var $optionSet = $(this).parents('.comm-li-link');
             //$optionSet.find('.selected').removeClass('selected');
             //$(this).addClass('selected');
+            var str = "";
+            if (arrAlim[$id]._varianti.length == 0) {
+                str = "Nessuna variante disponibile";
+            }
+            else {
+                for($i=0; $i<arrAlim[$id]._varianti.length; $i++) {
+                    //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[$id]._varianti[$i]._descrizione+'</a>';
+                    str = str + '<div class="var-class" href='+arrAlim[$id]._varianti[$i]._id+'>'+arrAlim[$id]._varianti[$i]._descrizione+'</div>';
+                    
+                }
+            }
+            //modifica del div già creato
+            document.getElementById('opt-var').innerHTML = str;
         }
         else {
             $('#cont-comm-ord').show('fast');
@@ -575,15 +574,6 @@
                     var costo = arrList[$i]._num * arrList[$i]._prezzo;
 
                     var $itemString = '';
-                    /*$itemString = $itemString + '<a href="#" onClick="itemOpt('+$id+');">';
-                    $itemString = $itemString + '<div class="element_list el">';
-                    $itemString = $itemString + '<h1 class="num">'+arrList[$i]._num+'</h1>';
-                    $itemString = $itemString + '<h2 class="name">'+arrList[$i]._nome+'</h2>';
-                    $itemString = $itemString + '<h2 class="prezzo">'+costo+' €</h2>';
-                    $itemString = $itemString + '</div>';
-                    $itemString = $itemString + '</a>';
-                    */
-                    
                     $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
                     $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#" onClick="itemOpt('+arrList[$i]._id+');">';
                     $itemString = $itemString + '<div class="num">'+arrList[$i]._num+'</div>';
@@ -607,8 +597,7 @@
                 }
                 break;
             }
-        }
-        
+        }       
         aggiornaTotale();
     });
     
@@ -617,7 +606,7 @@
      * Cancellazione alimento dalla lista
      * 
      */
-    $('#canc-all').bind("click", function() {
+    $('.canc-all-conf').live("click", function() {
         $id = mem_id;
         for(var $i=0; $i<arrList.length; $i++) {
             if (arrList[$i]._id == $id) {
@@ -625,17 +614,63 @@
                 var box = document.getElementById($id);
                 box.innerHTML= "";
                 box.parentNode.removeChild(box);
-
+                
                 $('#cont-comm-ord').show('fast');
                 $('#cont-comm-opt').hide('fast');
                 show_opt = false;
                 break;
             }
-        }
-        
+        }        
         aggiornaTotale();
     });
     
+    
+    
+    $('.var-class').live("click", function() {
+        //id variante cliccata
+        var id_var = $(this).attr('href');
+        
+        //Estrazione info da array Alimenti
+        var desc = "";
+        var prezzo;
+        
+        for($i=0; $i<arrAlim[mem_id]._varianti.length; $i++) {
+            if (arrAlim[mem_id]._varianti[$i]._id == id_var) {
+                desc = arrAlim[mem_id]._varianti[$i]._descrizione;
+                prezzo = arrAlim[mem_id]._varianti[$i]._prezzo;
+                break;
+            }
+        }
+        
+        //Creazione oggetto variante
+        var variante = new varList(id_var, desc, prezzo);
+        
+        //Ricerca Alimento selezionato in array Lista
+        var id_alim = 0;
+        for($j=0; $j<arrList.length; $j++) {
+            if (arrList[$j]._id == mem_id) {
+                id_alim = $j;
+                break;
+            }
+        }
+        
+        //Aggiunta variante ad Alimento della Lista
+        arrList[id_alim]._varianti.push(variante);
+        alert(id_alim);
+        varianti = null;
+    });
+    
+        
+    /*
+     *  Oggetto variante
+     *  
+     */
+    function varList(id, descrizione, prezzo) {
+        this._id = id;
+        this._descrizione = descrizione;
+        this._prezzo = prezzo;
+    }
+       
 
   </script>
   

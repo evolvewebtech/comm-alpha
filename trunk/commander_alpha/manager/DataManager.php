@@ -31,6 +31,38 @@ class DataManager {
 
 
     /**
+     *
+     * controllo se esiste o meno una relazione nel db tra due elementi
+     *
+     * @param <type> $param1
+     * @param <type> $param2
+     * @param <type> $table
+     * @return <bool>
+     *
+     */
+    function controllo_relazione($param1, $param2, $table){
+        if ($table=='rel_alimento_stampante'){
+            $sql = "SELECT * FROM $table WHERE alimento_id=$param1&&stampante_id=$param2";
+        }elseif($table=='rel_alimentomenu_alimento'){
+            $sql = "SELECT * FROM $table WHERE alimento_menu_id=$param1&&alimento_id=$param2";
+        }elseif($table=='rel_cassiere_ordine'){
+            $sql = "SELECT * FROM $table WHERE cassiere_id=$param1&&ordine_id=$param2";
+        }elseif($table=='rel_ordine_alimento'){
+            $sql = "SELECT * FROM $table WHERE ordine_id=$param1&&alimento_id=$param2";
+        }elseif($table=='rel_variante_alimento'){
+            $sql = "SELECT * FROM $table WHERE variante_id=$param1&&alimento_id=$param2";
+        }
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * ritorno l'id con valore massimo
      * all'interno della tabella di nome
      * $table_name
@@ -1406,6 +1438,100 @@ class DataManager {
             }
     }
     //--------------------------------------------------------------------------
+
+    /**
+     *
+     * @param <int> $alimento_id
+     * @param <int> $stampante_id
+     * @return <bool>
+     */
+    static function inserisciAlimentoStampante($alimento_id, $stampante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione alimento_stampante
+         */
+        $ret = $db->insert('rel_alimento_stampante', array($alimento_id, $stampante_id));
+
+        if ($ret) return true;
+        else return false;
+    }//end inserisciAlimentoStampante
+
+
+
+    /**
+     *
+     * @param <int> $alimento_id
+     * @param <int> $stampante_id
+     * @param <int> $new_alimento_id
+     * @param <int> $new_stampante_id
+     * @return <bool>
+     */
+    static function aggiornaAlimentoStampante($alimento_id, $stampante_id, $new_alimento_id, $new_stampante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione alimento_stampante
+         */
+        $ret = $db->update('rel_alimento_stampante', array('alimento_id' => $new_alimento_id,
+                                                  'stampante_id' =>  $new_stampante_id),
+                                            array('alimento_id', $alimento_id, 'stampante_id', $stampante_id)
+                    );
+
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaAlimentoStampante
+
+
+
+    /**
+     *
+     * @param <int> $alimento_id
+     * @param <int> $stampante_id
+     * @return <bool>
+     */
+    static function cancellaAlimentoStampante($alimento_id, $stampante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione alimento_stampante
+         */
+        $ret = $db->delete('rel_alimento_stampante', "alimento_id = ".$alimento_id.
+                        " AND "."alimento_id = ".$alimento_id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaAlimentoStampante
+
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getAlimentoStampante($id){
+        $sql = "SELECT * FROM cmd_alimento_stampante WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting stampante data");
+            //return array();
+            return 0;
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    //--------------------------------------------------------------------------
+
 
 }
 ?>

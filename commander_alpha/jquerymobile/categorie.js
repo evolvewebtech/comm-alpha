@@ -1,25 +1,32 @@
 
+/*
+ * Evento "pageshow" pagina "Ordine"
+ *
+ */
 $("#ordine").live('pageshow', function() {
 
-        $.ajax({
-            type : "GET",
-            url: "categorie.php",
-            dataType: 'json',
-            cache: false,
-            success: onEventoInfoSuccess,
-            error: onEventoInfoError
-        });
-        
-        //Nascosta finestra "opzioni"
-        $('#cont-comm-ord').show('fast');
-        $('#cont-comm-opt').hide('fast');
-        show_opt = false;   
- });
+    $.ajax({
+        type : "GET",
+        url: "categorie.php",
+        dataType: 'json',
+        cache: false,
+        success: onEventoInfoSuccess,
+        error: onEventoInfoError
+    });
+
+    //Nascosta finestra "opzioni"
+    $('#cont-comm-ord').show('fast');
+    $('#cont-comm-opt').hide('fast');
+    show_opt = false;   
+});
 
 
+/*
+ * Richiesta Ajax completata con successo
+ *
+ */
 function onEventoInfoSuccess(data, status) { 
-    //alert("Successo lettura da database con Ajax!")
-    
+    //alert("Successo lettura da database con Ajax!")    
     //Aggiunta elementi al container Isotope    
     var $str = "";
     for($i=0; $i<data.length; $i++) {
@@ -46,7 +53,7 @@ function onEventoInfoSuccess(data, status) {
             $str = $str + $strAl;
             
             //Creazione oggetti Variante
-            var arrVar = new Array();;
+            var arrVar = new Array();
             for($t=0; $t<data[$i].alimenti[$j].varianti.length; $t++) {
                 //Creazione oggetto Variante contente i parametri
                 var tempIdV = data[$i].alimenti[$j].varianti[$t].id;
@@ -104,9 +111,15 @@ function onEventoInfoSuccess(data, status) {
     
 }
 
+
+/*
+ * Errore richiesta Ajax
+ *
+ */
 function onEventoInfoError(data, status) {
     alert("Errore Ajax")
 }
+
 
 /*
  *  Oggetto alimento

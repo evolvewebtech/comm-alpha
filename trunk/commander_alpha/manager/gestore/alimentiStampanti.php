@@ -12,8 +12,7 @@
         $post = str_replace(':', '=', $post);
         $post = str_replace('{', '', $post);
         $post = str_replace('}', '', $post);
-        //$post = '21-3=false&21-2=true&21-1=false&21-4=false&19-3=false&19-2=false&19-1=false&19-4=false&22-3=false&22-2=false&22-1=false&22-4=false';
-        //$post = '21-3=true&21-2=true&21-1=true&21-4=true&19-3=false&19-2=false&19-1=false&19-4=false&22-3=true&22-2=true&22-1=true&22-4=true';
+        
         $var = array("post" => $post,
                      "err"  => '');
 

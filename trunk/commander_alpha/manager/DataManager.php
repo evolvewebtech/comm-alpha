@@ -1530,6 +1530,33 @@ class DataManager {
             return mysql_fetch_assoc($res);
         }
     }
+
+    /**
+     *
+     * 
+     * @return <array>
+     */
+    public static function getAllAlimentoStampante(){
+        $sql = "SELECT * FROM rel_alimento_stampante";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+
     //--------------------------------------------------------------------------
 
 

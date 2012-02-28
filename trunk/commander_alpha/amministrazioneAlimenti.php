@@ -3,11 +3,11 @@
     $objSession = new HTTPSession();
 ?>
 <!--
-
 todo: 1. selezionare le checkbox come checked in base alle stampanti assiociate
          al caricamento della pagina
       2. Creare chiamata ajax per segnalare come esaurito (o meno) un alimento
       3. Creare tutti i controlli del form
+      4. Creare un array javascript con all'interno le categorie
 
 -->
 
@@ -148,12 +148,24 @@ todo: 1. selezionare le checkbox come checked in base alle stampanti assiociate
            if (!$max_id){
                $max_id=0;
            }
+
+           $data_alimento_tampante = DataManager::getAllAlimentoStampante();
+           $data_categoria         = DataManager::getAllCategoriaByGestoreID($gestore_id);
+           /*
+           foreach ($data_alimento_tampante as $data_alID_stamp_ID) {
+               echo '<pre style="color:white;">';
+               print_r($data_alID_stamp_ID);
+               echo "</pre>";
+           }
+           */
+           $numero_alimento_stampante = count($data_alimento_tampante);
+
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci gli Alimenti
         <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
             Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-                     <a style="color:#fff; font-size: 14px;" href="amministrazioneAlimento.php"><b>Alimenti</b></a>
+                     <a style="color:#fff; font-size: 14px;" href="amministrazioneAlimenti.php"><b>Alimenti</b></a>
         </small>
     </h1>
 
@@ -172,16 +184,6 @@ $(function() {
             }
    	});
 
-        $('a#button').click(function(){
-            $(this).toggleClass("down");
-//            alert($(this).attr('class'));
-            if ($(this).attr('class')=='finish down'){
-                $(this).html('SEGNALA COME DISPONIBILE');
-            }else{
-                $(this).html('SEGNALA COME ESAURITO');
-            }
-
-        });
 
         $("#addNewTab").validate({
                     rules: {
@@ -225,7 +227,53 @@ $(function() {
 
     var tab_counter = <?=$numero_alimento?>,
         max_id      = <?=$max_id?>,
-        gestore_id  = <?=$gestore_id?>;
+        gestore_id  = <?=$gestore_id?>,
+        numero_rel_stampanti = <?= $numero_alimento_stampante ?>;
+
+   /*
+    *
+    * ho creato l'array che contiene l'id delle checkbox che devono essere
+    * selezionate
+    *
+    */
+   var id_stampante_alimento = new Array();
+   <? foreach ($data_alimento_tampante as $data_alID_stamp_ID) { ?>
+            id_stampante_alimento.push("<?=$data_alID_stamp_ID[alimento_id]?>-<?=$data_alID_stamp_ID[stampante_id]?>");
+   <? } ?>
+
+    /*
+    *
+    *  metto a checked=true le checkbox che rappresentano relazioni nel db
+    */
+   $.each(id_stampante_alimento, function(key, value){
+       //alert(key + ': ' + value);
+       $('#'+value).prop('checked', true);
+   });
+
+   /*
+    * inserisco all'interno di un array le categorie presenti nel db
+    * $data_categoria
+    */
+   var id_categoria = {};
+   <? foreach ($data_categoria as $categoria) { ?>
+            id_categoria["<?=$categoria[nome]?>"] = <?=$categoria[id]?>;
+   <? } ?>
+
+    /*
+     * ritorno una stringa contenete le select delle categorie
+     * e come selected quella = al parametro passato: categoria
+     */
+    function printSelectCategoria(categoria) {
+        var selectCategoria = '';
+          $.map(id_categoria, function(key, value){
+                if (key==categoria){
+                    selectCategoria=selectCategoria+'<option selected="selected" value="'+key+'">'+value+'</option>';
+                }else {
+                selectCategoria=selectCategoria+'<option value="'+key+'">'+value+'</option>';
+                }
+          });
+          return selectCategoria;
+    }
 
 
     tab_counter++;
@@ -234,7 +282,10 @@ $(function() {
     $('#debug').append('<br />Numero: '         +tab_counter+
                        '<br />ID max: '         +max_id+
                        '<br />ID max next: '    +next_id+
-                       '<br />Gestore ID: '     +gestore_id);
+                       '<br />Gestore ID: '     +gestore_id+
+                       '<br />numero al-sta: '  +numero_rel_stampanti+
+                       '<br />lista ID:'        +id_stampante_alimento+
+                       '<br />categorie_id: '   +id_categoria);
 
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
@@ -265,6 +316,9 @@ $(function() {
  */
 
                     $( ui.panel ).append('<div style="min-height:400px;">'+
+                        '<div style="height: 40px;">'+
+                            '<a style="float: left;min-height: 20px; min-width: 400px;" id="button-'+tab_counter+'" class="finish" title="button">SEGNALA COME ESAURITO</a>'+
+                        '</div>'+
                         '<form id="alimentoForm-'+tab_counter+'" style="min-height:60px; float:left;">'+
                             '<fieldset style="float:left" class="ui-helper-reset">'+
                                 '<br /><label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>'+
@@ -292,18 +346,11 @@ $(function() {
                                 '<br /><label style="margin-right: 106px;" class="tab_categoria_id" for="tab_categoria_id">Categoria: </label>'+
                         '<select id="tab_categoria_id" name="tab_categoria_id">'+
                             '<option value="0"> - nessuna categoria - </option>'+
-                            '<option selected="selected" value="'+tab_content_categoria_id+'">salva e ricarica</option>'+
+                            printSelectCategoria(tab_content_categoria_id)+
+                            //'<option selected="selected" value="'+tab_content_categoria_id+'">salva e ricarica</option>'+
                         '</select>'+
                                 '<br /><label style="margin-right: 20px;" class="tab_secondo_alimento_id" for="tab_secondo_alimento_id">Alimento composto: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="'+tab_content_secondo_alimento_id+'" class="ui-widget-content ui-corner-all" />'+
-
-                                '<!-- //stampante -->'+
-                                '<br /><label style="margin-right: 94px;" class="tab_stampante_associata" for="tab_stampante_associata">Stampante: </label>'+
-
-                        '<select id="tab_stampante_associata_id" name="tab_stampante_associata_id">'+
-                            '<option value="0"> - nessuna categoria - </option>'+
-                            '<option selected="selected" value="'+tab_content_stampante_associata_id+'">salva e ricarica</option>'+
-                        '</select>'+
 
                                 '<input type="hidden" name="alimento_id" id="alimento_id" value="'+next_id+'" />'+
                                 '<input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>" />'+
@@ -312,7 +359,22 @@ $(function() {
                          '<fieldset style="float:right" class="ui-helper-reset">'+
                              '<button type="submit" id="save_alimento">SALVA</button><br />'+
                              '<button type="submit" id="delete_alimento">ELIMINA</button>'+
-                         '</fieldset>'
+                         '</fieldset>'+
+                         '<form style="float:left;" id="stampanteAlimentoForm-'+tab_counter+'">'+
+                            '<fieldset>'+
+                                '<!-- //stampante -->'+
+                                '<label style="margin-right: 94px;" class="tab_stampante_associata_id" for="tab_stampante_associata_id">Stampante: </label><br />'+
+                                    <?
+                                        $data_stampante = DataManager::getAllStampanteByGestoreID($gestore_id);//($gestore_id);
+                                        foreach ($data_stampante as $stampante) {
+                                    ?>
+                                        '<input type="checkbox" name="stampanti[]" id="<?=$alimento['id']?>-<?=$stampante['id']?>" value="<?=$stampante['id']?>" /><?=$stampante['nome']?><br />'+
+                                    <?    }
+                                    ?>
+                                '<input type="hidden" name="alimento_id" id="alimento_id" value="3" />'+
+                            '</fieldset>'+
+                        '</form>'+
+                        ''
                     );
 
                     //dirigo l'utente alla tab appena creata.
@@ -330,6 +392,39 @@ $(function() {
                 $('#debug').append('<br />selected: '+ui.index);
 
                 var formSel = $("#alimentoForm-"+ui.index);
+
+                $('a#button-'+ui.index).click(function(){
+                    $('#debug').append( '<br />'+'click' );
+                    $(this).toggleClass("down");
+        //            alert($(this).attr('class'));
+                    if ($(this).attr('class')=='finish down'){
+                        $(this).html('SEGNALA COME DISPONIBILE');
+                            $('#debug').append( '<br />'+'finito' );
+                            $.ajax({
+                                type: "POST",
+                                data: 'finito',
+                                url: "manager/gestore/alimentoEsaurito.php",
+                                dataType: 'json',
+                                cache: false,
+                                success: onAlimentoEsauritoSuccess,
+                                error: onAlimentoEsauritoError
+                            });
+
+                    }else{
+                        $(this).html('SEGNALA COME ESAURITO');
+                           $('#debug').append( '<br />'+'finito' );
+                           $.ajax({
+                                type: "POST",
+                                data: 'disponibile',
+                                url: "manager/gestore/alimentoEsaurito.php",
+                                dataType: 'json',
+                                cache: false,
+                                success: onAlimentoEsauritoSuccess,
+                                error: onAlimentoEsauritoError
+                            });
+                    }
+                });
+
 
                 $('#color-picker-'+ui.index).empty().addColorPicker({
                     clickCallback: function(color) {
@@ -628,7 +723,7 @@ $(function() {
     }
 
 
-function onAlimentiStampantiSuccess(data, status) {
+    function onAlimentiStampantiSuccess(data, status) {
 
         $('#debug').append('<br />ajax stampanti: success');
 
@@ -652,6 +747,30 @@ function onAlimentiStampantiSuccess(data, status) {
 
     }
 
+    function onAlimentoEsauritoSuccess(data, status) {
+
+        $('#debug').append('<br />ajax alimento esautito: success');
+
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
+               $dialogOK.dialog( "open" );
+               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+           }
+
+    }
+
     /*
      *  se si presentano errori durante le chiamate ajax
      */
@@ -667,7 +786,11 @@ function onAlimentiStampantiSuccess(data, status) {
         $('#debug').append(data);
 
     }
-
+    function onAlimentoEsauritoError(data, status) {
+        $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
+        $dialogERR.dialog( "open" );
+        $('#debug').append(data);
+    }
 
 });
 </script>
@@ -709,22 +832,6 @@ function onAlimentiStampantiSuccess(data, status) {
                     </select>
                     <label for="tab_secondo_alimento_id">Alimento composto: </label>
                     <input type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="" class="ui-widget-content ui-corner-all" />
-
-                    <!-- //stampante -->
-                    <label for="tab_stampante_associata_id">Stampante: </label>
-                    <select id="tab_stampante_associata_id" name="tab_stampante_associata_id">
-                        <option value="0"> - nessuna stampante - </option>
-                        <?php
-                            $data_stampante = DataManager::getAllStampanteByGestoreID($gestore_id);//($gestore_id);
-                            $numero_stampante = count($data_stampante);
-                            foreach ($data_stampante as $stampante) {
-                                    echo '<option value="'.$stampante['id'].'" >'.$stampante['nome'].'</option>';
-                            }
-                        ?>
-                    </select>
-                    <!--
-                    <input type="text" name="tab_stampante_associata" id="tab_stampante_associata" value="" class="ui-widget-content ui-corner-all" />
-                    -->
                 </fieldset>
             </form>
   	</div>
@@ -761,7 +868,7 @@ function onAlimentiStampantiSuccess(data, status) {
                     ?>
                     <div style="min-height:450px;">
                         <div style="height: 40px;">
-                            <a style="float: left;min-height: 20px; min-width: 400px;" id="button" class="finish" title="button">SEGNALA COME ESAURITO</a>
+                            <a style="float: left;min-height: 20px; min-width: 400px;" id="button-<?=$count?>" class="finish" title="button">SEGNALA COME ESAURITO</a>
                         </div>
                         <form id="alimentoForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">

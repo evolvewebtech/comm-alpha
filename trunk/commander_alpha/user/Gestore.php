@@ -353,8 +353,8 @@ class Gestore extends User {
      * @param <int> $id
      * @return <bool>
      */
-    public function delAlimentoEsaurito($id){
-        return DataManager::cancellaAlimentoEsaurito($id);
+    public function delAlimentoEsaurito($alimento_id){
+        return DataManager::cancellaAlimentoEsaurito($alimento_id);
     }
 
     /**

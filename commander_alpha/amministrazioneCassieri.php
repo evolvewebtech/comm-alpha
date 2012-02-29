@@ -103,7 +103,13 @@
            $data_cassieri = DataManager::getTuttiCassieri($gestore_id);
            $numero_cassieri = count($data_cassieri);
            $max_id = DataManager::getMAXID('cmd_cassiere');
-           $max_id_utente_registrato = DataManager::getMAXID('cmd_utente_registrato'); 
+           if (!$max_id){
+               $max_id=0;
+           }
+           $max_id_utente_registrato = DataManager::getMAXID('cmd_utente_registrato');
+           if (!$max_id_utente_registrato){
+               $max_id_utente_registrato=0;
+           }
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci i cassieri

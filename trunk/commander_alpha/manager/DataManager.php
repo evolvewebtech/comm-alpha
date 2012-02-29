@@ -1027,7 +1027,8 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Variante");
+            //die("Failed getting entity Variante");
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1056,6 +1057,25 @@ class DataManager {
             }
     }
 
+
+    public static function getAllVarianteByGestoreID($gestore_id){
+        $sql = "SELECT * FROM cmd_variante WHERE gestore_id=$gestore_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
     //--------------------------------------------------------------------------
 
     /**

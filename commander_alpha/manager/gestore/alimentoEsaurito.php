@@ -6,12 +6,16 @@
 
         $objSession = new HTTPSession();
 
-        $post = json_encode($_POST);
-        
+        $finito       = mysql_real_escape_string($_POST['finito']);
+        $alimento_id  = intval(mysql_real_escape_string($_POST['id']));
+        $data   = 'now()';
 
-        $var = array("post" => $post,
-                     "err"  => '');
-
+        $var = array("finito"      => $finito,
+                     "alimento_id" => $alimento_id,
+                     "err"         => '');
+        /*
+        $finito = false;
+        $alimento_id = 19;
     /*
      * controllo se il login sia valido
      */
@@ -24,13 +28,23 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-                if ($post=='finito'){
+                if ($finito==true){
 
-                    $var['err'] = 'finito';
+                    $ret = $gestore->addAlimentoEsaurito('NULL', $alimento_id, "now()");
+                    if (!$ret){
+                        $var['err'] = $ret;
+                    }
 
-                }elseif($post=='disponibile'){
+                }elseif($finito==false) {
 
-                    $var['err'] = 'disponibile';
+                    //$alimento_id = 22;
+                    //$id = DataManager::getIDbyAlimentoID($alimento_id);
+                    //print_r($id['id']);
+
+                    $ret = $gestore->delAlimentoEsaurito($alimento_id);
+                    if (!$ret){
+                        $var['err'] = $ret;
+                    }
                 }
             
         /*

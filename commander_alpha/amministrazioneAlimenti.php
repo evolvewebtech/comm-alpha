@@ -3,11 +3,7 @@
     $objSession = new HTTPSession();
 ?>
 <!--
-todo: 1. selezionare le checkbox come checked in base alle stampanti assiociate
-         al caricamento della pagina
-      2. Creare chiamata ajax per segnalare come esaurito (o meno) un alimento
-      3. Creare tutti i controlli del form
-      4. Creare un array javascript con all'interno le categorie
+todo: 1. Creare tutti i controlli del form
 
 -->
 
@@ -395,6 +391,9 @@ $(function() {
 
                 $('a#button-'+ui.index).click(function(){
                     $('#debug').append( '<br />'+'click' );
+                    var alimento_ID = $(this).next().val();
+                    $('#debug').append('<br />ali: '+alimento_ID);
+
                     $(this).toggleClass("down");
         //            alert($(this).attr('class'));
                     if ($(this).attr('class')=='finish down'){
@@ -402,7 +401,7 @@ $(function() {
                             $('#debug').append( '<br />'+'finito' );
                             $.ajax({
                                 type: "POST",
-                                data: 'finito',
+                                data: 'finito=true&id='+alimento_ID,
                                 url: "manager/gestore/alimentoEsaurito.php",
                                 dataType: 'json',
                                 cache: false,
@@ -415,7 +414,7 @@ $(function() {
                            $('#debug').append( '<br />'+'finito' );
                            $.ajax({
                                 type: "POST",
-                                data: 'disponibile',
+                                data: 'finito=false&id='+alimento_ID,
                                 url: "manager/gestore/alimentoEsaurito.php",
                                 dataType: 'json',
                                 cache: false,
@@ -766,7 +765,10 @@ $(function() {
            } else if(data.err==''){
                $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
                $dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+               $('#debug').append( '<br />DATA SAVED:<br />'+
+                                   ' finito: '+data.finito+
+                                   ' id: '+data.alimento_id+
+                                   '<br />ERR: '+data.err+'<br />');
            }
 
     }
@@ -869,6 +871,7 @@ $(function() {
                     <div style="min-height:450px;">
                         <div style="height: 40px;">
                             <a style="float: left;min-height: 20px; min-width: 400px;" id="button-<?=$count?>" class="finish" title="button">SEGNALA COME ESAURITO</a>
+                            <input type="hidden" name="alimento_id2" id="alimento_id2" value="<?=$alimento['id']?>" />
                         </div>
                         <form id="alimentoForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">

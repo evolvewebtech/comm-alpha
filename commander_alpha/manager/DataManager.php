@@ -919,7 +919,8 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
-                die("Failed getting Alimento_ESAURITO data");
+                //die("Failed getting Alimento_ESAURITO data");
+                return array();
             }
             if(mysql_num_rows($res)) {
                   $objs = array();
@@ -931,6 +932,17 @@ class DataManager {
                 return array();
                 }
             }
+    }
+
+    public static function getIDbyAlimentoID($alimento_id){
+        $sql = "SELECT id FROM cmd_alimento_esaurito WHERE alimento_id=$alimento_id";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return 0;
+            }
+        return mysql_fetch_assoc($res);
+        }
     }
 
     //--------------------------------------------------------------------------

@@ -370,23 +370,23 @@ class Gestore extends User {
      * -------------------------------------------------------------------------
      * GESTIONE VARIANTE  ------------------------------------------------------
      *
-     * - addAlimentoEsaurito()
-     * - editAlimentoEsaurito()
-     * - getAlimentoEsaurito()
-     * - delAlimentoEsaurito()
+     * - addVariante()
+     * - editVariante()
+     * - getVariante()
+     * - delVariante()
      *
-     * - getAllAlimentoEsaurito()
+     * - getAllVariante()
      */
 
-    /**
-     *
-     * @param <type> $id
-     * @param <type> $descrizione
-     * @param <type> $prezzo
-     * @param <type> $iva
-     * @param <type> $gestore_id
-     * @return <bool>
-     */
+  /**
+    *
+    * @param <type> $id
+    * @param <type> $descrizione
+    * @param <type> $prezzo
+    * @param <type> $iva
+    * @param <type> $gestore_id
+    * @return <type>
+    */
     public function addVariante($id, $descrizione, $prezzo, $iva, $gestore_id){
         return DataManager::inserisciVariante($id, $descrizione, $prezzo, $iva, $gestore_id);
     }

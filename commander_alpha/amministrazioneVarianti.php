@@ -1,9 +1,6 @@
 <?php
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
-
-    require_once dirname(__FILE__).'/manager/Datamanager.php'; //da eliminare, debug only
-
 ?>
 <!--
 todo: 1. Creare tutti i controlli del form
@@ -92,7 +89,6 @@ todo: 1. Creare tutti i controlli del form
 
 <div id="content">
     <?php
-    /*
     if($objSession->IsLoggedIn()){
         $objUser = $objSession->GetUserObject();
         $gestore = $objUser[0];
@@ -100,8 +96,6 @@ todo: 1. Creare tutti i controlli del form
 
            $gestore_id = $gestore->id;
            $utente_registrato_id = $gestore->utente_registrato_id;
-    */
-           $gestore_id = 2; //da eliminare, debug only
 
            $data_variante = DataManager::getAllVarianteByGestoreID($gestore_id);//($gestore_id);
            $numero_variante = count($data_variante);
@@ -540,7 +534,6 @@ $(function() {
         <!-- DEBUG -->
         <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
-/*
             }//gestore
         else{
             echo "<h4>Non possiedi i permessi necessari per visualizzare questa pagina.
@@ -552,6 +545,4 @@ $(function() {
                 <br /><a style="color:#fff;" href="logout.php"> <-- LOGIN</a>
             </h4>';
     }
- * 
- */
 ?>

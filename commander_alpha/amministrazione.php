@@ -155,7 +155,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 
             <!--Bar 3-->
             <div class="mosaic-block bar3">
-                <a href="#" target="_blank" class="mosaic-overlay">
+                <a href="amministrazioneMenu.php" class="mosaic-overlay">
                         <div class="details">
                                 <h4>GESTISCI I MENU</h4>
                                 <p>Crea e personalizza i tuoi men&ugrave.</p>
@@ -226,7 +226,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                 </div>
             </div>
             <div class="mosaic-block fade">
-                <a href="#" class="mosaic-overlay">
+                <a href="amministrazioneVarianti.php" class="mosaic-overlay">
                         <div class="details">
                                 <h4>VARIANTI</h4>
                                 <p>Visualizza le varianti, inseriscine di nuove o modifica quelle esistenti.</p>

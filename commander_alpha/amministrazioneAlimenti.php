@@ -4,6 +4,8 @@
 ?>
 <!--
 todo: 1. Creare tutti i controlli del form
+      2. Le chiamate ajax non funzionano correttamente,
+         quando eseguo un save mi aggiorna solocle checkox
 
 -->
 

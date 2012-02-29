@@ -5,18 +5,20 @@
         require_once dirname(__FILE__) . '/../HTTPSession.php';
         $objSession = new HTTPSession();
 
+        $nome                   = mysql_real_escape_string($_POST['tab_nome']);
         $descrizione            = mysql_real_escape_string($_POST['tab_descrizione']);
         $prezzo                 = mysql_real_escape_string($_POST['tab_prezzo']);
         $iva                    = intval(mysql_real_escape_string($_POST['tab_iva']));
-        $variante_id            = intval(mysql_real_escape_string($_POST['variante_id']));
+        $menu_id                = intval(mysql_real_escape_string($_POST['menu_id']));
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));
         $current_tab            = intval(mysql_real_escape_string($_POST['current_tab']));
         $action                 = mysql_real_escape_string($_POST['action']);
 
-        $var = array("descrizione"          => $descrizione,
+        $var = array("nome"                 => $nome,
+                     "descrizione"          => $descrizione,
                      "prezzo"               => $prezzo,
                      "iva"                  => $iva,
-                     "variante_id"          => $variante_id,
+                     "menu_id"              => $menu_id,
                      "gestore_id"           => $gestore_id,
                      "current_tab"          => $current_tab,
                      "action"               => $action,
@@ -37,20 +39,19 @@
 
         if ($action == 'del'){
 
-            $ret = $gestore->delVariante($variante_id);
+            $ret = $gestore->delMenufisso($menu_id);
             if(!$ret){
                 $var['err'] = $ret;
             }
 
 	}elseif($action == 'save'){
 
-                $nome_variante_db = $gestore->getVariante($variante_id);
-                
+                $nome_menu_db = $gestore->getMenufisso($menu_id);
 
-                if($nome_variante_db==0){
+                if($nome_menu_db==0){
 
 
-                    $ret = $gestore->addVariante($variante_id, $descrizione, $prezzo, $iva, $gestore_id);
+                    $ret = $gestore->addMenufisso($menu_id, $nome, $prezzo, $iva, $descrizione, $gestore_id);
                     if(!$ret){
                         $var['err'] = $ret;
                     }
@@ -58,7 +59,7 @@
 
                 }else{
 
-                    $ret = $gestore->editVariante($variante_id, $descrizione, $prezzo, $iva, $gestore_id);
+                    $ret = $gestore->editMenufisso($menu_id, $nome, $prezzo, $iva, $descrizione, $gestore_id);
                     if(!$ret){
                         $var['err'] = $ret;
                     }

@@ -1288,11 +1288,12 @@ class DataManager {
      * @return <array>
      */
     public static function getMenufisso($id){
-        $sql = "SELECT * FROM cmd_menufisso WHERE id=$id";
+        $sql = "SELECT * FROM cmd_menu_fisso WHERE id=$id";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity menufisso");
+            //die("Failed getting entity menufisso");
+            return 0;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1303,11 +1304,12 @@ class DataManager {
      * @return <array>
      */
     public static function getAllMenufisso(){
-        $sql = "SELECT * FROM cmd_menufisso";
+        $sql = "SELECT * FROM cmd_menu_fisso";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
-                die("Failed getting menufisso data");
+                //die("Failed getting menufisso data");
+                return array();
             }
             if(mysql_num_rows($res)) {
                   $objs = array();
@@ -1321,6 +1323,31 @@ class DataManager {
             }
     }
 
+
+    /**
+     *
+     * @param <int> $gestore_id
+     * @return <array>
+     */
+    public static function getAllMenuByGestoreID($gestore_id){
+        $sql = "SELECT * FROM cmd_menu_fisso WHERE gestore_id=$gestore_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
 
 
     //--------------------------------------------------------------------------

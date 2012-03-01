@@ -13,7 +13,7 @@
         var arrList = new Array();
         var totale = 0;
         var show_opt = false;
-        var mem_id = 0;
+        var mem_index = 0;
         var mem_ord_type = "cat";
     </script>
     <script type="text/javascript" src="categorie.js"></script>

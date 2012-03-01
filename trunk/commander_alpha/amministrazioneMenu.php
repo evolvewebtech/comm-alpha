@@ -4,6 +4,7 @@
 ?>
 <!--
 todo: 1. Creare tutti i controlli del form
+      2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"
 
 -->
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />

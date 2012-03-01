@@ -32,7 +32,7 @@ function onEventoInfoSuccess(data, status) {
     for($i=0; $i<data.length; $i++) {
         $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
         $str = $str + '<a class="options-set2" href="#'+data[$i].nome+'" data-option-value=".'+data[$i].nome+'">';
-        $str = $str + '<div class="element" style="background: #'+data[$i].colore_bottone_predef+'">';
+        $str = $str + '<div class="element" style="background: '+data[$i].colore_bottone_predef+'">';
         $str = $str + '<h2 class="el-name">'+data[$i].nome+'</h2>';
         $str = $str + '</div>';
         $str = $str + '</a>';
@@ -42,7 +42,7 @@ function onEventoInfoSuccess(data, status) {
             var $strAl = "";
             $strAl = $strAl + '<div class="element '+data[$i].nome+'" data-symbol="Sc" data-category='+data[$i].nome+'>';
             $strAl = $strAl + '<a class="options-set3" href="#'+data[$i].alimenti[$j].id+'" data-option-value=".'+data[$i].alimenti[$j].nome+'">';
-            $strAl = $strAl + '<div class="element" style="background: #'+data[$i].colore_bottone_predef+'">';
+            $strAl = $strAl + '<div class="element" style="background: '+data[$i].colore_bottone_predef+'">';
             $strAl = $strAl + '<h2 class="el-name">'+data[$i].alimenti[$j].nome+'</h2>';
             $strAl = $strAl + '<h2 class="el-prezzo">'+data[$i].alimenti[$j].prezzo+' €</h2>';
             $strAl = $strAl + '<h3 class="el-cat">'+data[$i].nome+'</h3>';

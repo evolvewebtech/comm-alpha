@@ -8,12 +8,11 @@
     <script src="js/jquery.js"></script>
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
     <script>
-        //Dichiarazione variabili;
+        //Dichiarazione variabili globali;
         var arrAlim = new Array();
         var arrList = new Array();
-        var totale = 0;
         var show_opt = false;
-        var mem_index = 0;
+        var mem_index = -1;
         var mem_ord_type = "cat";
     </script>
     <script type="text/javascript" src="categorie.js"></script>

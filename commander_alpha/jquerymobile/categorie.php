@@ -18,7 +18,7 @@
                         $variante = $alim->getVariante($t);
                         $arrTemp2 = array(  "id"            => $variante->id,
                                             "descrizione"   => $variante->descrizione,
-                                            "prezzo"        => $alim->prezzo);
+                                            "prezzo"        => $variante->prezzo);
                         $arrV[$t] = $arrTemp2;
                     }
                     

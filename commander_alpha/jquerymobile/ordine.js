@@ -149,14 +149,14 @@ $(function(){
 
     //verifica se l'alimento è già stato aggiunto all'array
     var ver = false;  
-    var memI = 0;
-    for(var $i=0; $i<arrList.length; $i++) {
-        if(arrList[$i]._id == $param) {            
+    var memI = 0; //memoria indice lista
+    for(var i=0; i<arrList.length; i++) {
+        if(arrList[i]._id == $param) {            
             //se già aggiunte varianti non incrementa numero
-            if (arrList[$i]._varianti.length > 0) {;}
+            if (arrList[i]._varianti.length > 0) {;}
             else {
-                arrList[$i]._num += 1;
-                memI = $i;
+                arrList[i]._num += 1;
+                memI = i;
                 ver = true;
                 break
             }
@@ -169,48 +169,38 @@ $(function(){
         arrList.push(alimento);
         alimento = null;
 
-        //ordinamento lista           
-        $itemString = ordinaLista("cat");
-
-        var $newItems = $itemString; 
-        document.getElementById('container2').innerHTML = $newItems;
+        //aggiornamento lista
+        if (mem_ord_type == "nome") {
+            aggiornaLista("nome");
+        }
+        else aggiornaLista("cat"); 
     }
-    //incremento quantità alimento
+    //incremento quantità alimento (senza aggiornale l'intera lista)
     else { 
         var costo = arrList[memI]._num * arrList[memI]._prezzo;
 
         var $itemString = '';
         $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
-        $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#" onClick="itemOpt('+arrList[memI]._index+');">';
+        $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#'+memI+'">';
         $itemString = $itemString + '<div class="num">'+arrList[memI]._num+'</div>';
         $itemString = $itemString + '<div class="name">'+arrList[memI]._nome+'</div>';
-        $itemString = $itemString + '<div class="prezzo">'+costo+' €</div>';
+        $itemString = $itemString + '<div class="prezzo">'+costo+' \u20ac</div>'; //carattere "€" -> "\u20ac"
         $itemString = $itemString + '</a>';
         $itemString = $itemString + '</div>';
 
         //modifica del div già creato
-        document.getElementById(memI).innerHTML= $itemString;
+        document.getElementById("list-" + memI).innerHTML= $itemString;
 
-        //aggiorna totale costo
-        totale = 0;
-        for(var $i=0; $i<arrList.length; $i++) {
-            totale += arrList[$i]._num * arrList[$i]._prezzo;           
-        }
+        //aggiornamento totale ordine
+        aggiornaTotale();
     }
-
-    //aggiornamento visualizzazione totale costo
-    var $itemString = '';
-    $itemString = $itemString + '<h2 class="name">Totale:</h2>';
-    $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';       
-    //modifica del div già creato
-    document.getElementById("totale").innerHTML= $itemString;
-
     return false;
     });
 
 
     /*
      * Script per ordinare la lista degli alimenti selezionati
+     * per categorie o in ordine alfabetico
      * 
      */
     var $optionSetsList = $('#options .option-set_list'),
@@ -235,18 +225,21 @@ $(function(){
     value = value === 'false' ? false : value;
     options[ key ] = value;
     if ( value === 'nome' ) {
-        var $itemString = ordinaLista("nome");                  
-        var $newItems = $itemString; 
-        document.getElementById('container2').innerHTML = $newItems;
+        aggiornaLista("nome");                  
     } else {
-        var $itemString = ordinaLista("cat");                  
-        var $newItems = $itemString; 
-        document.getElementById('container2').innerHTML = $newItems;
+        aggiornaLista("cat");                  
     }
 
+    //finestra "opzioni" nascosta
+    $('#cont-comm-ord').show('fast');
+    $('#cont-comm-opt').hide('fast');
+    show_opt = false;
+    
+    //rimozione classe "selected"
+    $('#container2').find('.selected').removeClass('selected');
+            
     return false;
     });
-
 });
    
       
@@ -257,8 +250,8 @@ $(function(){
 function confrontaStringhe(a,b) {
     var minA = a.toLowerCase();
     var minB = b.toLowerCase();
-    if (minA > minB) { return true; }
-    else { return false; }
+    if (minA > minB) {return true;}
+    else {return false;}
 }
       
       
@@ -266,7 +259,7 @@ function confrontaStringhe(a,b) {
  * Ordinamento lista
  * 
  */
-function ordinaLista(type) {
+function aggiornaLista(type) {
     //Memorizzazione tipo ordinamento selezionato
     mem_ord_type = type;
     //Ordinamento array in ordine afabetico
@@ -280,6 +273,7 @@ function ordinaLista(type) {
                     var t = arrList[i];
                     arrList[i] = arrList[j];
                     arrList[j] = t;
+                    if (mem_index == i) { mem_index = j; }
                 }                  
             }   
         }
@@ -296,6 +290,7 @@ function ordinaLista(type) {
                     var t = arrList[i];
                     arrList[i] = arrList[j];
                     arrList[j] = t;
+                    if (mem_index == i) { mem_index = j; }
                 }                  
             }   
         }
@@ -310,148 +305,178 @@ function ordinaLista(type) {
                         var t = arrList[i];
                         arrList[i] = arrList[j];
                         arrList[j] = t;
+                        if (mem_index == i) { mem_index = j; }
                     }
                 }
             }   
         }
     }
-    return aggiornaLista(type);
-}
-      
-      
-/*
- * Aggiornamento visualizzazione lista
- * 
- */
-function aggiornaLista(type) {
+    
     //Ricreo tutti i div della lista
     //dopo aver ordinato l'array
     var $itemString = "";  
     var memCat = "";
-    totale = 0;
     for(var i=0; i<arrList.length; i++) {
         arrList[i]._index = i;
         //calcolo costo per alimento
         var costo = arrList[i]._num * arrList[i]._prezzo;
-        //calcolo totale costo
-        totale += costo; 
         //aggiunta separatore categorie
         if (type == "cat" & memCat != arrList[i]._cat) {
             $itemString = $itemString + '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-up-undefined" data-role="list-divider" role="heading" style="height:20px;padding-top:0px;padding-bottom:0px">'+arrList[i]._cat+'</li>';
             memCat = arrList[i]._cat;
         }
+        //verifica se l'alimento è selezionato
+        var selClass = "";
+        //if ($('#list-'+i).find('.selected').hasClass('selected')) {selClass = " selected";}
+        if (mem_index == i) {selClass = " selected";}
         //creazione div
-        $itemString = $itemString + '<li id='+i+' class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c" data-theme="c">';
+        $itemString = $itemString + '<li id=list-'+i+' class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c" data-theme="c">';
         $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
-        $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#" onClick="itemOpt('+i+');">';
+        $itemString = $itemString + '<a class="ui-link-inherit comm-li-link'+ selClass +'" href="#'+i+'">';
         $itemString = $itemString + '<div class="num">'+arrList[i]._num+'</div>';
         $itemString = $itemString + '<div class="name">'+arrList[i]._nome+'</div>';
-        $itemString = $itemString + '<div class="prezzo">'+costo+' €</div>';
+        $itemString = $itemString + '<div class="prezzo">'+costo+' \u20ac</div>';
         $itemString = $itemString + '</a>';
         $itemString = $itemString + '</div>';
         $itemString = $itemString + '</li>';
+        
+        //aggiunta varianti dell'alimento
+        for(var j=0; j<arrList[i]._varianti.length; j++) {
+            $itemString = $itemString + '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c" data-theme="c">';
+            $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim-var">';
+            $itemString = $itemString + '<a class="comm-li-link-var'+ selClass +'">';
+            $itemString = $itemString + '<div class="name">'+arrList[i]._varianti[j]._descrizione+'</div>';
+            $itemString = $itemString + '<div class="prezzo">'+arrList[i]._varianti[j]._prezzo+' \u20ac</div>';
+            $itemString = $itemString + '</a>';
+            $itemString = $itemString + '</div>';
+            $itemString = $itemString + '</li>';
+        }
     }
-    return $itemString;
+    
+    document.getElementById('container2').innerHTML = $itemString;
+    
+    //aggiornamento totale ordine
+    aggiornaTotale();
 }
-      
-  
+
+
+/*
+ * Funzione per il calcolo del totale dell'ordine
+ *
+ */
+function aggiornaTotale(){
+    var totale = 0;
+    for(var i=0; i<arrList.length; i++) {
+        totale += arrList[i]._num * arrList[i]._prezzo;
+        
+        var varPrezzo = 0;
+        //verifica se variazione prezzo da varianti
+        for(var j=0; j<arrList[i]._varianti.length; j++) {
+            varPrezzo += arrList[i]._varianti[j]._prezzo;
+        }
+        //DA SISTEMARE CALCOLO TOTALE CON VARIANTI!!!
+        if (varPrezzo > 0) { totale += arrList[i]._num * varPrezzo; }
+    }
+    var $itemString = '';
+    $itemString = $itemString + '<h2 class="name">Totale:</h2>';
+    $itemString = $itemString + '<h2 class="prezzo">'+totale+' \u20ac</h2>';
+
+    //modifica del div già creato
+    document.getElementById("totale").innerHTML= $itemString; 
+}
+
+       
 /*
  * Toggle visualizzazione sezione "opzioni"
  * 
  */
-function itemOpt($index){
+$('.comm-li-link').live("click", function() {
+    //salvo nella var $param i parametri passati
+    var $param = $(this).attr('href');
+    //eliminazione carattere iniziale '#'
+    var $index = $param.replace('#','');
+    
     if (!show_opt || $index!=mem_index) { 
         $('#cont-comm-ord').hide('fast');
         $('#cont-comm-opt').show('fast');
         show_opt = true;
-        //var $optionSet = $(this).parents('.comm-li-link');
-        //$optionSet.find('.selected').removeClass('selected');
-        //$(this).addClass('selected');
+        //aggiunta classe "selected" all'alimento selezionato
+        $('#container2').find('.selected').removeClass('selected');
+        $(this).addClass('selected');
+        //visualizzazione varianti disponibili
         var id = arrList[$index]._id;
         var str = "";
         if (arrAlim[id]._varianti.length == 0) {
             str = "Nessuna variante disponibile";
         }
         else {
-            for($i=0; $i<arrAlim[id]._varianti.length; $i++) {
-                //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[$i]._descrizione+'</a>';
-                str = str + '<div class="var-class" href='+arrAlim[id]._varianti[$i]._id+'>'+arrAlim[id]._varianti[$i]._descrizione+'</div>';
-
+            for(i=0; i<arrAlim[id]._varianti.length; i++) {
+                //Verifica se variante già inserita
+                var varPresente = false;
+                for(var t=0; t<arrList[$index]._varianti.length; t++) {
+                    if (arrList[$index]._varianti[t]._id == arrAlim[id]._varianti[i]._id) {
+                        varPresente = true;
+                        break;
+                    }
+                }
+                //aggiunta classe "selected" se variante già selezionata
+                var selClass = "";
+                if (varPresente) { selClass = " selected";}
+                
+                //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
+                str = str + '<div class="var-class'+selClass+'" href='+arrAlim[id]._varianti[i]._id+'>'+arrAlim[id]._varianti[i]._descrizione+'</div>';
             }
         }
         //modifica del div già creato
         document.getElementById('opt-var').innerHTML = str;
+        
+        mem_index = $index;
     }
     else {
         $('#cont-comm-ord').show('fast');
         $('#cont-comm-opt').hide('fast');
         show_opt = false;
-        //var $optionSet = $(this).parents('.comm-li-link');
-        //$optionSet.find('.selected').removeClass('selected');
-    }
-    mem_index = $index;
-}
-    
-    
-function aggiornaTotale(){
-    var totale = 0;
-    for(var $i=0; $i<arrList.length; $i++) {
-        totale += arrList[$i]._num * arrList[$i]._prezzo;           
-    }
-    var $itemString = '';
-    $itemString = $itemString + '<h2 class="name">Totale:</h2>';
-    $itemString = $itemString + '<h2 class="prezzo">'+totale+' €</h2>';
-
-    //modifica del div già creato
-    document.getElementById("totale").innerHTML= $itemString; 
-}
         
-    
+        //cancellazione classe "selected"
+        $('#container2').find('.selected').removeClass('selected');
+        
+        mem_index = -1;
+    }
+});
+
+ 
 /*
  * Decremento o cancellazione alimento dalla lista
  * 
  */
 $('#canc').bind("click", function() {
     $index = mem_index;
-    for(var $i=0; $i<arrList.length; $i++) {
-        if (arrList[$i]._index == $index) {
-            if (arrList[$i]._num > 1) {
-                arrList[$i]._num -= 1;
-                var costo = arrList[$i]._num * arrList[$i]._prezzo;
-
-                var $itemString = '';
-                $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
-                $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#" onClick="itemOpt('+arrList[$i]._index+');">';
-                $itemString = $itemString + '<div class="num">'+arrList[$i]._num+'</div>';
-                $itemString = $itemString + '<div class="name">'+arrList[$i]._nome+'</div>';
-                $itemString = $itemString + '<div class="prezzo">'+costo+' €</div>';
-                $itemString = $itemString + '</a>';
-                $itemString = $itemString + '</div>';
-
-                //modifica del div già creato
-                document.getElementById($index).innerHTML= $itemString;
+    for(var i=0; i<arrList.length; i++) {
+        if (arrList[i]._index == $index) {
+            if (arrList[i]._num > 1) {
+                arrList[i]._num -= 1;
             }
             else { 
-                arrList.splice($i, 1);
-                //var box = document.getElementById($index);
-                //box.innerHTML= "";
-                //box.parentNode.removeChild(box);
+                arrList.splice(i, 1);
+                mem_index = 0;
                 
-                //aggiornamento lista
-                if (mem_ord_type == "nome") {
-                    $itemString = ordinaLista("nome");
-                }
-                else $itemString = ordinaLista("cat"); 
-                document.getElementById('container2').innerHTML = $itemString;
+                //rimozione classe "selected"
+                $('#container2').find('.selected').removeClass('selected');
 
+                //finestra "opzioni" nascosta
                 $('#cont-comm-ord').show('fast');
                 $('#cont-comm-opt').hide('fast');
                 show_opt = false;
             }
+            
+            //aggiornamento lista
+            if (mem_ord_type == "nome") {
+                aggiornaLista("nome");
+            }
+            else aggiornaLista("cat"); 
             break;
         }
     }       
-    aggiornaTotale();
 });
     
     
@@ -461,27 +486,27 @@ $('#canc').bind("click", function() {
  */
 $('.canc-all-conf').live("click", function() {
     $index = mem_index;
-    for(var $i=0; $i<arrList.length; $i++) {
-        if (arrList[$i]._index == $index) {
-            arrList.splice($i, 1);
-            //var box = document.getElementById($index);
-            //box.innerHTML= "";
-            //box.parentNode.removeChild(box);
+    for(var i=0; i<arrList.length; i++) {
+        if (arrList[i]._index == $index) {
+            arrList.splice(i, 1);
+            mem_index = 0;
+            
+            //rimozione classe "selected"
+            $('#container2').find('.selected').removeClass('selected');
             
             //aggiornamento lista
             if (mem_ord_type == "nome") {
-                $itemString = ordinaLista("nome");
+                aggiornaLista("nome");
             }
-            else $itemString = ordinaLista("cat"); 
-            document.getElementById('container2').innerHTML = $itemString;
-
+            else aggiornaLista("cat"); 
+            
+            //finestra "opzioni" nascosta
             $('#cont-comm-ord').show('fast');
             $('#cont-comm-opt').hide('fast');
             show_opt = false;
             break;
         }
     }        
-    aggiornaTotale();
 });
     
     
@@ -491,6 +516,14 @@ $('.canc-all-conf').live("click", function() {
  *
  */
 $('.var-class').live("click", function() {
+    //aggiunta o rimozione della classe "selected"
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+    }
+    else {
+        $(this).addClass('selected');
+    }
+    
     //id variante cliccata
     var id_var = $(this).attr('href');
 
@@ -500,10 +533,10 @@ $('.var-class').live("click", function() {
     
     var id = arrList[mem_index]._id;
 
-    for($i=0; $i<arrAlim[id]._varianti.length; $i++) {
-        if (arrAlim[id]._varianti[$i]._id == id_var) {
-            desc = arrAlim[id]._varianti[$i]._descrizione;
-            prezzo = arrAlim[id]._varianti[$i]._prezzo;
+    for(var i=0; i<arrAlim[id]._varianti.length; i++) {
+        if (arrAlim[id]._varianti[i]._id == id_var) {
+            desc = arrAlim[id]._varianti[i]._descrizione;
+            prezzo = arrAlim[id]._varianti[i]._prezzo;
             break;
         }
     }
@@ -513,18 +546,20 @@ $('.var-class').live("click", function() {
 
     //Ricerca Alimento selezionato in array Lista
     var index = 0;
-    for($j=0; $j<arrList.length; $j++) {
-        if (arrList[$j]._index == mem_index) {
-            index = $j;
+    for(var j=0; j<arrList.length; j++) {
+        if (arrList[j]._index == mem_index) {
+            index = j;
             break;
         }
     }
     
     //Verifica se variante già inserita
     var varPresente = false;
-    for($t=0; $t<arrList[index]._varianti.length; $t++) {
-        if (arrList[index]._varianti[$t]._id == id_var) {
+    var indexVar = 0;
+    for(var t=0; t<arrList[index]._varianti.length; t++) {
+        if (arrList[index]._varianti[t]._id == id_var) {
             varPresente = true;
+            indexVar = t;
             break;
         }
     }
@@ -537,35 +572,37 @@ $('.var-class').live("click", function() {
             arrList.push(temp);
             arrList[index]._num -= 1;
             index = arrList.length - 1;
-            
-            var stt = "";
-            for(var z=0; z<arrList.length; z++) {
-                stt = stt + arrList[z]._num + ", ";
-            }
-            stt = stt + " - Elementi array = " + arrList.length;
-            alert(stt);
         }
         
         //Aggiunta variante ad Alimento della Lista
         arrList[index]._varianti.push(variante);
         
-        //aggiornamento lista
-        if (mem_ord_type == "nome") {
-            $itemString = ordinaLista("nome");
-        }
-        else $itemString = ordinaLista("cat"); 
-        document.getElementById('container2').innerHTML = $itemString;
-        
-        alert("Selezionata variante: " + variante._descrizione + " - " + arrList[index]._varianti.length);
+        //Modifica indice alimento selezionato
+        mem_index = index;   
+           
+        //alert("Selezionata variante: " + variante._descrizione + " - " + arrList[index]._varianti.length);
     }
-    else alert("Variante già inserita"  + " - " + arrList[index]._varianti.length);
+    else {
+        //rimozione variante dall'array
+        arrList[index]._varianti.splice(indexVar, 1);
+        //rimozione classe "selected"
+        $(this).removeClass('selected');
+        
+        //alert("Variante rimossa"  + " - " + arrList[index]._varianti.length);
+    }
+    
+    //aggiornamento lista
+    if (mem_ord_type == "nome") {
+        aggiornaLista("nome");
+    }
+    else aggiornaLista("cat"); 
     
     variante = null;
 });
     
     
 /*
- *  Oggetto alimento
+ *  Funzione per crazione oggetti "alimento"
  *  
  */
 function alimList(index, id, cat, nome, prezzo, num, varianti) {
@@ -580,7 +617,7 @@ function alimList(index, id, cat, nome, prezzo, num, varianti) {
 
 
 /*
- *  Oggetto variante
+ *  Funzione per crazione oggetti "variante"
  *  
  */
 function varList(id, descrizione, prezzo) {

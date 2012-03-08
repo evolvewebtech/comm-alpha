@@ -346,7 +346,17 @@ body {
   height: 22px;
 }
 
-.comm-li-link .selected{
+.comm-li-alim-var {
+  margin: 0px; 
+  height: 22px;
+}
+
+.comm-li-link-var {
+  height: 22px;
+}
+
+.comm-li-link.selected,
+.comm-li-link-var.selected{
   background: #fbeca3; /* Old browsers */
   background: -moz-linear-gradient(top,  #fbeca3 0%, #fadb4e 100%); /* FF3.6+ */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fbeca3), color-stop(100%,#fadb4e)); /* Chrome,Safari4+ */
@@ -393,6 +403,30 @@ body {
   position:relative;
   height: 100%;
   vertical-align: middle;
+}
+
+.comm-li-alim-var .name{
+  margin: 0px;
+  margin-left: 114px;
+  float: left;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+  /*color: #2F3E46;*/
+  color: #888;
+}
+
+.comm-li-alim-var .prezzo {
+  margin: 0px;
+  margin-right: 60px;
+  float: right;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+  /*color: #2F3E46;*/
+  color: #888;
 }
 
 .comm-li-tot {
@@ -468,6 +502,10 @@ div#id-cat.element_list .name{
 
 .var-class:hover {
     background-color: #00A700;
+}
+
+.var-class.selected{
+    background-color: #fadb4e;
 }
 
 

@@ -27,10 +27,9 @@
     /*
      * controllo se il login sia valido
      */
-/*
- * inizio login
- */
-
+    /*
+     * inizio login
+     */
     if($objSession->IsLoggedIn()){
 
         $objUser = $objSession->GetUserObject();

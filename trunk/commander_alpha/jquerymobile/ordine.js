@@ -273,7 +273,7 @@ function aggiornaLista(type) {
                     var t = arrList[i];
                     arrList[i] = arrList[j];
                     arrList[j] = t;
-                    if (mem_index == i) { mem_index = j; }
+                    if (mem_index == j) { mem_index = i; }
                 }                  
             }   
         }
@@ -290,7 +290,7 @@ function aggiornaLista(type) {
                     var t = arrList[i];
                     arrList[i] = arrList[j];
                     arrList[j] = t;
-                    if (mem_index == i) { mem_index = j; }
+                    if (mem_index == j) { mem_index = i; }
                 }                  
             }   
         }
@@ -305,7 +305,7 @@ function aggiornaLista(type) {
                         var t = arrList[i];
                         arrList[i] = arrList[j];
                         arrList[j] = t;
-                        if (mem_index == i) { mem_index = j; }
+                        if (mem_index == j) { mem_index = i; }
                     }
                 }
             }   
@@ -458,7 +458,7 @@ $('#canc').bind("click", function() {
             }
             else { 
                 arrList.splice(i, 1);
-                mem_index = 0;
+                mem_index = -1;
                 
                 //rimozione classe "selected"
                 $('#container2').find('.selected').removeClass('selected');
@@ -489,7 +489,7 @@ $('.canc-all-conf').live("click", function() {
     for(var i=0; i<arrList.length; i++) {
         if (arrList[i]._index == $index) {
             arrList.splice(i, 1);
-            mem_index = 0;
+            mem_index = -1;
             
             //rimozione classe "selected"
             $('#container2').find('.selected').removeClass('selected');
@@ -579,7 +579,7 @@ $('.var-class').live("click", function() {
         
         //Modifica indice alimento selezionato
         mem_index = index;   
-           
+         
         //alert("Selezionata variante: " + variante._descrizione + " - " + arrList[index]._varianti.length);
     }
     else {

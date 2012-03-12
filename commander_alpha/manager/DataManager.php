@@ -1614,9 +1614,127 @@ class DataManager {
                 }
             }
     }
-
-
     //--------------------------------------------------------------------------
+
+
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function inserisciAlimentoVariante($alimento_id, $variante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione variante_alimento
+         */
+        $ret = $db->insert('rel_variante_alimento', array($variante_id, $alimento_id));
+
+        if ($ret) return true;
+        else return false;
+
+    }//end inserisciVarianteAlimento
+
+
+
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @param <int> $new_variante_id
+     * @param <int> $new_alimento_id
+     * @return <bool>
+     */
+    static function aggiornaAlimentoVariante($alimento_id, $variante_id, $new_alimento_id, $new_variante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione variante_alimento
+         */
+        $ret = $db->update('rel_variante_alimento', array('variante_id' => $new_variante_id,
+                                                  'alimento_id' => $new_alimento_id),
+                                            array('variante_id', $variante_id, 'alimento_id', $alimento_id)
+                    );
+
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaVarianteAlimento
+
+
+
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function cancellaAlimentoVariante($alimento_id, $variante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione variante_alimento
+         */
+        $ret = $db->delete('rel_variante_alimento', "variante_id = ".$variante_id.
+                        " AND "."alimento_id = ".$alimento_id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaVarianteAlimento
+
+    /**
+     *
+     * @param <int> $id
+     * @return <array>
+     */
+    public static function getAlimentoVariante($id){
+        $sql = "SELECT * FROM cmd_alimento_variante WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting stampante data");
+            //return array();
+            return 0;
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     *
+     * @return <array>
+     */
+    public static function getAllAlimentoVariante(){
+        $sql = "SELECT * FROM rel_variante_alimento";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+    //--------------------------------------------------------------------------
+
 
 
 }

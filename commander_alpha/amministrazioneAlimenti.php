@@ -35,6 +35,9 @@ todo: 1. Creare tutti i controlli del form
         return "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
     }
 
+    /*
+     *
+     */
     function selectOption(select_id, option_val) {
         $('#'+select_id+' option:selected').removeAttr('selected');
         $('#'+select_id+' option[value='+option_val+']').attr('selected','selected');
@@ -148,17 +151,17 @@ todo: 1. Creare tutti i controlli del form
            }
 
            $data_alimento_tampante = DataManager::getAllAlimentoStampante();
+           $data_alimento_variante = DataManager::getAllAlimentoVariante();
            $data_categoria         = DataManager::getAllCategoriaByGestoreID($gestore_id);
            /*
-           foreach ($data_alimento_tampante as $data_alID_stamp_ID) {
-               echo '<pre style="color:white;">';
+           foreach ($data_alimento_variante as $data_alID_stamp_ID) {
+               echo '<pre style="background-color:white;">';
                print_r($data_alID_stamp_ID);
                echo "</pre>";
            }
            */
            $numero_alimento_stampante = count($data_alimento_tampante);
 
-//           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci gli Alimenti
         <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
@@ -177,11 +180,12 @@ $(function() {
         $('#color-picker-dialog').empty().addColorPicker({
             clickCallback: function(color) {
                     $('#color-picker-dialog').next().val(rgb2hex(color));
-                    $('#color-picker-dialog').next().css('backround-color', $('#color-picker-dialog').next().val());
+                    $('#color-picker-dialog').next().css("background", rgb2hex(color));
+                    $('#color-picker-dialog').next().css("color", rgb2hex(color));
+                    //$('#color-picker-dialog').next().css('background', $('#color-picker-dialog').next().val());
                     $('#debug').append( '<br />'+rgb2hex(color) );
             }
    	});
-
 
         $("#addNewTab").validate({
                     rules: {
@@ -210,80 +214,101 @@ $(function() {
                     }
         });
 
-    var $tab_nome_input                     = $("#tab_nome"),
-        $tab_prezzo_input                   = $('#tab_prezzo'),
-        $tab_iva_input                      = $('#tab_iva'),
-        $tab_colore_bottone_input           = $('#tab_colore_bottone'),
-        $tab_descrizione_input              = $('#tab_descrizione'),
-        $tab_apeso_input                    = $('#tab_apeso'),
-        $tab_codice_prodotto_input          = $('#tab_codice_prodotto'),
-        $tab_quantita_input                 = $('#tab_quantita'),
-        $tab_categoria_id_input             = $('#tab_categoria_id'),
-        $tab_secondo_alimento_id_input      = $('#tab_secondo_alimento_id'),
-        $tab_stampante_associata_id_input   = $('#tab_stampante_associata_id');
+        var $tab_nome_input                     = $("#tab_nome"),
+            $tab_prezzo_input                   = $('#tab_prezzo'),
+            $tab_iva_input                      = $('#tab_iva'),
+            $tab_colore_bottone_input           = $('#tab_colore_bottone'),
+            $tab_descrizione_input              = $('#tab_descrizione'),
+            $tab_apeso_input                    = $('#tab_apeso'),
+            $tab_codice_prodotto_input          = $('#tab_codice_prodotto'),
+            $tab_quantita_input                 = $('#tab_quantita'),
+            $tab_categoria_id_input             = $('#tab_categoria_id'),
+            $tab_secondo_alimento_id_input      = $('#tab_secondo_alimento_id'),
+            $tab_stampante_associata_id_input   = $('#tab_stampante_associata_id');
 
 
-    var tab_counter = <?=$numero_alimento?>,
-        max_id      = <?=$max_id?>,
-        gestore_id  = <?=$gestore_id?>,
-        numero_rel_stampanti = <?= $numero_alimento_stampante ?>;
+        var tab_counter = <?=$numero_alimento?>,
+            max_id      = <?=$max_id?>,
+            gestore_id  = <?=$gestore_id?>,
+            numero_rel_stampanti = <?= $numero_alimento_stampante ?>;
 
-   /*
-    *
-    * ho creato l'array che contiene l'id delle checkbox che devono essere
-    * selezionate
-    *
-    */
-   var id_stampante_alimento = new Array();
-   <? foreach ($data_alimento_tampante as $data_alID_stamp_ID) { ?>
-            id_stampante_alimento.push("<?=$data_alID_stamp_ID[alimento_id]?>-<?=$data_alID_stamp_ID[stampante_id]?>");
-   <? } ?>
-
-    /*
-    *
-    *  metto a checked=true le checkbox che rappresentano relazioni nel db
-    */
-   $.each(id_stampante_alimento, function(key, value){
-       //alert(key + ': ' + value);
-       $('#'+value).prop('checked', true);
-   });
-
-   /*
-    * inserisco all'interno di un array le categorie presenti nel db
-    * $data_categoria
-    */
-   var id_categoria = {};
-   <? foreach ($data_categoria as $categoria) { ?>
-            id_categoria["<?=$categoria[nome]?>"] = <?=$categoria[id]?>;
-   <? } ?>
-
-    /*
-     * ritorno una stringa contenete le select delle categorie
-     * e come selected quella = al parametro passato: categoria
-     */
-    function printSelectCategoria(categoria) {
-        var selectCategoria = '';
-          $.map(id_categoria, function(key, value){
-                if (key==categoria){
-                    selectCategoria=selectCategoria+'<option selected="selected" value="'+key+'">'+value+'</option>';
-                }else {
-                selectCategoria=selectCategoria+'<option value="'+key+'">'+value+'</option>';
-                }
-          });
-          return selectCategoria;
-    }
+       
+       // Stampanti-------------------------------------------------------------
+       /*
+        * Creo l'array che contiene l'id delle checkbox che devono essere
+        * selezionate
+        */
+       var id_stampante_alimento = new Array();
+       <? foreach ($data_alimento_tampante as $data_alID_stamp_ID) { ?>
+                id_stampante_alimento.push("<?=$data_alID_stamp_ID[alimento_id]?>-<?=$data_alID_stamp_ID[stampante_id]?>");
+       <? } ?>
+       /*
+        *  metto a checked=true le checkbox che rappresentano relazioni nel db
+        */
+       $.each(id_stampante_alimento, function(key, value){
+           //alert(key + ': ' + value);
+           $('#'+value).prop('checked', true);
+       });
 
 
-    tab_counter++;
-    var next_id = max_id+1;
+       // Varianti--------------------------------------------------------------
+       /*
+        * Creo l'array che contiene l'id delle checkbox che devono essere
+        * selezionate
+        */
+       var id_variante_alimento = new Array();
+       <? foreach ($data_alimento_variante as $al_ID_var_ID) { ?>
+                id_variante_alimento.push("av<?=$al_ID_var_ID[alimento_id]?>-<?=$al_ID_var_ID[variante_id]?>");
+       <? } ?>
 
-    $('#debug').append('<br />Numero: '         +tab_counter+
-                       '<br />ID max: '         +max_id+
-                       '<br />ID max next: '    +next_id+
-                       '<br />Gestore ID: '     +gestore_id+
-                       '<br />numero al-sta: '  +numero_rel_stampanti+
-                       '<br />lista ID:'        +id_stampante_alimento+
-                       '<br />categorie_id: '   +id_categoria);
+       /*
+        *  metto a checked=true le checkbox che rappresentano relazioni nel db
+        */
+       $.each(id_variante_alimento, function(key, value){
+           //alert(key + ': ' + value);
+           $('#'+value).prop('checked', true);
+       });
+       
+
+
+       // Categorie-------------------------------------------------------------
+       /*
+        * inserisco all'interno di un array le categorie presenti nel db
+        * $data_categoria
+        */
+       var id_categoria = {};
+       <? foreach ($data_categoria as $categoria) { ?>
+                id_categoria["<?=$categoria[nome]?>"] = <?=$categoria[id]?>;
+       <? } ?>
+
+        /*
+         * ritorno una stringa contenete le select delle categorie
+         * e come selected quella = al parametro passato: categoria
+         */
+        function printSelectCategoria(categoria) {
+            var selectCategoria = '';
+              $.map(id_categoria, function(key, value){
+                    if (key==categoria){
+                        selectCategoria=selectCategoria+'<option selected="selected" value="'+key+'">'+value+'</option>';
+                    }else {
+                    selectCategoria=selectCategoria+'<option value="'+key+'">'+value+'</option>';
+                    }
+              });
+              return selectCategoria;
+        }
+
+
+        tab_counter++;
+        var next_id = max_id+1;
+
+        $('#debug').append('<br />Numero: '         +tab_counter+
+                           '<br />ID max: '         +max_id+
+                           '<br />ID max next: '    +next_id+
+                           '<br />Gestore ID: '     +gestore_id+
+                           '<br />numero al-sta: '  +numero_rel_stampanti+
+                           '<br />lista ID: '       +id_stampante_alimento+
+                           '<br />lista ID2: '      +id_variante_alimento+
+                           '<br />categorie_id: '   +id_categoria);
 
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
@@ -433,8 +458,10 @@ $(function() {
                             //$('#color-picker-'+ui.index).next().val(rgb2hex(color));
                             var field = $('#color-picker-'+ui.index).next();
                             field.val(rgb2hex(color));
-                            field.css("background-color", "#72A4D2s")
-                            //$('#color-picker-dialog').next().css('backround-color', '#ff0');
+                            //$('#color-picker-dialog').next().css('background', $('#color-picker-dialog').next().val());
+                            field.css("background", rgb2hex(color));
+                            field.css("color", rgb2hex(color));
+                            //$('#color-picker-dialog').next().css('backround', '#ff0');
                             $('#debug').append( '<br />'+rgb2hex(color) );
                     }
                 });
@@ -468,7 +495,19 @@ $(function() {
 
     });
 
-    // modal dialog init: custom buttons and a "close" callback reseting the form inside
+    /*
+     * visualizzo o nascondo il pannello con tutte le varianti
+     * disponibili
+     *
+     */
+    $("button").click(function () {
+        $(".variante").slideToggle("slow");
+    });
+
+    /*
+     * dialogo di inserimento del nuovo alimento
+     *
+     */
     var $dialog = $( "#dialog" ).dialog({
             position: 'center',
             autoOpen: false,
@@ -543,13 +582,36 @@ $(function() {
         if($("#alimentoForm-"+selected).valid()){
 
             /*
-             * prelevo tutti i valori delle checkbox e ritorno una stringa
+             * prelevo tutti i valori delle checkbox VARIANTI e ritorno una stringa
+             * formattata json così costruita:
+             *
+             * av+tabID-stamapnteID=bool&av+tabID-stamapnteID=bool&tabID-stamapnteID=bool...
+             * dove bool = true se la checkbox è selezionata, false altrimenti
+             *
+             */
+            var params_v = $.param($('#varianteAlimentoForm-'+selected+' input:checkbox').map(function() {
+               return { name: this.id, value: !!this.checked };
+            }));
+            $('#debug').append('<br />PARAM V-A: '+params_v);
+            $.ajax({
+                type: "POST",
+                data: params_v,
+                url: "manager/gestore/alimentiVarianti.php",
+                dataType: 'json',
+                cache: false,
+                success: onAlimentiVariantiSuccess,
+                error: onAlimentiVariantiError
+            });
+
+            /*
+             * prelevo tutti i valori delle checkbox STAMPANTI e ritorno una stringa
              * formattata json così costruita:
              *
              * tabID-stamapnteID=bool&tabID-stamapnteID=bool&tabID-stamapnteID=bool...
              * dove bool = true se la checkbox è selezionata, false altrimenti
              *
              */
+
             var params = $.param($(':checkbox').map(function() {
                return { name: this.id, value: !!this.checked };
             }));
@@ -741,12 +803,40 @@ $(function() {
                $dialogERR.dialog("open");
                $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
-               $('#code-ok').html('Le stampanti sono state aggiornate correttamente.');
-               $dialogOK.dialog( "open" );
+               //$('#code-ok').html('Le stampanti sono state aggiornate correttamente.');
+               //$dialogOK.dialog( "open" );
                $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
            }
 
+        return;
+
     }
+
+    function onAlimentiVariantiSuccess(data, status) {
+
+        $('#debug').append('<br />ajax varianti: success');
+        $('#debug').append('<br /><br />'+data.err+'<br />');
+
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante l\'aggiornamento delle varianti.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               //$('#code-ok').html('Le varianti sono state aggiornate correttamente.');
+               //$dialogOK.dialog( "open" );
+               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+           }
+           return;
+    }
+
 
     function onAlimentoEsauritoSuccess(data, status) {
 
@@ -776,19 +866,22 @@ $(function() {
     }
 
     /*
-     *  se si presentano errori durante le chiamate ajax
+     *  se si presentano errori nel file durante le chiamate ajax
      */
     function onAlimentoError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
         $('#debug').append(data);
-
     }
     function onAlimentiStampantiError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
         $('#debug').append(data);
-
+    }
+    function onAlimentiVariantiError(data, status) {
+        $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
+        $dialogERR.dialog( "open" );
+        $('#debug').append(data);
     }
     function onAlimentoEsauritoError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
@@ -944,6 +1037,27 @@ $(function() {
                                 <input type="hidden" name="alimento_id" id="alimento_id" value="3" />
                             </fieldset>
                         </form>
+
+                        <!--
+                            Area varianti
+                        -->
+                        <button style="float:left;width:235px;">Associa una variante</button>
+                        <form class="variante" style="float:left; display:none;width:235px;" id="varianteAlimentoForm-<?=$count?>">
+                        <fieldset>
+                            <!-- //variante -->
+                            <!--
+                            <label style="margin-top: 10px;" class="tab_variante_associata_id" for="tab_variante_associata_id">Elenco varianti: </label><br />
+                            -->
+                                <?php
+                                    $data_variante = DataManager::getAllVarianteByGestoreID($gestore_id);
+                                    foreach ($data_variante as $variante) {
+                                        echo '<input type="checkbox" name="varianti[]" id="av'.$alimento['id'].'-'.$variante['id'].'" value="'.$variante['id'].'" />'.$variante['descrizione'].'<br />';
+                                    }
+                                ?>
+                            <input type="hidden" name="alimento_id" id="alimento_id" value="3" />
+                        </fieldset>
+                        </form>
+
                     </div>
                     <?php
                         $count++;

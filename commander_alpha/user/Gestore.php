@@ -679,5 +679,57 @@ class Gestore extends User {
     }
 
 
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE RELAZIONE ALIMENTO VARIANTE ------------------------------------
+     *
+     * - addAlimentoVariante()
+     * - editAlimentoVariante()
+     * - getAlimentoVariante()
+     * - delAlimentoVariante()
+     *
+     * - getAllAlimentoVariante()
+     */
+
+    /**
+     *
+     * @param <type> $alimento_id
+     * @param <type> $stampante_id
+     * @return <type>
+     */
+    public function addAlimentoVariante($alimento_id, $variante_id){
+        return DataManager::inserisciAlimentoVariante($alimento_id, $variante_id);
+    }
+
+    /**
+     *
+     * @param <type> $alimento_id
+     * @param <type> $variante_id
+     * @param <type> $new_alimento_id
+     * @param <type> $new_variante_id
+     * @return <type>
+     */
+    public function editAlimentoVariante($alimento_id, $variante_id, $new_alimento_id, $new_variante_id){
+        return DataManager::aggiornaAlimentoVariante($alimento_id, $variante_id, $new_alimento_id, $new_variante_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getAlimentoVariante($id){
+        return DataManager::getAlimentoVariante($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delAlimentoVariante($alimento_id, $variante_id){
+        return DataManager::cancellaAlimentoVariante($alimento_id, $variante_id);
+    }
+
 }
 ?>

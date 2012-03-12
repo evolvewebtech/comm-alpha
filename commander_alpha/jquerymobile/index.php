@@ -87,7 +87,7 @@
         </div>
         <div data-role="content">
             <a href="#ordine" data-role="button" data-icon="check" class="ui-btn-right canc-all-conf">Cancella tutto</a>
-            <a href="#ordine" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
+            <a href="#ordine" data-role="button" data-icon="delete" class="ui-btn-right canc-ann">Annulla</a>
         </div>
     </div>
 </body>

@@ -372,10 +372,9 @@ function aggiornaTotale(){
         var varPrezzo = 0;
         //verifica se variazione prezzo da varianti
         for(var j=0; j<arrList[i]._varianti.length; j++) {
-            varPrezzo += arrList[i]._varianti[j]._prezzo;
+            varPrezzo += Number(arrList[i]._varianti[j]._prezzo);
         }
-        //DA SISTEMARE CALCOLO TOTALE CON VARIANTI!!!
-        if (varPrezzo > 0) { totale += arrList[i]._num * varPrezzo; }
+        totale += Number(arrList[i]._num) * Number(varPrezzo);
     }
     var $itemString = '';
     $itemString = $itemString + '<h2 class="name">Totale:</h2>';
@@ -507,6 +506,17 @@ $('.canc-all-conf').live("click", function() {
             break;
         }
     }        
+});
+
+
+/*
+ * Annulla cancellazione alimento
+ * 
+ */
+$('.canc-ann').live("click", function() {
+    mem_index = -1;  
+    //eliminata classe "selected"
+    $('#container2').find('.selected').removeClass('selected');
 });
     
     

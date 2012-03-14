@@ -3,13 +3,12 @@
     $objSession = new HTTPSession();
 ?>
 <!--
-todo: 1. Creare tutti i controlli del form
-      2. Le chiamate ajax non funzionano correttamente,
-         quando eseguo un save mi aggiorna solocle checkox
-
+todo: 1. Gli alimenti non si aggiungono più!!
+      2. Creare tutti i controlli del form
+      3. Attenzione al refresh della pagina
+      4. Alimento esaurito non segnale come presente
+      5. Gestisci le eliminazioni
 -->
-
-
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/color-picker.css" type="text/css" media="screen" />
@@ -45,7 +44,6 @@ todo: 1. Creare tutti i controlli del form
 </script>
 
 <script src="media/js/jquery.validate.min.js"></script>
-
 <style type="text/css">
     /*
      * foglio di stile per gli errori di digitazione client-side
@@ -110,7 +108,6 @@ todo: 1. Creare tutti i controlli del form
        text-transform: uppercase;
        cursor: pointer;
     }
-
     a.finish {
         /*background: #ccc;*/
         background: red;
@@ -121,7 +118,6 @@ todo: 1. Creare tutti i controlli del form
         border-right: solid 2px #777;
         padding: 5px 5px;
         }
-
     a.down.finish{
         /*background: #bbb;*/
         background: green;
@@ -130,7 +126,6 @@ todo: 1. Creare tutti i controlli del form
         border-bottom:solid 2px  #eaeaea;
         border-right: solid 2px #eaeaea;
         }
-
 </style>
 
 <div id="content">
@@ -227,10 +222,10 @@ $(function() {
             $tab_stampante_associata_id_input   = $('#tab_stampante_associata_id');
 
 
-        var tab_counter = <?=$numero_alimento?>,
-            max_id      = <?=$max_id?>,
-            gestore_id  = <?=$gestore_id?>,
-            numero_rel_stampanti = <?= $numero_alimento_stampante ?>;
+        var tab_counter             = <?=$numero_alimento?>,
+            max_id                  = <?=$max_id?>,
+            gestore_id              = <?=$gestore_id?>,
+            numero_rel_stampanti    = <?= $numero_alimento_stampante ?>;
 
        
        // Stampanti-------------------------------------------------------------
@@ -328,15 +323,6 @@ $(function() {
                         tab_content_secondo_alimento_id     = $tab_secondo_alimento_id_input.val(),
                         tab_content_stampante_associata_id  = $tab_stampante_associata_id_input.val();
 
-
-/*
- * ----------------------------------------------------------
- *
- * crea array con categorie e confronta, poi carica nel selct
- * idem per stampanti
- *
- * ----------------------------------------------------------
- */
 
                     $( ui.panel ).append('<div style="min-height:400px;">'+
                         '<div style="height: 40px;">'+
@@ -562,8 +548,6 @@ $(function() {
             var index = $( "li", $tabs ).index( $( this ).parent() );
             $tabs.tabs( "remove", index );
     });
-
-
 
     /*
      *
@@ -1034,7 +1018,6 @@ $(function() {
                                             echo '<input type="checkbox" name="stampanti[]" id="'.$alimento['id'].'-'.$stampante['id'].'" value="'.$stampante['id'].'" />'.$stampante['nome'].'<br />';
                                         }
                                     ?>
-                                <input type="hidden" name="alimento_id" id="alimento_id" value="3" />
                             </fieldset>
                         </form>
 
@@ -1054,7 +1037,6 @@ $(function() {
                                         echo '<input type="checkbox" name="varianti[]" id="av'.$alimento['id'].'-'.$variante['id'].'" value="'.$variante['id'].'" />'.$variante['descrizione'].'<br />';
                                     }
                                 ?>
-                            <input type="hidden" name="alimento_id" id="alimento_id" value="3" />
                         </fieldset>
                         </form>
 

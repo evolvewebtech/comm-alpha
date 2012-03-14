@@ -51,6 +51,10 @@ class DataManager {
             $sql = "SELECT * FROM $table WHERE ordine_id=$param1&&alimento_id=$param2";
         }elseif($table=='rel_variante_alimento'){
             $sql = "SELECT * FROM $table WHERE variante_id=$param1&&alimento_id=$param2";
+        }elseif($table=='cmd_alimento_menu'){
+            $sql = "SELECT * FROM $table WHERE menu_fisso_id=$param1&&nome_cat='".$param2."'";
+        }elseif($table=='rel_alimentomenu_alimento'){
+            $sql = "SELECT * FROM $table WHERE alimento_menu_id=$param1&&menu_id=$param2";
         }
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
@@ -1735,7 +1739,188 @@ class DataManager {
     }
     //--------------------------------------------------------------------------
 
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function inseriscinomeCatMenu($id,$menu_fisso_id, $nome_cat){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione variante_alimento
+         */
+        $ret = $db->insert('cmd_alimento_menu', array($id, $nome_cat, $menu_fisso_id));
+
+        if ($ret) return true;
+        else return false;
+
+    }//end inserisciVarianteAlimento
 
 
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $alimento_id
+     * @return <bool>
+     */
+    static function cancellaNomeCatMenu($menu_fisso_id, $nome_cat){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione variante_alimento
+         */
+        $ret = $db->delete('cmd_alimento_menu', "menu_fisso_id = ".$menu_fisso_id.
+                        " AND "."nome_cat ='".$nome_cat ."'");
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaVarianteAlimento
+
+
+    public static function getAllNomeCategoria(){
+        $sql = "SELECT * FROM cmd_alimento_menu";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+
+    /**
+     *
+     * @param <int> $menu_fisso_id
+     * @return <array>
+     */
+    public static function getAllCategoriaByMenuID($menu_fisso_id){
+        $sql = "SELECT * FROM cmd_alimento_menu WHERE menu_fisso_id=$menu_fisso_id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    
+
+    //--------------------------------------------------------------------------
+
+
+    /**
+     *
+     * @param <type> $alimento_menu_id
+     * @param <type> $menu_id
+     * @return <type>
+     */
+    static function inserisciAlimentoMenuAlimento($alimento_menu_id, $menu_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione variante_alimento
+         */
+        $ret = $db->insert('rel_alimentomenu_alimento', array($alimento_menu_id, $menu_id));
+
+        if ($ret) return true;
+        else return false;
+
+    }//end inserisciVarianteAlimento
+
+    /**
+     *
+     * @param <type> $alimento_menu_id
+     * @param <type> $variante_id
+     * @return <type>
+     */
+    static function cancellaAlimentoMenuAlimento($alimento_menu_id, $variante_id){
+
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione variante_alimento
+         */
+        $ret = $db->delete('rel_alimentomenu_alimento', "alimento_menu_id = ".$alimento_menu_id.
+                        " AND "."menu_id = ".$menu_id);
+
+        if ($ret) return true;
+        else return false;
+    }//end cancellaVarianteAlimento
+
+    /**
+     *
+     * @param <type> $id
+     * @return <type>
+     */
+    public static function getAlimentoMenuAlimento($id){
+        $sql = "SELECT * FROM rel_alimentomenu_alimento WHERE id=$id";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting stampante data");
+            //return array();
+            return 0;
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
+     *
+     * @return <type> 
+     */
+    public static function getAllAlimentoMenu(){
+        $sql = "SELECT * FROM rel_alimentomenu_alimento";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+    
+    
 }
 ?>

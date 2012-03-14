@@ -101,7 +101,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
             border-left: solid 1px #c4c4c4;
             border-right: solid 1px #c4c4c4;
             display: none;
-    }
+        }
 </style>
 <div id="content">
     <?php
@@ -155,14 +155,14 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
 
             <!--Bar 3-->
             <div class="mosaic-block bar3">
-                <a href="amministrazioneMenu.php" class="mosaic-overlay">
+                <a href="amministrazioneTicket.php" class="mosaic-overlay">
                         <div class="details">
-                                <h4>GESTISCI I MENU</h4>
-                                <p>Crea e personalizza i tuoi men&ugrave.</p>
+                                <h4>BUONI PASTO / RIDUZIONI / TICKET </h4>
+                                <p>Crea e personalizza i tuoi buoni pasto.</p>
                         </div>
                 </a>
                 <div style="background-color:#fff" class="mosaic-backdrop">
-                    <img style="padding:60px"src="img/menu.png"/>
+                    <img style="padding:60px"src="img/ticket.png"/>
                 </div>
             </div>
 
@@ -236,6 +236,19 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
                     <img alt="ristorante" src="img/add.png"/>
                 </div>
             </div>
+            <!--Bar 3-->
+            <div class="mosaic-block bar3">
+                <a href="amministrazioneMenu.php" class="mosaic-overlay">
+                        <div class="details">
+                                <h4>GESTISCI I MENU</h4>
+                                <p>Crea e personalizza i tuoi men&ugrave.</p>
+                        </div>
+                </a>
+                <div style="background-color:#fff" class="mosaic-backdrop">
+                    <img style="padding:60px"src="img/menu.png"/>
+                </div>
+            </div>
+
         </div>
     </div>
 

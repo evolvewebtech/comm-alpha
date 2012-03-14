@@ -103,6 +103,8 @@ todo: 1. Creare tutti i controlli del form
            if (!$max_id){
                $max_id=0;
            }
+
+           $data_categoria_menu  = DataManager::getAllNomeCategoria();
            //echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
 
     ?>
@@ -145,6 +147,25 @@ $(function() {
     var tab_counter = <?=$numero_menu?>,
         max_id      = <?=$max_id?>,
         gestore_id  = <?=$gestore_id?>;
+
+
+       // Categoria-------------------------------------------------------------
+       /*
+        * Creo l'array che contiene l'id delle checkbox che devono essere
+        * selezionate
+        */
+       var id_categoria_menu = new Array();
+       <? foreach ($data_categoria_menu as $al_ID_var_ID) { ?>
+                id_categoria_menu.push("<?=$al_ID_var_ID[menu_fisso_id]?>-<?=$al_ID_var_ID[nome_cat]?>");
+       <? } ?>
+
+       /*
+        *  metto a checked=true le checkbox che rappresentano relazioni nel db
+        */
+       $.each(id_categoria_menu, function(key, value){
+           //alert(key + ': ' + value);
+           $('#'+value).prop('checked', true);
+       });
 
 
     tab_counter++;
@@ -223,6 +244,17 @@ $(function() {
 
     });
 
+
+    /*
+     * visualizzo o nascondo il pannello con tutte le categorie
+     * disponibili
+     *
+     */
+    $("button").click(function () {
+        $(".categoria").slideToggle("slow");
+    });
+
+
     // modal dialog init: custom buttons and a "close" callback reseting the form inside
     var $dialog = $( "#dialog" ).dialog({
             position: 'center',
@@ -293,6 +325,30 @@ $(function() {
         $('#debug').append('<br />selected: '+selected);
 
         if($("#menuForm-"+selected).valid()){
+
+
+            /*
+             * prelevo tutti i valori delle checkbox Categorie e ritorno una stringa
+             * formattata json così costruita:
+             *
+             * tabID-NomeCat=bool&tabID-NomeCat=bool&tabID-NomeCat=bool...
+             * dove bool = true se la checkbox è selezionata, false altrimenti
+             *
+             */
+            var params_v = $.param($('#nomeCatMenuForm-'+selected+' input:checkbox').map(function() {
+               return { name: this.id, value: !!this.checked };
+            }));
+            $('#debug').append('<br />PARAM cat-Menu: '+params_v);
+            $.ajax({
+                type: "POST",
+                data: params_v,
+                url: "manager/gestore/nomeCatMenu.php",
+                dataType: 'json',
+                cache: false,
+                success: nomeCatMenuSuccess,
+                error: onMenuError
+            });
+
 
             var menuForm = $("#menuForm-"+selected).serialize();
             menuForm = menuForm+'&action=save&current_tab='+selected;
@@ -398,7 +454,7 @@ $(function() {
 
                //aspetto che il dialogo sia stato chiuso
                $dialogOK.bind( "dialogclose", function(event, ui) {
-                  // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                  // rinfresco la pagina per rendere effettiva l'eliminazione
                   location.reload();
                });
 
@@ -438,6 +494,32 @@ $(function() {
            }
         }
     }
+
+
+    function nomeCatMenuSuccess(data, status){
+        $('#debug').append('<br />ajax nomeCat: success');
+        $('#debug').append('<br /><br />'+data.err+'<br />');
+
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante l\'aggiornamento delle categorie.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               //$('#code-ok').html('Le varianti sono state aggiornate correttamente.');
+               //$dialogOK.dialog( "open" );
+               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+           }
+           return;
+    }
+
     function onMenuError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
@@ -495,7 +577,7 @@ $(function() {
                     foreach ($data_menu as $menu) {
                         echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
                     ?>
-                    <div style="min-height:175px;">
+                    <div style="min-height:250px;">
                         <form id="menuForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
                                 <br /><label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
@@ -508,12 +590,32 @@ $(function() {
                                 <input style="margin-right: 9px;" type="text" name="tab_iva" id="tab_iva" value="<?=$menu['iva']?>" class="ui-widget-content ui-corner-all" />
                                 <input type="hidden" name="menu_id" id="menu_id" value="<?=$menu['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$menu['gestore_id']?>" />
-                           </fieldset>
+                                
+                                <fieldset style="margin-top:10px; width:300px;">
+                                <a href="amministrazioneAlimentiMenu.php?id=<?=$menu['id']?>">Inserisci gli alimenti al menu.</a>
+                                </fieldset>
+                            </fieldset>
                         </form>
+                        <!--
+                            Area nomi categorie
+                        -->
+                        <button style="float:left;width:235px;">Scegli le categorie da inserire nel menu fisso</button>
+                        <form class="categoria" style="float:left; display:none;width:235px;" id="nomeCatMenuForm-<?=$count?>">
+                        <fieldset>
+                                <?php
+                                    $data_categoria = DataManager::getAllCategoriaByGestoreID($gestore_id);
+                                    foreach ($data_categoria as $categoria) {
+                                        echo '<input type="checkbox" name="categorie[]" id="'.$menu['id'].'-'.$categoria['nome'].'" value="'.$categoria['id'].'" />'.$categoria['nome'].'<br />';
+                                    }
+                                ?>
+                        </fieldset>
+                        </form>
+
                         <fieldset style="float:right" class="ui-helper-reset">
                             <button type="submit" id="save_menu">SALVA</button><br />
                             <button type="submit" id="delete_menu">ELIMINA</button>
                         </fieldset>
+
                     </div>
                     <?php
                         $count++;

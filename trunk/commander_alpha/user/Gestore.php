@@ -731,5 +731,45 @@ class Gestore extends User {
         return DataManager::cancellaAlimentoVariante($alimento_id, $variante_id);
     }
 
+
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE RELAZIONE ALIMENTO_MENU ALIMENTO -------------------------------
+     *
+     * - addAlimentoMenuAlimento()
+     * - getAlimentoMenuAlimento()
+     * - delAlimentoMenuAlimento()
+     *
+     * - getAllAlimentoMenuAlimento()
+     */
+
+    /**
+     *
+     * @param <type> $alimento_id
+     * @param <type> $stampante_id
+     * @return <type>
+     */
+    public function addAlimentoMenuAlimento($alimento_menu_id, $menu_id){
+        return DataManager::inserisciAlimentoMenuAlimento($alimento_menu_id, $menu_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getAlimentoMenuAlimento($id){
+        return DataManager::getAlimentoMenuAlimento($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delAlimentoMenuAlimento($alimento_menu_id, $menu_id){
+        return DataManager::cancellaAlimentoMenuAlimento($alimento_menu_id, $menu_id);
+    }
+
 }
 ?>

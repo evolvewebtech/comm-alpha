@@ -167,10 +167,10 @@ $(function() {
                     $( ui.panel ).append('<div style="min-height:175px;">'+
                         '<form id="stampanteForm-'+tab_counter+'" style="min-height:60px; float:left;">'+
                             '<fieldset style="float:left" class="ui-helper-reset">'+
-                                '<br /><label style="margin-right: 128px;" class="tab_title" for="tab_nome">Nome: </label>'+
+                                '<br /><label style="margin-right: 160px;" class="tab_title" for="tab_nome">Nome: </label>'+
                                 '<input type="text" name="tab_nome" id="tab_nome" value="'+tab_content_nome+'" class="ui-widget-content ui-corner-all" />'+
-                                '<br /><label style="margin-right: 20px;" class="tab_indirizzo" for="tab_indirizzo">Indirizzo stampante: </label>'+
-                                '<input style="float:right; margin-right: 9px;" type="text" name="tab_indirizzo" id="tab_indirizzo" value="'+tab_content_indirizzo+'" class="ui-widget-content ui-corner-all" />'+
+                                '<br /><label style="margin-right: 10px;" class="tab_indirizzo" for="tab_indirizzo">Indirizzo stampante: </label>'+
+                                '<input style="margin-right: 9px;" type="text" name="tab_indirizzo" id="tab_indirizzo" value="'+tab_content_indirizzo+'" class="ui-widget-content ui-corner-all" />'+
                                 '<input type="hidden" name="stampante_id" id="stampante_id" value="'+next_id+'" />'+
                                 '<input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>"  />'+
                            '</fieldset>'+
@@ -501,10 +501,10 @@ $(function() {
                     <div style="min-height:175px;">
                         <form id="stampanteForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
-                                <br /><label style="margin-right: 128px;" class="tab_title" for="tab_nome">Nome: </label>
+                                <br /><label style="margin-right: 160px;" class="tab_title" for="tab_nome">Nome: </label>
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=$stampante['nome']?>" class="ui-widget-content ui-corner-all" />
-                                <br /><label style="margin-right: 20px;" class="tab_indirizzo" for="tab_indirizzo">Colore del bottone: </label>
-                                <input style="float:right; margin-right: 9px;" type="text" name="tab_indirizzo" id="tab_indirizzo" value="<?=$stampante['indirizzo']?>" class="ui-widget-content ui-corner-all" />
+                                <br /><label style="margin-right: 10px;" class="tab_indirizzo" for="tab_indirizzo">Indirizzo IP stampante: </label>
+                                <input style="margin-right: 9px;" type="text" name="tab_indirizzo" id="tab_indirizzo" value="<?=$stampante['indirizzo']?>" class="ui-widget-content ui-corner-all" />
                                 <input type="hidden" name="stampante_id" id="stampante_id" value="<?=$stampante['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$stampante['gestore_id']?>" />
                            </fieldset>

@@ -771,5 +771,64 @@ class Gestore extends User {
         return DataManager::cancellaAlimentoMenuAlimento($alimento_menu_id, $menu_id);
     }
 
+
+
+    /*
+     * -------------------------------------------------------------------------
+     * GESTIONE VARIANTE  ------------------------------------------------------
+     *
+     * - addBuonoPrepagato()
+     * - editBuonoPrepagato()
+     * - getBuonoPrepagato()
+     * - delBuonoPrepagato()
+     *
+     * - getAllBuonoPrepagato()
+     */
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $seriale
+     * @param <type> $credito
+     * @param <type> $nominativo
+     * @param <type> $gestore_id
+     * @return <type>
+     */
+    public function addBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id){
+        return DataManager::inserisciBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <type> $id
+     * @param <type> $seriale
+     * @param <type> $credito
+     * @param <type> $nominativo
+     * @param <type> $gestore_id
+     * @return <type> 
+     */
+    public function editBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id){
+        return DataManager::aggiornaBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function getBuonoPrepagato($id){
+        return DataManager::getBuonoPrepagato($id);
+    }
+
+    /**
+     *
+     * @param <int> $id
+     * @return <bool>
+     */
+    public function delBuonoPrepagato($id){
+        return DataManager::cancellaBuonoPrepagato($id);
+    }
+
+
 }
 ?>

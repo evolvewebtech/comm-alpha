@@ -12,7 +12,7 @@
         $colore_bottone         = mysql_real_escape_string($_POST['tab_colore_bottone']);
         $descrizione            = mysql_real_escape_string($_POST['tab_descrizione']);
         $apeso                  = intval(mysql_real_escape_string($_POST['tab_apeso']));
-//        $path_image             = mysql_real_escape_string($_POST['tab_path_image']);
+        $path_image             = "";
         $codice_prodotto        = mysql_real_escape_string($_POST['tab_codice_prodotto']);
         $quantita               = intval(mysql_real_escape_string($_POST['tab_quantita']));
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));
@@ -31,7 +31,7 @@
                      "colore_bottone"       => $colore_bottone,
                      "descrizione"          => $descrizione,
                      "apeso"                => $apeso,
-                     //"path_image"           => $path_image,
+                     "path_image"           => $path_image,
                      "codice_prodotto"      => $codice_prodotto,
                      "quantita"             => $quantita,
                      "gestore_id"           => $gestore_id,
@@ -66,7 +66,7 @@
 	}elseif($action == 'save'){
 
                 /*
-                 * se nome_stampante_db non è 0 significa che è già presente nel db,
+                 * se nome_alimento_db non è 0 significa che è già presente nel db,
                  * quindi devo effettuare una modifica ad una stampante già esistente
                  *
                  */
@@ -75,7 +75,13 @@
                 if($nome_alimento_db==0){
                 
                     /*
-                     * stampante non presente, devo aggiungerla
+                     * alimento non presente, devo aggiungerlo
+                     *
+                     *
+                     *         $id, $nome, $prezzo, $iva, $colore_bottone,
+                                      $descrizione, $apeso, $path_image, $codice_prodotto, $quantita,
+                                      $gestore_id, $categoria_id, $alimento_id
+                     *
                      */
                     $ret = $gestore->addAlimento($id, $nome, $prezzo, $iva, $colore_bottone,
                                  $descrizione, $apeso, 'images/', $codice_prodotto,
@@ -83,21 +89,20 @@
                     
                     //var_dump("<br />ADD");
                     /*
-                    $ret = $gestore->addAlimento(1, 'pennette al rag&ugrave;', 6.50, 21, '#f00',
-                                 'pennette al rag&ugrave;', 0, 'images/', 'ALIM=001',
-                                 500, 2, 6, 1);
-                     * 
+                    $ret = DataManager::inserisciAlimento(24, 'pennette', 6.5, 0, '#f00',
+                                 'pennette vodka', 0, 'images/', 'ABkll',
+                                 0, 2, 6, 0);
                      */
 
                     if(!$ret){
-                        $var['err'] = $ret;
+                        $var['err'] = "false";
                     }
 
                 }else{
 
                     
                     /*
-                     * aggiorno la stampante
+                     * aggiorno l'alimento
                      */
                     //var_dump("<br />EDIT");
                     $ret = $gestore->editAlimento($id, $nome, $prezzo, $iva, $colore_bottone,

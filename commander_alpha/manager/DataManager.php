@@ -685,6 +685,17 @@ class DataManager {
             $descrizione, $apeso, $path_image, $codice_prodotto, $quantita, $gestore_id,
             $categoria_id, $alimento_id));
 
+        /*
+        echo "<pre>";
+        print_r(array($id, $nome, $prezzo, $iva, $colore_bottone,
+            $descrizione, $apeso, $path_image, $codice_prodotto, $quantita, $gestore_id,
+            $categoria_id, $alimento_id));
+        echo "</pre>";
+
+        echo "<br />ret1: ";
+        var_dump($ret);
+        */
+        
         if ($ret) return true;
         else return false;
     }//end inserisciAlimento

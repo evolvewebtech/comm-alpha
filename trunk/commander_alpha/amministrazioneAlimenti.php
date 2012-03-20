@@ -573,6 +573,7 @@ $(function() {
              * dove bool = true se la checkbox è selezionata, false altrimenti
              *
              */
+ 
             var params_v = $.param($('#varianteAlimentoForm-'+selected+' input:checkbox').map(function() {
                return { name: this.id, value: !!this.checked };
             }));
@@ -586,6 +587,7 @@ $(function() {
                 success: onAlimentiVariantiSuccess,
                 error: onAlimentiVariantiError
             });
+
 
             /*
              * prelevo tutti i valori delle checkbox STAMPANTI e ritorno una stringa
@@ -610,7 +612,9 @@ $(function() {
                 error: onAlimentiStampantiError
             });
 
+
             $('#debug').append('<br />form valid');
+
             var alimentoForm = $("#alimentoForm-"+selected).serialize();
             alimentoForm = alimentoForm+'&action=save&current_tab='+selected;
 
@@ -742,10 +746,26 @@ $(function() {
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
                $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='false'){
+           } else if (data.err=="false"){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento dell\'alimento.');
                $dialogERR.dialog("open");
                $('#debug').append(' ERR: '+data.err);
+               $('#debug').append( '<br />DATA SAVED:<br />'+
+                                   ' ID_gestore: '    + data.gestore_id +
+                                   ' ID_alimento: '   + data.id +
+                                   ' ID 2 alimento: ' + data.alimento_id +
+                                   ' ID_categoria: '  + data.categoria_id +
+                                   ' Nome:'           + data.nome +
+                                   ' Prezzo: '        + data.prezzo +
+                                   ' IVA: '           + data.iva +
+                                   ' colore: '        + data.colore_bottone +
+                                   ' descrizione: '   + data.descrizione +
+                                   ' apeso: '         + data.apeso +
+                                   ' path img: '      + data.path_image +
+                                   ' cod prod: '      + data.codice_prodotto +
+                                   ' Quantita: '      + data.quantita +
+                                   ' Current: '       + data.current_tab +
+                                   ' Err: '           + data.err );
            } else if(data.err==''){
                $('#code-ok').html('Il nuovo alimento &egrave stato aggiunto.');
                $dialogOK.dialog( "open" );
@@ -799,7 +819,7 @@ $(function() {
     function onAlimentiVariantiSuccess(data, status) {
 
         $('#debug').append('<br />ajax varianti: success');
-        $('#debug').append('<br /><br />'+data.err+'<br />');
+        $('#debug').append('<br />'+data.err);
 
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');

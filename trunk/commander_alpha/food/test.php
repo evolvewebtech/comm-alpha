@@ -54,4 +54,18 @@ foreach($arContacts as $objEntity) {
 }
 
 
+print "<hr>\n";
+print "<hr>\n";
+print "<hr>\n";
+print "<hr>\n";
+
+$arContacts = DataManager2::getAllMenuAsObjects();
+
+foreach($arContacts as $objEntity) {
+    if(get_class($objEntity) == 'MenuFisso') {
+        print "<h3>MenuFisso - {$objEntity->__toString()}</h3>";
+    }
+}
+
+
 ?>

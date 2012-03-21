@@ -8,6 +8,8 @@ require_once dirname(__FILE__).'/../food/Alimento.php';
 require_once dirname(__FILE__).'/../food/Categoria.php';
 require_once dirname(__FILE__).'/../food/Stampante.php';
 require_once dirname(__FILE__).'/../food/Variante.php';
+require_once dirname(__FILE__).'/../food/MenuFisso.php';
+require_once dirname(__FILE__).'/../food/CatMenu.php';
 
 
 class DataManager2 {
@@ -867,6 +869,18 @@ class DataManager2 {
     }
     
     
+    public static function getCatMenuData($catMenuID){
+        $sql = "SELECT * FROM cmd_alimento_menu WHERE id=$catMenuID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Categoria");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
     public static function getMenuFissoData($menuID){
         $sql = "SELECT * FROM cmd_menu_fisso WHERE id=$menuID";
         if (DataManager2::_getConnection()){
@@ -993,6 +1007,25 @@ class DataManager2 {
         }
     }
     
+    public static function getCatMenuObjectsForEntity($menuID){
+        $sql = "SELECT * FROM cmd_alimento_menu WHERE menu_fisso_id=$menuID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['id']);
+                $objs[] = new CatMenu($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+    
     public static function getAlimentoObjectsForEntity($categoriaID){
         $sql = "SELECT * FROM cmd_alimento WHERE categoria_id=$categoriaID";
         
@@ -1007,6 +1040,28 @@ class DataManager2 {
             $objs = array();
             while($row = mysql_fetch_assoc($res)) {
                 $id = intval($row['id']);
+                $objs[] = new Alimento($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getAlimentoMenuObjectsForEntity($catMenuID){
+        $sql = "SELECT * FROM rel_alimentomenu_alimento WHERE alimento_menu_id=$catMenuID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAlimentoObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['alimento_id']);
                 $objs[] = new Alimento($id);
             }
           return $objs;

@@ -10,12 +10,15 @@
     <script>
         //Dichiarazione variabili globali;
         var arrAlim = new Array();
+        var arrMenu = new Array();
+        var arrAlimSel = new Array();
+        var arrMenuSel = new Array();
         var arrList = new Array();
         var show_opt = false;
         var mem_index = -1;
         var mem_ord_type = "cat";
     </script>
-    <script type="text/javascript" src="categorie.js"></script>
+    <script type="text/javascript" src="menu.js"></script>
 </head>
 <body>
     
@@ -46,7 +49,12 @@
             <h1>Scelta tavolo</h1>
         </div>
         <div data-role="content">
-            <p>Questa è la pagina dei tavoli</p>
+            <label for="basic">Numero tavolo:</label>
+            <input type="text" name="name" id="basic" value=""  />
+            <form>
+                <label for="slider-0">Numero coperti:</label>
+                <input type="range" name="slider" id="slider-0" value="1" min="0" max="100"  />
+            </form>
             <a href="#ordine" data-role="button" data-icon="grid" class="ui-btn-right">Ordine</a>
         </div>
     </div>

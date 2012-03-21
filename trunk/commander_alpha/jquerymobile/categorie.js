@@ -44,7 +44,7 @@ function onEventoInfoSuccess(data, status) {
             $strAl = $strAl + '<a class="options-set3" href="#'+data[$i].alimenti[$j].id+'" data-option-value=".'+data[$i].alimenti[$j].nome+'">';
             $strAl = $strAl + '<div class="element" style="background: '+data[$i].colore_bottone_predef+'">';
             $strAl = $strAl + '<h2 class="el-name">'+data[$i].alimenti[$j].nome+'</h2>';
-            $strAl = $strAl + '<h2 class="el-prezzo">'+data[$i].alimenti[$j].prezzo+' €</h2>';
+            $strAl = $strAl + '<h2 class="el-prezzo">'+data[$i].alimenti[$j].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
             $strAl = $strAl + '<h3 class="el-cat">'+data[$i].nome+'</h3>';
             $strAl = $strAl + '</div>';
             $strAl = $strAl + '</a>';
@@ -53,25 +53,27 @@ function onEventoInfoSuccess(data, status) {
             $str = $str + $strAl;
             
             //Creazione oggetti Variante
-            var arrVar = new Array();
+            var arrTempVar = new Array();
             for($t=0; $t<data[$i].alimenti[$j].varianti.length; $t++) {
-                //Creazione oggetto Variante contente i parametri
-                var tempIdV = data[$i].alimenti[$j].varianti[$t].id;
-                var tempDescrV = data[$i].alimenti[$j].varianti[$t].descrizione;
-                var tempPrezzoV = data[$i].alimenti[$j].varianti[$t].prezzo;
-                var variante = new Variante(tempIdV, tempDescrV, tempPrezzoV);
+                //Creazione oggetto Variante
+                var variante = new Variante(data[$i].alimenti[$j].varianti[$t].id,
+                                            data[$i].alimenti[$j].varianti[$t].descrizione,
+                                            data[$i].alimenti[$j].varianti[$t].prezzo);
+                
                 //Aggiunta elementi all'array delle Varianti
-                arrVar.push(variante);
+                arrTempVar.push(variante);
             }
             
-            //Creazione oggetto Alimento contente i parametri
-            var tempId = data[$i].alimenti[$j].id;
-            var tempCat = data[$i].nome;
-            var tempNome = data[$i].alimenti[$j].nome;
-            var tempPrezzo = data[$i].alimenti[$j].prezzo;
-            var alimento = new Alim(tempId, tempCat, tempNome, tempPrezzo, 0, arrVar);
+            //Creazione oggetto Alimento
+            var alimento = new Alim(data[$i].alimenti[$j].id,
+                                    data[$i].nome,
+                                    data[$i].alimenti[$j].nome,
+                                    data[$i].alimenti[$j].prezzo,
+                                    0,
+                                    arrTempVar);
+                                    
             //Aggiunta elementi all'array degli Alimenti
-            arrAlim[tempId] = alimento;
+            arrAlim[data[$i].alimenti[$j].id] = alimento;
         }
     }
     
@@ -122,7 +124,7 @@ function onEventoInfoError(data, status) {
 
 
 /*
- *  Oggetto alimento
+ *  Oggetto Alimento
  *  
  */
 function Alim(id, cat, nome, prezzo, num, varianti) {
@@ -136,7 +138,7 @@ function Alim(id, cat, nome, prezzo, num, varianti) {
 
 
 /*
- *  Oggetto variante
+ *  Oggetto Variante
  *  
  */
 function Variante(id, descrizione, prezzo) {

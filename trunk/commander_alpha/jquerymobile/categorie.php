@@ -8,7 +8,7 @@
             //Creazione array da passare con JSON
             $arr = array();           
             for($i=0; $i<count($arCat); $i++) {
-                
+                //array alimenti
                 $arrA = array();
                 for($j=0; $j<$arCat[$i]->getNumberOfAlimenti(); $j++) {
                     $alim = $arCat[$i]->getAlimento($j);
@@ -28,13 +28,13 @@
                                         "varianti" => $arrV);
                     $arrA[$j] = $arrTemp;
                 }
-                
-                $var = array(   "id"                    => $arCat[$i]->id,
+                //array categorie
+                $cat = array(   "id"                    => $arCat[$i]->id,
                                 "nome"                  => $arCat[$i]->nome,
                                 "colore_bottone_predef" => $arCat[$i]->colore_bottone_predef,
                                 "alimenti"              => $arrA);
                 
-                $arr[$i] = $var;
+                $arr[$i] = $cat;
             }
             
             echo json_encode($arr);

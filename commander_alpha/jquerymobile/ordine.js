@@ -196,6 +196,45 @@ $(function(){
     }
     return false;
     });
+    
+    
+    /*
+     *  Script per la selezione di un Menu Fisso
+     *
+     */
+    var $optionSets4 = $('.options-set4');
+    $optionSets4.live("click", function() {
+
+    var $this = $(this);
+    
+    //salvo nella var $param i parametri passati
+    var $param = $this.attr('href');
+    
+    //eliminazione carattere iniziale '#'
+    $param = $param.replace('#','');
+    
+    alert("Menù selezionato: " + arrMenu[$param]._nome);
+    
+    //creazione oggetto menu contente i parametri
+    /*var menu = new alimList(arrList.length,
+                                $param,
+                                "Menù fisso",
+                                "Menù " + arrMenu[$param]._nome,
+                                arrMenu[$param]._prezzo,
+                                0,
+                                new Array() );
+    
+    menu._num = 1;
+    arrList.push(menu);
+    menu = null;
+
+    //aggiornamento lista
+    if (mem_ord_type == "nome") {
+        aggiornaLista("nome");
+    }
+    else aggiornaLista("cat"); */
+        
+    });
 
 
     /*
@@ -448,7 +487,7 @@ $('.comm-li-link').live("click", function() {
  * Decremento o cancellazione alimento dalla lista
  * 
  */
-$('#canc').bind("click", function() {
+$('#alim-min').bind("click", function() {
     $index = mem_index;
     for(var i=0; i<arrList.length; i++) {
         if (arrList[i]._index == $index) {
@@ -478,7 +517,22 @@ $('#canc').bind("click", function() {
     }       
 });
     
+
+/*
+ * Incremento alimento selezionato da opzioni varianti
+ * 
+ */
+$('#alim-plus').bind("click", function() {
+    arrList[mem_index]._num += 1;
     
+    //aggiornamento lista
+    if (mem_ord_type == "nome") {
+        aggiornaLista("nome");
+    }
+    else aggiornaLista("cat"); 
+}); 
+
+
 /*
  * Cancellazione alimento dalla lista
  * 
@@ -518,8 +572,7 @@ $('.canc-ann').live("click", function() {
     //eliminata classe "selected"
     $('#container2').find('.selected').removeClass('selected');
 });
-    
-    
+
 
 /*
  * Evento click su una variante
@@ -610,7 +663,7 @@ $('.var-class').live("click", function() {
     variante = null;
 });
     
-    
+
 /*
  *  Funzione per crazione oggetti "alimento"
  *  
@@ -636,4 +689,17 @@ function varList(id, descrizione, prezzo) {
     this._prezzo = prezzo;
 }
        
+
+/*
+ *  Oggetto Menu
+ *  
+ */
+function Menu(id, nome, prezzo, descrizione, categorie) {
+    this._id = id;
+    this._nome = nome;
+    this._prezzo = prezzo;
+    this._descrizione = descrizione;
+    this._categorie = categorie;
+}
+
 

@@ -8,8 +8,7 @@ require_once dirname(__FILE__).'/Entity.php';
 
 class MenuFisso extends Entity {
     
-    private $_categorie;
-    private $_alimenti;
+    private $_catMenu;
 
     public function __construct($menuID) {
       
@@ -22,47 +21,22 @@ class MenuFisso extends Entity {
       $this->propertyTable['iva'] = 'iva';
       $this->propertyTable['descrizione'] = 'descrizione';
       $this->propertyTable['gestore_id'] = 'gestore_id';
-      $this->_categorie = DataManager2::getCategoriaObjectsForEntity($menuID);
-      $this->_alimenti = DataManager2::getAlimentoObjectsForEntity($menuID);
+      $this->_catMenu = DataManager2::getCatMenuObjectsForEntity($menuID);
     }
 
-    
-    /**
-     *
-     * @param <int> $num
-     * @return <Alimento>
-     */
-    public function getAlimento($num) {
-        if (!isset($this->_alimenti[$num])) {
-            throw new Exception('Alimento non presente');
-        }
-        else  {
-            return $this->_alimenti[$num];
-        }
-    }
-    
-    
+     
     /**
      *
      * @param <int> $num
      * @return <Categoria>
      */
     public function getCategoria($num) {
-        if (!isset($this->_categorie[$num])) {
+        if (!isset($this->_catMenu[$num])) {
             throw new Exception('Categoria non presente');
         }
         else  {
-            return $this->_categorie[$num];
+            return $this->_catMenu[$num];
         }
-    }
-    
-    
-    /**
-     *
-     * @return <int>
-     */
-    public function getNumberOfAlimenti() {
-        return count($this->_alimenti);
     }
     
     
@@ -71,7 +45,7 @@ class MenuFisso extends Entity {
      * @return <int>
      */
     public function getNumberOfCategorie() {
-        return count($this->_categorie);
+        return count($this->_catMenu);
     }
     
      

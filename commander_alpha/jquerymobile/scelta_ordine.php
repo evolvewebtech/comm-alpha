@@ -105,9 +105,13 @@
         
         <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
             <!-- <h1>H1 Heading</h1> -->
+            <div id="opt-title" data-role="header" data-theme="b">
+                <a id="close-opt" data-role="button" data-theme="b" data-icon="arrow-l" data-inline="true" class="ui-btn-left">Chiudi</a>
+                <div id="opt-alim-name"><h2>Nome Alimento</h2></div>                
+            </fieldset>
+            </div>
             <div class="ui-collapsible ui-collapsible-collapsed" data-content-theme="e" data-theme="e" data-collapsed="false" data-role="collapsible">
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Aggiungi - Elimina</h3>
-                <a id="canc-all" href="#diag-conf-canc-all" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Cancella tutto</a>
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a">
                         <a id="alim-plus" data-role="button" data-icon="plus" class="ui-btn-right">Aggiungi 1</a>
@@ -116,11 +120,13 @@
                         <a id="alim-min" data-role="button" data-icon="minus" class="ui-btn-right">Cancella 1</a>
                     </div>	   
                 </fieldset>
+                <a id="canc-all" href="#diag-conf-canc-all" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Cancella tutto</a>
             </div>
             <div class="ui-collapsible ui-collapsible-collapsed" data-content-theme="b" data-theme="b" data-collapsed="true" data-role="collapsible">
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Varianti</h3>
                 <div id="opt-var"></div>
             </div>
+            <!-- <a id="close-opt" data-role="button" data-icon="arrow-l" data-inline="true" class="ui-btn-right">Chiudi</a> -->
         </div>
     </section>
     

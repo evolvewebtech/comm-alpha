@@ -438,6 +438,8 @@ $('.comm-li-link').live("click", function() {
         $('#cont-comm-ord').hide('fast');
         $('#cont-comm-opt').show('fast');
         show_opt = true;
+        //Visualizzazione nome alimento in finestra opzioni
+        document.getElementById('opt-alim-name').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
         //aggiunta classe "selected" all'alimento selezionato
         $('#container2').find('.selected').removeClass('selected');
         $(this).addClass('selected');
@@ -482,7 +484,23 @@ $('.comm-li-link').live("click", function() {
     }
 });
 
- 
+
+/*
+ * Chiusura finestra opzioni
+ * 
+ */
+$('#close-opt').bind("click", function() {
+    $('#cont-comm-ord').show('fast');
+    $('#cont-comm-opt').hide('fast');
+    show_opt = false;
+
+    //cancellazione classe "selected"
+    $('#container2').find('.selected').removeClass('selected');
+
+    mem_index = -1;  
+});
+
+
 /*
  * Decremento o cancellazione alimento dalla lista
  * 

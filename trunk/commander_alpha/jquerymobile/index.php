@@ -11,7 +11,6 @@
         //Dichiarazione variabili globali;
         var arrAlim = new Array();
         var arrMenu = new Array();
-        var arrAlimSel = new Array();
         var arrMenuSel = new Array();
         var arrList = new Array();
         var show_opt = false;

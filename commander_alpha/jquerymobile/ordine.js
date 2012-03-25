@@ -144,8 +144,10 @@ $(function(){
                                 arrAlim[$param]._cat,
                                 arrAlim[$param]._nome,
                                 arrAlim[$param]._prezzo,
+                                arrAlim[$param]._descrizione,
                                 0,
-                                new Array() );
+                                new Array(),
+                                false );
 
     //verifica se l'alimento è già stato aggiunto all'array
     var ver = false;  
@@ -213,16 +215,18 @@ $(function(){
     //eliminazione carattere iniziale '#'
     $param = $param.replace('#','');
     
-    alert("Menù selezionato: " + arrMenu[$param]._nome);
+    //alert("Menù selezionato: " + arrMenu[$param]._nome);
     
     //creazione oggetto menu contente i parametri
-    /*var menu = new alimList(arrList.length,
+    var menu = new alimList(arrList.length,
                                 $param,
                                 "Menù fisso",
                                 "Menù " + arrMenu[$param]._nome,
                                 arrMenu[$param]._prezzo,
+                                arrMenu[$param]._descrizione,
                                 0,
-                                new Array() );
+                                new Array(),
+                                true );
     
     menu._num = 1;
     arrList.push(menu);
@@ -232,7 +236,7 @@ $(function(){
     if (mem_ord_type == "nome") {
         aggiornaLista("nome");
     }
-    else aggiornaLista("cat"); */
+    else aggiornaLista("cat");
         
     });
 
@@ -440,33 +444,36 @@ $('.comm-li-link').live("click", function() {
         show_opt = true;
         //Visualizzazione nome alimento in finestra opzioni
         document.getElementById('opt-alim-name').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
+        //Visualizzazione descrizione alimento
+        document.getElementById('alim-desc').innerHTML = arrList[$index]._descrizione;
         //aggiunta classe "selected" all'alimento selezionato
         $('#container2').find('.selected').removeClass('selected');
         $(this).addClass('selected');
         //visualizzazione varianti disponibili
         var id = arrList[$index]._id;
         var str = "";
-        if (arrAlim[id]._varianti.length == 0) {
-            str = "Nessuna variante disponibile";
-        }
-        else {
-            for(i=0; i<arrAlim[id]._varianti.length; i++) {
-                //Verifica se variante già inserita
-                var varPresente = false;
-                for(var t=0; t<arrList[$index]._varianti.length; t++) {
-                    if (arrList[$index]._varianti[t]._id == arrAlim[id]._varianti[i]._id) {
-                        varPresente = true;
-                        break;
+        if (!arrList[$index]._menu) {
+            if (arrAlim[id]._varianti.length == 0) { str = "Nessuna variante disponibile"; }
+            else {
+                for(i=0; i<arrAlim[id]._varianti.length; i++) {
+                    //Verifica se variante già inserita
+                    var varPresente = false;
+                    for(var t=0; t<arrList[$index]._varianti.length; t++) {
+                        if (arrList[$index]._varianti[t]._id == arrAlim[id]._varianti[i]._id) {
+                            varPresente = true;
+                            break;
+                        }
                     }
+                    //aggiunta classe "selected" se variante già selezionata
+                    var selClass = "";
+                    if (varPresente) { selClass = " selected";}
+
+                    //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
+                    str = str + '<div class="var-class'+selClass+'" href='+arrAlim[id]._varianti[i]._id+'>'+arrAlim[id]._varianti[i]._descrizione+'</div>';
                 }
-                //aggiunta classe "selected" se variante già selezionata
-                var selClass = "";
-                if (varPresente) { selClass = " selected";}
-                
-                //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
-                str = str + '<div class="var-class'+selClass+'" href='+arrAlim[id]._varianti[i]._id+'>'+arrAlim[id]._varianti[i]._descrizione+'</div>';
             }
         }
+        else { str = "Nessuna variante disponibile"; }
         //modifica del div già creato
         document.getElementById('opt-var').innerHTML = str;
         
@@ -649,7 +656,15 @@ $('.var-class').live("click", function() {
         //Estrazione Alimento dalla Lista per isolare
         //l'alimento con varianti dagli altri senza varianti
         if (arrList[index]._num > 1) {
-            var temp = new alimList(arrList.length, arrList[index]._id, arrList[index]._cat, arrList[index]._nome, arrList[index]._prezzo, 1, new Array() );
+            var temp = new alimList(arrList.length,
+                                    arrList[index]._id,
+                                    arrList[index]._cat,
+                                    arrList[index]._nome,
+                                    arrList[index]._prezzo,
+                                    arrList[index]._descrizione,
+                                    1,
+                                    new Array(),
+                                    false );
             arrList.push(temp);
             arrList[index]._num -= 1;
             index = arrList.length - 1;
@@ -686,14 +701,16 @@ $('.var-class').live("click", function() {
  *  Funzione per crazione oggetti "alimento"
  *  
  */
-function alimList(index, id, cat, nome, prezzo, num, varianti) {
+function alimList(index, id, cat, nome, prezzo, descrizione, num, varianti, menu) {
     this._index = index;
     this._id = id;
     this._cat = cat;
     this._nome = nome;
     this._prezzo = prezzo;
+    this._descrizione = descrizione;
     this._num = num;
     this._varianti = varianti;
+    this._menu = menu;
 }
 
 

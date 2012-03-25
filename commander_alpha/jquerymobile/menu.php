@@ -31,6 +31,7 @@
                     $arrTemp = array(   "id"    => $alim->id,
                                         "nome"  => $alim->nome,
                                         "prezzo"  => $alim->prezzo,
+                                        "descrizione" => $alim->descrizione,
                                         "varianti" => $arrV);
                     $arrA[$j] = $arrTemp;
                 }

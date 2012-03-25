@@ -70,6 +70,7 @@ function onEventoInfoSuccess(data, status) {
                                     data[0][$i].nome,
                                     data[0][$i].alimenti[$j].nome,
                                     data[0][$i].alimenti[$j].prezzo,
+                                    data[0][$i].alimenti[$j].descrizione,
                                     0,
                                     arrTempVar);
                                     
@@ -229,11 +230,12 @@ function AlimMenu(id, cat, nome, prezzo, num, varianti) {
  *  Oggetto Alimento
  *  
  */
-function Alim(id, cat, nome, prezzo, num, varianti) {
+function Alim(id, cat, nome, prezzo, descrizione, num, varianti) {
     this._id = id;
     this._cat = cat;
     this._nome = nome;
     this._prezzo = prezzo;
+    this._descrizione = descrizione;
     this._num = num;
     this._varianti = varianti;
 }

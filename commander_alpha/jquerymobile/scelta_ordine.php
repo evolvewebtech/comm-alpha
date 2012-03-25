@@ -126,8 +126,8 @@
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Varianti</h3>
                 <div id="opt-var"></div>
             </div>
-            <!-- <a id="close-opt" data-role="button" data-icon="arrow-l" data-inline="true" class="ui-btn-right">Chiudi</a> -->
         </div>
+        <div id="alim-desc"></div>
     </section>
     
   

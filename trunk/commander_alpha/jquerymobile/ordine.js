@@ -220,7 +220,7 @@ $(function(){
     //creazione oggetto menu contente i parametri
     var menu = new alimList(arrList.length,
                                 $param,
-                                "Menù fisso",
+                                "menu",
                                 "Menù " + arrMenu[$param]._nome,
                                 arrMenu[$param]._prezzo,
                                 arrMenu[$param]._descrizione,
@@ -231,7 +231,15 @@ $(function(){
     menu._num = 1;
     arrList.push(menu);
     menu = null;
-
+    
+    //Creazione oggetto Menù Fisso selezionato                                    
+    var arrTempCat = new Array();    
+    var menuSel = new Menu(arrMenu[$param]._id,
+                           arrMenu[$param]._nome,
+                           arrMenu[$param]._prezzo,
+                           arrMenu[$param]._descrizione, arrTempCat);
+    arrMenuSel.push(menuSel);
+                        
     //aggiornamento lista
     if (mem_ord_type == "nome") {
         aggiornaLista("nome");
@@ -393,6 +401,10 @@ function aggiornaLista(type) {
             $itemString = $itemString + '</a>';
             $itemString = $itemString + '</div>';
             $itemString = $itemString + '</li>';
+        }
+        //Se alimento lista è un Menù Fisso memorizzo oggetto
+        if (arrList[i]._cat == "menu") {
+            //arrMenuSel[i] = arrMenu[arrList[i]._id];
         }
     }
     
@@ -698,6 +710,19 @@ $('.var-class').live("click", function() {
     
 
 /*
+ * Annulla ordine
+ * 
+ */
+$('#canc-ord').live("click", function() {
+    //reset variabili e array lista
+    arrList = new Array();
+    show_opt = false;
+    mem_index = -1;
+    mem_ord_type = "cat";
+});
+
+
+/*
  *  Funzione per crazione oggetti "alimento"
  *  
  */
@@ -738,3 +763,24 @@ function Menu(id, nome, prezzo, descrizione, categorie) {
 }
 
 
+/*
+ *  Oggetto CatMenu
+ *  
+ */
+function CatMenu(id, nome, alimenti) {
+    this._id = id;
+    this._nome = nome;
+    this._alimenti = alimenti;
+}
+
+
+
+/*
+ *  Oggetto AlimMenu
+ *  
+ */
+function AlimMenu(id, nome, varianti) {
+    this._id = id;
+    this._nome = nome;
+    this._varianti = varianti;
+}

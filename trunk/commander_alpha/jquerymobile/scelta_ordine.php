@@ -91,24 +91,12 @@
         </div>
     </section>
     
-    <section id="cont-comm-opt" class="ui-body ui-body-e">
-        <div class="comm-opt-title"></div>
-        <div class="comm-opt">
-            <div class="comm-opt-var">
-            
-            </div>
-            <div class="comm-opt-del">
-                
-            </div>
-        </div>
-        <div class="comm-opt-foo"></div> 
-        
+    <!-- SEZIONE "OPZIONI" ALIMENTO -->
+    <section id="cont-comm-opt" class="ui-body ui-body-e">       
         <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
-            <!-- <h1>H1 Heading</h1> -->
             <div id="opt-title" data-role="header" data-theme="b">
                 <a id="close-opt" data-role="button" data-theme="b" data-icon="arrow-l" data-inline="true" class="ui-btn-left">Chiudi</a>
                 <div id="opt-alim-name"><h2>Nome Alimento</h2></div>                
-            </fieldset>
             </div>
             <div class="ui-collapsible ui-collapsible-collapsed" data-content-theme="e" data-theme="e" data-collapsed="false" data-role="collapsible">
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Aggiungi - Elimina</h3>
@@ -130,7 +118,7 @@
         <div id="alim-desc"></div>
     </section>
     
-  
+    
   <script src="../isotope/js/jquery-1.7.1.min.js"></script>
   <script src="../isotope/jquery.isotope.min.js"></script>
   <script src="ordine.js"></script>

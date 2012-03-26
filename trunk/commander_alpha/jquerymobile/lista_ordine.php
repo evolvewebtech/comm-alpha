@@ -25,8 +25,15 @@
             <h2 class="prezzo">0 €</h2>
             </div>
         </li>
-        </ul>
-        <a href="#chiusura" data-role="button" data-icon="check" class="ui-btn-right">Conferma ordine</a>
+        </ul>        
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="#chiusura" data-role="button" data-icon="check" class="ui-btn-right">Conferma</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
+            </div>
+        </fieldset>
     </div>
 
 

@@ -121,6 +121,6 @@
     
   <script src="../isotope/js/jquery-1.7.1.min.js"></script>
   <script src="../isotope/jquery.isotope.min.js"></script>
-  <script src="ordine.js"></script>
+  <script src="scelta_ordine.js"></script>
   
 </section> <!-- #content -->

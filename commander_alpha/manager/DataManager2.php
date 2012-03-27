@@ -820,6 +820,27 @@ class DataManager2 {
     
     
     
+    /**
+     *
+     * 
+     */
+    static function inserisciOrdine($id, $seriale, $timestamp, $n_coperti, $tavolo_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione variante_alimento
+         */
+        $ret = $db->insert('cmd_ordine', array($id, $seriale, $timestamp, $n_coperti, $tavolo_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciOrdine
+    
+    
+    
     
     
     

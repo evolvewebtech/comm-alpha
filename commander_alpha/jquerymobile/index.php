@@ -19,7 +19,30 @@
         var mem_index = -1;
         var mem_ord_type = "cat";
     </script>
-    <script type="text/javascript" src="menu.js"></script>z
+    <script type="text/javascript" src="menu.js"></script>
+    <script type="text/javascript">
+        $("#chiusura").live('pageshow', function() {
+            
+            var numTavolo = document.getElementById('basic').value;
+            var numCoperti = document.getElementById('slider-0').value;   
+            var str = "";
+            str = str + '<h2>Tavolo ' + numTavolo + '</h2>';
+            str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti ' + numCoperti + '</span>';           
+            document.getElementById('chius-head').innerHTML = str;
+            
+            var totConto = document.getElementById("totale").innerHTML;
+            str = "";
+            str = str + '<h2 class="name">Totale conto</h2>';
+            str = str + '<h2 class="prezzo">' + totConto + '</h2>';
+            document.getElementById('chius-tot-ord').innerHTML = totConto;
+            
+            var totPersona = 0;
+            str = "";
+            str = str + '<h2 class="name">Totale per persona</h2>';
+            str = str + '<h2 class="prezzo">' + totPersona + ' €</h2>';
+            document.getElementById('chius-tot-pers').innerHTML = str;
+        });
+    </script>
 </head>
 <body>
     
@@ -92,10 +115,8 @@
             <h1>Chisura ordine</h1>
             <a href="#home" data-icon="home" class="ui-btn-right">home</a>
         </div>
-        <div data-role="content">
-            <p>Questa è la pagina di chiusura ordine</p>
-            <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Chiudi ordine</a>
-            <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Mantieni ordine aperto</a>
+        <div data-role="content"> 
+            <?php include dirname(__FILE__).'/chiusura_ordine.php';  ?>
         </div>
     </div>
     

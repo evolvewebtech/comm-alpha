@@ -22,7 +22,7 @@
         <li class="ui-li ui-li-static ui-body-c comm-li-tot">
             <div id="totale">
             <h2 class="name">Totale:</h2>
-            <h2 class="prezzo">0 €</h2>
+            <h2 id="tot-conto" class="prezzo">0 €</h2>
             </div>
         </li>
         </ul>        

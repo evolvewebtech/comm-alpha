@@ -188,7 +188,7 @@ function onEventoInfoSuccess(data, status) {
  *
  */
 function onEventoInfoError(data, status) {
-    alert("Errore Ajax")
+    alert("Errore Ajax");
 }
 
 

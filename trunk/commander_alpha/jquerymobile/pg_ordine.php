@@ -1,4 +1,55 @@
 
+<div class="comm-a">
+<section id="contentList">
+
+    <div id="list-ord_nav" class="list-ord_nav">
+        <section id="options" class="clearfix">
+            <div class="option-combo">
+                <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
+                    <li><a href="#categorie" data-option-value="cat" class="selected">Categorie</a></li>
+                    <li><a href="#alphabetical" data-option-value="nome">Alfabetico</a></li>
+                </ul>
+            </div>
+        </section>
+    </div>
+
+    <div id="list-ord" class="list-ord">
+        <div id="container2"></div>
+        <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul>
+    </div>
+
+    <div id="list-ord_footer" class="list-ord_footer">
+        <ul class="ui-listview" data-role="listview" style="margin: 0px">
+        <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <div id="totale">
+            <h2 class="name">Totale:</h2>
+            <h2 id="tot-conto" class="prezzo">0 €</h2>
+            </div>
+        </li>
+        </ul>        
+        <fieldset class="ui-grid-a">
+            <div class="ui-block-a">
+                <a href="#chiusura" data-role="button" data-icon="check" class="ui-btn-right">Conferma</a>
+            </div>
+            <div class="ui-block-b">
+                <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
+            </div>
+        </fieldset>
+    </div>
+
+
+    <script type="text/javascript">
+        var h_nav = document.getElementById("list-ord_nav").style.height;
+        var h_foo = document.getElementById("list-ord_footer").style.height;
+        document.getElementById("list-ord").style.height = (window.innerHeight-250) - h_nav - h_foo + "px";
+    </script>
+
+</section> <!-- #contentList -->        
+</div>
+
+
+
+<div class="comm-b">
 <section id="content">
     <section id="cont-comm-ord">
         <section id="options" class="clearfix">
@@ -51,7 +102,7 @@
             /*require_once dirname(__FILE__).'/../manager/DataManager2.php';
 
             $arCat = DataManager2::getAllCategoriesAsObjects();
-            
+
             $echostr = "";
             $num = 0;
 
@@ -90,7 +141,7 @@
         ?>
         </div>
     </section>
-    
+
     <!-- SEZIONE "OPZIONI" ALIMENTO -->
     <section id="cont-comm-opt" class="ui-body ui-body-e">       
         <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
@@ -117,10 +168,12 @@
         </div>
         <div id="alim-desc"></div>
     </section>
-    
-    
-  <script src="../isotope/js/jquery-1.7.1.min.js"></script>
-  <script src="../isotope/jquery.isotope.min.js"></script>
-  <script src="scelta_ordine.js"></script>
-  
+
+
+<script src="../isotope/js/jquery-1.7.1.min.js"></script>
+<script src="../isotope/jquery.isotope.min.js"></script>
+<script src="scelta_ordine.js"></script>
+
 </section> <!-- #content -->
+
+</div> 

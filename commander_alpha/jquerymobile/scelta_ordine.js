@@ -220,7 +220,7 @@ $(function(){
     //creazione oggetto menu contente i parametri
     var menu = new alimList(arrList.length,
                                 $param,
-                                "menu",
+                                "Menu",
                                 "Menù " + arrMenu[$param]._nome,
                                 arrMenu[$param]._prezzo,
                                 arrMenu[$param]._descrizione,
@@ -403,7 +403,7 @@ function aggiornaLista(type) {
             $itemString = $itemString + '</li>';
         }
         //Se alimento lista è un Menù Fisso memorizzo oggetto
-        if (arrList[i]._cat == "menu") {
+        if (arrList[i]._cat == "Menu") {
             //arrMenuSel[i] = arrMenu[arrList[i]._id];
         }
     }
@@ -420,7 +420,7 @@ function aggiornaLista(type) {
  *
  */
 function aggiornaTotale(){
-    var totale = 0;
+    totale = 0;
     for(var i=0; i<arrList.length; i++) {
         totale += arrList[i]._num * arrList[i]._prezzo;
         

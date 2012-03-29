@@ -831,13 +831,355 @@ class DataManager2 {
         $db->connect();
 
         /*
-         * inserisco una relazione variante_alimento
+         * inserisco una oggetto Ordine
          */
         $ret = $db->insert('cmd_ordine', array($id, $seriale, $timestamp, $n_coperti, $tavolo_id));
                 
         if ($ret) return true;
         else return false;
     }//end inserisciOrdine
+    
+    
+    
+    /**
+     *
+     * 
+     */
+    static function aggiornaOrdine($id, $seriale, $timestamp, $n_coperti, $tavolo_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico un ordine
+         */
+        $ret = $db->update('cmd_ordine', array('seriale' => $seriale,
+                                               'timestamp' => $timestamp,
+                                               'n_coperti' => $n_coperti,
+                                               'tavolo_id' => $tavolo_id),
+                                               array('id', $id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $id
+     * @return <bool> 
+     */
+    static function cancellaOrdine($id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello un ordine
+         */
+        $ret = $db->delete('cmd_ordine', "id = ".$id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaOrdine
+    
+    
+    
+    
+    /**
+     *
+     * 
+     */
+    static function inserisciOrdineChiuso($id, $timestamp, $ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una oggetto OrdineChiuso
+         */
+        $ret = $db->insert('cmd_ordine_chiuso', array($id, $timestamp, $ordine_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciOrdineChiuso
+    
+    
+    
+    /**
+     *
+     * 
+     */
+    static function aggiornaOrdineChiuso($id, $timestamp, $ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico un ordine
+         */
+        $ret = $db->update('cmd_ordine_chiuso', array('timestamp' => $timestamp,
+                                                        'ordine_id' => $ordine_id),
+                                                        array('id', $id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaOrdineChiuso
+    
+    
+    
+    /**
+     *
+     * @param <int> $id
+     * @return <bool> 
+     */
+    static function cancellaOrdineChiuso($id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello un ordine
+         */
+        $ret = $db->delete('cmd_ordine_chiuso', "id = ".$id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaOrdineChiuso
+    
+    
+    
+    
+    /**
+     *
+     * 
+     */
+    static function inserisciRigaOrdine($id, $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una oggetto RigaOrdine
+         */
+        $ret = $db->insert('cmd_riga_ordine', array($id, $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciRigaOrdine
+    
+    
+    
+    /**
+     *
+     * 
+     */
+    static function aggiornaRigaOrdine($id, $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una riga ordine
+         */
+        $ret = $db->update('cmd_riga_ordine', array('ordine_id' => $ordine_id,
+                                                    'alimento_id' => $alimento_id,
+                                                    'alimento_menu_id' => $alimento_menu_id,
+                                                    'numero' => $numero,
+                                                    'prezzo' => $prezzo,
+                                                    'iva' => $iva,
+                                                    'cassire_id' => $cassire_id),
+                                                    array('id', $id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaRigaOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $id
+     * @return <bool> 
+     */
+    static function cancellaRigaOrdine($id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una riga ordine
+         */
+        $ret = $db->delete('cmd_riga_ordine', "id = ".$id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaRigaOrdine
+    
+    
+    
+    
+    /**
+     *
+     * @param <int> $buono_id
+     * @param <int> $ordine_id
+     * @return <bool> 
+     */
+    static function inserisciBuonoOrdine($buono_id, $ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione buono_ordine
+         */
+        $ret = $db->insert('rel_buono_ordine', array($buono_id, $ordine_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciBuonoOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $buono_id
+     * @param <int> $ordine_id
+     * @param <int> $new_buono_id
+     * @param <int> $new_ordine_id
+     * @return <bool> 
+     */
+    static function aggiornaBuonoOrdine($buono_id, $ordine_id, $new_buono_id, $new_ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione buono_ordine
+         */
+        $ret = $db->update('rel_buono_ordine', array('buono_id' => $new_buono_id,
+                                                     'ordine_id' => $new_ordine_id),
+                                                     array('buono_id', $buono_id, 'ordine_id', $ordine_id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaBuonoOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $buono_id
+     * @param <int> $ordine_id
+     * @return <bool> 
+     */
+    static function cancellaBuonoOrdine($buono_id, $ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione buono_ordine
+         */
+        $ret = $db->delete('rel_buono_ordine', "buono_id = ".$buono_id.
+                        " AND "."ordine_id = ".$ordine_id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaBuonoOrdine
+    
+    
+    
+    
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @param <int> $ordine_id
+     * @return <bool> 
+     */
+    static function inserisciCassiereOrdine($cassiere_id, $ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione cassiere_ordine
+         */
+        $ret = $db->insert('rel_cassiere_ordine', array($cassiere_id, $ordine_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciCassiereOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @param <int> $ordine_id
+     * @param <int> $new_cassiere_id
+     * @param <int> $new_ordine_id
+     * @return <bool> 
+     */
+    static function aggiornaCassiereOrdine($cassiere_id, $ordine_id, $new_cassiere_id, $new_ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione cassiere_ordine
+         */
+        $ret = $db->update('rel_cassiere_ordine', array('cassiere_id' => $new_cassiere_id,
+                                                     'ordine_id' => $new_ordine_id),
+                                                     array('cassiere_id', $cassiere_id, 'ordine_id', $ordine_id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaCassiereOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @param <int> $ordine_id
+     * @return <bool> 
+     */
+    static function cancellaCassiereOrdine($cassiere_id, $ordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione cassiere_ordine
+         */
+        $ret = $db->delete('rel_cassiere_ordine', "cassiere_id = ".$cassiere_id.
+                        " AND "."ordine_id = ".$ordine_id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaCassiereOrdine
+    
     
     
     

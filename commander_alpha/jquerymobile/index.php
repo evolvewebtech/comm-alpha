@@ -11,6 +11,7 @@
         //Dichiarazione variabili globali;
         var numTavolo = 0;
         var numCoperti = 0;
+        var totale = 0;
         var arrAlim = new Array();
         var arrMenu = new Array();
         var arrMenuSel = new Array();
@@ -26,20 +27,24 @@
             var numTavolo = document.getElementById('basic').value;
             var numCoperti = document.getElementById('slider-0').value;   
             var str = "";
-            str = str + '<h2>Tavolo ' + numTavolo + '</h2>';
+            str = str + '<div style="font-size: 24px">Tavolo ' + numTavolo + '</div>';
             str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti ' + numCoperti + '</span>';           
             document.getElementById('chius-head').innerHTML = str;
             
-            var totConto = document.getElementById("totale").innerHTML;
             str = "";
             str = str + '<h2 class="name">Totale conto</h2>';
-            str = str + '<h2 class="prezzo">' + totConto + '</h2>';
-            document.getElementById('chius-tot-ord').innerHTML = totConto;
+            str = str + '<h2 class="prezzo">' + totale + ' \u20ac</h2>';
+            document.getElementById('chius-tot-ord').innerHTML = str;
             
             var totPersona = 0;
+            try {
+                totPersona = parseFloat(totale) / parseFloat(numCoperti);
+                totPersona = Math.round(totPersona*100) / 100;
+            }
+            catch(err) {;}
             str = "";
             str = str + '<h2 class="name">Totale per persona</h2>';
-            str = str + '<h2 class="prezzo">' + totPersona + ' €</h2>';
+            str = str + '<h2 class="prezzo">' + totPersona + ' \u20ac</h2>';
             document.getElementById('chius-tot-pers').innerHTML = str;
         });
     </script>
@@ -100,12 +105,7 @@
             <link rel="stylesheet" href="css/style.css" />
         </div>
         <div data-role="content">          
-            <div class="comm-a">
-                <?php include dirname(__FILE__).'/lista_ordine.php';  ?>
-            </div>
-            <div class="comm-b">
-                <?php include dirname(__FILE__).'/scelta_ordine.php';  ?>
-            </div> 
+            <?php include dirname(__FILE__).'/pg_ordine.php';  ?>
         </div>
     </div>
     
@@ -116,7 +116,7 @@
             <a href="#home" data-icon="home" class="ui-btn-right">home</a>
         </div>
         <div data-role="content"> 
-            <?php include dirname(__FILE__).'/chiusura_ordine.php';  ?>
+            <?php include dirname(__FILE__).'/pg_chiusura.php';  ?>
         </div>
     </div>
     

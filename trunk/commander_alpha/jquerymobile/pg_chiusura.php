@@ -86,19 +86,22 @@
         
         var numTavolo = document.getElementById('basic').value;
         var numCoperti = document.getElementById('slider-0').value; 
-        
-        var alimento = new Array();
+                
         var alimenti = new Array();
         
         for (var i=0; i<arrList.length; i++) {
             
-            //alimento[0] = arrList[i]._id;
-            //alimento[1] = arrList[i]._num;
-            //alimento[2] = arrList[i]._prezzo;
-            //alimento[3] = arrList[i]._iva;
+            var alimento = new Array();
             
-            alimenti[i] = arrList[i]._id;
+            alimento[0] = arrList[i]._id;
+            alimento[1] = arrList[i]._num;
+            alimento[2] = arrList[i]._prezzo;
+            alimento[3] = 0;
+            
+            alimenti[i] = alimento;
         }
+        
+        console.log(alimenti);
                 
         //Creazione array
         var data = new Array();

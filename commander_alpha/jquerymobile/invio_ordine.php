@@ -25,11 +25,11 @@
             for ($i=0; $i<count($data['alimenti']); $i++) {
 
                 $ordine_id = 1;
-                $alimento_id = $data['alimenti'][$i];
+                $alimento_id = $data['alimenti'][$i][0];
                 $alimento_menu_id = 0;
-                $numero = 1;
-                $prezzo = 0;
-                $iva = 0;
+                $numero = $data['alimenti'][$i][1];
+                $prezzo = $data['alimenti'][$i][2];
+                $iva = $data['alimenti'][$i][3];
                 $cassire_id = 1;
                 
                 //Query database

@@ -10,6 +10,15 @@
 <script language="javascript" type="text/javascript" src="media/js/jquery.jqplot.min.js"></script>
 <link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.css" />
 
+<!-- tooltip -->
+<script type="text/javascript" src="media/js/jquery.betterTooltip.js"></script>
+<script type="text/javascript">
+		$(document).ready(function(){
+			$('.tTip').betterTooltip({speed: 150, delay: 300});
+		});
+</script>
+
+<!-- CSS -->
 <style type="text/css">
     /*
      * foglio di stile per la pagina corrente
@@ -22,6 +31,47 @@
     p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
        color:#000;}
     a{ text-decoration:none; }
+
+
+/*-----------------------------------------------------------------------------------------------*/
+/*                                         TOOLTIP STYLES                                        */
+/*-----------------------------------------------------------------------------------------------*/
+
+.tTip {
+    width: 200px;
+    cursor: pointer;
+    color: #666;
+    font-weight: bold;
+        margin-top: 100px;
+}
+.tip {
+    color: #333;
+}
+
+
+.tip {
+	width: 212px;
+	padding-top: 37px;
+	overflow: hidden;
+	display: none;
+	position: absolute;
+	z-index: 500;
+	background: transparent url(img/tipTop.png) no-repeat top;}
+
+.tipMid {background: transparent url(img/tipMid.png) repeat-y; padding: 0 25px 20px 25px;}
+.tipBtm {background: transparent url(img/tipBtm.png) no-repeat bottom; height: 32px;}
+
+#cloud1 {
+    color: white;
+    font-size: 20px;
+    float: left;
+    margin-right: 30px;
+}
+#cloud2{
+    color: white;
+    font-size: 20px;
+    float: left;
+}
 </style>
 
 <div id="content">
@@ -47,6 +97,19 @@
     </h1>
 
 
+
+<div class="tTip" id="cloud1" title="In questa sezione sono disponibili tutte le statistiche che riguardano l'intero periodo di attivit&agrave; fino ad oggi">STATISTICHE COMPLESSIVE</div>
+<div class="tTip" id="cloud2" title="Qui &egrave; possibile selezionare un singolo giorno di attivit&agrave; e valutarne i risultati.">STATISTICHE GIORNALIERE</div>
+<div style="clear:both;"></div>
+
+<div style="padding:50px;color:white;">
+        <?php
+            $giorni = DataManager::visualizzaGiorni();
+            echo "<pre>";
+            var_dump($giorni);
+            echo "</pre>";
+        ?>
+</div>
 
 
 

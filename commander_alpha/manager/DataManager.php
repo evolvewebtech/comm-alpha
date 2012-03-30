@@ -67,6 +67,30 @@ class DataManager {
     }
 
     /**
+     *  visualizzo i giorni in cui ci sono stati degli ordini, 0 altrimenti
+     */
+    public static function visualizzaGiorni(){
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        $res = $db->select('cmd_ordine_chiuso', 'timestamp');
+        $ordine_id = $db->getResult();
+//        var_dump($ordine_id);
+        if(!$res) {
+            die("Failed getting ordine_chiuso");
+        }
+        $row = $ordine_id;//mysql_fetch_assoc($ordine_id);
+        if($row) {
+          return $row;
+        } else {
+          return null;
+        }
+    }
+
+
+
+    /**
      * ritorno l'id con valore massimo
      * all'interno della tabella di nome
      * $table_name

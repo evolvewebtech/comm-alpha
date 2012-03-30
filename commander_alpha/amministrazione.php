@@ -182,7 +182,7 @@ $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');
             <!--Cover 2-->
             <div class="mosaic-block cover2">
                 <div style="background-color:#fff" class="mosaic-overlay"><img src="img/stat.png"/></div>
-                <a href="#" target="_blank" class="mosaic-backdrop">
+                <a href="amministrazioneReport.php" class="mosaic-backdrop">
                         <div class="details">
                                 <h4>STATISTICHE</h4>
                                 <p>Qui trovi tutte le informazioni che ti interessano.</p>

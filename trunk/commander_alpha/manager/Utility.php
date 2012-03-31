@@ -74,5 +74,96 @@ class Utility{
             }
         return $array;
       }
+
+
+    public static function array_unique_deep($array) {
+        $values=array();
+        //ideally there would be some is_array() testing for $array here...
+        foreach ($array as $part) {
+            if (is_array($part)) $values=array_merge($values,array_unique_deep($part));
+            else $values[]=$part;
+        }
+        return array_unique($values);
+    }
+
+
+    public static function specified_array_unique($array, $value)
+    {
+        $count = 0;
+
+        foreach($array as $array_key => $array_value)
+        {
+            if ( ($count > 0) && ($array_value == $value) )
+            {
+                unset($array[$array_key]);
+            }
+
+            if ($array_value == $value) $count++;
+        }
+
+        return array_filter($array);
+    }
+
+    /**
+     * formatto la data ricevuta così: 2012-30-01
+     * e ritorno 30 Gennaio 2012.
+     *
+     * @param string $data
+     * @param string $lang
+     * @return string
+     */
+    public static function displayDate($data, $lang){
+        if ($lang=='ita'){
+            $yyyy=strtok($data, "-");
+            $mesi = array('Gennaio','Febbraio','Marzo','Aprile','Maggio',
+                          'Giugno','Lulgio','Agosto','Settembre',
+                          'Ottobre','Novembre','Dicembre');
+            $mm=strtok("-");
+            switch ($mm) {
+                case 1:
+                    $mm = $mesi[0];
+                    break;
+                case 2:
+                    $mm = $mesi[1];
+                    break;
+                case 3:
+                    $mm = $mesi[2];
+                    break;
+                case 4:
+                    $mm = $mesi[3];
+                    break;
+                case 5:
+                    $mm = $mesi[4];
+                    break;
+                case 6:
+                    $mm = $mesi[5];
+                    break;
+                case 7:
+                    $mm = $mesi[6];
+                    break;
+                case 8:
+                    $mm = $mesi[7];
+                    break;
+                case 9:
+                    $mm = $mesi[8];
+                    break;
+                case 10:
+                    $mm = $mesi[9];
+                    break;
+                case 11:
+                    $mm = $mesi[10];
+                    break;
+                case 12:
+                    $mm = $mesi[11];
+                    break;
+            }
+
+        }
+        $dd=strtok("-");
+        $day_new =$dd." ".$mm." ".$yyyy;
+        return $day_new;
+    }
+
+
 }
 ?>

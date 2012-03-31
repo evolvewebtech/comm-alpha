@@ -12,6 +12,7 @@
         var numTavolo = 0;
         var numCoperti = 0;
         var totale = 0;
+        var contanti = 0;
         var arrAlim = new Array();
         var arrMenu = new Array();
         var arrMenuSel = new Array();
@@ -20,34 +21,8 @@
         var mem_index = -1;
         var mem_ord_type = "cat";
     </script>
+    <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
-    <script type="text/javascript">
-        $("#chiusura").live('pageshow', function() {
-            
-            var numTavolo = document.getElementById('basic').value;
-            var numCoperti = document.getElementById('slider-0').value;   
-            var str = "";
-            str = str + '<div style="font-size: 24px">Tavolo ' + numTavolo + '</div>';
-            str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti ' + numCoperti + '</span>';           
-            document.getElementById('chius-head').innerHTML = str;
-            
-            str = "";
-            str = str + '<h2 class="name">Totale conto</h2>';
-            str = str + '<h2 class="prezzo">' + totale + ' \u20ac</h2>';
-            document.getElementById('chius-tot-ord').innerHTML = str;
-            
-            var totPersona = 0;
-            try {
-                totPersona = parseFloat(totale) / parseFloat(numCoperti);
-                totPersona = Math.round(totPersona*100) / 100;
-            }
-            catch(err) {;}
-            str = "";
-            str = str + '<h2 class="name">Totale per persona</h2>';
-            str = str + '<h2 class="prezzo">' + totPersona + ' \u20ac</h2>';
-            document.getElementById('chius-tot-pers').innerHTML = str;
-        });
-    </script>
 </head>
 <body>
     
@@ -102,6 +77,7 @@
     <div data-role="page" id="ordine">
         <div data-role="header">
             <h1>Ordinazione</h1>
+            <a href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
             <link rel="stylesheet" href="css/style.css" />
         </div>
         <div data-role="content">          
@@ -113,10 +89,21 @@
     <div data-role="page" id="chiusura">
         <div data-role="header">
             <h1>Chisura ordine</h1>
-            <a href="#home" data-icon="home" class="ui-btn-right">home</a>
+            <a href="#ordine" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content"> 
             <?php include dirname(__FILE__).'/pg_chiusura.php';  ?>
+        </div>
+    </div>
+    
+    <!-- PAGINA BUONI PREPAGATI -->
+    <div data-role="page" id="buoni-pre">
+        <div data-role="header">
+            <h1>Buoni prepagati</h1>
+            <a href="#chiusura" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
+        </div>
+        <div data-role="content"> 
+            <?php include dirname(__FILE__).'/pg_buoni.php';  ?>
         </div>
     </div>
     
@@ -139,6 +126,16 @@
         <div data-role="content">
             <a id="canc-ord" href="#home" data-role="button" data-icon="check" class="ui-btn-right canc-all-conf">Sì</a>
             <a href="#ordine" data-role="button" data-icon="delete" class="ui-btn-right canc-ann">No</a>
+        </div>
+    </div>
+    
+    <!-- DIALOG INSERIMENTO CONTANTI -->
+    <div data-role="page" id="diag-ins-cont">
+        <div data-role="header">
+            <h1>Pagamento</h1>
+        </div>
+        <div data-role="content">
+            <?php include dirname(__FILE__).'/pg_diag_ins_cont.php';  ?>
         </div>
     </div>
 </body>

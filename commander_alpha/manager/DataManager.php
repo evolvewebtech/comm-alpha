@@ -75,12 +75,12 @@ class DataManager {
         $db->connect();
 
         $res = $db->select('cmd_ordine_chiuso', 'timestamp');
-        $ordine_id = $db->getResult();
+        $days = $db->getResult();
 //        var_dump($ordine_id);
         if(!$res) {
             die("Failed getting ordine_chiuso");
         }
-        $row = $ordine_id;//mysql_fetch_assoc($ordine_id);
+        $row = $days;//mysql_fetch_assoc($days);
         if($row) {
           return $row;
         } else {

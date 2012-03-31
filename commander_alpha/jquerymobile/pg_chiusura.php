@@ -53,16 +53,16 @@
 <h2></h2>
 <div class="ui-grid-c">
     <div class="ui-block-a">
-        <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Gruppo</a>
+        <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Gruppo</a>
     </div>
     <div class="ui-block-b">
-        <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Buono</a>
+        <a href="#buoni-pre" data-role="button" data-icon="home" class="ui-btn-right">Buoni prepagati</a>
     </div>
     <div class="ui-block-c">
-        <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Sconto</a>
+        <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Sconto</a>
     </div>
     <div class="ui-block-d">
-        <a href="#home" data-role="button" data-icon="home" class="ui-btn-right">Singolo</a>
+        <a href="#diag-ins-cont" data-rel="dialog" data-role="button" data-icon="home" class="ui-btn-right">Contanti</a>
     </div>
 </div>
 
@@ -78,7 +78,25 @@
     <span class="comm-C-btn-icon-right"><span></span></span>
 </a>
 -->
-            
+
+<script type="text/javascript">
+    
+    $('#conf-cont').live("click", function() {
+        
+        contanti = document.getElementById('cont-ric').value;
+        
+        if (contanti > 0) {;}
+        else contanti = 0;
+        
+        str = "";
+        str = str + '<h2 class="name">Contanti</h2>';
+        str = str + '<h2 class="prezzo">' + contanti + ' \u20ac</h2>';
+        document.getElementById('chius-contanti').innerHTML = str;
+    });
+    
+</script>
+
+
 
 <script type="text/javascript">
     
@@ -106,7 +124,6 @@
         //Creazione array
         var data = new Array();
         data = {
-            seriale:    '',
             n_coperti:  numCoperti,
             tavolo_id:  numTavolo,
             
@@ -130,7 +147,7 @@
     });
     
     function onInvioOrdineSuccess(data, status) { 
-        alert("Ordine inviato con successo!");
+        alert("Ordine " + data + " inviato con successo!");
     }
     
     function onInvioOrdineError(data, status) { 

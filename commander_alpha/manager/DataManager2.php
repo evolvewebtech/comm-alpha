@@ -5,6 +5,7 @@
  * @author alessandro
  */
 require_once dirname(__FILE__).'/../food/Alimento.php';
+require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';
 require_once dirname(__FILE__).'/../food/Categoria.php';
 require_once dirname(__FILE__).'/../food/Stampante.php';
 require_once dirname(__FILE__).'/../food/Variante.php';
@@ -824,18 +825,13 @@ class DataManager2 {
      *
      * 
      */
-    static function inserisciOrdine($id, $seriale, $timestamp, $n_coperti, $tavolo_id){
-        
-        require_once 'Database.php';
-        $db = new Database();
-        $db->connect();
-
-        /*
-         * inserisco una oggetto Ordine
-         */
-        $ret = $db->insert('cmd_ordine', array($id, $seriale, $timestamp, $n_coperti, $tavolo_id));
-                
-        if ($ret) return true;
+    static function inserisciOrdine($id, $seriale, $n_coperti, $tavolo_id){       
+        $sql = "INSERT INTO cmd_ordine VALUES ($id, '$seriale', now(), $n_coperti, $tavolo_id)";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if($res) return true;
+        else return false;
+        }
         else return false;
     }//end inserisciOrdine
     
@@ -889,23 +885,37 @@ class DataManager2 {
     
     
     
+    static function nextIDOrdine(){             
+        $sql = "SHOW TABLE STATUS WHERE name='cmd_ordine'";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAlimentoAsObject)");
+            }
+              $row = mysql_fetch_array($res);
+              $next_id = $row['Auto_increment'] ;
+        
+              return $next_id;
+            } else {
+              return -1;
+        }
+    }
+    
+    
+    
     
     /**
      *
      * 
      */
-    static function inserisciOrdineChiuso($id, $timestamp, $ordine_id){
-        
-        require_once 'Database.php';
-        $db = new Database();
-        $db->connect();
-
-        /*
-         * inserisco una oggetto OrdineChiuso
-         */
-        $ret = $db->insert('cmd_ordine_chiuso', array($id, $timestamp, $ordine_id));
-                
-        if ($ret) return true;
+    static function inserisciOrdineChiuso($id, $ordine_id){
+        $sql = "INSERT INTO cmd_ordine_chiuso VALUES ($id, now(), $ordine_id)";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if($res) return true;
+        else return false;
+        }
         else return false;
     }//end inserisciOrdineChiuso
     
@@ -1220,6 +1230,19 @@ class DataManager2 {
     }
     
     
+    public static function getBuonoPrepagatoData($seriale){
+        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale=$seriale";
+        
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity BuonoPrepagato");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
     public static function getCategoriaData($categoriaID){
         $sql = "SELECT * FROM cmd_categoria WHERE id=$categoriaID";
         if (DataManager2::_getConnection()){
@@ -1291,6 +1314,24 @@ class DataManager2 {
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
                 $objs = new Alimento($alimentoID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getBuonoPrepagatoAsObject($seriale){
+        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale=$seriale";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getBuonoPrepagatoAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new BuonoPrepagato($seriale);
               }
               return $objs;
             } else {

@@ -7,24 +7,18 @@
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         
-        $seriale = $data['seriale'];
+        $next_id = DataManager2::nextIDOrdine();
+        $seriale = $next_id;
         $n_coperti = $data['n_coperti'];
         $tavolo_id = $data['tavolo_id'];
         
-        $var = array("seriale"      =>$data['seriale'],
-                     "n_coperti"    =>$data['n_coperti'],
-                     "tavolo_id"    =>$data['tavolo_id']);
-              
-        //$mysqldate = date( 'Y-m-d H:i:s', $phpdate );
-        //$phpdate = strtotime( $mysqldate );
-        
         //Query database
-        $ret = DataManager2::inserisciOrdine('null', $seriale, '', $n_coperti, $tavolo_id);
+        $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
         
         if($ret){
             for ($i=0; $i<count($data['alimenti']); $i++) {
 
-                $ordine_id = 1;
+                $ordine_id = $next_id;
                 $alimento_id = $data['alimenti'][$i][0];
                 $alimento_menu_id = 0;
                 $numero = $data['alimenti'][$i][1];
@@ -39,12 +33,17 @@
                     die();
                 }
             }
+            //Query database
+            $ret = DataManager2::inserisciOrdineChiuso('null', $next_id);
+            if (!$ret) {
+                die();
+            }
         }
         else {
             die();
         }
 
-        echo json_encode($var);
+        echo json_encode($next_id);
     }
     catch(Exception $e) {
         echo $e->getMessage();

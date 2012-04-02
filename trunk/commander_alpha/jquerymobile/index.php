@@ -20,6 +20,11 @@
         var show_opt = false;
         var mem_index = -1;
         var mem_ord_type = "cat";
+        var usa_buono = false;
+        var buono_ser = "";
+        var buono_nom = "";
+        var buono_cred = 0;
+        var buono_cred_us = 0;
     </script>
     <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
@@ -57,19 +62,36 @@
                 <div class="ui-block-a"></div>
         	<div class="ui-block-b">
                     <h1></h1>
-                    <label for="basic">Inserire il numero del tavolo:</label>
-                    <input type="text" name="name" id="basic" value="" placeholder="Numero tavolo" />
+                    <label for="text-num-t">Inserire il numero del tavolo:</label>
+                    <input type="text" name="name" id="text-num-t" value="" placeholder="Numero tavolo" />
                     <h1></h1>
                     <form>
                         <label for="slider-0">Inserire il numero di coperti:</label>
-                        <input type="range" name="slider" id="slider-0" value="1" min="0" max="100"  />
+                        <input type="range" name="slider" id="slider-0" value="1" min="0" max="50"  />
                     </form>
                     <h1></h1>
-                    <a id="sel-table" href="#ordine" data-role="button" data-icon="grid" class="ui-btn-right">Inserimento ordine</a>
+                    <a id="sel-table" href="#ordine" data-role="button" data-icon="grid" class="ui-btn-right ui-disabled">Inserimento ordine</a>
                     <a href="#home" data-role="button" data-icon="delete" class="ui-btn-right">Annulla ordine</a>
                 </div>
                 <div class="ui-block-c"></div>
             </div><!-- /grid-b -->
+            <script>
+                $("#text-num-t").live("change" , function() {
+                    enDisButton();
+                });
+                
+                $("#slider-0").live("change" , function() {
+                    enDisButton();
+                });
+                
+                function enDisButton () {
+                    //Abilita/disabilita pulsante "Inserimento ordine"
+                    if ((document.getElementById('text-num-t').value == "") | (document.getElementById('slider-0').value <= 0) ) {
+                        $('#sel-table').addClass('ui-disabled');
+                    }
+                    else $('#sel-table').removeClass('ui-disabled');
+                }
+            </script>
         </div>
     </div>
     

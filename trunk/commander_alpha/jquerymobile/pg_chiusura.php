@@ -37,9 +37,11 @@
                     <h2 class="prezzo">0 €</h2>
                     </div>
                 </li>
+            </div>
+            <div style="padding-top: 10px; padding-bottom: 10px">
                 <li id="chius-resto" class="ui-li ui-li-static ui-body-c comm-li-tot">
                     <div id="totale">
-                    <h2 class="name">Resto</h2>
+                    <h2 class="name">Da ricevere</h2>
                     <h2 class="prezzo">0 €</h2>
                     </div>
                 </li>
@@ -83,7 +85,8 @@
     
     $('#conf-cont').live("click", function() {
         
-        contanti = document.getElementById('cont-ric').value;
+        contanti = parseFloat(document.getElementById('cont-ric').value);
+        contanti = Math.round(contanti*100) / 100;
         
         if (contanti > 0) {;}
         else contanti = 0;

@@ -29,7 +29,7 @@
         </ul>        
         <fieldset class="ui-grid-a">
             <div class="ui-block-a">
-                <a href="#chiusura" data-role="button" data-icon="check" class="ui-btn-right">Conferma</a>
+                <a href="#chiusura" id="conf-ord-btt" data-role="button" data-icon="check" class="ui-btn-right ui-disabled">Conferma</a>
             </div>
             <div class="ui-block-b">
                 <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>

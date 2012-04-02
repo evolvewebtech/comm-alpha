@@ -412,6 +412,12 @@ function aggiornaLista(type) {
     
     //aggiornamento totale ordine
     aggiornaTotale();
+    
+    //pulsante "conferma"
+    if (arrList.length >= 1) {
+        $('#conf-ord-btt').removeClass('ui-disabled');
+    }
+    else $('#conf-ord-btt').addClass('ui-disabled');
 }
 
 

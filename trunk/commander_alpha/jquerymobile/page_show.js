@@ -32,8 +32,8 @@ $("#home").live('pageshow', function() {
  */
 $("#chiusura").live('pageshow', function() {
             
-    var numTavolo = document.getElementById('text-num-t').value;
-    var numCoperti = document.getElementById('slider-0').value;   
+    numTavolo = document.getElementById('text-num-t').value;
+    numCoperti = document.getElementById('slider-0').value;   
     var str = "";
     str = str + '<div style="font-size: 24px">Tavolo ' + numTavolo + '</div>';
     str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti ' + numCoperti + '</span>';           

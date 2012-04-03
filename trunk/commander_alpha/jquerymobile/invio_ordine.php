@@ -1,6 +1,7 @@
 <?php
 
     try {
+        require_once dirname(__FILE__).'/../manager/DataManager.php';
         require_once dirname(__FILE__).'/../manager/DataManager2.php';
                 
    
@@ -11,9 +12,30 @@
         $seriale = $next_id;
         $n_coperti = $data['n_coperti'];
         $tavolo_id = $data['tavolo_id'];
-        
+        $buono_ser = $data['buono_ser'];
+        $buono_cred_us = $data['buono_cred_us'];
+
+        //Verifica se credito buono sufficiente
+        $buono_ok = false;
+        if ($buono_ser != "") {
+            $buono = DataManager2::getBuonoPrepagatoAsObject($buono_ser);
+            if ($buono->credito >= $buono_cred_us) {
+                $nuovo_credito = $buono->credito - $buono_cred_us;
+                $ret = DataManager::aggiornaBuonoPrepagato((int)$buono->id,
+                                                           $buono->seriale,
+                                                           $nuovo_credito,
+                                                           $buono->nominativo,
+                                                           (int)$buono->gestore_id);
+                if ($ret) { $buono_ok = true; }
+            }
+        }
+        else $buono_ok = true;
+              
         //Query database
-        $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
+        if ($buono_ok) {
+            $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
+        }
+        else die();
         
         if($ret){
             for ($i=0; $i<count($data['alimenti']); $i++) {

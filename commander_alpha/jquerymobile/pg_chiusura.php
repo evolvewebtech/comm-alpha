@@ -105,8 +105,8 @@
     
     $('#conferma-ordine').live("click", function() {
         
-        var numTavolo = document.getElementById('basic').value;
-        var numCoperti = document.getElementById('slider-0').value; 
+        //var numTavolo = document.getElementById('basic').value;
+        //var numCoperti = document.getElementById('slider-0').value; 
                 
         var alimenti = new Array();
         
@@ -129,6 +129,8 @@
         data = {
             n_coperti:  numCoperti,
             tavolo_id:  numTavolo,
+            buono_ser:  buono_ser,
+            buono_cred_us:   buono_cred_us,
             
             alimenti:   alimenti
         }

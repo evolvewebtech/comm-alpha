@@ -7,6 +7,8 @@
 require_once dirname(__FILE__).'/../food/Alimento.php';
 require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';
 require_once dirname(__FILE__).'/../food/Categoria.php';
+require_once dirname(__FILE__).'/../food/Ordine.php';
+require_once dirname(__FILE__).'/../food/RigaOrdine.php';
 require_once dirname(__FILE__).'/../food/Stampante.php';
 require_once dirname(__FILE__).'/../food/Variante.php';
 require_once dirname(__FILE__).'/../food/MenuFisso.php';
@@ -891,7 +893,7 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAlimentoAsObject)");
+                die("Errore (nextIDOrdine)");
             }
               $row = mysql_fetch_array($res);
               $next_id = $row['Auto_increment'] ;
@@ -901,6 +903,26 @@ class DataManager2 {
               return -1;
         }
     }
+    
+    
+    
+    static function nextIDRigaOrdine(){             
+        $sql = "SHOW TABLE STATUS WHERE name='cmd_riga_ordine'";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (nextIDRigaOrdine)");
+            }
+              $row = mysql_fetch_array($res);
+              $next_id = $row['Auto_increment'] ;
+        
+              return $next_id;
+            } else {
+              return -1;
+        }
+    }
+    
     
     
     
@@ -1193,6 +1215,82 @@ class DataManager2 {
     
     
     
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $rigaordine_id
+     * @return <bool> 
+     */
+    static function inserisciVarianteRigaOrdine($variante_id, $rigaordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione variante_rigaordine
+         */
+        $ret = $db->insert('rel_variante_rigaordine', array($variante_id, $rigaordine_id));
+                
+        if ($ret) return true;
+        else return false;
+    }//end inserisciVarianteRigaOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $rigaordine_id
+     * @param <int> $new_variante_id
+     * @param <int> $new_rigaordine_id
+     * @return <bool> 
+     */
+    static function aggiornaVarianteRigaOrdine($variante_id, $rigaordine_id, $new_variante_id, $new_rigaordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * modifico una relazione variante_rigaordine
+         */
+        $ret = $db->update('rel_variante_rigaordine', array('variante_id' => $new_variante_id,
+                                                     'rigaordine_id' => $new_rigaordine_id),
+                                                     array('variante_id', $variante_id, 'rigaordine_id', $rigaordine_id)
+                    );
+                
+        if ($ret) return true;
+        else return false;
+    }//end aggiornaVarianteRigaOrdine
+    
+    
+    
+    /**
+     *
+     * @param <int> $variante_id
+     * @param <int> $rigaordine_id
+     * @return <bool> 
+     */
+    static function cancellaVarianteRigaOrdine($variante_id, $rigaordine_id){
+        
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione variante_rigaordine
+         */
+        $ret = $db->delete('rel_variante_rigaordine', "variante_id = ".$variante_id.
+                        " AND "."rigaordine_id = ".$rigaordine_id);
+                
+        if ($ret) return true;
+        else return false;
+    }//end cancellaVarianteRigaOrdine
+    
+    
+    
+    
     
     
     
@@ -1273,6 +1371,30 @@ class DataManager2 {
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
             die("Failed getting entity MenuFisso");
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getOrdineData($ordineID){
+        $sql = "SELECT * FROM cmd_ordine WHERE id=$ordineID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity Ordine ".$ordineID);
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
+    public static function getRigaOrdineData($rigaOrdineID){
+        $sql = "SELECT * FROM cmd_riga_ordine WHERE id=$rigaOrdineID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            die("Failed getting entity RigaOrdine ".$rigaOrdineID);
         }
             return mysql_fetch_assoc($res);
         }
@@ -1368,6 +1490,24 @@ class DataManager2 {
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
                 $objs = new MenuFisso($menuID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getOrdineAsObject($ordineID){
+        $sql = "SELECT * FROM cmd_ordine WHERE id=$ordineID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getOrdineAsObject)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Ordine($ordineID);
               }
               return $objs;
             } else {
@@ -1473,6 +1613,28 @@ class DataManager2 {
           return array();
         }
     }
+    
+    public static function getRigaOrdineObjectsForEntity($ordineID){
+        $sql = "SELECT * FROM cmd_riga_ordine WHERE ordine_id=$ordineID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getRigaOrdineObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['id']);
+                $objs[] = new RigaOrdine($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
         
     public static function getStampanteObjectsForEntity($alimentoID){
         $sql = "SELECT * FROM rel_alimento_stampante WHERE alimento_id=$alimentoID";
@@ -1503,6 +1665,28 @@ class DataManager2 {
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
                 //die("Errore (getVarianteObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['variante_id']);
+                $objs[] = DataManager2::getVarianteAsObject($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getVarianteOrdineObjectsForEntity($rigaOrdineID){
+        $sql = "SELECT * FROM rel_variante_rigaordine WHERE rigaordine_id=$rigaOrdineID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getVarianteOrdineObjectsForEntity)");
                 //$objs[] = null;
                 //return $objs;
                 return null;
@@ -1555,6 +1739,46 @@ class DataManager2 {
               while($row = mysql_fetch_assoc($res)) {
                   $id = intval($row['id']);
                   $objs[] = new MenuFisso($id);                
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getAllOrdiniAsObjects() {
+
+        $sql = "SELECT id FROM cmd_ordine";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllOrdiniAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Ordine($id);                
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getAllOrdiniDateAsObjects($dataQuery) {
+
+        $sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=$dataQuery ORDER BY timestamp DESC";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllOrdiniDateAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Ordine($id);                
               }
               return $objs;
         } else {

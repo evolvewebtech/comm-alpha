@@ -488,6 +488,11 @@ div#id-cat.element_list .name{
     float: left;
 }
 
+.lista_ordini {
+    width: 80%;
+    margin:auto;
+}
+
 .var-class {
     margin: 5px;
     padding: 2px;

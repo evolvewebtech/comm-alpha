@@ -8,6 +8,7 @@
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         
+        //ID del nuovo "ordine"
         $next_id = DataManager2::nextIDOrdine();
         $seriale = $next_id;
         $n_coperti = $data['n_coperti'];
@@ -18,20 +19,26 @@
         //Verifica se credito buono sufficiente
         $buono_ok = false;
         if ($buono_ser != "") {
+            //Recupero dati "Buono prepagato"
             $buono = DataManager2::getBuonoPrepagatoAsObject($buono_ser);
             if ($buono->credito >= $buono_cred_us) {
-                $nuovo_credito = $buono->credito - $buono_cred_us;
-                $ret = DataManager::aggiornaBuonoPrepagato((int)$buono->id,
-                                                           $buono->seriale,
-                                                           $nuovo_credito,
-                                                           $buono->nominativo,
-                                                           (int)$buono->gestore_id);
+                //Inserimento relazione "BuonoOrdine"
+                $ret = DataManager2::inserisciBuonoOrdine((int)$buono->id, $next_id);               
+                if ($ret) {
+                    $nuovo_credito = $buono->credito - $buono_cred_us;
+                    //Aggiornamento del credito del buono utilizzato
+                    $ret = DataManager::aggiornaBuonoPrepagato((int)$buono->id,
+                                                            $buono->seriale,
+                                                            $nuovo_credito,
+                                                            $buono->nominativo,
+                                                            (int)$buono->gestore_id);
+                }
                 if ($ret) { $buono_ok = true; }
             }
         }
         else $buono_ok = true;
               
-        //Query database
+        //Inserimento del nuovo ordine nel database
         if ($buono_ok) {
             $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
         }
@@ -39,7 +46,9 @@
         
         if($ret){
             for ($i=0; $i<count($data['alimenti']); $i++) {
-
+                
+                //ID del nuovo "ordine"
+                $next_id_rigaordine = DataManager2::nextIDRigaOrdine();
                 $ordine_id = $next_id;
                 $alimento_id = $data['alimenti'][$i][0];
                 $alimento_menu_id = 0;
@@ -48,9 +57,17 @@
                 $iva = $data['alimenti'][$i][3];
                 $cassire_id = 1;
                 
-                //Query database
+                //Inserimento "RigaOrdine nel database"
                 $ret = DataManager2::inserisciRigaOrdine('null', $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id);
                 
+                if ($ret) {
+                    //Inserimento relazioni "VarianteRigaOrdine" nel database
+                    for ($j=0; $j<count($data['alimenti'][$i][4]); $j++) {
+                        $variante_id = $data['alimenti'][$i][4][$j];
+                        DataManager2::inserisciVarianteRigaOrdine($variante_id, $next_id_rigaordine);
+                    }
+                } 
+                    
                 if (!$ret) {
                     die();
                 }

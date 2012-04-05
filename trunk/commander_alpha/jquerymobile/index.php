@@ -28,6 +28,7 @@
     </script>
     <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
+    <script type="text/javascript" src="lista_ordini.js"></script>
 </head>
 <body>
     
@@ -42,13 +43,26 @@
                     <a href="#tavoli"><img src="images/symbol_add.png"/></a>
                 </div>
                 <div class="button_opz">
-                    <img src="images/symbol_information.png"/>
+                    <a href="#info-ordini"><img src="images/symbol_information.png"/></a>
                 </div>
                 <!--
                 <a href="#tavoli" data-role="button" data-icon="home" class="ui-btn-right">Nuovo tavolo</a>
                 <a data-role="button" data-icon="home" class="ui-btn-right">Info</a>
                 <a data-role="button" data-icon="home" class="ui-btn-right">Ordini aperti</a> -->
             </div>    
+        </div>
+    </div>
+    
+    <!-- PAGINA INFO ORDINI -->
+    <div data-role="page" id="info-ordini">
+        <div data-role="header">
+            <h1>Info ordini</h1>
+            <a href="#home" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
+        </div>
+        <div data-role="content">
+            <div id="lista-vecchi-ordini" class="lista_ordini">
+                
+            </div>   
         </div>
     </div>
     

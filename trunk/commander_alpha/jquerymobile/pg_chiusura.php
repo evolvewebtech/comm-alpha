@@ -105,24 +105,30 @@
     
     $('#conferma-ordine').live("click", function() {
         
-        //var numTavolo = document.getElementById('basic').value;
-        //var numCoperti = document.getElementById('slider-0').value; 
-                
         var alimenti = new Array();
         
+        //Estrazione dati dalla lista degli alimenti selezionati
         for (var i=0; i<arrList.length; i++) {
             
             var alimento = new Array();
             
-            alimento[0] = arrList[i]._id;
-            alimento[1] = arrList[i]._num;
-            alimento[2] = arrList[i]._prezzo;
-            alimento[3] = 0;
+            alimento[0] = arrList[i]._id;       //id
+            alimento[1] = arrList[i]._num;      //numero 
+            alimento[2] = arrList[i]._prezzo;   //prezzo
+            alimento[3] = 0;                    //iva
+            
+            var varianti = new Array();           
+            for (var j=0; j<arrList[i]._varianti.length; j++) {
+                var variante = arrList[i]._varianti[j];
+                varianti[j] = variante._id;
+                //aggiornamento prezzo
+                alimento[2] = parseFloat(alimento[2]) + parseFloat(variante._prezzo);
+                alimento[2] = Math.round(alimento[2]*100) / 100;
+            }          
+            alimento[4] = varianti;             //varianti
             
             alimenti[i] = alimento;
         }
-        
-        console.log(alimenti);
                 
         //Creazione array
         var data = new Array();

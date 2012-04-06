@@ -5,8 +5,10 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
+    <link rel="stylesheet" href="css/jquery.mobile.datebox-1.0.1.min.css"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
+    <script src="js/jquery.mobile.datebox-1.0.1.min.js"></script>
     <script>
         //Dichiarazione variabili globali;
         var numTavolo = 0;
@@ -60,9 +62,11 @@
             <a href="#home" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content">
+            <label for="mydate">Selezionare una data:</label>
+            <input name="mydate" id="mydate" type="date" data-role="datebox" data-options='{"mode": "calbox"}'>         
             <div id="lista-vecchi-ordini" class="lista_ordini">
                 
-            </div>   
+            </div> 
         </div>
     </div>
     

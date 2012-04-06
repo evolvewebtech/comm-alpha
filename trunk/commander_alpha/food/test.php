@@ -68,18 +68,4 @@ foreach($arContacts as $objEntity) {
 }
 
 
-
-echo "<BR><BR>";
-
-
-$datax = date( 'Y-m-d H:i:s' );
-echo $datax."<BR>";
-
-$arrrr = DataManager2::getAllOrdiniDateAsObjects('curdate()');
-
-echo "<BR>";
-echo count($arrrr);
-
-
-
 ?>

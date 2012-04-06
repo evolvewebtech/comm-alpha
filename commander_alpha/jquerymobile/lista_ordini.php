@@ -3,8 +3,9 @@
     try {
         require_once dirname(__FILE__).'/../manager/DataManager2.php';
         
-        //$dataQuery = mysql_real_escape_string($_POST['data']);             
-        $arOrdini = DataManager2::getAllOrdiniDateAsObjects('curdate()');
+        $data = file_get_contents('php://input');
+        $dataQuery = json_decode($data, true);
+        $arOrdini = DataManager2::getAllOrdiniDateAsObjects($dataQuery);
         
         //Array da passare con JSON  
         $arr = array(); 

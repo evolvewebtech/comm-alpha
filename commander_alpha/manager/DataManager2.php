@@ -1768,7 +1768,7 @@ class DataManager2 {
     
     public static function getAllOrdiniDateAsObjects($dataQuery) {
 
-        $sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=$dataQuery ORDER BY timestamp DESC";
+        $sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=date('$dataQuery') ORDER BY timestamp DESC";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);

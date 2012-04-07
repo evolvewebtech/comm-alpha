@@ -15,7 +15,7 @@
                 
                 $tot = 0;
                 for($j=0; $j<$arOrdini[$i]->getNumberOfRigheOrdine(); $j++) {
-                    $tot = $tot + $arOrdini[$i]->getRigaOrdine($j)->prezzo;
+                    $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
                 }
                 
                 $arrTemp = array(   "timestamp"     => $arOrdini[$i]->timestamp,

@@ -488,9 +488,34 @@ div#id-cat.element_list .name{
     float: left;
 }
 
-.lista_ordini {
+.lista-date {
+    width: 400px;
+    text-align: center;
+    margin: auto;
+}
+
+.lista_ordini{
     width: 80%;
-    margin:auto;
+    text-align: center;
+    margin: auto;
+}
+
+.lista_ordini .ord-num-d {
+  width: 150px;
+  float: left;
+  position:relative;
+}
+
+.lista_ordini .ord-num-t {
+  width: 90px;
+  float: left;
+  position:relative;
+}
+
+.lista_ordini .ord-num-c {
+  /*width: 90px;*/
+  float: left;
+  position:relative;
 }
 
 .var-class {

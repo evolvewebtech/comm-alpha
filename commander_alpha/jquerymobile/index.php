@@ -62,11 +62,11 @@
             <a href="#home" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content">
-            <label for="mydate">Selezionare una data:</label>
-            <input name="mydate" id="mydate" type="date" data-role="datebox" data-options='{"mode": "calbox"}'>         
-            <div id="lista-vecchi-ordini" class="lista_ordini">
-                
-            </div> 
+            <div class="lista-date">
+                <label for="ord-datepicker">Selezionare una data:</label>
+                <input name="ord-datepicker" id="ord-datepicker" type="date" data-role="datebox" data-options='{"mode": "calbox"}'>
+            </div>     
+            <div id="lista-vecchi-ordini" class="lista_ordini"></div>           
         </div>
     </div>
     

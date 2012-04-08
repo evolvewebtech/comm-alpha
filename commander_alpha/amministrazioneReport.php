@@ -30,7 +30,10 @@
         text-shadow:1px 1px 0 rgb(0,0,0); }
     p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
        color:#000;}
-    a{ text-decoration:none; }
+    a{
+       text-decoration:none;
+       cursor: pointer;
+    }
 
 
 /*-----------------------------------------------------------------------------------------------*/
@@ -64,20 +67,31 @@
 	z-index: 500;
 	background: transparent url(img/tipTop.png) no-repeat top;}
 
-.tipMid {background: transparent url(img/tipMid.png) repeat-y; padding: 0 25px 20px 25px;}
-.tipBtm {background: transparent url(img/tipBtm.png) no-repeat bottom; height: 32px;}
+.tipMid {background: transparent url(img/tipMid.png) repeat-y;
+         padding: 0 25px 20px 25px;}
+.tipBtm {background: transparent url(img/tipBtm.png) no-repeat bottom;
+         height: 32px;}
 
 #cloud1 {
     color: white;
     font-size: 20px;
     float: left;
     margin-right: 30px;
+    width: 290px;
 }
 #cloud2{
     color: white;
     font-size: 20px;
     float: left;
+    width: 290px;
 }
+
+    a{
+       color: white;
+       text-decoration:none;
+       cursor: pointer;
+    }
+
 </style>
 
 <div id="content">
@@ -141,14 +155,16 @@
                     giorni.push("<?=$value?>");
            <? } ?>
 
-            //tooltip
-            $('.tTip').betterTooltip({speed: 150, delay: 300});
+           //tooltip
+           $('.tTip').betterTooltip({speed: 150, delay: 300});
 
-            //display days
-            $('#cloud2').click(function () {
-                $("#cloud2").fadeToggle("fast", function () {
-                    $.each(giorni, function(key, value){
-                        $("#day").append('<a class="giorno" herf="#">'+value+'</a> - ');
+           //display days
+           $('#cloud2').click(function () {
+               $("#cloud2").fadeToggle("fast", function () {
+                   $.each(giorni, function(key, value){
+                       var gg = value.split(" ");
+                       gg = gg[0]+"-"+gg[1]+"-"+gg[2];
+                       $("#day").append('<a class="giorno" href="amministrazioneSingleReport.php?gg='+gg+'">'+value+'</a><br />');
                     });
                 });
             });
@@ -156,19 +172,12 @@
     });
 </script>
 
-
 <div class="tTip" id="cloud1" title="In questa sezione sono disponibili tutte le
      statistiche che riguardano l'intero periodo di attivit&agrave; fino ad oggi">STATISTICHE COMPLESSIVE</div>
 <div class="tTip" id="cloud2" title="Qui &egrave; possibile selezionare un singolo
      giorno di attivit&agrave; e valutarne i risultati.">STATISTICHE GIORNALIERE</div>
 <div id="day"></div>
 <div style="clear:both;"></div>
-
-<div style="padding:50px;color:white;">
-        <?php
-
-        ?>
-</div>
 
 
         <h4 style="margin-left: 10px; float:left; width: 920px;">

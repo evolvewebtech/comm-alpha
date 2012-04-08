@@ -2068,7 +2068,11 @@ class DataManager {
             }
     }
 
-
+    /**
+     *
+     * @param <type> $gestore_id
+     * @return <type>
+     */
     public static function getAllBuonoPrepagatoByGestoreID($gestore_id){
         $sql = "SELECT * FROM cmd_buoni_prepagati WHERE gestore_id=$gestore_id";
         if (DataManager::_getConnection()){
@@ -2088,7 +2092,53 @@ class DataManager {
             }
     }
 
+    /**
+     *
+     * @return Ordine
+     */
+    public static function getAllOrdiniAsObjects() {
 
+        $sql = "SELECT id FROM cmd_ordine";
 
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllOrdiniAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Ordine($id);
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+
+    /**
+     *
+     * @param <type> $dataQuery
+     * @return Ordine 
+     */
+    public static function getAllOrdiniDateAsObjects($dataQuery) {
+
+        $sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=date('$dataQuery') ORDER BY timestamp DESC";
+
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                die("Errore (getAllOrdiniDateAsObjects)");
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Ordine($id);
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
 }
 ?>

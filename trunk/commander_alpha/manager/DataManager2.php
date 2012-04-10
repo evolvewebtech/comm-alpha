@@ -1316,6 +1316,29 @@ class DataManager2 {
     }
     
     
+    public static function startTransaction() {
+        if (DataManager2::_getConnection()){
+            mysql_query('SET AUTOCOMMIT=0');
+            mysql_query('START TRANSACTION');
+            //mysql_query('BEGIN');
+        }
+    }
+    
+    
+    public static function commitTransaction() {
+        if (DataManager2::_getConnection()){
+            mysql_query('COMMIT');
+        }
+    }
+    
+    
+    public static function rollbackTransaction() {
+        if (DataManager2::_getConnection()){
+            mysql_query('ROLLBACK');
+        }
+    }
+    
+    
     public static function getAlimentoData($alimentoID){
         $sql = "SELECT * FROM cmd_alimento WHERE id=$alimentoID";
         if (DataManager2::_getConnection()){

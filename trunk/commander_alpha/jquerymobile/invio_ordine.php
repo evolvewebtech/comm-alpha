@@ -8,6 +8,8 @@
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);
         
+        DataManager2::startTransaction();
+        
         //ID del nuovo "ordine"
         $next_id = DataManager2::nextIDOrdine();
         $seriale = $next_id;
@@ -15,7 +17,10 @@
         $tavolo_id = $data['tavolo_id'];
         $buono_ser = $data['buono_ser'];
         $buono_cred_us = $data['buono_cred_us'];
-
+        
+        //Inserimento del nuovo ordine nel database
+        $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
+        
         //Verifica se credito buono sufficiente
         $buono_ok = false;
         if ($buono_ser != "") {
@@ -23,28 +28,31 @@
             $buono = DataManager2::getBuonoPrepagatoAsObject($buono_ser);
             if ($buono->credito >= $buono_cred_us) {
                 //Inserimento relazione "BuonoOrdine"
-                $ret = DataManager2::inserisciBuonoOrdine((int)$buono->id, $next_id);               
-                if ($ret) {
+                $ret2 = DataManager2::inserisciBuonoOrdine((int)$buono->id, $next_id);               
+                if ($ret2) {
                     $nuovo_credito = $buono->credito - $buono_cred_us;
                     //Aggiornamento del credito del buono utilizzato
-                    $ret = DataManager::aggiornaBuonoPrepagato((int)$buono->id,
+                    $ret2 = DataManager::aggiornaBuonoPrepagato((int)$buono->id,
                                                             $buono->seriale,
                                                             $nuovo_credito,
                                                             $buono->nominativo,
                                                             (int)$buono->gestore_id);
                 }
-                if ($ret) { $buono_ok = true; }
+                if ($ret2) { $buono_ok = true; }
             }
         }
         else $buono_ok = true;
               
         //Inserimento del nuovo ordine nel database
-        if ($buono_ok) {
+        /*if ($buono_ok) {
             $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
         }
-        else die();
+        else {
+            DataManager2::rollbackTransaction();
+            die();
+        }*/
         
-        if($ret){
+        if(($ret) && ($buono_ok)){
             for ($i=0; $i<count($data['alimenti']); $i++) {
                 
                 //ID del nuovo "ordine"
@@ -69,22 +77,26 @@
                 } 
                     
                 if (!$ret) {
+                    DataManager2::rollbackTransaction();
                     die();
                 }
             }
             //Query database
             $ret = DataManager2::inserisciOrdineChiuso('null', $next_id);
             if (!$ret) {
+                DataManager2::rollbackTransaction();
                 die();
             }
         }
         else {
+            DataManager2::rollbackTransaction();
             die();
         }
-
+        DataManager2::commitTransaction();
         echo json_encode($next_id);
     }
     catch(Exception $e) {
+        DataManager2::rollbackTransaction();
         echo $e->getMessage();
         // Note: Log the error or something
     }

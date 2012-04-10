@@ -43,10 +43,14 @@ function onListaOrdiniSuccess(data, status) {
     str = str + '<ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
     str = str + '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini del '+dataSel+'</li>';
     
-    for (i=0; i<data.length; i++) {    
+    for (i=0; i<data.length; i++) {      
+    var new_id = 'ord-ser-';
+    new_id = new_id + data[i].seriale + '&' + data[i].timestamp + '&' + data[i].tavolo_id;
+    new_id = new_id + '&' + data[i].n_coperti + '&' + data[i].totale;
+    
     str = str + '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
     str = str + '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
-    str = str + '<a class="ui-link-inherit" href="index.html">';
+    str = str + '<a class="ui-link-inherit ristampa-ordine" id="' + new_id + '" href="#ristampa-ordine">';
     str = str + '<div class="ord-num-d">' + data[i].timestamp + '</div>';
     str = str + '<div class="ord-num-t">Tavolo ' + data[i].tavolo_id + '</div>';
     str = str + '<div class="ord-num-c">Coperti ' + data[i].n_coperti + '</div>';

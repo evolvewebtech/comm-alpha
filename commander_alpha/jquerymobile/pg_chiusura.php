@@ -68,7 +68,7 @@
     </div>
 </div>
 
-<a id="conferma-ordine" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
+<a id="conferma-ordine" href="#home" data-role="button" data-icon="home" class="ui-btn-right">Conferma ordine</a>
 
 
 <!--

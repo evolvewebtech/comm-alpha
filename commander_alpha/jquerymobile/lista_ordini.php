@@ -18,7 +18,9 @@
                     $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
                 }
                 
-                $arrTemp = array(   "timestamp"     => $arOrdini[$i]->timestamp,
+                $arrTemp = array(   "id"            => $arOrdini[$i]->id,
+                                    "seriale"       => $arOrdini[$i]->seriale,
+                                    "timestamp"     => $arOrdini[$i]->timestamp,
                                     "n_coperti"     => $arOrdini[$i]->n_coperti,
                                     "tavolo_id"     => $arOrdini[$i]->tavolo_id,
                                     "totale"        => $tot);

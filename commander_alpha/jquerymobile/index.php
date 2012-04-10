@@ -70,6 +70,17 @@
         </div>
     </div>
     
+    <!-- PAGINA RISTAMPA ORDINE -->
+    <div data-role="page" id="ristampa-ordine">
+        <div data-role="header">
+            <h1>Riepilogo ordine</h1>
+            <a href="#info-ordini" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
+        </div>
+        <div data-role="content">
+            <?php include dirname(__FILE__).'/pg_rist_ordine.php';  ?>          
+        </div>
+    </div>
+    
     <!-- PAGINA APERTURA TAVOLO -->
     <div data-role="page" id="tavoli">
         <div data-role="header">

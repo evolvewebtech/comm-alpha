@@ -518,6 +518,72 @@ div#id-cat.element_list .name{
   position:relative;
 }
 
+.old-ord-rig {
+    margin: 0px;
+    height: 20px;
+    font-family: Helvetica,Arial,sans-serif;
+    font-weight: bold;
+}
+
+.old-ord-rig .num{
+  margin: 0px;
+  margin-left: 20px;
+  float: left;
+  font-size: 150%;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.old-ord-rig .name{
+  margin: 0px;
+  margin-left: 20px;
+  float: left;
+  font-size: 150%;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.old-ord-rig .prezzo{
+  margin: 0px;
+  margin-right: 50px;
+  float: right;
+  font-size: 150%;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.old-ord-rig-var {
+    margin: 0px;
+    height: 20px;
+}
+
+.old-ord-rig-var .name{
+  margin: 0px;
+  margin-left: 60px;
+  float: left;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+  /*color: #2F3E46;*/
+  color: #888;
+}
+
+.old-ord-rig-var .prezzo {
+  margin: 0px;
+  margin-right: 50px;
+  float: right;
+  font-size: 1.05em;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+  /*color: #2F3E46;*/
+  color: #888;
+}
+
 .var-class {
     margin: 5px;
     padding: 2px;

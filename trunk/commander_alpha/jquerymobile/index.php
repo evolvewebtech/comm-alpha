@@ -130,6 +130,7 @@
             <h1>Ordinazione</h1>
             <a href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
             <link rel="stylesheet" href="css/style.css" />
+            <link rel="stylesheet" href="css/comm_checkbox.css" />
         </div>
         <div data-role="content">          
             <?php include dirname(__FILE__).'/pg_ordine.php';  ?>

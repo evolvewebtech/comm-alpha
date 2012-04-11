@@ -2,7 +2,6 @@
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
 ?>
-<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
@@ -15,75 +14,9 @@
 <script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
-<style type="text/css">
-    /*
-     * foglio di stile per gli errori di digitazione client-side
-     *
-     */
-    label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
-    p { clear: both; }
-    .submit { margin-left: 12em; }
-    em { font-weight: bold; padding-right: 1em; vertical-align: top; }
-</style>
-<style>
-    /*
-     * foglio di stile per i dialoghi
-     *
-     */
-    #dialog label, #dialog input { display:block; }
-    #dialog label { margin-top: 0.5em; }
-    #dialog input, #dialog textarea { width: 95%; }
-    #tabs { margin-top: 1em; }
-    #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
-</style>
-<style type="text/css">
-    /*
-     * foglio di stile per la pagina corrente
-     *
-     */
-    .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
-    .details{ margin:15px 20px; }
-    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        line-height:160%; letter-spacing:0.15em; color:#fff;
-        text-shadow:1px 1px 0 rgb(0,0,0); }
-    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
-       color:#000;}
-    a{ text-decoration:none; }
-    #plus{
-        padding: 2px;
-    }
-    #add_span{
-        float: right;
-        margin: 5px;
-    }
-    #add_tab{
-        cursor: pointer;
-    }
-    #add_tab .ui-button-text{
-        padding: 2px;
-    }
-    span.ui-dialog-title{
-        color:white;
-    }
-    #save_sala{
-       height: 50px;
-       width: 100px;
-       background-color: green;
-       text-transform: uppercase;
-       cursor: pointer;
-    }
-    #delete_sala{
-       width: 100px;
-       height: 50px;
-       background-color: red;
-       text-transform: uppercase;
-       cursor: pointer;
-    }
-    form label.tab_title{
-        margin-right: 33px;
-    }
-</style>
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
+<!-- content -->
 <div id="content">
     <?php
     if($objSession->IsLoggedIn()){
@@ -94,15 +27,12 @@
            $data_sala = DataManager::getAllSala();
            $numero_sale = count($data_sala);
            $max_id = DataManager::getMAXID('cmd_sala');
-
            /*echo '<p style="background-color:white">'.$diff.'</p>';*/
-
     ?>
     <h1>Gestisci le Sale
-        <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
-            Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-                     <a style="color:#fff; font-size: 14px;" href="amministrazioneSale.php">Sale</a>
-        </small>
+        <small class="breadcrumb">Sei qui:
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 14px;" href="amministrazioneSale.php">Sale</a></small>
     </h1>
 
 <script>
@@ -112,6 +42,10 @@
  */
 $(function() {
 
+       /**************************************
+        * validazione form di inserimento sala
+        * 
+        */
        $("#addNewTab").validate({
             rules: {
                 tab_ntavoli: {
@@ -141,7 +75,6 @@ $(function() {
 
     //$( "#tabs" ).tabs();
     var $tab_title_input     = $("#tab_title"),
-        $tab_posizione_input = $('#tab_posizione'), //non utilizzata per
         $tab_ntavoli_input   = $('#tab_ntavoli');
 
     var tab_counter = <?=$numero_sale?>;
@@ -157,24 +90,25 @@ $(function() {
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
 
             add: function( event, ui ) {
-                    var tab_content = $tab_ntavoli_input.val(); //|| "Tab " + tab_counter + " content.";
-                    var tab_content2 = $tab_title_input.val(); //|| "Tab " + tab_counter + " tite.";
-                    $( ui.panel ).append('<div style="min-height:100px;"><form id="salaForm-'+tab_counter+'" style="min-height:100px; float:left;">'+
+                    var tab_content = $tab_ntavoli_input.val();
+                    var tab_content2 = $tab_title_input.val();
+                    $( ui.panel ).append('<div style="min-height:120px;">'+
+                                          '<form id="salaForm-'+tab_counter+'" style="min-height:60px; float:left;">'+
                                              '<fieldset style="float:left" class="ui-helper-reset">'+
                                                 '<label class="tab_title" for="tab_title">Nome sala: </label>'+
                                                 '<input type="text" name="tab_title" id="tab_title" value="'+tab_content2+'" class="ui-widget-content ui-corner-all" />'+
-                                                '<br /><label for="tab_ntavoli">Numero tavoli: </label>'+
+                                                '<br /><label class="tab_ntavoli" for="tab_ntavoli">Numero tavoli: </label>'+
                                                 '<input type="text" name="tab_ntavoli" id="tab_ntavoli" value="'+tab_content+'" class="ui-widget-content ui-corner-all" />'+
                                                 '<input type="hidden" name="sala_id" id="sala_id" value="'+next_id+'" class="ui-widget-content ui-corner-all" />'+
                                              '</fieldset>'+
                                          '</form>'+
-                                             '<fieldset style="float:right" class="ui-helper-reset">'+
-                                                 '<button type="submit" id="save_sala">SALVA</button><br />'+
-                                                 '<button type="submit" id="delete_sala">ELIMINA</button>'+
-                                             '</fieldset>'+
-                                             '<fieldset style="float:left">'+
-                                                '<a href="amministrazioneTavoli.php?id='+next_id+'">Gestisci i tavoli di questa sala</a>'+
-                                             '</fieldset></div>'
+                                         '<fieldset style="float:right" class="ui-helper-reset">'+
+                                             '<button type="submit" id="save_sala">SALVA</button><br />'+
+                                             '<button type="submit" id="delete_sala">ELIMINA</button>'+
+                                         '</fieldset>'+
+                                         '<fieldset style="float:left;width:400px;">'+
+                                            '<a href="amministrazioneTavoli.php?id='+next_id+'">Gestisci i tavoli di questa sala</a>'+
+                                         '</fieldset></div>'
                                           );
                     $tabs.tabs('select', '#' + ui.panel.id);
             },
@@ -218,7 +152,7 @@ $(function() {
 
     });
 
-    // modal dialog init: custom buttons and a "close" callback reseting the form inside
+    //modal dialog init: custom buttons and a "close" callback reseting the form inside
     var $dialog = $( "#dialog" ).dialog({
             position: 'center',
             autoOpen: false,
@@ -286,6 +220,8 @@ $(function() {
         var formSala = $("#salaForm-"+selected).serialize();
         formSala = formSala+'&action=save&current_tab='+selected;
 
+        $('#debug').append('<br />formSala: '+formSala);
+
         $.ajax({
             type: "POST",
             data: formSala,
@@ -293,7 +229,7 @@ $(function() {
             dataType: 'json',
             cache: false,
             success: onSalaSuccess,
-            error: onSalaError
+            error: onError
         });
     });
 
@@ -322,7 +258,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: onSalaSuccess,
-                error: onSalaError
+                error: onError
             });
         }
     });
@@ -341,7 +277,6 @@ $(function() {
             close: function() {
             }
     });
-
     var $dialogERR = $( "#dialogERR" ).dialog({
             position: 'center',
             autoOpen: false,
@@ -356,62 +291,74 @@ $(function() {
             close: function() {
             }
     });
-
-    var $dialogE005 = $( "#dialogE005" ).dialog({
-            position: 'center',
-            autoOpen: false,
-            modal: true,
-            buttons: {
-                    Chiudi: function() {
-                            $( this ).dialog( "close" );
-                    }
-            },
-            open: function() {
-            },
-            close: function() {
-            }
-    });
-
     function onSalaSuccess(data, status) {
-
         if (data.action=='del'){
 
-           var current_tab = parseInt(data.current_tab,10);
-           current_tab -= 1;
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante l\'eliminaziono della Sala.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
 
-           $('#debug').append('<br />data removed: '+current_tab+' type: '+typeof current_tab+'<br />');
-           $tabs.tabs( "option", "disabled",[ current_tab ] );
+               var current_tab = parseInt(data.current_tab,10);
+               current_tab -= 1;
 
+               $tabs.tabs( "option", "disabled",[ current_tab ] );
+               $tabs.tabs( "remove", data.current_tab );
 
-           $tabs.tabs( "remove", data.current_tab );
-           $('#debug').append('<br />data removed:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
-           location.reload();
+               $('#code-ok').html('La sala &egrave stata eliminata.');
+               $dialogOK.dialog( "open" );
+
+               //aspetto che il dialogo sia stato chiuso
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                  location.reload();
+               });
+
+           }
         }
-        /*
-        else{
+        if(data.action=='save'){
+            
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante l\'inserimento o aggioramento della Sala.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+ data.err);
+           } else if(data.err==''){
+               $('#code-ok').html('La nuova sala &egrave stata aggiunta.');
+               $dialogOK.dialog( "open" );
+               //aspetto che il dialogo sia stato chiuso
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                  location.reload();
+               });
+           }
 
-           $dialogOK.dialog( "open" );
-           $('#debug').append('<br />data saved:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
-        }
-        */
-        if(data.action=='save' && data.err==''){
-           $dialogOK.dialog( "open" );
-           $('#debug').append('<br />data saved:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
-        }
-        if(data.action=='save' && data.err=='E005'){
-           $dialogE005.dialog( "open" );
-           $('#debug').append('<br />data err:<br />'+ 'ID: '+data.err);
         }
     }
-    function onSalaError(data, status) {
+    function onError(data, status) {
+        $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
         $('#debug').append(data);
     }
 
-
 });
 </script>
-
         <!-- dialogs -->
 	<div id="dialog" title="Dati nuova sala">
             <form id="addNewTab">
@@ -427,24 +374,14 @@ $(function() {
                 </fieldset>
             </form>
   	</div>
-        <div id="dialogOK" title="Operazione andata a buon fine">
-            <fieldset style="background-color:#00CF00">
-                <p>La nuova sala &egrave; stata salvata con successo nel sistema.</p>
-            </fieldset>
-  	</div>
-	<div id="dialogERR" title="Errore">
-            <fieldset style="background-color:red">
-                <p>OPS! Si &egrave; verificato un errore, riprova.<br />Se l'errore persiste contatta l'assistenza.</p>
-            </fieldset>
-  	</div>
-	<div id="dialogE005" title="OPS!">
-            <fieldset style="background-color:white">
-                <p>OPS! Non &egrave; possibile diminuire il numero di tavoli da qui. Per eliminare un tavolo sceglierne uno dalla sezione tavoli.</p>
-            </fieldset>
-  	</div>
 
+        <!-- dialogs -->
+        <?php include_once 'dialogs.php';?>
         <!-- tabs container -->
-        <div class="demo">
+
+        <button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi nuova sala</span></button>
+        <div class="clearfix"></div>
+        <div class="sala">
             <div id="tabs">
                     <ul>
                         <?php
@@ -454,7 +391,7 @@ $(function() {
                               $count++;
                             }
                         ?>
-                        <li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi nuova sala</span></button>
+                        <!--<li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi nuova sala</span></button>-->
                     </ul>
             <?php
                 $count = 1;
@@ -468,8 +405,9 @@ $(function() {
                         <fieldset style="float:left" class="ui-helper-reset">
                             <label class="tab_title" for="tab_title">Nome sala: </label>
                             <input type="text" name="tab_title" id="tab_title" value="<?=$sala['nome']?>" class="ui-widget-content ui-corner-all" />
-                            <br /><label for="tab_ntavoli">Numero tavoli: </label>
-                            <input type="text" name="tab_ntavoli" id="tab_ntavoli" value="<?=$numero_tavoli?>" class="ui-widget-content ui-corner-all" />
+                            <br /><label class="tab_ntavoli" for="tab_ntavoli">Numero tavoli: </label>
+                            <!--<input type="text" name="tab_ntavoli" id="tab_ntavoli" value="<?//=$numero_tavoli?>" class="ui-widget-content ui-corner-all" />-->
+                            <label name="tab_ntavoli" id="tab_ntavoli" ><?=$numero_tavoli?></label>
                             <input type="hidden" name="sala_id" id="sala_id" value="<?=$sala['id']?>" class="ui-widget-content ui-corner-all" />
                         </fieldset>
                     </form>
@@ -488,12 +426,8 @@ $(function() {
             ?>
             </div>
         </div><!-- End demo -->
-
-        <h4 style="margin-left: 10px;">
-            <a style="color:#fff;" href="logout.php">esci</a> |
-            <a style="color:#fff;" href="support.php">supporto</a> |
-            <a style="color:#fff;" href="license.php">credit</a>
-        </h4>
+        <!-- footer -->
+        <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
         <!-- DEBUG -->

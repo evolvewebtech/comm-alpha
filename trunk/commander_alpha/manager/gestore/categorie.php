@@ -21,72 +21,72 @@
                      "action"               => $action,
                      "err"                  => '');
 
-    /*
-     * controllo se il login sia valido
-     */
-/*
- * inizio login
- */
-    if($objSession->IsLoggedIn()){
+        /*
+         * controllo se il login sia valido
+         */
+        /*
+         * inizio login
+         */
+        if($objSession->IsLoggedIn()){
 
-        $objUser = $objSession->GetUserObject();
-        $gestore = $objUser[0];
-        if(get_class($gestore) == 'Gestore') {
+            $objUser = $objSession->GetUserObject();
+            $gestore = $objUser[0];
+            if(get_class($gestore) == 'Gestore') {
 
-        if ($action == 'del'){
-            
-            $ret = $gestore->delCategoria($categoria_id);
-            if(!$ret){
-                $var['err'] = $ret;
-            }
-            
-	}elseif($action == 'save'){
+            if ($action == 'del'){
 
-                /*
-                 * se nome_categoria_db non è 0 significa che è già presente nel db,
-                 * quindi devo effettuare una modifica ad una categoria già esistente
-                 *
-                 */
-                
-                $nome_categoria_db = $gestore->getCategoria($categoria_id);
-
-                if($nome_categoria_db==0){
-
-                    /*
-                     * categoria non presente, devo aggiungerlo
-                     */
-                    $ret = $gestore->addCategoria($categoria_id, $nome, $colore_bottone, $gestore_id);
-                    if(!$ret){
-                        $var['err'] = $ret;
-                    }
-                    
-
-                }else{
-
-                    /*
-                     * aggiorno la categoria
-                     */
-                    $ret = $gestore->editCategoria($categoria_id, $nome, $colore_bottone, $gestore_id);
-                    if(!$ret){
-                        $var['err'] = $ret;
-                    }
+                $ret = $gestore->delCategoria($categoria_id);
+                if(!$ret){
+                    $var['err'] = $ret;
                 }
 
-            }//end save
+            }elseif($action == 'save'){
 
-/*
- * fine login
- *
- */
-        } else{
-            $var['err'] = 'E001'; //non è un gestore
+                    /*
+                     * se nome_categoria_db non è 0 significa che è già presente nel db,
+                     * quindi devo effettuare una modifica ad una categoria già esistente
+                     *
+                     */
+
+                    $nome_categoria_db = $gestore->getCategoria($categoria_id);
+
+                    if($nome_categoria_db==0){
+
+                        /*
+                         * categoria non presente, devo aggiungerlo
+                         */
+                        $ret = $gestore->addCategoria($categoria_id, $nome, $colore_bottone, $gestore_id);
+                        if(!$ret){
+                            $var['err'] = $ret;
+                        }
+
+
+                    }else{
+
+                        /*
+                         * aggiorno la categoria
+                         */
+                        $ret = $gestore->editCategoria($categoria_id, $nome, $colore_bottone, $gestore_id);
+                        if(!$ret){
+                            $var['err'] = $ret;
+                        }
+                    }
+
+                }//end save
+
+            /*
+             * fine login
+             *
+             */
+            } else{
+                $var['err'] = 'E001'; //non è un gestore
+            }
+        }//isLoggedin
+        else {
+            $var['err'] = 'E002';  //not logged in o sessione scaduta
         }
-    }//isLoggedin
-    else {
-        $var['err'] = 'E002';  //not logged in o sessione scaduta
-    }
 
-    echo json_encode($var);
+        echo json_encode($var);
 
     } catch(Exception $e) {
         echo $e->getMessage();

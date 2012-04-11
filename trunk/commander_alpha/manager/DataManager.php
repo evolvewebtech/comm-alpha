@@ -654,6 +654,24 @@ class DataManager {
 
     /**
      *
+     * @param <type> $sala_id
+     * @return <type>
+     */
+    public static function delAllTavoloBySalaID($sala_id){
+        $sql = "DELETE FROM cmd_tavolo WHERE sala_id=$sala_id";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if($res){
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+    }
+
+    /**
+     *
      * @return <array>
      */
     public static function getAllTavolo(){

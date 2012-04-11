@@ -26,8 +26,8 @@ class HTTPSession {
     private $dbhandle;
     private $logged_in;
     private $user_id;
-    private $session_timeout = 600;      # 10 minute inactivity timeout
-    private $session_lifespan = 3600;    # 1 hour session duration
+    private $session_timeout = 3600;      # 60 minute inactivity timeout
+    private $session_lifespan = 7200;    # 2 hour session duration
 
     /*
      * Edit the following variables

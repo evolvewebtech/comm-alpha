@@ -487,7 +487,10 @@ $('.comm-li-link').live("click", function() {
                     if (varPresente) { selClass = " selected";}
 
                     //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
-                    str = str + '<div class="var-class'+selClass+'" href='+arrAlim[id]._varianti[i]._id+'>'+arrAlim[id]._varianti[i]._descrizione+'</div>';
+                    str = str + '<div class="comm_checkbox'+selClass+'" href='+arrAlim[id]._varianti[i]._id+'>';
+                    str = str + '<div class="cc_icon"></div>';
+                    str = str + '<div class="cc_text">' + arrAlim[id]._varianti[i]._descrizione + '</div>';
+                    str = str + '</div>';
                 }
             }
         }
@@ -621,7 +624,7 @@ $('.canc-ann').live("click", function() {
  * Evento click su una variante
  *
  */
-$('.var-class').live("click", function() {
+$('.comm_checkbox').live("click", function() {
     //aggiunta o rimozione della classe "selected"
     if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');

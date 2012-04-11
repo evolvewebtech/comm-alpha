@@ -4,7 +4,7 @@
 ?>
 <!--
 todo: 1. Creare tutti i controlli del form
-      2. Tgliere debug
+      2. Togliere debug
       3. Sistemare title tab
 -->
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -31,7 +31,7 @@ todo: 1. Creare tutti i controlli del form
     .submit { margin-left: 12em; }
     em { font-weight: bold; padding-right: 1em; vertical-align: top; }
 </style>
-<style>
+<style type="text/css">
     /*
      * foglio di stile per i dialoghi
      *
@@ -90,6 +90,7 @@ todo: 1. Creare tutti i controlli del form
 <div id="content">
     <?php
     if($objSession->IsLoggedIn()){
+
         $objUser = $objSession->GetUserObject();
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {

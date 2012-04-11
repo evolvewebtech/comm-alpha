@@ -2096,24 +2096,71 @@ class DataManager {
      *
      * @return Ordine
      */
-    public static function getAllOrdiniAsObjects() {
+    public static function getAllOrdiniChiusi() {
 
-        $sql = "SELECT id FROM cmd_ordine";
+        $sql = "SELECT * FROM cmd_ordine_chiuso";
 
-        if (DataManager2::_getConnection()){
+        if (DataManager::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAllOrdiniAsObjects)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
-                  $id = intval($row['id']);
-                  $objs[] = new Ordine($id);
+                  //$id = intval($row['id']);
+                  //$objs[] = new Ordine($id);
+                  $objs[] = $row;
               }
               return $objs;
         } else {
           return array();
         }
+    }
+
+
+    /**
+     *
+     * @return Ordine
+     */
+    public static function getOrdineByOrdineID($id) {
+
+        $sql = "SELECT * FROM cmd_ordine WHERE id=".$id;
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return null;
+            }
+              $objs = mysql_fetch_assoc($res);
+              return $objs;
+        } else {
+          return array();
+       }
+    }
+
+    /**
+     *
+     * @return Ordine
+     */
+    public static function getRigheOrdineByOrdineID($id) {
+
+        $sql = "SELECT * FROM cmd_riga_ordine WHERE ordine_id=".$id;
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return null;
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  //$id = intval($row['id']);
+                  //$objs[] = new Ordine($id);
+                  $objs[] = $row;
+              }
+              return $objs;
+        } else {
+          return array();
+       }
     }
 
     /**
@@ -2132,8 +2179,9 @@ class DataManager {
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
-                  $id = intval($row['id']);
-                  $objs[] = new Ordine($id);
+                  //$id = intval($row['id']);
+                  //$objs[] = new Ordine($id);
+                  $objs[] = $row;
               }
               return $objs;
         } else {

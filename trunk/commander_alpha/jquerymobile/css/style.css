@@ -584,12 +584,12 @@ div#id-cat.element_list .name{
 
 
 
-div#opt-title {
+.opt-title {
     margin-top: -15px;
     margin-bottom: 10px;
 }
 
-div#opt-alim-name {
+.opt-alim-name {
     margin-top: 10px;
     margin-bottom: -15px;
     font-size: 20px;
@@ -850,6 +850,12 @@ div#opt-alim-name {
 
 #cont-comm-opt {
   height: 400px;
+  padding: 20px;
+  background-color: #999999;
+  box-shadow: 3px 3px 10px #aaaaaa;
+}
+
+#cont-comm-opt-menu {
   padding: 20px;
   background-color: #999999;
   box-shadow: 3px 3px 10px #aaaaaa;

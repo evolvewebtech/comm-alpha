@@ -202,6 +202,7 @@ $(function(){
     
     /*
      *  Script per la selezione di un Menu Fisso
+     *  da aggiungere alla lista dell'ordine
      *
      */
     var $optionSets4 = $('.options-set4');
@@ -284,6 +285,7 @@ $(function(){
     //finestra "opzioni" nascosta
     $('#cont-comm-ord').show('fast');
     $('#cont-comm-opt').hide('fast');
+    $('#cont-comm-opt-menu').hide('fast');
     show_opt = false;
     
     //rimozione classe "selected"
@@ -456,9 +458,17 @@ $('.comm-li-link').live("click", function() {
     //eliminazione carattere iniziale '#'
     var $index = $param.replace('#','');
     
+    //visualizzazione finestra opzioni "Alimento" o opzioni "MenuFisso"
+    if (arrList[$index]._cat == "Menu") visualizzaOpzioniMenu($(this), $index);
+    else visualizzaOpzioni($(this), $index);
+});
+
+
+function visualizzaOpzioni($obj, $index) {
     if (!show_opt || $index!=mem_index) { 
         $('#cont-comm-ord').hide('fast');
         $('#cont-comm-opt').show('fast');
+        $('#cont-comm-opt-menu').hide('fast');
         show_opt = true;
         //Visualizzazione nome alimento in finestra opzioni
         document.getElementById('opt-alim-name').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
@@ -466,7 +476,7 @@ $('.comm-li-link').live("click", function() {
         document.getElementById('alim-desc').innerHTML = arrList[$index]._descrizione;
         //aggiunta classe "selected" all'alimento selezionato
         $('#container2').find('.selected').removeClass('selected');
-        $(this).addClass('selected');
+        $obj.addClass('selected');
         //visualizzazione varianti disponibili
         var id = arrList[$index]._id;
         var str = "";
@@ -503,6 +513,7 @@ $('.comm-li-link').live("click", function() {
     else {
         $('#cont-comm-ord').show('fast');
         $('#cont-comm-opt').hide('fast');
+        $('#cont-comm-opt-menu').hide('fast');
         show_opt = false;
         
         //cancellazione classe "selected"
@@ -510,16 +521,45 @@ $('.comm-li-link').live("click", function() {
         
         mem_index = -1;
     }
-});
+}
+
+
+function visualizzaOpzioniMenu($obj, $index) {
+    if (!show_opt || $index!=mem_index) { 
+        $('#cont-comm-ord').hide('fast');
+        $('#cont-comm-opt').hide('fast');
+        $('#cont-comm-opt-menu').show('fast');
+        show_opt = true;
+        //Visualizzazione nome alimento in finestra opzioni
+        document.getElementById('opt-alim-name-menu').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
+        //aggiunta classe "selected" all'alimento selezionato
+        $('#container2').find('.selected').removeClass('selected');
+        $obj.addClass('selected');
+        
+        mem_index = $index;
+    }
+    else {
+        $('#cont-comm-ord').show('fast');
+        $('#cont-comm-opt').hide('fast');
+        $('#cont-comm-opt-menu').hide('fast');
+        show_opt = false;
+        
+        //cancellazione classe "selected"
+        $('#container2').find('.selected').removeClass('selected');
+        
+        mem_index = -1;
+    }
+}
 
 
 /*
  * Chiusura finestra opzioni
  * 
  */
-$('#close-opt').bind("click", function() {
+$('.close-opt').bind("click", function() {
     $('#cont-comm-ord').show('fast');
     $('#cont-comm-opt').hide('fast');
+    $('#cont-comm-opt-menu').hide('fast');
     show_opt = false;
 
     //cancellazione classe "selected"
@@ -550,6 +590,7 @@ $('#alim-min').bind("click", function() {
                 //finestra "opzioni" nascosta
                 $('#cont-comm-ord').show('fast');
                 $('#cont-comm-opt').hide('fast');
+                $('#cont-comm-opt-menu').hide('fast');
                 show_opt = false;
             }
             
@@ -602,6 +643,7 @@ $('.canc-all-conf').live("click", function() {
             //finestra "opzioni" nascosta
             $('#cont-comm-ord').show('fast');
             $('#cont-comm-opt').hide('fast');
+            $('#cont-comm-opt-menu').hide('fast');
             show_opt = false;
             break;
         }

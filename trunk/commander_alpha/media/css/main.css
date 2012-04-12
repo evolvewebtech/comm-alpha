@@ -98,6 +98,35 @@ span.ui-dialog-title{
    text-transform: uppercase;
    cursor: pointer;
 }
+#save_cassiere{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_cassiere{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+
+#save_stampante{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_stampante{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
 
 form label.tab_title{
     margin-right: 38px;

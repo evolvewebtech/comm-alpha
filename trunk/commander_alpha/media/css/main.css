@@ -17,6 +17,7 @@ h1{
     color: #fff;
     font-size: 2.0em;
     letter-spacing: 2px;
+    margin-bottom: 0px;
 }
 h4{
     font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -128,6 +129,100 @@ span.ui-dialog-title{
    cursor: pointer;
 }
 
+#save_ticket{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_ticket{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#save_variante{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_variante{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#save_categoria{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_categoria{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#save_alimento{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_alimento{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+a.finish {
+    /*background: #ccc;*/
+    background: red;
+    cursor: pointer;
+    border-top: solid 2px #eaeaea;
+    border-left: solid 2px #eaeaea;
+    border-bottom: solid 2px #777;
+    border-right: solid 2px #777;
+    padding: 5px 5px;
+    }
+a.down.finish{
+    /*background: #bbb;*/
+    background: green;
+    border-top: solid 2px #777;
+    border-left: solid 2px #777;
+    border-bottom:solid 2px  #eaeaea;
+    border-right: solid 2px #eaeaea;
+    }
+#save_menu{
+   height: 50px;
+   width: 100px;
+   background-color: green;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#delete_menu{
+   width: 100px;
+   height: 50px;
+   background-color: red;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+
+/* ////////// form ///////// */
+button{
+    cursor: pointer;
+}
+
 form label.tab_title{
     margin-right: 38px;
 }
@@ -151,8 +246,9 @@ form label.tab_numero{
 label.error {
     float: none;
     color: red;
-    padding-left: .5em;
-    vertical-align: top;
+    padding-left: 0em;
+    vertical-align: text-bottom;
+    font-size: 12px;
 }
 p { clear: both; }
 .submit {
@@ -162,3 +258,25 @@ em {
     padding-right: 1em;
     vertical-align: top;
 }
+
+/* ////// dialog//////// */
+.addNewTab{
+    width: 265px;
+/*    margin-bottom: 8px;*/
+}
+.dialog-color{
+    width: 420px;
+}
+.ui-dialog {
+    width: 420px;
+}
+
+.addNewTab-color{
+    width: 387px;
+}
+
+
+
+
+
+

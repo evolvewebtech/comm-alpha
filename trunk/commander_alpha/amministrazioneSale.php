@@ -364,9 +364,9 @@ $(function() {
             <form id="addNewTab">
                 <fieldset class="ui-helper-reset">
                         <label for="tab_title">Nome nuova sala</label>
-                        <input type="text" name="tab_title" id="tab_title" value="" class="ui-widget-content ui-corner-all required" minlength="2"/>
+                        <input type="text" name="tab_title" id="tab_title" value="" class="addNewTab ui-widget-content ui-corner-all required" minlength="2"/>
                         <label for="tab_ntavoli">Numero tavoli</label>
-                        <input type="text" name="tab_ntavoli" id="tab_ntavoli" class="ui-widget-content ui-corner-all required" />
+                        <input type="text" name="tab_ntavoli" id="tab_ntavoli" class="addNewTab ui-widget-content ui-corner-all required" />
                         <!--
                         <label for="tab_posizione">Coordinate posizione</label>
                         <textarea name="tab_posizione" id="tab_posizione" class="ui-widget-content ui-corner-all"></textarea>

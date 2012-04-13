@@ -396,9 +396,9 @@ $(function() {
             <form id="addNewTab">
                 <fieldset class="ui-helper-reset">
                         <label style="color:white" for="tab_title">Nome tavolo</label>
-                        <input type="text" name="tab_title" id="tab_title" value="" class="ui-widget-content ui-corner-all required" minlength="2"/>
+                        <input type="text" name="tab_title" id="tab_title" value="" class="addNewTab ui-widget-content ui-corner-all required" minlength="2"/>
                         <label style="color:white" for="tab_ntavoli">Numero coperti</label>
-                        <input type="text" name="tab_ncoperti" id="tab_ncoperti" class="ui-widget-content ui-corner-all required" />
+                        <input type="text" name="tab_ncoperti" id="tab_ncoperti" class="addNewTab ui-widget-content ui-corner-all required" />
                         <!--
                         <label for="tab_posizione">Coordinate posizione</label>
                         <textarea name="tab_posizione" id="tab_posizione" class="ui-widget-content ui-corner-all"></textarea>

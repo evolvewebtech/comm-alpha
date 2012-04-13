@@ -28,6 +28,11 @@
            $utente_registrato_id = $gestore->utente_registrato_id;
 
            $data_cassieri = DataManager::getTuttiCassieri($gestore_id);
+           if ($data_cassieri){
+                ;
+           }else{
+              $data_cassieri = array();
+           }
            $numero_cassieri = count($data_cassieri);
            $max_id = DataManager::getMAXID('cmd_cassiere');
            if (!$max_id){
@@ -54,7 +59,7 @@
 $(function() {
 
        $("#addNewTab").validate({
-rules: {
+                  rules: {
                         tab_livello_cassiere: {
                             required: true,
                             digits: true,

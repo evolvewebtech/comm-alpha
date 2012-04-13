@@ -16,7 +16,7 @@
         $var = array("seriale"              => $seriale,
                      "credito"              => $credito,
                      "nominativo"           => $nominativo,
-                     "buono_prepagato_id"   => $buono_prepagato_id,
+                     "ticket_id"            => $buono_prepagato_id,
                      "gestore_id"           => $gestore_id,
                      "current_tab"          => $current_tab,
                      "action"               => $action,
@@ -45,7 +45,6 @@
 
                 $nome_buono_prepagato_db = $gestore->getBuonoPrepagato($buono_prepagato_id);
 
-
                 if($nome_buono_prepagato_db==0){
 
 
@@ -57,7 +56,7 @@
 
                 }else{
 
-                    $ret = $gestore->editBuonoPrepagato($buono_prepagatoid, $seriale, $credito, $nominativo, $gestore_id);
+                    $ret = $gestore->editBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id);
                     if(!$ret){
                         $var['err'] = $ret;
                     }

@@ -7,7 +7,6 @@ todo: 1. Creare tutti i controlli del form
       2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"
 
 -->
-<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
@@ -20,72 +19,8 @@ todo: 1. Creare tutti i controlli del form
 <script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
-<style type="text/css">
-    /*
-     * foglio di stile per gli errori di digitazione client-side
-     *
-     */
-    label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
-    p { clear: both; }
-    .submit { margin-left: 12em; }
-    em { font-weight: bold; padding-right: 1em; vertical-align: top; }
-</style>
-<style>
-    /*
-     * foglio di stile per i dialoghi
-     *
-     */
-    #dialog label, #dialog input { display:block; }
-    #dialog label { margin-top: 0.5em; }
-    #dialog input, #dialog textarea { width: 95%; }
-    #tabs { margin-top: 1em; }
-    #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
-</style>
-<style type="text/css">
-    /*
-     * foglio di stile per la pagina corrente
-     *
-     */
-    .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
-    .details{ margin:15px 20px; }
-    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        line-height:160%; letter-spacing:0.15em; color:#fff;
-        text-shadow:1px 1px 0 rgb(0,0,0); }
-    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
-       color:#000;}
-    a{ text-decoration:none; }
-    #plus{
-        padding: 2px;
-    }
-    #add_span{
-        float: right;
-        margin: 5px;
-    }
-    #add_tab{
-        cursor: pointer;
-    }
-    #add_tab .ui-button-text{
-        padding: 2px;
-    }
-    span.ui-dialog-title{
-        color:white;
-    }
-    #save_menu{
-       height: 50px;
-       width: 100px;
-       background-color: green;
-       text-transform: uppercase;
-       cursor: pointer;
-    }
-    #delete_menu{
-       width: 100px;
-       height: 50px;
-       background-color: red;
-       text-transform: uppercase;
-       cursor: pointer;
-    }
-</style>
 
 <div id="content">
     <?php
@@ -108,10 +43,9 @@ todo: 1. Creare tutti i controlli del form
            //echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
 
     ?>
-    <h1>Gestisci i men&ugrave;
-        <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
-            Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-                     <a style="color:#fff; font-size: 14px;" href="amministrazioneMenu.php"><b>Men&ugrave;</b></a>
+    <h1>Gestisci i men&ugrave;<small class="breadcrumb">Sei qui:
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 14px;" href="amministrazioneMenu.php"><b>Men&ugrave;</b></a>
         </small>
     </h1>
 
@@ -187,10 +121,10 @@ $(function() {
                         tab_content_iva                     = $tab_iva_input.val(),
                         tab_content_descrizione             = $tab_descrizione_input.val();
 
-                    $( ui.panel ).append('<div style="min-height:175px;">'+
+                    $( ui.panel ).append('<div style="min-height:160px;">'+
                         '<form id="menuForm-'+tab_counter+'" style="min-height:60px; float:left;">'+
                             '<fieldset style="float:left" class="ui-helper-reset">'+
-                                '<br /><label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>'+
+                                '<label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>'+
                                 '<input type="text" name="tab_nome" id="tab_nome" value="'+tab_content_nome+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 133px;" class="tab_prezzo" for="tab_prezzo">Prezzo: </label>'+
                                 '<input style="margin-right: 9px;" type="text" name="tab_prezzo" id="tab_prezzo" value="'+tab_content_prezzo+'" class="ui-widget-content ui-corner-all" />'+
@@ -346,7 +280,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: nomeCatMenuSuccess,
-                error: onMenuError
+                error: onError
             });
 
 
@@ -360,7 +294,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: onMenuSuccess,
-                error: onMenuError
+                error: onError
             });
         }
 
@@ -390,7 +324,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: onMenuSuccess,
-                error: onMenuError
+                error: onError
             });
         }
     });
@@ -491,6 +425,11 @@ $(function() {
                                    ' descrizione: '   + data.descrizione +
                                    ' Current: '       + data.current_tab+
                                    ' Err: '           + data.err );
+               //aspetto che il dialogo sia stato chiuso
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione
+                  location.reload();
+               });
            }
         }
     }
@@ -520,7 +459,7 @@ $(function() {
            return;
     }
 
-    function onMenuError(data, status) {
+    function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
         $('#debug').append(data);
@@ -536,28 +475,22 @@ $(function() {
             <form id="addNewTab">
                 <fieldset class="ui-helper-reset">
                     <label for="tab_nome">Nome </label>
-                    <input type="text" name="tab_nome" id="tab_nome" value="" class="ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_nome" id="tab_nome" value="" class="addNewTab ui-widget-content ui-corner-all" />
                     <label for="tab_prezzo">Prezzo: </label>
-                    <input type="text" name="tab_prezzo" id="tab_prezzo" value="" class="ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_prezzo" id="tab_prezzo" value="" class="addNewTab ui-widget-content ui-corner-all" />
                     <label for="tab_iva">Iva: </label>
-                    <input type="text" name="tab_iva" id="tab_iva" value="" class="ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_iva" id="tab_iva" value="" class="addNewTab ui-widget-content ui-corner-all" />
                     <label for="tab_descrizione">Descrizione: </label>
-                    <input type="text" name="tab_descrizione" id="tab_descrizione" value="" class="ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_descrizione" id="tab_descrizione" value="" class="addNewTab ui-widget-content ui-corner-all" />
                 </fieldset>
             </form>
   	</div>
-        <div id="dialogOK" title="Ok!">
-            <fieldset style="background-color:#00CF00">
-                <p id="code-ok"></p>
-                <p>Operazione avvenuta con successo.</p>
-            </fieldset>
-  	</div>
-	<div id="dialogERR" title="Ops!">
-            <fieldset style="background-color:red">
-                <p id="code-err"></p>
-                <p>OPS! Si &egrave; verificato un errore, riprova.<br />Se l'errore persiste contatta l'assistenza.</p>
-            </fieldset>
-  	</div>
+
+        <!-- dialogs -->
+        <?php include_once 'dialogs.php';?>
+
+        <button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi un men&ugrave;</span></button>
+        <div class="clearfix"></div>
 
         <!-- tabs container -->
         <div class="tavolo_tab">
@@ -570,17 +503,16 @@ $(function() {
                           $count++;
                         }
                     ?>
-                    <li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi un men&ugrave;</span></button>
                 </ul>
                 <?php
                     $count = 1;
                     foreach ($data_menu as $menu) {
                         echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
                     ?>
-                    <div style="min-height:250px;">
+                    <div style="min-height:160px;">
                         <form id="menuForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
-                                <br /><label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
+                                <label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=$menu['nome']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 89px;" class="tab_descrizione" for="tab_descrizione">Descrizione: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_descrizione" id="tab_descrizione" value="<?=$menu['descrizione']?>" class="ui-widget-content ui-corner-all" />
@@ -625,14 +557,13 @@ $(function() {
             <!--
                 </div>
             -->
+                    <div class="clearfix"></div>
             </div>
         </div><!-- End demo -->
 
-        <h4 style="margin-left: 10px; float:left; width: 920px;">
-            <a style="color:#fff;" href="logout.php">esci</a> |
-            <a style="color:#fff;" href="support.php">supporto</a> |
-            <a style="color:#fff;" href="license.php">credit</a>
-        </h4>
+        <!-- footer -->
+        <?php include_once 'footer.php';?>
+        
 </div><!-- end content -->
 
         <!-- DEBUG -->

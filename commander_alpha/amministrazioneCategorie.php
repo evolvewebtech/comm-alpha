@@ -2,7 +2,6 @@
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
 ?>
-<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/color-picker.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 
@@ -30,72 +29,8 @@
 
 
 <script src="media/js/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
-<style type="text/css">
-    /*
-     * foglio di stile per gli errori di digitazione client-side
-     *
-     */
-    label.error { float: none; color: red; padding-left: .5em; vertical-align: top; }
-    p { clear: both; }
-    .submit { margin-left: 12em; }
-    em { font-weight: bold; padding-right: 1em; vertical-align: top; }
-</style>
-<style>
-    /*
-     * foglio di stile per i dialoghi
-     *
-     */
-    #dialog label, #dialog input { display:block; }
-    #dialog label { margin-top: 0.5em; }
-    #dialog input, #dialog textarea { width: 95%; }
-    #tabs { margin-top: 1em; }
-    #tabs li .ui-icon-close { float: left; margin: 0.4em 0.2em 0 0; cursor: pointer; }
-</style>
-<style type="text/css">
-    /*
-     * foglio di stile per la pagina corrente
-     *
-     */
-    .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
-    .details{ margin:15px 20px; }
-    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        line-height:160%; letter-spacing:0.15em; color:#fff;
-        text-shadow:1px 1px 0 rgb(0,0,0); }
-    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
-       color:#000;}
-    a{ text-decoration:none; }
-    #plus{
-        padding: 2px;
-    }
-    #add_span{
-        float: right;
-        margin: 5px;
-    }
-    #add_tab{
-        cursor: pointer;
-    }
-    #add_tab .ui-button-text{
-        padding: 2px;
-    }
-    span.ui-dialog-title{
-        color:white;
-    }
-    #save_categoria{
-       height: 50px;
-       width: 100px;
-       background-color: green;
-       text-transform: uppercase;
-       cursor: pointer;
-    }
-    #delete_categoria{
-       width: 100px;
-       height: 50px;
-       background-color: red;
-       text-transform: uppercase;
-       cursor: pointer;
-    }
-</style>
 
 <div id="content">
     <?php
@@ -112,10 +47,9 @@
            $max_id = DataManager::getMAXID('cmd_categoria');
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
-    <h1>Gestisci le categorie
-        <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
-            Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-                     <a style="color:#fff; font-size: 14px;" href="amministrazioneCategorie.php"><b>Categorie</b></a>
+    <h1>Gestisci le categorie<small class="breadcrumb">Sei qui:
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 14px;" href="amministrazioneCategorie.php"><b>Categorie</b></a>
         </small>
     </h1>
 
@@ -126,10 +60,21 @@
  */
 $(function() {
 
+        $('#color-picker-1').empty().addColorPicker({
+            clickCallback: function(color) {
+                    $('#color-picker-1').next().val(rgb2hex(color));
+                    $('#color-picker-1').next().css("background", rgb2hex(color));
+                    $('#color-picker-1').next().css("color", rgb2hex(color));
+                    $('#debug').append( '<br />'+rgb2hex(color) );
+            }
+   	});
+
+
         $('#color-picker-dialog').empty().addColorPicker({
             clickCallback: function(color) {
                     $('#color-picker-dialog').next().val(rgb2hex(color));
-                    $('#color-picker-dialog').next().css('backround-color', $('#color-picker-dialog').next().val());
+                    $('#color-picker-dialog').next().css("background", rgb2hex(color));
+                    $('#color-picker-dialog').next().css("color", rgb2hex(color));
                     $('#debug').append( '<br />'+rgb2hex(color) );
             }
    	});
@@ -145,14 +90,14 @@ $(function() {
                         tab_colore_bottone: {
                             required: true,
                             minlength: 2,
-                            maxlength: 15
+                            maxlength: 7
                         }
                     },
                     messages: {
                         tab_colore_bottone: {
                             required: "Seleziona un colore.",
                             minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                            maxlength: "esempio: #ffffff"
                         },
                         tab_nome: {
                             required: "Inserisci il nome della categoria",
@@ -187,10 +132,10 @@ $(function() {
                     var tab_content_nome           = $tab_nome_input.val(),
                         tab_content_colore_bottone = $tab_colore_bottone_input.val();
 
-                    $( ui.panel ).append('<div style="min-height:175px;">'+
+                    $( ui.panel ).append('<div style="min-height:100px;">'+
                         '<form id="categoriaForm-'+tab_counter+'" style="min-height:60px; float:left;">'+
                             '<fieldset style="float:left" class="ui-helper-reset">'+
-                                '<br /><label style="margin-right: 128px;" class="tab_title" for="tab_nome">Nome: </label>'+
+                                '<label style="margin-right: 128px;" class="tab_title" for="tab_nome">Nome: </label>'+
                                 '<input type="text" name="tab_nome" id="tab_nome" value="'+tab_content_nome+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 20px;" class="tab_colore_bottone" for="tab_colore_bottone">Colore del bottone: </label>'+
                                 '<div id="color-picker-'+tab_counter+'"></div>'+
@@ -223,13 +168,11 @@ $(function() {
 
                 $('#color-picker-'+ui.index).empty().addColorPicker({
                     clickCallback: function(color) {
+                        $('#color-picker-'+ui.index).next().val(rgb2hex(color));
+                        $('#color-picker-'+ui.index).next().css("background", rgb2hex(color));
+                        $('#color-picker-'+ui.index).next().css("color", rgb2hex(color));
 
-                            //$('#color-picker-'+ui.index).next().val(rgb2hex(color));
-                            var field = $('#color-picker-'+ui.index).next();
-                            field.val(rgb2hex(color));
-                            field.css("background-color", "#72A4D2s")
-                            //$('#color-picker-dialog').next().css('backround-color', '#ff0');
-                            $('#debug').append( '<br />'+rgb2hex(color) );
+                        $('#debug').append( '<br />'+rgb2hex(color) );
                     }
                 });
 
@@ -243,14 +186,14 @@ $(function() {
                         tab_colore_bottone: {
                             required: true,
                             minlength: 2,
-                            maxlength: 15
+                            maxlength: 7
                         }
                     },
                     messages: {
                         tab_colore_bottone: {
                             required: "Seleziona un colore.",
                             minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                            maxlength: "esempio: #ffffff"
                         },
                         tab_nome: {
                             required: "Inserisci il nome della categoria",
@@ -344,7 +287,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: onCategoriaSuccess,
-                error: onCategoriaError
+                error: onError
             });
         }
 
@@ -374,7 +317,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: onCategoriaSuccess,
-                error: onCategoriaError
+                error: onError
             });
         }
     });
@@ -473,10 +416,15 @@ $(function() {
                                    ' Colore: '        + data.colore_bottone+
                                    ' Current: '       + data.current_tab+
                                    ' Err: '           + data.err );
+               //aspetto che il dialogo sia stato chiuso
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                  location.reload();
+               });
            }
         }
     }
-    function onCategoriaError(data, status) {
+    function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
         $('#debug').append(data);
@@ -488,30 +436,23 @@ $(function() {
 </script>
 
         <!-- dialogs -->
-	<div id="dialog" title="Dati nuova categoria">
+	<div id="dialog" class="dialog-color" title="Dati nuova categoria">
             <form id="addNewTab">
                 <fieldset class="ui-helper-reset">
-                    <label for="tab_nome">Nome </label>
-                    <input type="text" name="tab_nome" id="tab_nome" value="" class="ui-widget-content ui-corner-all" />
-                    <label for="tab_colore_bottone">Colore del bottone </label>
+                    <label for="tab_nome">Nome </label><br />
+                    <input type="text" name="tab_nome" id="tab_nome" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <br /><label for="tab_colore_bottone">Colore del bottone</label>
                     <div id='color-picker-dialog'></div>
-                    <input type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="" class="ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="" class="addNewTab-color ui-widget-content ui-corner-all" />
                 </fieldset>
             </form>
   	</div>
-        <div id="dialogOK" title="Ok!">
-            <fieldset style="background-color:#00CF00">
-                <p id="code-ok"></p>
-                <p>Operazione avvenuta con successo.</p>
-            </fieldset>
-  	</div>
-	<div id="dialogERR" title="Ops!">
-            <fieldset style="background-color:red">
-                <p id="code-err"></p>
-                <p>OPS! Si &egrave; verificato un errore, riprova.<br />Se l'errore persiste contatta l'assistenza.</p>
-            </fieldset>
-  	</div>
 
+        <!-- dialogs -->
+        <?php include_once 'dialogs.php';?>
+
+        <button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi una categoria</span></button>
+        <div class="clearfix"></div>
         <!-- tabs container -->
         <div class="tavolo_tab">
             <div id="tabs">
@@ -523,17 +464,16 @@ $(function() {
                           $count++;
                         }
                     ?>
-                    <li style="float:right"><button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi una categoria</span></button>
                 </ul>
                 <?php
                     $count = 1;
                     foreach ($data_categoria as $categoria) {
                         echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
                     ?>
-                    <div style="min-height:175px;">
+                    <div style="min-height:100px;">
                         <form id="categoriaForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
-                                <br /><label style="margin-right: 128px;" class="tab_title" for="tab_nome">Nome: </label>
+                                <label style="margin-right: 128px;" class="tab_title" for="tab_nome">Nome: </label>
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=$categoria['nome']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 20px;" class="tab_colore_bottone" for="tab_colore_bottone">Colore del bottone: </label>
                                 <div id="color-picker-<?=$count?>"></div>
@@ -558,11 +498,8 @@ $(function() {
             </div>
         </div><!-- End demo -->
 
-        <h4 style="margin-left: 10px; float:left; width: 920px;">
-            <a style="color:#fff;" href="logout.php">esci</a> |
-            <a style="color:#fff;" href="support.php">supporto</a> |
-            <a style="color:#fff;" href="license.php">credit</a>
-        </h4>
+        <!-- footer -->
+        <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
         <!-- DEBUG -->

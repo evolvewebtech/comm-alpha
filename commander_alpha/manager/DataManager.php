@@ -25,6 +25,8 @@ class DataManager {
           die('Could not connect: ' . mysql_error());
       }
       mysql_select_db($database);
+      mysql_set_charset('utf8',$hDB);
+
 
       return $hDB;
     }
@@ -42,19 +44,19 @@ class DataManager {
      */
     function controllo_relazione($param1, $param2, $table){
         if ($table=='rel_alimento_stampante'){
-            $sql = "SELECT * FROM $table WHERE alimento_id=$param1&&stampante_id=$param2";
+            $sql = "SELECT * FROM $table WHERE alimento_id=$param1 AND stampante_id=$param2";
         }elseif($table=='rel_alimentomenu_alimento'){
-            $sql = "SELECT * FROM $table WHERE alimento_menu_id=$param1&&alimento_id=$param2";
+            $sql = "SELECT * FROM $table WHERE alimento_menu_id=$param1 AND alimento_id=$param2";
         }elseif($table=='rel_cassiere_ordine'){
-            $sql = "SELECT * FROM $table WHERE cassiere_id=$param1&&ordine_id=$param2";
+            $sql = "SELECT * FROM $table WHERE cassiere_id=$param1 AND ordine_id=$param2";
         }elseif($table=='rel_ordine_alimento'){
-            $sql = "SELECT * FROM $table WHERE ordine_id=$param1&&alimento_id=$param2";
+            $sql = "SELECT * FROM $table WHERE ordine_id=$param1 AND alimento_id=$param2";
         }elseif($table=='rel_variante_alimento'){
-            $sql = "SELECT * FROM $table WHERE variante_id=$param1&&alimento_id=$param2";
+            $sql = "SELECT * FROM $table WHERE variante_id=$param1 AND alimento_id=$param2";
         }elseif($table=='cmd_alimento_menu'){
-            $sql = "SELECT * FROM $table WHERE menu_fisso_id=$param1&&nome_cat='".$param2."'";
-        }elseif($table=='rel_alimentomenu_alimento'){
-            $sql = "SELECT * FROM $table WHERE alimento_menu_id=$param1&&menu_id=$param2";
+            $sql = "SELECT * FROM $table WHERE menu_fisso_id=$param1 AND nome_cat='".$param2."'";
+        }else{
+            return false;
         }
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
@@ -63,7 +65,9 @@ class DataManager {
             }
             return true;
         }
-        return false;
+        //return false;
+        
+        //return true;
     }
 
     /**
@@ -859,8 +863,13 @@ class DataManager {
      */
     public static function getAllAlimentoByGestoreID($gestore_id){
         $sql = "SELECT * FROM cmd_alimento WHERE gestore_id=$gestore_id";
-        if (DataManager::_getConnection()){
-        $res = mysql_query($sql);
+        
+        $db = DataManager::_getConnection();
+        if ($db){
+
+            mysql_set_charset('utf8',$db);
+            $res = mysql_query($sql);
+
             if(! ($res && mysql_num_rows($res))) {
                 //die("Failed getting Allstampante byID data");
                 return array();
@@ -1894,7 +1903,7 @@ class DataManager {
      * @param <type> $menu_id
      * @return <type>
      */
-    static function inserisciAlimentoMenuAlimento($alimento_menu_id, $menu_id){
+    static function inserisciAlimentoMenuAlimento($alimento_menu_id, $alimento_id){
 
         require_once 'Database.php';
         $db = new Database();
@@ -1903,7 +1912,7 @@ class DataManager {
         /*
          * inserisco una relazione variante_alimento
          */
-        $ret = $db->insert('rel_alimentomenu_alimento', array($alimento_menu_id, $menu_id));
+        $ret = $db->insert('rel_alimentomenu_alimento', array($alimento_menu_id, $alimento_id));
 
         if ($ret) return true;
         else return false;
@@ -1916,7 +1925,7 @@ class DataManager {
      * @param <type> $variante_id
      * @return <type>
      */
-    static function cancellaAlimentoMenuAlimento($alimento_menu_id, $variante_id){
+    static function cancellaAlimentoMenuAlimento($alimento_menu_id, $alimento_id){
 
         require_once 'Database.php';
         $db = new Database();
@@ -1926,7 +1935,7 @@ class DataManager {
          * cancello una relazione variante_alimento
          */
         $ret = $db->delete('rel_alimentomenu_alimento', "alimento_menu_id = ".$alimento_menu_id.
-                        " AND "."menu_id = ".$menu_id);
+                        " AND "."alimento_id = ".$alimento_id);
 
         if ($ret) return true;
         else return false;

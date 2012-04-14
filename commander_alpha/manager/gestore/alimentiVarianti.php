@@ -55,7 +55,6 @@
                     /*
                      * la relazione esiste già. se checked (true) non faccio niente altrimenti la elimino.
                      */
-
                     if ($varianteSelezionata=='true'){
                         //echo "<br />non faccio nulla";
                         //$var['err'] = $var['err']." - Nulla";
@@ -64,6 +63,9 @@
                         $ret = $gestore->delAlimentoVariante($alimentoID,$varianteID);
                         //$var['err'] = $var['err']." - Eliminno";
                         //echo "<br />Eliminno";
+                        if(!$ret){
+                            $var['err'] = $ret;
+                        }
                     }
                 }else{
 
@@ -74,6 +76,9 @@
                             $ret = $gestore->addAlimentoVariante($alimentoID,$varianteID);
                             //$var['err'] = $var['err']." - aggiungo: -$alimentoID-$varianteID-";
                             //echo "<br />aggiungo";
+                            if(!$ret){
+                                $var['err'] = $ret;
+                            }
                         }else{
                             //echo "<br />non faccio nulla";
                             //$var['err'] = $var['err']." - Nulla2";

@@ -68,7 +68,7 @@ $(function() {
                     tab_credito: {
                         required: true,
                         minlength: 1,
-                        digits: true
+                        number: true
                     }
                 },
                 messages: {
@@ -85,7 +85,7 @@ $(function() {
                     tab_credito: {
                         required: "Inserisci il credito del buono",
                         minlength: 1,
-                        digits: "solo cifre"
+                        number: "solo cifre"
                     }
                 }
             });
@@ -169,7 +169,7 @@ $(function() {
                         tab_credito: {
                             required: true,
                             minlength: 1,
-                            digits: true
+                            number: true
                         }
                     },
                     messages: {
@@ -186,7 +186,7 @@ $(function() {
                         tab_credito: {
                             required: "Inserisci il credito del buono",
                             minlength: 1,
-                            digits: "solo cifre"
+                            number: "solo cifre"
                         }
                     }
                 });
@@ -424,8 +424,8 @@ $(function() {
 });
 </script>
 
-        <!-- dialogs -->
-	<div id="dialog" title="Dati nuovo ticket">
+        <!--  dialogs -->
+        <div id="dialog" title="Dati nuovo ticket">
             <form id="addNewTab">
                 <fieldset class="ui-helper-reset">
                     <label for="tab_seriale">Seriale </label>
@@ -436,7 +436,7 @@ $(function() {
                     <input type="text" name="tab_nominativo" id="tab_nominativo" value="" class="addNewTab ui-widget-content ui-corner-all" />
                 </fieldset>
             </form>
-  	</div>
+        </div>
 
         <!-- dialogs -->
         <?php include_once 'dialogs.php';?>

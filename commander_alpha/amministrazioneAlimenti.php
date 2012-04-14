@@ -7,7 +7,13 @@ todo: 1. Gli alimenti non si aggiungono più!!
       2. Creare tutti i controlli del form
       3. Attenzione al refresh della pagina
       4. Alimento esaurito non segnato come presente
-      5. Gestisci le eliminazioni
+      5. Gestisci le eliminazioni:
+            - rel_alimento_stampante
+            - rel_variante_alimento
+            - cmd_alimento_esaurito
+      6. Se un alimento è presente in un menu non di deve eliminare:
+            - rel_alimentomenu_alimento
+            -
 -->
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/color-picker.css" type="text/css" media="screen" />
@@ -56,6 +62,7 @@ todo: 1. Gli alimenti non si aggiungono più!!
            $utente_registrato_id = $gestore->utente_registrato_id;
 
            $data_alimento = DataManager::getAllAlimentoByGestoreID($gestore_id);//($gestore_id);
+
            $numero_alimento = count($data_alimento);
            $max_id = DataManager::getMAXID('cmd_alimento');
            if (!$max_id){
@@ -229,6 +236,7 @@ $(function() {
                            '<br />lista ID2: '      +id_variante_alimento+
                            '<br />categorie_id: '   +id_categoria);
 
+
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -318,6 +326,106 @@ $(function() {
 
             },
 
+            create: function(event, ui) {
+
+                ui.index=1;
+                $('#debug').append('<br />selected: '+ui.index);                
+
+                $('a#button-'+ui.index).click(function(){
+
+                    var alimento_ID = $(this).next().val();
+
+                    var finito = '';
+                    $.ajax({
+                        type: "POST",
+                        data: 'action=finito&id='+alimento_ID,
+                        url: "manager/gestore/alimentoEsaurito.php",
+                        dataType: 'json',
+                        cache: false,
+                        success: function(data){
+                            finito = data.finito;
+                        },
+                        error: onError
+                        }
+                    );
+
+                    var esaurito = '';
+                    if (finito){
+                        esaurito = 'finito=true';
+                    }else {
+                        esaurito = 'finito=false';
+                    }
+
+                    if ($(this).attr('class')=='finish down'){
+                        $(this).html('SEGNALA COME DISPONIBILE');
+                            $.ajax({
+                                type: "POST",
+                                data: esaurito+'id='+alimento_ID,
+                                url: "manager/gestore/alimentoEsaurito.php",
+                                dataType: 'json',
+                                cache: false,
+                                success: onAlimentoEsauritoSuccess,
+                                error: onError
+                            });
+
+                    }else{
+                        $(this).html('SEGNALA COME ESAURITO');
+                           $.ajax({
+                                type: "POST",
+                                data: esaurito+'id='+alimento_ID,
+                                url: "manager/gestore/alimentoEsaurito.php",
+                                dataType: 'json',
+                                cache: false,
+                                success: onAlimentoEsauritoSuccess,
+                                error: onError
+                            });
+                    }
+                    $(this).toggleClass("down");
+                });
+
+
+                $('#color-picker-'+ui.index).empty().addColorPicker({
+                    clickCallback: function(color) {
+
+                            //$('#color-picker-'+ui.index).next().val(rgb2hex(color));
+                            var field = $('#color-picker-'+ui.index).next();
+                            field.val(rgb2hex(color));
+                            //$('#color-picker-dialog').next().css('background', $('#color-picker-dialog').next().val());
+                            field.css("background", rgb2hex(color));
+                            field.css("color", rgb2hex(color));
+                            //$('#color-picker-dialog').next().css('backround', '#ff0');
+                            $('#debug').append( '<br />'+rgb2hex(color) );
+                    }
+                });
+
+                $("#alimentoForm-"+ui.index).validate({
+                    rules: {
+                        tab_nome: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 20
+                        },
+                        tab_indirizzo: {
+                            required: true,
+                            url: true
+                        }
+                    },
+                    messages: {
+                        tab_indirizzo: {
+                            required: "Inserisci un indirizzo IP.",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 10 caratteri"
+                        },
+                        tab_nome: {
+                            required: "Inserisci il nome della alimento",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 20 caratteri"
+                        }
+                    }
+                });
+
+            },
+
             select: function( event, ui ) {
 
                 ui.index+=1;
@@ -343,7 +451,7 @@ $(function() {
                                 dataType: 'json',
                                 cache: false,
                                 success: onAlimentoEsauritoSuccess,
-                                error: onAlimentoEsauritoError
+                                error: onError
                             });
 
                     }else{
@@ -356,7 +464,7 @@ $(function() {
                                 dataType: 'json',
                                 cache: false,
                                 success: onAlimentoEsauritoSuccess,
-                                error: onAlimentoEsauritoError
+                                error: onError
                             });
                     }
                 });
@@ -405,6 +513,7 @@ $(function() {
 
     });
 
+
     /*
      * visualizzo o nascondo il pannello con tutte le varianti
      * disponibili
@@ -422,6 +531,7 @@ $(function() {
             position: 'center',
             autoOpen: false,
             modal: true,
+            width: '420px',
             buttons: {
                     Aggiungi: function() {
                             if($("#addNewTab").valid()){
@@ -463,7 +573,8 @@ $(function() {
     $( "#add_tab" )
             .button()
             .click(function() {
-                    $dialog.dialog( "open" );
+                    $dialog.dialog("open" );
+
             });
 
     // close icon: removing the tab on click
@@ -497,11 +608,9 @@ $(function() {
              * dove bool = true se la checkbox è selezionata, false altrimenti
              *
              */
- 
             var params_v = $.param($('#varianteAlimentoForm-'+selected+' input:checkbox').map(function() {
                return { name: this.id, value: !!this.checked };
             }));
-            $('#debug').append('<br />PARAM V-A: '+params_v);
             $.ajax({
                 type: "POST",
                 data: params_v,
@@ -512,7 +621,6 @@ $(function() {
                 error: onError
             });
 
-
             /*
              * prelevo tutti i valori delle checkbox STAMPANTI e ritorno una stringa
              * formattata json così costruita:
@@ -521,11 +629,9 @@ $(function() {
              * dove bool = true se la checkbox è selezionata, false altrimenti
              *
              */
-
-            var params = $.param($(':checkbox').map(function() {
+            var params = $.param($('#stampanteAlimentoForm-'+selected+' input:checkbox').map(function() {
                return { name: this.id, value: !!this.checked };
             }));
-            $('#debug').append('<br />'+params);
             $.ajax({
                 type: "POST",
                 data: params,
@@ -536,12 +642,8 @@ $(function() {
                 error: onError
             });
 
-
-            $('#debug').append('<br />form valid');
-
             var alimentoForm = $("#alimentoForm-"+selected).serialize();
             alimentoForm = alimentoForm+'&action=save&current_tab='+selected;
-
             $.ajax({
                 type: "POST",
                 data: alimentoForm,
@@ -617,9 +719,7 @@ $(function() {
     });
 
     function onAlimentoSuccess(data, status) {
-
         $('#debug').append('<br />ajax: success');
-
         if (data.action=='del'){
 
            if (data.err=='E002'){
@@ -651,9 +751,14 @@ $(function() {
                   location.reload();
                });
 
+           }else{
+               $('#code-err').html('Errore durante l\'eliminazione dell\'alimento.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
            }
 
         }
+
 
         /*
          *  verico che l'operazione di salvataggio sia andata a buon fine.
@@ -709,88 +814,95 @@ $(function() {
                                    ' Quantita: '      + data.quantita +
                                    ' Current: '       + data.current_tab +
                                    ' Err: '           + data.err );
+
+              //aspetto che il dialogo sia stato chiuso
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                   location.reload();
+               });
+           } else{
+               $('#code-err').html('Errore durante l\'aggiornamento dell\'alimento.');
+               $dialogERR.dialog("open");
            }
+
         }
     }
 
 
     function onAlimentiStampantiSuccess(data, status) {
-
-        $('#debug').append('<br />ajax stampanti: success');
-
-           if (data.err=='E002'){
-               $('#code-err').html('Sessione scaduta o login non valido.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='E001'){
-               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='false'){
-               $('#code-err').html('Errore durante l\'aggiornamento delle stampanti.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if(data.err==''){
-               //$('#code-ok').html('Le stampanti sono state aggiornate correttamente.');
-               //$dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
-           }
-
-        return;
+       $('#debug').append('<br />ajax stampanti: success');
+       if (data.err=='E002'){
+           $('#code-err').html('Sessione scaduta o login non valido.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if (data.err=='E001'){
+           $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if (data.err=='false'){
+           $('#code-err').html('Errore durante l\'aggiornamento delle stampanti.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if(data.err==''){
+           $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+        } else{
+           $('#code-err').html('Errore durante l\'aggiornamento delle stampanti.');
+           $dialogERR.dialog("open");
+       }
 
     }
 
     function onAlimentiVariantiSuccess(data, status) {
-
-        $('#debug').append('<br />ajax varianti: success');
-        $('#debug').append('<br />'+data.err);
-
-           if (data.err=='E002'){
-               $('#code-err').html('Sessione scaduta o login non valido.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='E001'){
-               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='false'){
-               $('#code-err').html('Errore durante l\'aggiornamento delle varianti.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if(data.err==''){
-               //$('#code-ok').html('Le varianti sono state aggiornate correttamente.');
-               //$dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
-           }
-           return;
+       $('#debug').append('<br />ajax varianti: success');
+       if (data.err=='E002'){
+           $('#code-err').html('Sessione scaduta o login non valido.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if (data.err=='E001'){
+           $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if (data.err=='false'){
+           $('#code-err').html('Errore durante l\'aggiornamento delle varianti.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if(data.err==''){
+           $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+       } else{
+           $('#code-err').html('Errore durante l\'aggiornamento delle varianti.');
+           $dialogERR.dialog("open");
+       }
     }
 
-
     function onAlimentoEsauritoSuccess(data, status) {
+       $('#debug').append('<br />ajax: alimento esaurito');
+       if (data.err=='E002'){
+           $('#code-err').html('Sessione scaduta o login non valido.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if (data.err=='E001'){
+           $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if (data.err=='false'){
+           $('#code-err').html('Errore.');
+           $dialogERR.dialog("open");
+           $('#debug').append(' ERR: '+data.err);
+       } else if(data.err==''){
+           $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
+           $dialogOK.dialog( "open" );
+           $('#debug').append( '<br />DATA SAVED:<br />'+
+                               ' finito: '+data.finito+
+                               ' id: '+data.alimento_id+
+                               '<br />ERR: '+data.err+'<br />');
+       } else{
+           $('#code-err').html('Errore durante l\'aggiornamento.');
+           //$dialogERR.dialog("open");
 
-        $('#debug').append('<br />ajax alimento esautito: success');
-
-           if (data.err=='E002'){
-               $('#code-err').html('Sessione scaduta o login non valido.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='E001'){
-               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if (data.err=='false'){
-               $('#code-err').html('Errore.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-           } else if(data.err==''){
-               $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
-               $dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   ' finito: '+data.finito+
-                                   ' id: '+data.alimento_id+
-                                   '<br />ERR: '+data.err+'<br />');
-           }
-
+           $('#debug').append( '<br />DATA SAVED:<br />'+
+                               ' finito: '+data.finito+
+                               ' id: '+data.alimento_id+
+                               '<br />ERR: '+data.err+'<br />');
+       }
     }
 
     /*
@@ -810,22 +922,22 @@ $(function() {
             <form id="addNewTab">
                 <fieldset class="ui-helper-reset">
                     <label for="tab_nome">Nome </label>
-                    <input type="text" name="tab_nome" id="tab_nome" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_nome" id="tab_nome" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_prezzo">Prezzo: </label>
-                    <input type="text" name="tab_prezzo" id="tab_prezzo" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_prezzo" id="tab_prezzo" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_iva">Iva: </label>
-                    <input type="text" name="tab_iva" id="tab_iva" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_iva" id="tab_iva" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_colore_bottone">Colore del bottone </label>
                     <div id='color-picker-dialog'></div>
                     <input type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="" class="addNewTab-color ui-widget-content ui-corner-all" />
                     <label for="tab_descrizione">Descrizione: </label>
-                    <input type="text" name="tab_descrizione" id="tab_descrizione" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_descrizione" id="tab_descrizione" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_apeso">A peso: </label>
-                    <input type="text" name="tab_apeso" id="tab_apeso" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_apeso" id="tab_apeso" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_codice_prodotto">Codice prodotto: </label>
-                    <input type="text" name="tab_codice_prodotto" id="tab_codice_prodotto" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_codice_prodotto" id="tab_codice_prodotto" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_quantita">Quantit&agrave;: </label>
-                    <input type="text" name="tab_quantita" id="tab_quantita" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_quantita" id="tab_quantita" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_categoria_id">Categoria: </label>
                     <!--
                     <input type="text" name="tab_categoria_id" id="tab_categoria_id" value="" class="ui-widget-content ui-corner-all" />
@@ -841,7 +953,7 @@ $(function() {
                         ?>
                     </select>
                     <label for="tab_secondo_alimento_id">Alimento composto: </label>
-                    <input type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="" class="ui-widget-content ui-corner-all" />
+                    <input type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                 </fieldset>
             </form>
   	</div>
@@ -859,7 +971,7 @@ $(function() {
                     <?php
                         $count = 1;
                         foreach ($data_alimento as $alimento) {
-                          echo '<li><a href="ui-tabs-'.$count.'">'.$alimento['nome'].'</a></li>';
+                          echo '<li><a href="ui-tabs-'.$count.'">'.html_entity_decode(htmlentities($alimento['nome'])).'</a></li>';
                           $count++;
                         }
                     ?>
@@ -877,7 +989,7 @@ $(function() {
                         <form id="alimentoForm-<?=$count?>" style="min-height:60px; float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
                                 <label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
-                                <input type="text" name="tab_nome" id="tab_nome" value="<?=$alimento['nome']?>" class="ui-widget-content ui-corner-all" />
+                                <input type="text" name="tab_nome" id="tab_nome" value="<?=html_entity_decode(htmlentities($alimento['nome']))?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 133px;" class="tab_prezzo" for="tab_prezzo">Prezzo: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_prezzo" id="tab_prezzo" value="<?=$alimento['prezzo']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 162px;" class="tab_iva" for="tab_iva">Iva: </label>
@@ -909,9 +1021,9 @@ $(function() {
                                         $numero_categoria = count($data_categoria);
                                         foreach ($data_categoria as $categoria) {
                                                 if ($categoria['id'] == $alimento['categoria_id']){
-                                                    echo '<option selected="selected" value="'.$categoria['id'].'" >'.$categoria['nome'].'</option>';
+                                                    echo '<option selected="selected" value="'.$categoria['id'].'" >'.html_entity_decode(htmlentities($categoria['nome'])).'</option>';
                                                 }else{
-                                                    echo '<option value="'.$categoria['id'].'" >'.$categoria['nome'].'</option>';
+                                                    echo '<option value="'.$categoria['id'].'" >'.html_entity_decode(htmlentities($categoria['nome'])).'</option>';
                                                 }
                                         }
                                     ?>

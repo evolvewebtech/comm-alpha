@@ -905,7 +905,7 @@ class DataManager {
         /*
          * inserisco un alimento esaurito
          */
-        $ret = $db->insert('cmd_alimento_esaurito', array($id, $alimento_id, $data_esaurito));
+        $ret = $db->insert('cmd_alimento_esaurito', array($id, $alimento_id, $data_esaurito, true));
 
         if ($ret) return true;
         else return false;
@@ -946,18 +946,33 @@ class DataManager {
      * @return <bool>
      */
     static function cancellaAlimentoEsaurito($alimento_id){
-
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
 
         /*
-         * cancello un alimento esaurito
+         * modifico un alimento esaurito
          */
+        $ret = $db->update('cmd_alimento_esaurito', array('record_attivo' => 0,
+                                                          ),
+                                                    array('id', $alimento_id)
+                    );
+
+        if ($ret) return true;
+        else return false;
+
+        /*
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        //cancello un alimento esaurito
+         
         $ret = $db->delete('cmd_alimento_esaurito', "alimento_id = ".$alimento_id);
 
         if ($ret) return true;
         else return false;
+        */
     }//end cancellaAlimentoEsaurito
 
     /**

@@ -359,7 +359,7 @@ $(function() {
                 dataType: 'json',
                 cache: false,
                 success: onCassiereSuccess,
-                error: onCassiereError
+                error: onError
             });
         }
     });

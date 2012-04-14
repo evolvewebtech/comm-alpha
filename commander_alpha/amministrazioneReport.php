@@ -5,7 +5,6 @@
 
     $lang = 'ita';
 ?>
-<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.css" />
@@ -23,24 +22,10 @@
 <!-- tooltip -->
 <script type="text/javascript" src="media/js/jquery.betterTooltip.js"></script>
 
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
+
 <!-- CSS -->
 <style type="text/css">
-    /*
-     * foglio di stile per la pagina corrente
-     *
-     */
-    .clearfix{ display: block; height: 0; clear: both; visibility: hidden; }
-    h4{ font:300 16px 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        line-height:160%; letter-spacing:0.15em; color:#fff;
-        text-shadow:1px 1px 0 rgb(0,0,0); }
-    p{ font:300 12px 'Lucida Grande', Tahoma, Verdana, sans-serif;
-       color:#000;}
-    a{
-       text-decoration:none;
-       cursor: pointer;
-    }
-
-
 /*-----------------------------------------------------------------------------------------------*/
 /*                                         TOOLTIP STYLES                                        */
 /*-----------------------------------------------------------------------------------------------*/
@@ -157,6 +142,7 @@ a{ color: white;
 ?>
 
 <?php
+    /*
     //tutti gli ordini
     $ordini = DataManager::getAllOrdiniChiusi();
     //numero ordini
@@ -191,6 +177,9 @@ a{ color: white;
     echo 'ordini2:<pre style="color:white;">';
     print_r($ordini2);
     echo "</pre>";
+     *
+     * 
+     */
     /*
      * grafico ordini per cameriere
      * elenco ordini per cameriere in media
@@ -244,9 +233,9 @@ a{ color: white;
     $(document).ready(function(){
 
            var giorni = new Array();
-           <? foreach ($new_day as $key=>$value) { ?>
-                    giorni.push("<?=$value?>");
-           <? } ?>
+           <? //foreach ($new_day as $key=>$value) { ?>
+              //      giorni.push("<?=$value?>");
+           <? //} ?>
 
            //tooltip
            $('.tTip').betterTooltip({speed: 150, delay: 300});
@@ -320,13 +309,12 @@ a{ color: white;
 <div id="day"></div>
 <div style="clear:both;"></div>
 
+        <!--
         <div id="chartdiv" style="height:400px;width:600px; "></div>
+        -->
 
-        <h4 style="margin-left: 10px; float:left; width: 920px;">
-            <a style="color:#fff;" href="logout.php">esci</a> |
-            <a style="color:#fff;" href="support.php">supporto</a> |
-            <a style="color:#fff;" href="license.php">credit</a>
-        </h4>
+        <!-- footer -->
+        <? include_once 'footer.php'; ?>
 </div><!-- end content -->
 
 <!-- DEBUG -->

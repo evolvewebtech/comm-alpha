@@ -6,8 +6,8 @@
 
         $objSession = new HTTPSession();
 
-        $post = json_encode($_POST);
-        $post = str_replace('"', '', $post);
+        $post0 = json_encode($_POST);
+        $post = str_replace('"', '', $post0);
         $post = str_replace(',', '&', $post);
         $post = str_replace(':', '=', $post);
         $post = str_replace('{', '', $post);
@@ -37,6 +37,12 @@
                 $stampante = explode('=', $alimento[1]);
                 $stampanteID = $stampante[0];
                 $stamapanteSelezionata = $stampante[1];
+
+                /*
+                $var['err'] .= '<hr />Alimento ID: '.$alimentoID.
+                               '<br />stampante ID: '.$stampanteID.
+                               '<br />stampante selezionata:'.$stamapanteSelezionata.'<br />';
+                */
 
                 /*
                  * se la relazione esiste già non faccio controllo se devo eliminarla (false) oppure non far nulla,
@@ -90,7 +96,7 @@
     else {
         $var['err'] = 'E002';  //not logged in o sessione scaduta
     }
-
+    //$var['err'] = $post0;
     echo json_encode($var);
 
     } catch(Exception $e) {

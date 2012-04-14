@@ -749,8 +749,8 @@ class Gestore extends User {
      * @param <type> $stampante_id
      * @return <type>
      */
-    public function addAlimentoMenuAlimento($alimento_menu_id, $menu_id){
-        return DataManager::inserisciAlimentoMenuAlimento($alimento_menu_id, $menu_id);
+    public function addAlimentoMenuAlimento($alimento_menu_id, $alimento_id){
+        return DataManager::inserisciAlimentoMenuAlimento($alimento_menu_id, $alimento_id);
     }
 
     /**
@@ -767,8 +767,8 @@ class Gestore extends User {
      * @param <int> $id
      * @return <bool>
      */
-    public function delAlimentoMenuAlimento($alimento_menu_id, $menu_id){
-        return DataManager::cancellaAlimentoMenuAlimento($alimento_menu_id, $menu_id);
+    public function delAlimentoMenuAlimento($alimento_menu_id, $alimento_id){
+        return DataManager::cancellaAlimentoMenuAlimento($alimento_menu_id, $alimento_id);
     }
 
 

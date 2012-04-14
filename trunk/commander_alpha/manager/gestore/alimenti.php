@@ -67,7 +67,7 @@
 
                 /*
                  * se nome_alimento_db non è 0 significa che è già presente nel db,
-                 * quindi devo effettuare una modifica ad una stampante già esistente
+                 * quindi devo effettuare una modifica ad un alimento già esistente
                  *
                  */
                 $nome_alimento_db = $gestore->getAlimento($id);

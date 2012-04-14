@@ -5,7 +5,7 @@
 <!--
 todo: 1. Creare tutti i controlli del form
       2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"
-
+      3. eliminazione: tabella cmd_alimento_menu, cancellare le relazioni
 -->
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 
@@ -62,13 +62,40 @@ $(function() {
                             required: true,
                             minlength: 2,
                             maxlength: 15
+                        },
+                        tab_prezzo: {
+                            required: true,
+                            number: true
+
+                        },
+                        tab_iva: {
+                            required: false,
+                            digits: true
+                        },
+                        tab_nome:{
+                            required: true,
+                            minlength: 2,
+                            maxlength: 15
                         }
                     },
                     messages: {
                         tab_descrizione: {
-                            required: "Inserisci la descrizione del men&ugrave;",
+                            required: "Inserisci la descrizione del menu\'",
                             minlength: "minimo 2 caratteri",
                             maxlength: "massimo 15 caratteri"
+                        },
+                        tab_nome: {
+                            required: "Inserisci il nome del menu\'",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 15 caratteri"
+                        },
+                        tab_prezzo: {
+                            required: "Inserisci il prezzo del menu\'",
+                            number: "solo cifre separate da un punto"
+                        },
+                        tab_iva: {
+                            required: "Inserisci ll valore dell'IVA (%)",
+                            digits:"solo cifre"
                         }
                     }
         });
@@ -164,13 +191,40 @@ $(function() {
                             required: true,
                             minlength: 2,
                             maxlength: 15
+                        },
+                        tab_prezzo: {
+                            required: true,
+                            number: true
+
+                        },
+                        tab_iva: {
+                            required: false,
+                            digits: true
+                        },
+                        tab_nome:{
+                            required: true,
+                            minlength: 2,
+                            maxlength: 15
                         }
                     },
                     messages: {
                         tab_descrizione: {
-                            required: "Inserisci la descriizone del men&ugrave;",
+                            required: "Inserisci la descrizione del menu\'",
                             minlength: "minimo 2 caratteri",
                             maxlength: "massimo 15 caratteri"
+                        },
+                        tab_nome: {
+                            required: "Inserisci il nome del menu\'",
+                            minlength: "minimo 2 caratteri",
+                            maxlength: "massimo 15 caratteri"
+                        },
+                        tab_prezzo: {
+                            required: "Inserisci il prezzo del menu\'",
+                            number: "solo cifre separate da un punto"
+                        },
+                        tab_iva: {
+                            required: "Inserisci ll valore dell'IVA (%)",
+                            digits:"solo cifre"
                         }
                     }
                 });

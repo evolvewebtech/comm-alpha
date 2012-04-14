@@ -218,6 +218,7 @@ a.down.finish{
    cursor: pointer;
 }
 
+
 /* ////////// form ///////// */
 button{
     cursor: pointer;
@@ -262,6 +263,11 @@ em {
 /* ////// dialog//////// */
 .addNewTab{
     width: 265px;
+/*    margin-bottom: 8px;*/
+}
+.addNewTab-alimento{
+    width: 300px;
+    display: block;
 /*    margin-bottom: 8px;*/
 }
 .dialog-color{

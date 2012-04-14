@@ -53,6 +53,9 @@
                         ;
                     }else{
                         $ret = $gestore->delAlimentoStampante($alimentoID,$stampanteID);
+                        if(!$ret){
+                            $var['err'] = $ret;
+                        }
                         //echo "<br />Eliminno";
                     }
 
@@ -62,6 +65,9 @@
                      */
                         if ($stamapanteSelezionata=='true'){
                             $ret = $gestore->addAlimentoStampante($alimentoID,$stampanteID);
+                            if(!$ret){
+                                $var['err'] = $ret;
+                            }
                             //echo "<br />aggiungo";
                         }else{
                             //echo "<br />non faccio nulla";

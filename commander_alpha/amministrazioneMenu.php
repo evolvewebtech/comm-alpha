@@ -61,7 +61,7 @@ $(function() {
                         tab_descrizione: {
                             required: true,
                             minlength: 2,
-                            maxlength: 15
+                            maxlength: 50
                         },
                         tab_prezzo: {
                             required: true,
@@ -82,7 +82,7 @@ $(function() {
                         tab_descrizione: {
                             required: "Inserisci la descrizione del menu\'",
                             minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 15 caratteri"
+                            maxlength: "massimo 50 caratteri"
                         },
                         tab_nome: {
                             required: "Inserisci il nome del menu\'",

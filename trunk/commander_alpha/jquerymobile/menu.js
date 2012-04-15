@@ -16,8 +16,7 @@ $("#ordine").live('pageshow', function() {
 
     //Nascosta finestra "opzioni"
     $('#cont-comm-ord').show('fast');
-    $('#cont-comm-opt').hide('fast');
-    $('#cont-comm-opt-menu').hide('fast');
+    $('.cl-comm-opt').hide('fast');
     show_opt = false;
     
     //Aggiorna lista

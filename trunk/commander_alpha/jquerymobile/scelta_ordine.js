@@ -233,12 +233,25 @@ $(function(){
     arrList.push(menu);
     menu = null;
     
-    //Creazione oggetto Menù Fisso selezionato                                    
-    var arrTempCat = new Array();    
+    //Creazione oggetto "Menù Fisso" selezionato                                    
+    var arrTempCat = new Array();
+    for (var i=0; i<arrMenu[$param]._categorie.length; i++) {
+        var arrTempAlim = new Array();
+        //selezionato come predefinito il primo alimento della categoria
+        var tempAlim = new AlimMenu(arrMenu[$param]._categorie[i]._alimenti[0]._id,
+                                    arrMenu[$param]._categorie[i]._alimenti[0]._nome,
+                                    new Array() );
+        arrTempAlim.push(tempAlim);
+        arrTempCat[i] = new CatMenu(arrMenu[$param]._categorie[i]._id,
+                                    arrMenu[$param]._categorie[i]._nome,
+                                    arrTempAlim);
+    }
+
     var menuSel = new Menu(arrMenu[$param]._id,
                            arrMenu[$param]._nome,
                            arrMenu[$param]._prezzo,
-                           arrMenu[$param]._descrizione, arrTempCat);
+                           arrMenu[$param]._descrizione,
+                           arrTempCat);
     arrMenuSel.push(menuSel);
                         
     //aggiornamento lista
@@ -284,8 +297,7 @@ $(function(){
 
     //finestra "opzioni" nascosta
     $('#cont-comm-ord').show('fast');
-    $('#cont-comm-opt').hide('fast');
-    $('#cont-comm-opt-menu').hide('fast');
+    $('.cl-comm-opt').hide('fast');
     show_opt = false;
     
     //rimozione classe "selected"
@@ -326,7 +338,7 @@ function aggiornaLista(type) {
                     var t = arrList[i];
                     arrList[i] = arrList[j];
                     arrList[j] = t;
-                    if (mem_index == j) { mem_index = i; }
+                    if (mem_index == j) {mem_index = i;}
                 }                  
             }   
         }
@@ -343,7 +355,7 @@ function aggiornaLista(type) {
                     var t = arrList[i];
                     arrList[i] = arrList[j];
                     arrList[j] = t;
-                    if (mem_index == j) { mem_index = i; }
+                    if (mem_index == j) {mem_index = i;}
                 }                  
             }   
         }
@@ -358,7 +370,7 @@ function aggiornaLista(type) {
                         var t = arrList[i];
                         arrList[i] = arrList[j];
                         arrList[j] = t;
-                        if (mem_index == j) { mem_index = i; }
+                        if (mem_index == j) {mem_index = i;}
                     }
                 }
             }   
@@ -481,7 +493,7 @@ function visualizzaOpzioni($obj, $index) {
         var id = arrList[$index]._id;
         var str = "";
         if (!arrList[$index]._menu) {
-            if (arrAlim[id]._varianti.length == 0) { str = "Nessuna variante disponibile"; }
+            if (arrAlim[id]._varianti.length == 0) {str = "Nessuna variante disponibile";}
             else {
                 for(i=0; i<arrAlim[id]._varianti.length; i++) {
                     //Verifica se variante già inserita
@@ -494,17 +506,17 @@ function visualizzaOpzioni($obj, $index) {
                     }
                     //aggiunta classe "selected" se variante già selezionata
                     var selClass = "";
-                    if (varPresente) { selClass = " selected";}
+                    if (varPresente) {selClass = " selected";}
 
                     //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
-                    str = str + '<div class="comm_checkbox'+selClass+'" href='+arrAlim[id]._varianti[i]._id+'>';
+                    str = str + '<div class="comm_checkbox'+selClass+' var-checkbox" href='+arrAlim[id]._varianti[i]._id+'>';
                     str = str + '<div class="cc_icon"></div>';
                     str = str + '<div class="cc_text">' + arrAlim[id]._varianti[i]._descrizione + '</div>';
                     str = str + '</div>';
                 }
             }
         }
-        else { str = "Nessuna variante disponibile"; }
+        else {str = "Nessuna variante disponibile";}
         //modifica del div già creato
         document.getElementById('opt-var').innerHTML = str;
         
@@ -512,8 +524,7 @@ function visualizzaOpzioni($obj, $index) {
     }
     else {
         $('#cont-comm-ord').show('fast');
-        $('#cont-comm-opt').hide('fast');
-        $('#cont-comm-opt-menu').hide('fast');
+        $('.cl-comm-opt').hide('fast');
         show_opt = false;
         
         //cancellazione classe "selected"
@@ -536,12 +547,47 @@ function visualizzaOpzioniMenu($obj, $index) {
         $('#container2').find('.selected').removeClass('selected');
         $obj.addClass('selected');
         
+        var menu = arrMenu[arrList[$index]._id];
+        
+        str = '';
+        
+        for(i=0; i<menu._categorie.length; i++) {  
+            str = str + '<ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-inset="true" data-role="listview">';
+            str = str + '<li class="ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">';
+            str = str + '<h3>' + menu._categorie[i]._nome + '</h3>';
+            str = str + '<div class="menu-alim-item">';
+            
+            for(j=0; j<menu._categorie[i]._alimenti.length; j++) {  
+                var alimMenuTemp = menu._categorie[i]._alimenti[j];
+                //aggiunta classe selected
+                selClass = '';
+                for (t=0; t<arrMenuSel.length; t++) {
+                    if (arrMenuSel[t]._id == menu._id) { 
+                        for (s=0; s<arrMenuSel[t]._categorie[i]._alimenti.length; s++) {
+                            if (arrMenuSel[t]._categorie[i]._alimenti[s]._id == alimMenuTemp._id) {
+                                selClass = 'selected';
+                            }
+                        }
+                    }
+                }
+                str = str + '<div class="comm_checkbox comm_checkbox_min '+selClass+' menu-checkbox" href='+menu._id+'&'+menu._categorie[i]._nome+'&'+alimMenuTemp._id+'>';
+                str = str + '<div class="cc_icon"></div>';
+                str = str + '<div class="cc_text">' + alimMenuTemp._nome + '</div>';
+                str = str + '</div>';
+            }
+            
+            str = str + '</div>';
+            str = str + '</li>';
+            str = str + '</ul>';
+        }
+        
+        document.getElementById('menu-sc-cat').innerHTML = str;
+
         mem_index = $index;
     }
     else {
         $('#cont-comm-ord').show('fast');
-        $('#cont-comm-opt').hide('fast');
-        $('#cont-comm-opt-menu').hide('fast');
+        $('.cl-comm-opt').hide('fast');
         show_opt = false;
         
         //cancellazione classe "selected"
@@ -558,8 +604,7 @@ function visualizzaOpzioniMenu($obj, $index) {
  */
 $('.close-opt').bind("click", function() {
     $('#cont-comm-ord').show('fast');
-    $('#cont-comm-opt').hide('fast');
-    $('#cont-comm-opt-menu').hide('fast');
+    $('.cl-comm-opt').hide('fast');
     show_opt = false;
 
     //cancellazione classe "selected"
@@ -573,7 +618,7 @@ $('.close-opt').bind("click", function() {
  * Decremento o cancellazione alimento dalla lista
  * 
  */
-$('#alim-min').bind("click", function() {
+$('.alim-min').bind("click", function() {
     $index = mem_index;
     for(var i=0; i<arrList.length; i++) {
         if (arrList[i]._index == $index) {
@@ -589,8 +634,7 @@ $('#alim-min').bind("click", function() {
 
                 //finestra "opzioni" nascosta
                 $('#cont-comm-ord').show('fast');
-                $('#cont-comm-opt').hide('fast');
-                $('#cont-comm-opt-menu').hide('fast');
+                $('.cl-comm-opt').hide('fast');
                 show_opt = false;
             }
             
@@ -609,7 +653,7 @@ $('#alim-min').bind("click", function() {
  * Incremento alimento selezionato da opzioni varianti
  * 
  */
-$('#alim-plus').bind("click", function() {
+$('.alim-plus').bind("click", function() {
     arrList[mem_index]._num += 1;
     
     //aggiornamento lista
@@ -642,8 +686,7 @@ $('.canc-all-conf').live("click", function() {
             
             //finestra "opzioni" nascosta
             $('#cont-comm-ord').show('fast');
-            $('#cont-comm-opt').hide('fast');
-            $('#cont-comm-opt-menu').hide('fast');
+            $('.cl-comm-opt').hide('fast');
             show_opt = false;
             break;
         }
@@ -666,7 +709,7 @@ $('.canc-ann').live("click", function() {
  * Evento click su una variante
  *
  */
-$('.comm_checkbox').live("click", function() {
+$('.var-checkbox').live("click", function() {
     //aggiunta o rimozione della classe "selected"
     if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
@@ -757,6 +800,53 @@ $('.comm_checkbox').live("click", function() {
     else aggiornaLista("cat"); 
     
     variante = null;
+});
+
+
+/*
+ * Evento click su un alimento del menu fisso
+ *
+ */
+$('.menu-checkbox').live("click", function() {
+    //rimozione della classe "selected" dagli alimenti della categoria del menu
+    var $optionSet = $(this).parents('.menu-alim-item');
+    $optionSet.find('.selected').removeClass('selected');
+    //aggiunta o rimozione della classe "selected"
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+    }
+    else {       
+        $(this).addClass('selected');
+    }
+    
+    //parametri href
+    var $param = $(this).attr('href');
+    //split parametri
+    var $arr = $param.split('&');
+    //categoria e id alimento cliccato
+    $menu = $arr[0];
+    $cat = $arr[1];
+    $id = $arr[2];
+    
+    //aggiornamento alimento del menu fisso selezionato
+    for (t=0; t<arrMenuSel.length; t++) {
+        if(arrMenuSel[t]._id == $menu) {
+            for (s=0; s<arrMenuSel[t]._categorie.length; s++) {
+                if (arrMenuSel[t]._categorie[s]._nome == $cat) {
+                    var tempCat = arrMenu[$menu]._categorie[s];
+                    for (r=0; r<tempCat._alimenti.length; r++) {
+                        if (tempCat._alimenti[r]._id == $id) {
+                            var newAlim = new AlimMenu($id,
+                                                tempCat._alimenti[r]._nome,
+                                                new Array() );
+                            arrMenuSel[t]._categorie[s]._alimenti[0] = newAlim;
+                        }
+                    }
+                    
+                }
+            }
+        }
+    }
 });
     
 

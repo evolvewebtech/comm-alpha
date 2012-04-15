@@ -468,6 +468,10 @@ $(function() {
                                    ' Livello: '    + data.livello_cassiere+
                                    ' Current: '    + data.current_tab+
                                    ' Err: '        + data.err );
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                  location.reload();
+               });
            }
         }
     }

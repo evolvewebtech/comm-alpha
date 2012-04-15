@@ -115,27 +115,69 @@ $(function() {
 
         $("#addNewTab").validate({
                     rules: {
+                        tab_descrizione: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 50
+                        },
+                        tab_prezzo: {
+                            required: true,
+                            number: true
+
+                        },
+                        tab_iva: {
+                            required: false,
+                            digits: true
+                        },
                         tab_nome: {
                             required: true,
                             minlength: 2,
                             maxlength: 20
                         },
-                    tab_colore_bottone: {
-                            required: true,
-                            minlength: 2,
-                            maxlength: 7
+                        tab_colore_bottone: {
+                            required: false
+                        },
+                        tab_apeso: {
+                            required: false,
+                            minlength: 1,
+                            maxlength: 1
+                        },
+                        tab_codice_prodotto: {
+                            required: false
+                        },
+                        tab_quantita: {
+                             required: false,
+                             number: true
                         }
                     },
                     messages: {
-                        tab_indirizzo: {
-                            required: "Inserisci un indirizzo IP.",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                        tab_descrizione: {
+                            required: "Inserisci la descrizone",
+                            minlength: "Minimo 2 caratteri",
+                            maxlength: "Massimo 50 caratteri"
+                        },
+                        tab_prezzo: {
+                            required: "Inserisci il prezzo",
+                            number: "Inserisci solo cifre separate da un punto"
+                        },
+                        tab_iva: {
+                            digits: "Inserisci solo cifre."
+                        },
+                        tab_nome: {
+                            required: "Inserisci il nome",
+                            minlength: "Minimo 2 caratteri",
+                            maxlength: "Massimo 20 caratteri"
                         },
                         tab_colore_bottone: {
-                            required: "Seleziona un colore.",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                        },
+                        tab_apeso: {
+                            minlength: 1,
+                            maxlength: "Inserisci S per si o qualsiasi altro carattere per no"
+                        },
+                        tab_codice_prodotto: {
+                        },
+                        tab_quantita: {
+                             number: "Inserisci solo cifre separate da un punto"
                         }
                     }
         });
@@ -153,10 +195,10 @@ $(function() {
             $tab_stampante_associata_id_input   = $('#tab_stampante_associata_id');
 
 
-        var tab_counter             = <?=$numero_alimento?>,
-            max_id                  = <?=$max_id?>,
-            gestore_id              = <?=$gestore_id?>,
-            numero_rel_stampanti    = <?= $numero_alimento_stampante ?>;
+        var tab_counter          = <?=$numero_alimento?>,
+            max_id               = <?=$max_id?>,
+            gestore_id           = <?=$gestore_id?>,
+            numero_rel_stampanti = <?= $numero_alimento_stampante ?>;
 
        
        // Stampanti-------------------------------------------------------------
@@ -328,60 +370,6 @@ $(function() {
 
             create: function(event, ui) {
 
-                ui.index=1;
-                $('#debug').append('<br />selected: '+ui.index);                
-
-                $('a#button-'+ui.index).click(function(){
-
-                    var alimento_ID = $(this).next().val();
-
-                    var finito = '';
-                    $.ajax({
-                        type: "POST",
-                        data: 'action=finito&id='+alimento_ID,
-                        url: "manager/gestore/alimentoEsaurito.php",
-                        dataType: 'json',
-                        cache: false,
-                        success: function(data){
-                            finito = data.finito;
-                        },
-                        error: onError
-                        }
-                    );
-
-                    var esaurito = '';
-                    if (finito){
-                        esaurito = 'finito=true';
-                    }else {
-                        esaurito = 'finito=false';
-                    }
-
-                    if ($(this).attr('class')=='finish down'){
-                        $(this).html('SEGNALA COME DISPONIBILE');
-                            $.ajax({
-                                type: "POST",
-                                data: esaurito+'id='+alimento_ID,
-                                url: "manager/gestore/alimentoEsaurito.php",
-                                dataType: 'json',
-                                cache: false,
-                                success: onAlimentoEsauritoSuccess,
-                                error: onError
-                            });
-
-                    }else{
-                        $(this).html('SEGNALA COME ESAURITO');
-                           $.ajax({
-                                type: "POST",
-                                data: esaurito+'id='+alimento_ID,
-                                url: "manager/gestore/alimentoEsaurito.php",
-                                dataType: 'json',
-                                cache: false,
-                                success: onAlimentoEsauritoSuccess,
-                                error: onError
-                            });
-                    }
-                    $(this).toggleClass("down");
-                });
 
 
                 $('#color-picker-'+ui.index).empty().addColorPicker({
@@ -400,76 +388,78 @@ $(function() {
 
                 $("#alimentoForm-"+ui.index).validate({
                     rules: {
+                        tab_descrizione: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 50
+                        },
+                        tab_prezzo: {
+                            required: true,
+                            number: true
+
+                        },
+                        tab_iva: {
+                            required: false,
+                            digits: true
+                        },
                         tab_nome: {
                             required: true,
                             minlength: 2,
                             maxlength: 20
                         },
-                        tab_indirizzo: {
-                            required: true,
-                            url: true
+                        tab_colore_bottone: {
+                            required: false
+                        },
+                        tab_apeso: {
+                            required: false,
+                            minlength: 1,
+                            maxlength: 1
+                        },
+                        tab_codice_prodotto: {
+                            required: false
+                        },
+                        tab_quantita: {
+                             required: false,
+                             number: true
                         }
                     },
                     messages: {
-                        tab_indirizzo: {
-                            required: "Inserisci un indirizzo IP.",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                        tab_descrizione: {
+                            required: "Inserisci la descrizone",
+                            minlength: "Minimo 2 caratteri",
+                            maxlength: "Massimo 50 caratteri"
+                        },
+                        tab_prezzo: {
+                            required: "Inserisci il prezzo",
+                            number: "Inserisci solo cifre separate da un punto"
+                        },
+                        tab_iva: {
+                            digits: "Inserisci solo cifre."
                         },
                         tab_nome: {
-                            required: "Inserisci il nome della alimento",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 20 caratteri"
+                            required: "Inserisci il nome",
+                            minlength: "Minimo 2 caratteri",
+                            maxlength: "Massimo 20 caratteri"
+                        },
+                        tab_colore_bottone: {
+                        },
+                        tab_apeso: {
+                            minlength: 1,
+                            maxlength: "Inserisci S per si o qualsiasi altro carattere per no"
+                        },
+                        tab_codice_prodotto: {
+                        },
+                        tab_quantita: {
+                             number: "Inserisci solo cifre separate da un punto"
                         }
                     }
                 });
-
             },
 
             select: function( event, ui ) {
 
                 ui.index+=1;
 
-                $('#debug').append('<br />selected: '+ui.index);
-
-                var formSel = $("#alimentoForm-"+ui.index);
-
-                $('a#button-'+ui.index).click(function(){
-                    $('#debug').append( '<br />'+'click' );
-                    var alimento_ID = $(this).next().val();
-                    $('#debug').append('<br />ali: '+alimento_ID);
-
-                    $(this).toggleClass("down");
-        //            alert($(this).attr('class'));
-                    if ($(this).attr('class')=='finish down'){
-                        $(this).html('SEGNALA COME DISPONIBILE');
-                            $('#debug').append( '<br />'+'finito' );
-                            $.ajax({
-                                type: "POST",
-                                data: 'finito=true&id='+alimento_ID,
-                                url: "manager/gestore/alimentoEsaurito.php",
-                                dataType: 'json',
-                                cache: false,
-                                success: onAlimentoEsauritoSuccess,
-                                error: onError
-                            });
-
-                    }else{
-                        $(this).html('SEGNALA COME ESAURITO');
-                           $('#debug').append( '<br />'+'finito' );
-                           $.ajax({
-                                type: "POST",
-                                data: 'finito=false&id='+alimento_ID,
-                                url: "manager/gestore/alimentoEsaurito.php",
-                                dataType: 'json',
-                                cache: false,
-                                success: onAlimentoEsauritoSuccess,
-                                error: onError
-                            });
-                    }
-                });
-
-
                 $('#color-picker-'+ui.index).empty().addColorPicker({
                     clickCallback: function(color) {
 
@@ -486,26 +476,69 @@ $(function() {
 
                 $("#alimentoForm-"+ui.index).validate({
                     rules: {
+                        tab_descrizione: {
+                            required: true,
+                            minlength: 2,
+                            maxlength: 50
+                        },
+                        tab_prezzo: {
+                            required: true,
+                            number: true
+
+                        },
+                        tab_iva: {
+                            required: false,
+                            digits: true
+                        },
                         tab_nome: {
                             required: true,
                             minlength: 2,
                             maxlength: 20
                         },
-                        tab_indirizzo: {
-                            required: true,
-                            url: true
+                        tab_colore_bottone: {
+                            required: false
+                        },
+                        tab_apeso: {
+                            required: false,
+                            minlength: 1,
+                            maxlength: 1
+                        },
+                        tab_codice_prodotto: {
+                            required: false
+                        },
+                        tab_quantita: {
+                             required: false,
+                             number: true
                         }
                     },
                     messages: {
-                        tab_indirizzo: {
-                            required: "Inserisci un indirizzo IP.",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 10 caratteri"
+                         tab_descrizione: {
+                            required: "Inserisci la descrizone",
+                            minlength: "Minimo 2 caratteri",
+                            maxlength: "Massimo 50 caratteri"
+                        },
+                        tab_prezzo: {
+                            required: "Inserisci il prezzo",
+                            number: "Inserisci solo cifre separate da un punto"
+                        },
+                        tab_iva: {
+                            digits: "Inserisci solo cifre."
                         },
                         tab_nome: {
-                            required: "Inserisci il nome della alimento",
-                            minlength: "minimo 2 caratteri",
-                            maxlength: "massimo 20 caratteri"
+                            required: "Inserisci il nome",
+                            minlength: "Minimo 2 caratteri",
+                            maxlength: "Massimo 20 caratteri"
+                        },
+                        tab_colore_bottone: {
+                        },
+                        tab_apeso: {
+                            minlength: 1,
+                            maxlength: "Inserisci S per si o qualsiasi altro carattere per no"
+                        },
+                        tab_codice_prodotto: {
+                        },
+                        tab_quantita: {
+                             number: "Inserisci solo cifre separate da un punto"
                         }
                     }
                 });
@@ -583,6 +616,71 @@ $(function() {
             var index = $( "li", $tabs ).index( $( this ).parent() );
             $tabs.tabs( "remove", index );
     });
+
+
+                $('a#button').click(function(){
+
+                    var selected = $tabs.tabs('option', 'selected');
+                    selected+=1;
+                    $('#debug').append('<br />selected: '+selected);
+                    var alimento_ID = $(this).next().val();
+                    alert(alimento_ID);
+                    var finito = '';
+                    $.ajax({
+                        type: "POST",
+                        data: 'action=finito&id='+alimento_ID,
+                        url: "manager/gestore/alimentoEsaurito.php",
+                        dataType: 'json',
+                        cache: false,
+                        success: function onAlimentoEsauritoSuccess(data, status) {
+
+                                       $('#debug').append('<hr />ajax: alimento esaurito');
+                                       console.log(data);
+                                       finito = data.finito;
+                                       $('#debug').append('<br />ERRORI: '+data.err);
+                                       $('#debug').append('<br />FINITO: '+finito);
+
+
+                                       if (data.err=='E002'){
+                                           $('#code-err').html('Sessione scaduta o login non valido.');
+                                           $dialogERR.dialog("open");
+                                           $('#debug').append(' ERR: '+data.err);
+                                       } else if (data.err=='E001'){
+                                           $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+                                           $dialogERR.dialog("open");
+                                           $('#debug').append(' ERR: '+data.err);
+                                       } else if (data.err=='false'){
+                                           $('#code-err').html('Errore.');
+                                           $dialogERR.dialog("open");
+                                           $('#debug').append(' ERR: '+data.err);
+                                       } else if(data.err==''){
+                                           $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
+                                           $dialogOK.dialog( "open" );
+                                           $('#debug').append( '<br />DATA SAVED:<br />'+
+                                                               ' finito: '+data.finito+
+                                                               ' id: '+data.alimento_id+
+                                                               '<br />ERR: '+data.err+'<br />');
+                                       } else{
+                                           $('#code-err').html('Errore durante l\'aggiornamento.');
+                                           //$dialogERR.dialog("open");
+
+                                           $('#debug').append( '<br />DATA SAVED:<br />'+
+                                                               ' finito: '+data.finito+
+                                                               ' id: '+data.alimento_id+
+                                                               '<br />ERR: '+data.err+'<br />');
+                                       }
+                                    },
+                        error: onError
+                    });
+                    if (finito){
+                        $(this).toggleClass("down");
+                        $(this).html('SEGNALA COME DISPONIBILE');
+
+                    }else {
+                        $(this).toggleClass("down");
+                        $(this).html('SEGNALA COME ESAURITO');
+                    }
+                });
 
     /*
      *
@@ -873,38 +971,6 @@ $(function() {
        }
     }
 
-    function onAlimentoEsauritoSuccess(data, status) {
-       $('#debug').append('<br />ajax: alimento esaurito');
-       if (data.err=='E002'){
-           $('#code-err').html('Sessione scaduta o login non valido.');
-           $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
-       } else if (data.err=='E001'){
-           $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-           $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
-       } else if (data.err=='false'){
-           $('#code-err').html('Errore.');
-           $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
-       } else if(data.err==''){
-           $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
-           $dialogOK.dialog( "open" );
-           $('#debug').append( '<br />DATA SAVED:<br />'+
-                               ' finito: '+data.finito+
-                               ' id: '+data.alimento_id+
-                               '<br />ERR: '+data.err+'<br />');
-       } else{
-           $('#code-err').html('Errore durante l\'aggiornamento.');
-           //$dialogERR.dialog("open");
-
-           $('#debug').append( '<br />DATA SAVED:<br />'+
-                               ' finito: '+data.finito+
-                               ' id: '+data.alimento_id+
-                               '<br />ERR: '+data.err+'<br />');
-       }
-    }
-
     /*
      *  se si presentano errori nel file durante le chiamate ajax
      */
@@ -983,7 +1049,8 @@ $(function() {
                     ?>
                     <div style="min-height:360px;">
                         <div style="height: 40px;">
-                            <a style="float: left;min-height: 20px; min-width: 400px;" id="button-<?=$count?>" class="finish" title="button">SEGNALA COME ESAURITO</a>
+<!--                            <a style="float: left;min-height: 20px; min-width: 400px;" id="button-<?=$count?>" class="finish" title="button">SEGNALA COME ESAURITO</a>-->
+                            <a style="float: left;min-height: 20px; min-width: 400px;" id="button" class="finish" title="button">SEGNALA COME ESAURITO</a>
                             <input type="hidden" name="alimento_id2" id="alimento_id2" value="<?=$alimento['id']?>" />
                         </div>
                         <form id="alimentoForm-<?=$count?>" style="min-height:60px; float:left;">

@@ -6,7 +6,6 @@
 
         $objSession = new HTTPSession();
 
-        $finito       = mysql_real_escape_string($_POST['finito']);
         $action       = mysql_real_escape_string($_POST['action']);
         $alimento_id  = intval(mysql_real_escape_string($_POST['id']));
 
@@ -16,10 +15,9 @@
         $today     = date("Y-m-d H:i:s", $today);
         $data      = $today;
 
-        $var = array("finito"      => $finito,
+        $var = array("finito"      => '',
                      "alimento_id" => $alimento_id,
                      "err"         => '');
-
     /*
      * inizio login
      */
@@ -29,12 +27,39 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-            $var['err'] .= '<hr />';
+            //$var['err'] .= '<hr />';
 
+                //$action = 'finito';
                 if ($action=='finito'){
 
-                    $finito = false;
+                    //$alimento_id = intval(21);
+                    $finito = Datamanager::controlloAlimentoEsaurito($alimento_id);
+                    //print_r($finito);
+                    if ($finito==FALSE || $finito['record_attivo']==0){
+                        /*
+                         * l'alimento non è presente nella tabella oppure il record è disattivo.
+                         * Quindi è da segnalare come finito
+                         */
+                        //echo "1 - sono qui";
+                        $ret = $gestore->addAlimentoEsaurito('NULL', $alimento_id, $data);
+                        if (!$ret){
+                            $var['err'] .= '<br />aggiunto'.$ret;
+                        }
+                        $var['finito'] = true;
 
+                    } else{
+                        /*
+                         * l'alimento è tornato a disposizione. Il record è da disattivare
+                         */
+                        //echo "2 - sono qui";
+                        $ret = $gestore->delAlimentoEsaurito($alimento_id);
+                        //var_dump($ret);
+                        if (!$ret){
+                            $var['err'] .= '<br />eliminato - '.$ret;
+                        }
+                        $var['finito'] = false;
+                    }
+                    /*
                 }else{
 
                     if ($finito==true){
@@ -55,9 +80,11 @@
                         if (!$ret){
                             $var['err'] .= $ret;
                         }
-                    }
+
+                   }
+                    */
                 }
-            
+
         /*
          * fine login
          *

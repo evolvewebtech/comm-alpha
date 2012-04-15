@@ -70,6 +70,24 @@ class DataManager {
         //return true;
     }
 
+
+    /**
+     *
+     * @param int $id_alimento
+     * @return boolean
+     */
+    public static function controlloAlimentoEsaurito($alimento_id) {
+        $sql = "SELECT * FROM cmd_alimento_esaurito WHERE alimento_id=$alimento_id";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return false;
+            }else{
+                return mysql_fetch_assoc($res);
+            }           
+        }
+    }
+
     /**
      *  visualizzo i giorni in cui ci sono stati degli ordini, 0 altrimenti
      */
@@ -955,7 +973,7 @@ class DataManager {
          */
         $ret = $db->update('cmd_alimento_esaurito', array('record_attivo' => 0,
                                                           ),
-                                                    array('id', $alimento_id)
+                                                    array('alimento_id', $alimento_id)
                     );
 
         if ($ret) return true;

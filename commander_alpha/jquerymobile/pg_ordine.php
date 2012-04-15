@@ -143,7 +143,7 @@
     </section>
 
     <!-- SEZIONE "OPZIONI" ALIMENTO -->
-    <section id="cont-comm-opt" class="ui-body ui-body-e">       
+    <section id="cont-comm-opt" class="ui-body ui-body-e cl-comm-opt">       
         <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
             <div class="opt-title" data-role="header" data-theme="b">
                 <a class="ui-btn-left close-opt" data-role="button" data-theme="b" data-icon="arrow-l" data-inline="true">Chiudi</a>
@@ -153,10 +153,10 @@
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Aggiungi - Elimina</h3>
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a">
-                        <a id="alim-plus" data-role="button" data-icon="plus" class="ui-btn-right">Aggiungi 1</a>
+                        <a class="ui-btn-right alim-plus" data-role="button" data-icon="plus">Aggiungi 1</a>
                     </div>
                     <div class="ui-block-b">
-                        <a id="alim-min" data-role="button" data-icon="minus" class="ui-btn-right">Cancella 1</a>
+                        <a class="ui-btn-right alim-min" data-role="button" data-icon="minus">Cancella 1</a>
                     </div>	   
                 </fieldset>
                 <a id="canc-all" href="#diag-conf-canc-all" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Cancella tutto</a>
@@ -170,7 +170,7 @@
     </section>
     
     <!-- SEZIONE "OPZIONI" MENU' FISSO -->
-    <section id="cont-comm-opt-menu" class="ui-body ui-body-b">       
+    <section id="cont-comm-opt-menu" class="ui-body ui-body-b cl-comm-opt">       
         <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
             <div class="opt-title" data-role="header" data-theme="c">
                 <a class="ui-btn-left close-opt" data-role="button" data-theme="c" data-icon="arrow-l" data-inline="true">Chiudi</a>
@@ -180,29 +180,17 @@
                 <h3 class="ui-collapsible-heading ui-collapsible-heading-collapsed">Aggiungi - Elimina</h3>
                 <fieldset class="ui-grid-a">
                     <div class="ui-block-a">
-                        <a id="alim-plus" data-role="button" data-icon="plus" class="ui-btn-right">Aggiungi 1</a>
+                        <a class="ui-btn-right alim-plus" data-role="button" data-icon="plus">Aggiungi 1</a>
                     </div>
                     <div class="ui-block-b">
-                        <a id="alim-min" data-role="button" data-icon="minus" class="ui-btn-right">Cancella 1</a>
+                        <a class="ui-btn-right alim-min" data-role="button" data-icon="minus">Cancella 1</a>
                     </div>	   
                 </fieldset>
                 <a id="canc-all" href="#diag-conf-canc-all" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Cancella tutto</a>
             </div>
         </div>
-        <h3>Selezionare le voci del menù:</h3>
-        <div id="menu-sc-collapsible">
-        <div class="ui-collapsible-set" data-content-theme="d" data-theme="c" data-role="collapsible-set">
-            <div data-role="collapsible" data-collapsed="false">
-                <h3>Section 1</h3>
-            </div>
-            <div data-role="collapsible" data-collapsed="true">
-                <h3>Section 2</h3>
-            </div>
-            <div data-role="collapsible" data-collapsed="true">
-                <h3>Section 3</h3>
-            </div>
-        </div>
-        </div>    
+        <h3>Selezionare le voci per comporre il menù:</h3>
+        <div id="menu-sc-cat"></div>    
     </section>
 
 

@@ -90,3 +90,25 @@
     background-attachment: scroll;
     opacity: 1;
 }
+
+
+
+
+/*******************/
+/* VERSIONE "MINI" */
+/*******************/
+
+.comm_checkbox_min {
+    height: 16px;
+    width: 150px;
+    /*float: left;*/
+}
+
+.comm_checkbox_min .cc_icon {    
+    margin-top: -1px;
+}
+
+.comm_checkbox_min .cc_text {
+    font-size:	13px;
+    margin-top: -3px;
+}

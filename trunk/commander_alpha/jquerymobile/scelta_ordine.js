@@ -147,7 +147,8 @@ $(function(){
                                 arrAlim[$param]._descrizione,
                                 0,
                                 new Array(),
-                                false );
+                                false,
+                                0);
 
     //verifica se l'alimento è già stato aggiunto all'array
     var ver = false;  
@@ -227,7 +228,8 @@ $(function(){
                                 arrMenu[$param]._descrizione,
                                 0,
                                 new Array(),
-                                true );
+                                true,
+                                arrMenuSel.length );
     
     menu._num = 1;
     arrList.push(menu);
@@ -417,9 +419,9 @@ function aggiornaLista(type) {
             $itemString = $itemString + '</li>';
         }
         //Se alimento lista è un Menù Fisso memorizzo oggetto
-        if (arrList[i]._cat == "Menu") {
+        //if (arrList[i]._menu) {
             //arrMenuSel[i] = arrMenu[arrList[i]._id];
-        }
+        //}
     }
     
     document.getElementById('container2').innerHTML = $itemString;
@@ -471,7 +473,7 @@ $('.comm-li-link').live("click", function() {
     var $index = $param.replace('#','');
     
     //visualizzazione finestra opzioni "Alimento" o opzioni "MenuFisso"
-    if (arrList[$index]._cat == "Menu") visualizzaOpzioniMenu($(this), $index);
+    if (arrList[$index]._menu) visualizzaOpzioniMenu($(this), $index);
     else visualizzaOpzioni($(this), $index);
 });
 
@@ -559,18 +561,17 @@ function visualizzaOpzioniMenu($obj, $index) {
             
             for(j=0; j<menu._categorie[i]._alimenti.length; j++) {  
                 var alimMenuTemp = menu._categorie[i]._alimenti[j];
+                var idMenuSel = arrList[$index]._idMenuSel;
                 //aggiunta classe selected
                 selClass = '';
-                for (t=0; t<arrMenuSel.length; t++) {
-                    if (arrMenuSel[t]._id == menu._id) { 
-                        for (s=0; s<arrMenuSel[t]._categorie[i]._alimenti.length; s++) {
-                            if (arrMenuSel[t]._categorie[i]._alimenti[s]._id == alimMenuTemp._id) {
-                                selClass = 'selected';
-                            }
+                if (arrMenuSel[idMenuSel]._id == menu._id) { 
+                    for (s=0; s<arrMenuSel[idMenuSel]._categorie[i]._alimenti.length; s++) {
+                        if (arrMenuSel[idMenuSel]._categorie[i]._alimenti[s]._id == alimMenuTemp._id) {
+                            selClass = 'selected';
                         }
                     }
                 }
-                str = str + '<div class="comm_checkbox comm_checkbox_min '+selClass+' menu-checkbox" href='+menu._id+'&'+menu._categorie[i]._nome+'&'+alimMenuTemp._id+'>';
+                str = str + '<div class="comm_checkbox comm_checkbox_min '+selClass+' menu-checkbox" href='+idMenuSel+'&'+menu._categorie[i]._nome+'&'+alimMenuTemp._id+'>';
                 str = str + '<div class="cc_icon"></div>';
                 str = str + '<div class="cc_text">' + alimMenuTemp._nome + '</div>';
                 str = str + '</div>';
@@ -770,7 +771,8 @@ $('.var-checkbox').live("click", function() {
                                     arrList[index]._descrizione,
                                     1,
                                     new Array(),
-                                    false );
+                                    false,
+                                    0);
             arrList.push(temp);
             arrList[index]._num -= 1;
             index = arrList.length - 1;
@@ -824,27 +826,23 @@ $('.menu-checkbox').live("click", function() {
     //split parametri
     var $arr = $param.split('&');
     //categoria e id alimento cliccato
-    $menu = $arr[0];
-    $cat = $arr[1];
-    $id = $arr[2];
+    var idMenuSel = $arr[0];
+    var $cat = $arr[1];
+    var $idAlim = $arr[2];
     
     //aggiornamento alimento del menu fisso selezionato
-    for (t=0; t<arrMenuSel.length; t++) {
-        if(arrMenuSel[t]._id == $menu) {
-            for (s=0; s<arrMenuSel[t]._categorie.length; s++) {
-                if (arrMenuSel[t]._categorie[s]._nome == $cat) {
-                    var tempCat = arrMenu[$menu]._categorie[s];
-                    for (r=0; r<tempCat._alimenti.length; r++) {
-                        if (tempCat._alimenti[r]._id == $id) {
-                            var newAlim = new AlimMenu($id,
+    for (s=0; s<arrMenuSel[idMenuSel]._categorie.length; s++) {
+        if (arrMenuSel[idMenuSel]._categorie[s]._nome == $cat) {
+            var tempCat = arrMenu[arrMenuSel[idMenuSel]._id]._categorie[s];
+            for (r=0; r<tempCat._alimenti.length; r++) {
+                if (tempCat._alimenti[r]._id == $idAlim) {
+                    var newAlim = new AlimMenu( $idAlim,
                                                 tempCat._alimenti[r]._nome,
                                                 new Array() );
-                            arrMenuSel[t]._categorie[s]._alimenti[0] = newAlim;
-                        }
-                    }
-                    
+                    arrMenuSel[idMenuSel]._categorie[s]._alimenti[0] = newAlim;
                 }
             }
+
         }
     }
 });
@@ -867,7 +865,7 @@ $('#canc-ord').live("click", function() {
  *  Funzione per crazione oggetti "alimento"
  *  
  */
-function alimList(index, id, cat, nome, prezzo, descrizione, num, varianti, menu) {
+function alimList(index, id, cat, nome, prezzo, descrizione, num, varianti, menu, idMenuSel) {
     this._index = index;
     this._id = id;
     this._cat = cat;
@@ -877,6 +875,7 @@ function alimList(index, id, cat, nome, prezzo, descrizione, num, varianti, menu
     this._num = num;
     this._varianti = varianti;
     this._menu = menu;
+    this._idMenuSel = idMenuSel;
 }
 
 

@@ -6,6 +6,7 @@
     
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
     <link rel="stylesheet" href="css/jquery.mobile.datebox-1.0.1.min.css"/>
+    <link rel="stylesheet" href="css/style-comm.css"/>
     <script src="js/jquery.js"></script>
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
     <script src="js/jquery.mobile.datebox-1.0.1.min.js"></script>
@@ -156,6 +157,17 @@
         </div>
         <div data-role="content"> 
             <?php include dirname(__FILE__).'/pg_buoni.php';  ?>
+        </div>
+    </div>
+    
+    <!-- DIALOG VARIANTI MENU FISSO -->
+    <div data-role="page" id="diag-var-menu">
+        <div data-role="header" data-theme="d">
+            <h1>Selezionare le varianti</h1>
+        </div>
+        <div data-role="content">
+            <div id="var-menu-cont"></div>
+            <a href="#ordine" data-role="button" data-icon="arrow-l" class="ui-btn-right">Indietro</a>
         </div>
     </div>
     

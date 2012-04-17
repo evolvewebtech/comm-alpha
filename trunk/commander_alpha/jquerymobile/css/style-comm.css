@@ -1,0 +1,25 @@
+/* 
+    Document   : style-comm
+    Created on : 17-apr-2012, 21.01.01
+    Author     : Alessandro
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.cont-check-menu {
+    width: 240px;
+    float: left;
+}
+
+.menu-bt-var {
+    height: 32px;
+    width: 32px;
+    margin-top: 6px;
+    margin-left: 5px;
+    float: left;
+    background-image: url(images/Letter-V-lg-icon.png);
+}
+
+.comm-clear-left {
+    clear: left;
+}

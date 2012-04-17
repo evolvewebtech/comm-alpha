@@ -101,7 +101,7 @@
 .comm_checkbox_min {
     height: 16px;
     width: 150px;
-    /*float: left;*/
+    float: left;
 }
 
 .comm_checkbox_min .cc_icon {    

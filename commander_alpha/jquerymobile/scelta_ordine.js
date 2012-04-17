@@ -571,11 +571,15 @@ function visualizzaOpzioniMenu($obj, $index) {
                         }
                     }
                 }
+                str = str + '<div class="cont-check-menu">'
                 str = str + '<div class="comm_checkbox comm_checkbox_min '+selClass+' menu-checkbox" href='+idMenuSel+'&'+menu._categorie[i]._nome+'&'+alimMenuTemp._id+'>';
                 str = str + '<div class="cc_icon"></div>';
                 str = str + '<div class="cc_text">' + alimMenuTemp._nome + '</div>';
                 str = str + '</div>';
+                str = str + '<a href="#diag-var-menu" data-rel="dialog"><div id="' + alimMenuTemp._id + '" class="menu-bt-var bt-var"></div></a>'       
+                str = str + '</div>';
             }
+            str = str + '<div class="comm-clear-left"></>'
             
             str = str + '</div>';
             str = str + '</li>';
@@ -612,6 +616,43 @@ $('.close-opt').bind("click", function() {
     $('#container2').find('.selected').removeClass('selected');
 
     mem_index = -1;  
+});
+
+
+/*
+ * Visualizzazione dialog varianti menu fisso
+ * 
+ */
+$('.bt-var').live("click", function() {
+    /*var id = $(this).attr('id');
+    str = '';
+    for(var i=0; i<arrMenu[1]._categorie[0]._alimenti[0]._varianti.length; i++) {
+        //Verifica se variante già inserita
+        var varPresente = false;
+        /*for(var t=0; t<arrList[$index]._varianti.length; t++) {
+            if (arrList[$index]._varianti[t]._id == arrAlim[id]._varianti[i]._id) {
+                varPresente = true;
+                break;
+            }
+        }*/
+        //aggiunta classe "selected" se variante già selezionata
+        /*var selClass = "";
+        if (varPresente) {selClass = " selected";}*/
+        
+        //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
+        /*str = str + '<div class="comm_checkbox'+selClass+' var-checkbox" href='+arrAlim[id]._varianti[i]._id+'>';
+        str = str + '<div class="cc_icon"></div>';
+        str = str + '<div class="cc_text">' + arrAlim[id]._varianti[i]._descrizione + '</div>';
+        str = str + '</div>';*/
+        
+        /*str = str + '<div class="comm_checkbox var-checkbox">';
+        str = str + '<div class="cc_icon"></div>';
+        str = str + '<div class="cc_text">' + arrMenu[1]._categorie[0]._alimenti[0]._varianti[i]._descrizione + '</div>';
+        str = str + '</div>';
+        //alert(arrMenu[1]._categorie[0]._alimenti[0]._varianti[i]._descrizione);
+    }
+    
+    document.getElementById('var-menu-cont').innerHTML = str;*/
 });
 
 

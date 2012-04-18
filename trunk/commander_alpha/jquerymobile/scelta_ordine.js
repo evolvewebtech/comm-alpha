@@ -562,6 +562,8 @@ function visualizzaOpzioniMenu($obj, $index) {
             for(j=0; j<menu._categorie[i]._alimenti.length; j++) {  
                 var alimMenuTemp = menu._categorie[i]._alimenti[j];
                 var idMenuSel = arrList[$index]._idMenuSel;
+                //var alimParam = arrMenu[arrMenuSel[idMenuSel]._id]._id + '&' + i + '&' + j;
+                var alimParam = idMenuSel + '&' + i + '&' + j;
                 //aggiunta classe selected
                 selClass = '';
                 if (arrMenuSel[idMenuSel]._id == menu._id) { 
@@ -576,7 +578,7 @@ function visualizzaOpzioniMenu($obj, $index) {
                 str = str + '<div class="cc_icon"></div>';
                 str = str + '<div class="cc_text">' + alimMenuTemp._nome + '</div>';
                 str = str + '</div>';
-                str = str + '<a href="#diag-var-menu" data-rel="dialog"><div id="' + alimMenuTemp._id + '" class="menu-bt-var bt-var"></div></a>'       
+                str = str + '<a href="#diag-var-menu" data-rel="dialog"><div id="' + alimParam + '" class="menu-bt-var bt-var"></div></a>'       
                 str = str + '</div>';
             }
             str = str + '<div class="comm-clear-left"></>'
@@ -624,35 +626,41 @@ $('.close-opt').bind("click", function() {
  * 
  */
 $('.bt-var').live("click", function() {
-    /*var id = $(this).attr('id');
+    //parametri id
+    var $param = $(this).attr('id');
+    //split parametri
+    var $arr = $param.split('&');
+    //parametri
+    var idMenuSel = $arr[0];
+    var idMenu = arrMenu[arrMenuSel[idMenuSel]._id]._id;
+    var idCat = $arr[1];
+    var idAlim = $arr[2];
+    
     str = '';
-    for(var i=0; i<arrMenu[1]._categorie[0]._alimenti[0]._varianti.length; i++) {
+    for(var i=0; i<arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti.length; i++) {
         //Verifica se variante già inserita
         var varPresente = false;
-        /*for(var t=0; t<arrList[$index]._varianti.length; t++) {
-            if (arrList[$index]._varianti[t]._id == arrAlim[id]._varianti[i]._id) {
+        var varianti = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti;
+        for(var t=0; t<varianti.length; t++) {
+            if (varianti[t]._id == arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[t]._id) {
                 varPresente = true;
                 break;
             }
-        }*/
+        }
         //aggiunta classe "selected" se variante già selezionata
-        /*var selClass = "";
-        if (varPresente) {selClass = " selected";}*/
+        var selClass = "";
+        if (varPresente) {selClass = " selected";}
         
-        //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
-        /*str = str + '<div class="comm_checkbox'+selClass+' var-checkbox" href='+arrAlim[id]._varianti[i]._id+'>';
-        str = str + '<div class="cc_icon"></div>';
-        str = str + '<div class="cc_text">' + arrAlim[id]._varianti[i]._descrizione + '</div>';
-        str = str + '</div>';*/
+        var strHref = idMenuSel + '&' + idMenu + '&' + idCat + '&' + idAlim;
+        strHref = strHref + '&' + arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[i]._id;
         
-        /*str = str + '<div class="comm_checkbox var-checkbox">';
+        str = str + '<div class="comm_checkbox'+selClass+' var-menu-checkbox" href='+strHref+'>';
         str = str + '<div class="cc_icon"></div>';
-        str = str + '<div class="cc_text">' + arrMenu[1]._categorie[0]._alimenti[0]._varianti[i]._descrizione + '</div>';
+        str = str + '<div class="cc_text">' + arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[i]._descrizione + '</div>';
         str = str + '</div>';
-        //alert(arrMenu[1]._categorie[0]._alimenti[0]._varianti[i]._descrizione);
     }
     
-    document.getElementById('var-menu-cont').innerHTML = str;*/
+    document.getElementById('var-menu-cont').innerHTML = str;
 });
 
 
@@ -841,6 +849,97 @@ $('.var-checkbox').live("click", function() {
         aggiornaLista("nome");
     }
     else aggiornaLista("cat"); 
+    
+    variante = null;
+});
+
+
+/*
+ * Evento click su una variante di un menu fisso
+ *
+ */
+$('.var-menu-checkbox').live("click", function() {
+    //aggiunta o rimozione della classe "selected"
+    if ($(this).hasClass('selected')) {
+        $(this).removeClass('selected');
+    }
+    else {
+        $(this).addClass('selected');
+    }
+    
+    //parametri href
+    var $param = $(this).attr('href');
+    //split parametri
+    var $arr = $param.split('&');
+    //parametri
+    var idMenuSel = $arr[0];
+    var idMenu = $arr[1];
+    var idCat = $arr[2];
+    var idAlim = $arr[3];
+    var id_var = $arr[4];
+    
+    //Estrazione info da array Alimenti
+    var desc = "";
+    var prezzo;
+    
+    var varianti = arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti;
+    
+    for(var i=0; i<varianti.length; i++) {
+        if (varianti[i]._id == id_var) {
+            desc = varianti[i]._descrizione;
+            prezzo = varianti[i]._prezzo;
+            break;
+        }
+    }
+    
+    //Creazione oggetto variante
+    var variante = new varList(id_var, desc, prezzo);
+    
+    //Ricerca Alimento selezionato in array Lista
+    var index = 0;
+    for(var j=0; j<arrList.length; j++) {
+        if (arrList[j]._index == mem_index) {
+            index = j;
+            break;
+        }
+    }
+    
+    //Verifica se variante già inserita
+    var varPresente = false;
+    var indexVar = 0;
+    var varSel = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti;
+    for(var t=0; t<varSel.length; t++) {
+        if (varSel[t]._id == id_var) {
+            varPresente = true;
+            indexVar = t;
+            break;
+        }
+    }
+    
+    if (!varPresente) {
+        //Estrazione Alimento dalla Lista per isolare
+        //l'alimento con varianti dagli altri senza varianti
+        
+        // ......
+        
+        //Aggiunta variante ad Alimento della Lista
+        arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti.push(variante);
+        
+        //Modifica indice alimento selezionato
+        //mem_index = index;   
+    }
+    else {
+        //rimozione variante dall'array
+        arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti.splice(indexVar, 1);
+        //rimozione classe "selected"
+        $(this).removeClass('selected');
+    }
+    
+    //aggiornamento lista
+    /*if (mem_ord_type == "nome") {
+        aggiornaLista("nome");
+    }
+    else aggiornaLista("cat"); */
     
     variante = null;
 });

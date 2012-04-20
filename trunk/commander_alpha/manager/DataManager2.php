@@ -1344,7 +1344,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Alimento");
+            //die("Failed getting entity Alimento");
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1357,7 +1358,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity BuonoPrepagato");
+            //die("Failed getting entity BuonoPrepagato");
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1369,7 +1371,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Categoria");
+            //die("Failed getting entity Categoria");
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1381,7 +1384,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Categoria");
+            //die("Failed getting entity Categoria");
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1393,7 +1397,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity MenuFisso");
+            //die("Failed getting entity MenuFisso");
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1405,7 +1410,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Ordine ".$ordineID);
+            //die("Failed getting entity Ordine ".$ordineID);
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1417,7 +1423,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity RigaOrdine ".$rigaOrdineID);
+            //die("Failed getting entity RigaOrdine ".$rigaOrdineID);
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1429,7 +1436,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Stampante ".$stampanteID);
+            //die("Failed getting entity Stampante ".$stampanteID);
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1441,7 +1449,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
-            die("Failed getting entity Variante");
+            //die("Failed getting entity Variante");
+            return null;
         }
             return mysql_fetch_assoc($res);
         }
@@ -1454,7 +1463,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAlimentoAsObject)");
+                //die("Errore (getAlimentoAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1472,7 +1482,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getBuonoPrepagatoAsObject)");
+                //die("Errore (getBuonoPrepagatoAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1490,7 +1501,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getCategoriaAsObject)");
+                //die("Errore (getCategoriaAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1508,7 +1520,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getMenuFissoAsObject)");
+                //die("Errore (getMenuFissoAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1526,7 +1539,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getOrdineAsObject)");
+                //die("Errore (getOrdineAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1544,7 +1558,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getStampanteAsObject)");
+                //die("Errore (getStampanteAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1562,7 +1577,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getVarianteAsObject)");
+                //die("Errore (getVarianteAsObject)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1736,7 +1752,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAllEntitiesAsObjects)");
+                //die("Errore (getAllEntitiesAsObjects)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1756,7 +1773,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAllMenuAsObjects)");
+                //die("Errore (getAllMenuAsObjects)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1776,7 +1794,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAllOrdiniAsObjects)");
+                //die("Errore (getAllOrdiniAsObjects)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1796,7 +1815,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAllOrdiniDateAsObjects)");
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -1816,7 +1836,8 @@ class DataManager2 {
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore (getAllStampantiAsObjects)");
+                //die("Errore (getAllStampantiAsObjects)");
+                return null;
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {

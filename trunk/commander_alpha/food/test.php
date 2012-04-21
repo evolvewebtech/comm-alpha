@@ -3,11 +3,9 @@
 require dirname(__FILE__).'/../manager/DataManager2.php';
 
 echo "Prova query da DB Categorie-Alimenti"."<BR>";
-
-
 print "<hr>\n";
 
-//*
+/*
 $arContacts = DataManager2::getAllCategoriesAsObjects();
 
 foreach($arContacts as $objEntity) {
@@ -19,7 +17,12 @@ foreach($arContacts as $objEntity) {
         for($i=0; $i<$numAlmt; $i++) {
             $Almnt = $objEntity->getAlimento($i);
             echo "<h3>Alimento - {$Almnt}</h3>";
-            
+
+            //$stampanti = $Almnt->__get('stampanti');
+            var_dump($stampanti);
+            echo "<pre>";
+            echo "</pre>";
+
             echo "Numero stampanti: ".$Almnt->getNumberOfStampanti()."<br>";
             for($j=0; $j<$Almnt->getNumberOfStampanti(); $j++) {
                 echo "Stampante - {$Almnt->getStampante($j)}<br>";
@@ -32,9 +35,19 @@ foreach($arContacts as $objEntity) {
     }
   print "<hr>\n";
 
-}//*/   //End foreach
+}*/   //End foreach
 
+$alimento = new Alimento(21);
+echo "<h3>Alimento - {$alimento}</h3>";
 
+echo "Numero stampanti: ".$alimento->getNumberOfStampanti()."<br>";
+for($j=0; $j<$alimento->getNumberOfStampanti(); $j++) {
+    echo "Stampante - {$alimento->getStampante($j)}<br>";
+}
+echo "Numero varianti: ".$alimento->getNumberOfVarianti()."<br>";
+for($j=0; $j<$alimento->getNumberOfVarianti(); $j++) {
+    echo "Variante - {$alimento->getVariante($j)}<br>";
+}
 
 
 

@@ -617,14 +617,13 @@ $(function() {
             $tabs.tabs( "remove", index );
     });
 
-
                 $('a#button').click(function(){
 
                     var selected = $tabs.tabs('option', 'selected');
                     selected+=1;
                     $('#debug').append('<br />selected: '+selected);
                     var alimento_ID = $(this).next().val();
-                    alert(alimento_ID);
+//                    alert(alimento_ID);
                     var finito = '';
                     $.ajax({
                         type: "POST",
@@ -826,6 +825,10 @@ $(function() {
                $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E008'){
+               $('#code-err').html('Questo alimento &egrave; associato ad un menu fisso. Per poter eliminarlo cancellalo prima dal men&ugrave;.');
                $dialogERR.dialog("open");
                $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
@@ -1073,7 +1076,7 @@ $(function() {
                                 <br /><label style="margin-right: 20px;" class="tab_path_imageo" for="tab_path_image">Carica immagine: </label>
                                 <input style="float:right; margin-right: 9px;" type="text" name="tab_path_image" id="tab_path_image" value="<?//=$alimento['path_image']?>" class="ui-widget-content ui-corner-all" />
                                 -->
-                                <br /><label style="margin-right: 52px;" class="tab_codice_prodotto" for="tab_codice_prodotto">Codice prodotto: </label>
+                                <br /><label style="margin-right: 50px;" class="tab_codice_prodotto" for="tab_codice_prodotto">Codice prodotto: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_codice_prodotto" id="tab_codice_prodotto" value="<?=$alimento['codice_prodotto']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 116px;" class="tab_quantita" for="tab_quantita">Quantit&agrave;: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_quantita" id="tab_quantita" value="<?=$alimento['quantita']?>" class="ui-widget-content ui-corner-all" />

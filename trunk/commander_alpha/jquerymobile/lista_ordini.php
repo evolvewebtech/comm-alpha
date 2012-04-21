@@ -34,7 +34,8 @@
         if ($arr){
             echo json_encode($arr);
         }else {
-            echo json_encode("an error occurred");
+            //echo json_encode("an error occurred");
+            echo "an error occurred";
         }
     }
     catch(Exception $e) {

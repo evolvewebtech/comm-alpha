@@ -15,12 +15,12 @@
             <section class="ui-body ui-body-b">
                 <div id="dati-buono" style="text-align: center"></div> 
                 <div id="dati-buono-01">
-                <a href="#chiusura" id="paga-con-buono" data-role="button" class="ui-btn-right">Paga con questo buono</a>
+                <a href="#chiusura" id="paga-con-buono" data-role="button" class="ui-btn-right" data-transition="fade">Paga con questo buono</a>
                 </div>
                 <div id="dati-buono-02">
-                <a href="#chiusura" id="paga-con-buono-ann" data-role="button" class="ui-btn-right">Non pagare con questo buono</a>
+                <a href="#chiusura" id="paga-con-buono-ann" data-role="button" class="ui-btn-right" data-transition="fade">Non pagare con questo buono</a>
                 </div>
-                <a href="#chiusura" id="buono-annulla" data-role="button" class="ui-btn-right">Annulla</a>
+                <a href="#chiusura" id="buono-annulla" data-role="button" class="ui-btn-right" data-transition="fade">Annulla</a>
             </section>
         </div>
     </div>

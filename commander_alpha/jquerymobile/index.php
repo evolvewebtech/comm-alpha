@@ -5,9 +5,20 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
+    <style>.ui-mobile body{height:0%}</style> <!-- Per rimuovere la barra nera in basso -->
     <link rel="stylesheet" href="css/jquery.mobile.datebox-1.0.1.min.css"/>
     <link rel="stylesheet" href="css/style-comm.css"/>
     <script src="js/jquery.js"></script>
+    <script>
+        //Inizializzazione jquerymobile
+        $(document).bind("mobileinit", function(){
+            $.extend(  $.mobile , {
+                //Inizializzazione tipo transazione pagine
+                defaultPageTransition: 'none',
+                defaultDialogTransition: 'none'
+            }); 
+        });
+    </script>
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
     <script src="js/jquery.mobile.datebox-1.0.1.min.js"></script>
     <script>
@@ -48,10 +59,6 @@
                 <div class="button_opz">
                     <a href="#info-ordini"><img src="images/symbol_information.png"/></a>
                 </div>
-                <!--
-                <a href="#tavoli" data-role="button" data-icon="home" class="ui-btn-right">Nuovo tavolo</a>
-                <a data-role="button" data-icon="home" class="ui-btn-right">Info</a>
-                <a data-role="button" data-icon="home" class="ui-btn-right">Ordini aperti</a> -->
             </div>    
         </div>
     </div>

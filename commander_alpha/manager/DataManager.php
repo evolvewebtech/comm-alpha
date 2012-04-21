@@ -4,9 +4,25 @@
  *
  * @author francesco
  */
+require_once dirname(__FILE__).'/DataManager2.php';
+
+
 require_once dirname(__FILE__).'/../user/User.php';
 require_once dirname(__FILE__).'/../user/Gestore.php';
 require_once dirname(__FILE__).'/../user/Cassiere.php';
+
+
+require_once dirname(__FILE__).'/../food/Alimento.php';
+require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';
+require_once dirname(__FILE__).'/../food/Categoria.php';
+require_once dirname(__FILE__).'/../food/Ordine.php';
+require_once dirname(__FILE__).'/../food/RigaOrdine.php';
+require_once dirname(__FILE__).'/../food/Stampante.php';
+require_once dirname(__FILE__).'/../food/Variante.php';
+require_once dirname(__FILE__).'/../food/MenuFisso.php';
+require_once dirname(__FILE__).'/../food/CatMenu.php';
+
+
 
 class DataManager {
 
@@ -42,7 +58,7 @@ class DataManager {
      * @return <bool>
      *
      */
-    function controllo_relazione($param1, $param2, $table){
+    public static function controllo_relazione($param1, $param2, $table){
         if ($table=='rel_alimento_stampante'){
             $sql = "SELECT * FROM $table WHERE alimento_id=$param1 AND stampante_id=$param2";
         }elseif($table=='rel_alimentomenu_alimento'){
@@ -87,6 +103,26 @@ class DataManager {
             }           
         }
     }
+
+
+    /**
+     * questa funzione mi ritorna true se un dato alimento
+     * è stato associat a un menu fisso
+     *
+     * @param <int> $id_alimento
+     */
+    public static function appartieneMenuFisso($id_alimento){
+        $sql = "SELECT * FROM rel_alimentomenu_alimento WHERE alimento_id=$id_alimento";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return false;
+            }else{
+                return mysql_fetch_assoc($res);
+            }
+        }
+    }
+
 
     /**
      *  visualizzo i giorni in cui ci sono stati degli ordini, 0 altrimenti

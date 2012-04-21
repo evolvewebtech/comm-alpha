@@ -36,7 +36,7 @@
                      "quantita"             => $quantita,
                      "gestore_id"           => $gestore_id,
                      "categoria_id"         => $categoria_id,
-                     "alimento_id"          => $alimento_id,
+                     "alimento_id"          => $alimento_id,//alimento_composto
                      "current_tab"          => $current_tab,
                      "action"               => $action,
                      //"ritardo"              => $ritardo, //futuro
@@ -56,10 +56,50 @@
 
         if ($action == 'del'){
 
+            /*
+             * controllo chen l'alimento non sia stato associato a dei menu fissi
+             */
+            $ret = DataManager::appartieneMenuFisso($id);
+            if (!$ret){//l'alimento non appartiene a un menu
 
-            $ret = $gestore->delAlimento($id);
-            if(!$ret){
-                $var['err'] = $ret;
+
+                $alimento = new Alimento($id);
+
+                $num_stampanti = $alimento->getNumberOfStampanti();
+                //elimino la relazione con le stampanti
+                for($j=0; $j<$num_stampanti; $j++) {
+                    $stampante = $alimento->getStampante($j);
+                    $stampante_id = $stampante->id;
+                    $ret = $gestore->delAlimentoStampante($id,$stampante_id);
+                    if(!$ret){
+                        $var['err'] = $ret;
+                    }                    
+                }
+                $variante = $alimento->getNumberOfVarianti();
+                //elimino la relazione con le varianti
+                for($j=0; $j<$alimento->getNumberOfVarianti(); $j++) {
+                    $variante = $alimento->getVariante($j);
+                    $variante_id = $variante->id;
+                    $ret = $gestore->delAlimentoVariante($id,$variante_id);
+                        if(!$ret){
+                            $var['err'] = $ret;
+                        }
+                    
+                }
+
+                //elimino l'alimento
+                $ret = $gestore->delAlimento($id);
+                if(!$ret){
+                    $var['err'] = $ret;
+                }
+
+            }else{
+              /*
+               * l'alimento appartiene ad un menù
+               * NON POSSO ELIMINARLO
+               */
+               $var['err'] = 'E008';
+
             }
 
 
@@ -77,30 +117,16 @@
                     /*
                      * alimento non presente, devo aggiungerlo
                      *
-                     *
-                     *         $id, $nome, $prezzo, $iva, $colore_bottone,
-                                      $descrizione, $apeso, $path_image, $codice_prodotto, $quantita,
-                                      $gestore_id, $categoria_id, $alimento_id
-                     *
                      */
                     $ret = $gestore->addAlimento($id, $nome, $prezzo, $iva, $colore_bottone,
                                  $descrizione, $apeso, 'images/', $codice_prodotto,
                                  $quantita, $gestore_id, $categoria_id, $alimento_id);
-                    
-                    //var_dump("<br />ADD");
-                    /*
-                    $ret = DataManager::inserisciAlimento(24, 'pennette', 6.5, 0, '#f00',
-                                 'pennette vodka', 0, 'images/', 'ABkll',
-                                 0, 2, 6, 0);
-                     */
-
                     if(!$ret){
                         $var['err'] = "false";
                     }
 
                 }else{
 
-                    
                     /*
                      * aggiorno l'alimento
                      */

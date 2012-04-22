@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
     <style>.ui-mobile body{height:0%}</style> <!-- Per rimuovere la barra nera in basso -->
     <link rel="stylesheet" href="css/jquery.mobile.datebox-1.0.1.min.css"/>
-    <link rel="stylesheet" href="css/style-comm.css"/>
     <script src="js/jquery.js"></script>
     <script>
         //Inizializzazione jquerymobile
@@ -43,6 +42,33 @@
     <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
     <script type="text/javascript" src="lista_ordini.js"></script>
+    
+    <link rel="stylesheet" href="css/style-isotope.css"/>
+    <link rel="stylesheet" href="css/comm_checkbox.css" />
+    <script>
+        // Edit to suit your needs.
+        var ADAPT_CONFIG = {
+        // Where is your CSS?
+        path: 'css/',
+
+        // false = Only run once, when page first loads.
+        // true = Change on window resize and page tilt.
+        dynamic: true,
+
+        // Optional callback... myCallback(i, width)
+        //callback: myCallback,
+
+        // First range entry is the minimum.
+        // Last range entry is the maximum.
+        // Separate ranges by "to" keyword.
+        range: [
+            '0px    to 760px  = mobile.css',
+            '760px  to 980px  = style-comm-800.css',
+            '980px  to 1600px = style-comm.css'
+        ]
+        };
+    </script>
+    <script type="text/javascript" src="../lib/adapt.min.js"></script>
 </head>
 <body>
     
@@ -137,8 +163,6 @@
         <div data-role="header">
             <h1>Ordinazione</h1>
             <a href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
-            <link rel="stylesheet" href="css/style.css" />
-            <link rel="stylesheet" href="css/comm_checkbox.css" />
         </div>
         <div data-role="content">          
             <?php include dirname(__FILE__).'/pg_ordine.php';  ?>

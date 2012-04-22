@@ -23,7 +23,7 @@
     <input type="number" name="name" id="cont-ric" value="" placeholder="€" />
 </div>
 
-<a href="#chiusura" id="conf-cont" data-role="button" data-icon="check" class="ui-btn-right">Conferma</a>
+<a href="#chiusura" id="conf-cont" data-role="button" data-icon="check" class="ui-btn-right" data-transition="fade">Conferma</a>
 
 
 <script type="text/javascript">
@@ -46,6 +46,21 @@
     
     $('#cont-100').live("click", function() {
         document.getElementById('cont-ric').value = 100;
+    });
+    
+    
+    $('#conf-cont').live("click", function() {
+        
+        contanti = parseFloat(document.getElementById('cont-ric').value);
+        contanti = Math.round(contanti*100) / 100;
+        
+        if (contanti > 0) {;}
+        else contanti = 0;
+        
+        str = "";
+        str = str + '<h2 class="name">Contanti</h2>';
+        str = str + '<h2 class="prezzo">' + contanti + ' \u20ac</h2>';
+        document.getElementById('chius-contanti').innerHTML = str;
     });
     
 </script>

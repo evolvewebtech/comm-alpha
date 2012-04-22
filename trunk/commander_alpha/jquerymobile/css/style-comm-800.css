@@ -1,5 +1,5 @@
 /* 
-    Document   : style-comm
+    Document   : style-comm-800
     Created on : 17-apr-2012, 21.01.01
     Author     : Alessandro
     Description:
@@ -208,7 +208,6 @@
 .comm-li-alim .name{
   margin: 0px;
   float: left;
-  font-size: 1.05em;
   position:relative;
   height: 100%;
   vertical-align: middle;

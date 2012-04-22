@@ -81,25 +81,6 @@
 </a>
 -->
 
-<script type="text/javascript">
-    
-    $('#conf-cont').live("click", function() {
-        
-        contanti = parseFloat(document.getElementById('cont-ric').value);
-        contanti = Math.round(contanti*100) / 100;
-        
-        if (contanti > 0) {;}
-        else contanti = 0;
-        
-        str = "";
-        str = str + '<h2 class="name">Contanti</h2>';
-        str = str + '<h2 class="prezzo">' + contanti + ' \u20ac</h2>';
-        document.getElementById('chius-contanti').innerHTML = str;
-    });
-    
-</script>
-
-
 
 <script type="text/javascript">
     

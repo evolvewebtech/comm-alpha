@@ -36,9 +36,28 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
+//        $action = 'del';
+//        $menu_id = 2;
+
         if ($action == 'del'){
 
-            $ret = $gestore->delMenufisso($menu_id);
+            $menu = new MenuFisso($menu_id);
+            $num_cat = $menu->getNumberOfCategorie();
+
+            //elimino la relazione con le stampanti
+            for($j=0; $j<$num_cat; $j++) {
+                $categoria = $menu->getCategoria($j);
+                $categoria_nome = $categoria->nome_cat;
+                //devo eliminare anche le relazioni con le categorie
+                $ret = DataManager::cancellaNomeCatMenu($menu_id, $categoria_nome);
+                if(!$ret){
+                    $var['err'] = $ret;
+                }
+            }
+
+
+            //elimino il menu
+            //$ret = $gestore->delMenufisso($menu_id);
             if(!$ret){
                 $var['err'] = $ret;
             }

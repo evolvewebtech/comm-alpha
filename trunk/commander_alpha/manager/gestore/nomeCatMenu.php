@@ -50,44 +50,32 @@
                  * altrimenti se non esiste controllo se true la aggiungo mentre se false non faccio nulla
                  */
                 $ret = DataManager::controllo_relazione($menuID,$nomeCat,'cmd_alimento_menu');
-                //$vr = var_dump($ret);
-                $var['err'] = $var['err'].'<br />'.$nomeCat.' --- '."RET: [ $ret ] var selezionata: $nomeCatSelezionata";
-
+                $var['err'] = $var['err'];
                 if ($ret){
-
                     /*
                      * la relazione esiste già. se checked (true) non faccio niente altrimenti la elimino.
                      */
-
                     if ($nomeCatSelezionata=='true'){
-                        //echo "<br />non faccio nulla";
-                       $var['err'] = $var['err']." - Nulla";
+                       $var['err'] = $ret;
                         ;
                     }else{
-                /*
-                 *
-                 *   il problema è qui
-                 */
-                        //$ret = $gestore->delAlimentoVariante($alimentoID,$varianteID);
                         $ret = DataManager::cancellaNomeCatMenu($menuID, $nomeCat);
-                        $var['err'] = $var['err']." - Eliminno - return: $ret";
-                        //echo "<br />Eliminno";
+                        $var['err'] = $ret;
                     }
                 }else{
-
                     /*
                      * la relazione non esiste: la creo se checked (true) altrimenti niente
                      */
-                        if ($nomeCatSelezionata=='true'){
-                            //$ret = $gestore->addNomeCatMenu($menufisso_id,$nomeCat);
-                            $ret = DataManager::inseriscinomeCatMenu('NULL',$menuID, $nomeCat);
-                            //$var['err'] = $var['err']." - aggiungo: -$menuID-$nomeCat- return: $ret";
-                            
-                        }else{
-                            //echo "<br />non faccio nulla";
-                            $var['err'] = $var['err']." - Nulla2";
-                            ;
-                        }
+                    if ($nomeCatSelezionata=='true'){
+                        //$ret = $gestore->addNomeCatMenu($menufisso_id,$nomeCat);
+                        $ret = DataManager::inseriscinomeCatMenu('NULL',$menuID, $nomeCat);
+                        //$var['err'] = $var['err']." - aggiungo: -$menuID-$nomeCat- return: $ret";
+
+                    }else{
+                        //echo "<br />non faccio nulla";
+                        $var['err'] = $var['err']." - Nulla2";
+                        ;
+                    }
 
                 }
 

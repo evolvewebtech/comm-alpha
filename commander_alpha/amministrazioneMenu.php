@@ -3,8 +3,7 @@
     $objSession = new HTTPSession();
 ?>
 <!--
-todo: 1. Creare tutti i controlli del form
-      2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"
+todo: 2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"
       3. eliminazione: tabella cmd_alimento_menu, cancellare le relazioni
 -->
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
@@ -20,7 +19,6 @@ todo: 1. Creare tutti i controlli del form
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
-
 
 <div id="content">
     <?php

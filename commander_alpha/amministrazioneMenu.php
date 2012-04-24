@@ -115,7 +115,7 @@ $(function() {
         */
        var id_categoria_menu = new Array();
        <? foreach ($data_categoria_menu as $al_ID_var_ID) { ?>
-                id_categoria_menu.push("<?=$al_ID_var_ID[menu_fisso_id]?>-<?=$al_ID_var_ID[nome_cat]?>");
+                id_categoria_menu.push("<?=$al_ID_var_ID['menu_fisso_id']?>-<?=$al_ID_var_ID['nome_cat']?>");
        <? } ?>
 
        /*

@@ -5,7 +5,7 @@ require dirname(__FILE__).'/../manager/DataManager2.php';
 echo "Prova query da DB Categorie-Alimenti"."<BR>";
 print "<hr>\n";
 
-/*
+//*
 $arContacts = DataManager2::getAllCategoriesAsObjects();
 
 foreach($arContacts as $objEntity) {
@@ -35,8 +35,9 @@ foreach($arContacts as $objEntity) {
     }
   print "<hr>\n";
 
-}*/   //End foreach
+}//*/   //End foreach
 
+/*
 $alimento = new Alimento(21);
 echo "<h3>Alimento - {$alimento}</h3>";
 
@@ -48,6 +49,7 @@ echo "Numero varianti: ".$alimento->getNumberOfVarianti()."<br>";
 for($j=0; $j<$alimento->getNumberOfVarianti(); $j++) {
     echo "Variante - {$alimento->getVariante($j)}<br>";
 }
+*/
 
 
 
@@ -70,10 +72,9 @@ foreach($arContacts as $objEntity) {
 print "<hr>\n";
 print "<hr>\n";
 print "<hr>\n";
-print "<hr>\n";
+print "<hr>MENU:";
 
 $arContacts = DataManager2::getAllMenuAsObjects();
-
 foreach($arContacts as $objEntity) {
     if(get_class($objEntity) == 'MenuFisso') {
         print "<h3>MenuFisso - {$objEntity->__toString()}</h3>";

@@ -70,6 +70,7 @@ todo: 1. Gli alimenti non si aggiungono più!!
            }
 
            $data_alimento_tampante = DataManager::getAllAlimentoStampante();
+
            $data_alimento_variante = DataManager::getAllAlimentoVariante();
            $data_categoria         = DataManager::getAllCategoriaByGestoreID($gestore_id);
            /*
@@ -207,9 +208,9 @@ $(function() {
         * selezionate
         */
        var id_stampante_alimento = new Array();
-       <? foreach ($data_alimento_tampante as $data_alID_stamp_ID) { ?>
-                id_stampante_alimento.push("<?=$data_alID_stamp_ID[alimento_id]?>-<?=$data_alID_stamp_ID[stampante_id]?>");
-       <? } ?>
+       <?php foreach ($data_alimento_tampante as $data_alID_stamp_ID) { ?>
+            id_stampante_alimento.push("<?=$data_alID_stamp_ID['alimento_id'];?>-<?=$data_alID_stamp_ID['stampante_id'];?>");
+       <?php } ?>
        /*
         *  metto a checked=true le checkbox che rappresentano relazioni nel db
         */
@@ -226,7 +227,7 @@ $(function() {
         */
        var id_variante_alimento = new Array();
        <? foreach ($data_alimento_variante as $al_ID_var_ID) { ?>
-                id_variante_alimento.push("av<?=$al_ID_var_ID[alimento_id]?>-<?=$al_ID_var_ID[variante_id]?>");
+                id_variante_alimento.push("av<?=$al_ID_var_ID['alimento_id']?>-<?=$al_ID_var_ID['variante_id']?>");
        <? } ?>
 
        /*
@@ -246,7 +247,7 @@ $(function() {
         */
        var id_categoria = {};
        <? foreach ($data_categoria as $categoria) { ?>
-                id_categoria["<?=$categoria[nome]?>"] = <?=$categoria[id]?>;
+                id_categoria["<?=$categoria['nome']?>"] = <?=$categoria['id']?>;
        <? } ?>
 
         /*
@@ -342,24 +343,8 @@ $(function() {
                          '<fieldset style="float:right" class="ui-helper-reset">'+
                              '<button type="submit" id="save_alimento">SALVA</button><br />'+
                              '<button type="submit" id="delete_alimento">ELIMINA</button>'+
-                         '</fieldset>'+
-                         '<form style="float:left;" id="stampanteAlimentoForm-'+tab_counter+'">'+
-                            '<fieldset>'+
-                                '<!-- //stampante -->'+
-                                '<label style="margin-right: 94px;" class="tab_stampante_associata_id" for="tab_stampante_associata_id">Stampante: </label><br />'+
-                                    <?
-                                        $data_stampante = DataManager::getAllStampanteByGestoreID($gestore_id);//($gestore_id);
-                                        foreach ($data_stampante as $stampante) {
-                                    ?>
-                                        '<input type="checkbox" name="stampanti[]" id="<?=$alimento['id']?>-<?=$stampante['id']?>" value="<?=$stampante['id']?>" /><?=$stampante['nome']?><br />'+
-                                    <?    }
-                                    ?>
-                                '<input type="hidden" name="alimento_id" id="alimento_id" value="3" />'+
-                            '</fieldset>'+
-                        '</form>'+
-                        ''
+                         '</fieldset>'
                     );
-
                     //dirigo l'utente alla tab appena creata.
                     $tabs.tabs('select', '#' + ui.panel.id);
             },
@@ -1048,6 +1033,10 @@ $(function() {
                 <?php
                     $count = 1;
                     foreach ($data_alimento as $alimento) {
+                        $secondo_alimento_id = $alimento['alimento_id'];
+                        if (!$secondo_alimento_id){
+                            $secondo_alimento_id = '';
+                        }
                         echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
                     ?>
                     <div style="min-height:360px;">
@@ -1056,7 +1045,7 @@ $(function() {
                             <a style="float: left;min-height: 20px; min-width: 400px;" id="button" class="finish" title="button">SEGNALA COME ESAURITO</a>
                             <input type="hidden" name="alimento_id2" id="alimento_id2" value="<?=$alimento['id']?>" />
                         </div>
-                        <form id="alimentoForm-<?=$count?>" style="min-height:60px; float:left;">
+                        <form id="alimentoForm-<?=$count;?>" style="min-height:60px;float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
                                 <label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=html_entity_decode(htmlentities($alimento['nome']))?>" class="ui-widget-content ui-corner-all" />
@@ -1065,7 +1054,7 @@ $(function() {
                                 <br /><label style="margin-right: 162px;" class="tab_iva" for="tab_iva">Iva: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_iva" id="tab_iva" value="<?=$alimento['iva']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 20px;" class="tab_colore_bottone" for="tab_colore_bottone">Colore del bottone: </label>
-                                <div id="color-picker-<?=$count?>"></div>
+                                <div id="color-picker-<?=$count;?>"></div>
                                 <input style="margin-right: 9px;" type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="<?=$alimento['colore_bottone']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 89px;" class="tab_descrizione" for="tab_descrizione">Descrizione: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_descrizione" id="tab_descrizione" value="<?=$alimento['descrizione']?>" class="ui-widget-content ui-corner-all" />
@@ -1100,7 +1089,7 @@ $(function() {
                                 </select>
 
                                 <br /><label style="margin-right: 20px;" class="tab_secondo_alimento_id" for="tab_secondo_alimento_id">Alimento composto: </label>
-                                <input style="margin-right: 9px;" type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="<?=$alimento['secondo_alimento_id']?>" class="ui-widget-content ui-corner-all" />
+                                <input style="margin-right: 9px;" type="text" name="tab_secondo_alimento_id" id="tab_secondo_alimento_id" value="<?=$secondo_alimento_id;?>" class="ui-widget-content ui-corner-all" />
 
                                 <input type="hidden" name="alimento_id" id="alimento_id" value="<?=$alimento['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$alimento['gestore_id']?>" />

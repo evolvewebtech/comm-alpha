@@ -6,11 +6,9 @@
  */
 require_once dirname(__FILE__).'/DataManager2.php';
 
-
 require_once dirname(__FILE__).'/../user/User.php';
 require_once dirname(__FILE__).'/../user/Gestore.php';
 require_once dirname(__FILE__).'/../user/Cassiere.php';
-
 
 require_once dirname(__FILE__).'/../food/Alimento.php';
 require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';

@@ -37,6 +37,7 @@ class EscPos {
      *
      */
     function __construct($charcode="it",$codepage=858,$translate_from=false,$translate_to=false){
+//            $this->out=chr(27)."M".chr(48);
             $this->out="";
             if($translate_from && $translate_to && strlen($translate_from)*strlen($translate_to)>0){
                     $this->translate_from=$translate_from;
@@ -116,11 +117,16 @@ class EscPos {
     /**
      * Cut the paper
      *
-     * @param $space		[optional] space before cut
+     * @param $space [optional] space before cut
      */
+    public function cutCom(){
+        $this->out.="\n\n\n\n".chr(27)."i";
+    }
+
     public function cut($space=0){
             $this->out.="\x1D\x56";
             if($space>0) $this->out.="\x41".chr($space);
+//            if($space>0) $this->out.="\x41".$space;
             else $this->out.="\x0";
     }
 
@@ -279,7 +285,7 @@ class EscPos {
      * Print a barcode
      *
      * @param $value	string(or int) value of code
-     * @param $type		string barcode type [ean13,ean8,upca,upce,code39,itf,codabar,code93,code128]
+     * @param $type	string barcode type [ean13,ean8,upca,upce,code39,itf,codabar,code93,code128]
      */
     public function barcode($value,$type='ean13'){
             $value=(string)$value;

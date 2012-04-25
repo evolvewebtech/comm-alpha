@@ -1,7 +1,7 @@
 
 <div class="comm-a">
 <section id="contentList">
-
+    <div id="list">
     <div id="list-ord_nav" class="list-ord_nav">
         <section id="options" class="clearfix">
             <div class="option-combo">
@@ -18,7 +18,9 @@
         <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul>
     </div>
 
-    <div id="list-ord_footer" class="list-ord_footer">
+    <div id="list-ord_foo" class="list-ord_foo">
+        <div style="height: 20px">
+        <div class="ui-body ui-body-b list-ord_foo-cont">
         <ul class="ui-listview" data-role="listview" style="margin: 0px">
         <li class="ui-li ui-li-static ui-body-c comm-li-tot">
             <div id="totale">
@@ -35,13 +37,13 @@
                 <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
             </div>
         </fieldset>
+        </div>
     </div>
 
-
     <script type="text/javascript">
-        var h_nav = document.getElementById("list-ord_nav").style.height;
-        var h_foo = document.getElementById("list-ord_footer").style.height;
-        document.getElementById("list-ord").style.height = (window.innerHeight-250) - h_nav - h_foo + "px";
+        //var h_nav = document.getElementById("list-ord_nav").style.height;
+        //var h_foo = document.getElementById("list-ord_footer").style.height;
+        //document.getElementById("list-ord").style.height = (window.innerHeight-250) - h_nav - h_foo + "px";
     </script>
 
 </section> <!-- #contentList -->        

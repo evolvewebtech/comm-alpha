@@ -27,7 +27,7 @@
 }
 
 .list-ord {
-    margin-bottom: 10px;
+    margin-bottom: 110px;
     overflow: auto;
 }
 
@@ -36,9 +36,15 @@
     min-height: 50px;
 }
 
-.list-ord_footer {
-    height: 20%;
-   /* min-height: 120px; */
+.list-ord_foo {
+    position: fixed;
+    bottom: 13px;
+    height: 100px;
+    width: 29.3%
+}
+
+.list-ord_foo .list-ord_foo-cont {
+    padding-top: 10px;
 }
 
 .menu {
@@ -312,7 +318,7 @@ div#id-cat.element_list .name{
 
 .button_opz {
     width: 128px;
-    height: 128px;
+    height: 150px;
     margin: auto;
     margin-left: 16px; 
     margin-right: 16px;
@@ -357,7 +363,7 @@ div#id-cat.element_list .name{
 }
 
 .old-ord {
-    width: 450px;
+    width: 400px;
     margin: auto;
 }
 
@@ -390,7 +396,7 @@ div#id-cat.element_list .name{
 
 .old-ord-rig .prezzo{
   margin: 0px;
-  margin-right: 50px;
+  margin-right: 40px;
   float: right;
   font-size: 150%;
   position:relative;

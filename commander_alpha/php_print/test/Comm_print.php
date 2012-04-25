@@ -1,31 +1,32 @@
 <?php
 /**
- * Description of Comm_print
+ * Classe per l'invio di una stampa
  *
- * @author alessandro
+ *@author Sarzina - Falanga
+ *
  */
-
 class Comm_print {
 
-    public function __construct() {;}
-    
-    public function comm_print($ip, $out) {
-        
-        $fp = fsockopen($ip, 9100, $errno, $errstr, 10);
+    /**
+     *
+     * @param <type> $ip
+     * @param <type> $out
+     * @return <type> 
+     */
+    public static function comm_print($ip_address, $out) {
+
+        $fp = fsockopen($ip_address, 9100, $errno, $errstr, 10);
         if (!$fp) {
             return "$errstr ($errno)";
         } else {
-            //$out = chr(27)."M".chr(48).chr(29).chr(33)."0"."Prova ".$i.chr(10);
             fwrite($fp, $out);
-        //  while (!feof($fp)) {
-        //      echo fgets($fp, 128);
-        //  }
             fclose($fp);
             return true;
         }
-        
+
     }
-    
+
+
 }
 
 ?>

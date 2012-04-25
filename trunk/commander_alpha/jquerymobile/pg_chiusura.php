@@ -1,58 +1,55 @@
 
-<div class="ui-grid-b">
-    <div class="ui-block-a"></div>
-    <div class="ui-block-b">
-        <section class="ui-body ui-body-b" style="box-shadow: 3px 3px 10px #aaaaaa">
-            <div style="padding-top: 10px; padding-bottom: 10px">
-                <ul class="ui-listview" data-role="listview" style="margin: 0px">
-                <li id="chius-head" class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
-                    <div>Tavolo x</div>
-                    <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
-                </li>
-                <li class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="chius-tot-ord">
-                    <h2 class="name">Totale conto</h2>
-                    <h2 class="prezzo">0 €</h2>
-                    </div>
-                </li>
-                <li class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="chius-tot-pers">
-                    <h2 class="name">Totale per persona</h2>
-                    <h2 class="prezzo">0 €</h2>
-                    </div>
-                </li>
-                </ul>
-            </div>
-            <div style="padding-top: 10px; padding-bottom: 10px">
-                <ul class="ui-listview" data-role="listview" style="margin: 0px">
-                <li class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="chius-buoni">
-                    <h2 class="name">Buono prepagato</h2>
-                    <h2 class="prezzo">0 €</h2>
-                    </div>
-                </li>
-                <li id="chius-contanti" class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="totale">
-                    <h2 class="name">Contanti</h2>
-                    <h2 class="prezzo">0 €</h2>
-                    </div>
-                </li>
-            </div>
-            <div style="padding-top: 10px; padding-bottom: 10px">
-                <li id="chius-resto" class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="totale">
-                    <h2 class="name">Da ricevere</h2>
-                    <h2 class="prezzo">0 €</h2>
-                    </div>
-                </li>
-                </ul>
-            </div>
-        </section>
-    </div>
-    <div class="ui-block-c"></div>
+<div class="ch-tot-ord">
+    <section class="ui-body ui-body-b" style="box-shadow: 3px 3px 10px #aaaaaa">
+        <div class="ch-tot-ord-div">
+            <ul class="ui-listview" data-role="listview" style="margin: 0px">
+            <li id="chius-head" class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
+                <div>Tavolo x</div>
+                <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
+            </li>
+            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+                <div id="chius-tot-ord">
+                <h2 class="name">Totale conto</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
+            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+                <div id="chius-tot-pers">
+                <h2 class="name">Totale per persona</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
+            </ul>
+        </div>
+        <div class="ch-tot-ord-div">
+            <ul class="ui-listview" data-role="listview" style="margin: 0px">
+            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+                <div id="chius-buoni">
+                <h2 class="name">Buono prepagato</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
+            <li id="chius-contanti" class="ui-li ui-li-static ui-body-c comm-li-tot">
+                <div id="totale">
+                <h2 class="name">Contanti</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
+        </div>
+        <div class="ch-tot-ord-div">
+            <li id="chius-resto" class="ui-li ui-li-static ui-body-c comm-li-tot">
+                <div id="totale">
+                <h2 class="name">Da ricevere</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
+            </ul>
+        </div>
+    </section>
 </div>
 
-<h2></h2>
+
+<div class="ch-tot-ord-div"></div>
 <div class="ui-grid-c">
     <div class="ui-block-a">
         <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Gruppo</a>

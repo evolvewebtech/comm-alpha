@@ -1,7 +1,5 @@
 
-<div class="ui-grid-b">
-    <div class="ui-block-a"></div>
-    <div class="ui-block-b">
+    <div class="scelta_buono">
         <label for="search-basic" style="font-size: 14px">Cerca codice buono prepagato:</label>
         <div style="margin-top: 8px"></div>
         <input type="search" name="search" id="searc-basic" value="" />
@@ -24,8 +22,6 @@
             </section>
         </div>
     </div>
-    <div class="ui-block-c"></div>
-</div>
 
 
 <script type="text/javascript">

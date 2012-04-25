@@ -121,23 +121,19 @@
             <h1>Scelta tavolo</h1>
         </div>
         <div data-role="content">
-            <div class="ui-grid-b">
-                <div class="ui-block-a"></div>
-        	<div class="ui-block-b">
-                    <h1></h1>
-                    <label for="text-num-t">Inserire il numero del tavolo:</label>
-                    <input type="text" name="name" id="text-num-t" value="" placeholder="Numero tavolo" />
-                    <h1></h1>
-                    <form>
-                        <label for="slider-0">Inserire il numero di coperti:</label>
-                        <input type="range" name="slider" id="slider-0" value="1" min="0" max="50"  />
-                    </form>
-                    <h1></h1>
-                    <a id="sel-table" href="#ordine" data-role="button" data-icon="grid" class="ui-btn-right ui-disabled">Inserimento ordine</a>
-                    <a href="#home" data-role="button" data-icon="delete" class="ui-btn-right">Annulla ordine</a>
-                </div>
-                <div class="ui-block-c"></div>
-            </div><!-- /grid-b -->
+            <div class="scelta_tav">
+                <h1></h1>
+                <label for="text-num-t">Inserire il numero del tavolo:</label>
+                <input type="text" name="name" id="text-num-t" value="" placeholder="Numero tavolo" />
+                <h1></h1>
+                <form>
+                    <label for="slider-0">Inserire il numero di coperti:</label>
+                    <input type="range" name="slider" id="slider-0" value="1" min="0" max="50"  />
+                </form>
+                <h1></h1>
+                <a id="sel-table" href="#ordine" data-role="button" data-icon="grid" class="ui-btn-right ui-disabled">Inserimento ordine</a>
+                <a href="#home" data-role="button" data-icon="delete" class="ui-btn-right">Annulla ordine</a>
+            </div>
             <script>
                 $("#text-num-t").live("change" , function() {
                     enDisButton();

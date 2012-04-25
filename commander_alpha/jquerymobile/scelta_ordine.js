@@ -223,7 +223,7 @@ $(function(){
     var menu = new alimList(arrList.length,
                                 $param,
                                 "Menu",
-                                "Menù " + arrMenu[$param]._nome,
+                                arrMenu[$param]._nome,
                                 arrMenu[$param]._prezzo,
                                 arrMenu[$param]._descrizione,
                                 0,
@@ -389,7 +389,9 @@ function aggiornaLista(type) {
         var costo = arrList[i]._num * arrList[i]._prezzo;
         //aggiunta separatore categorie
         if (type == "cat" & memCat != arrList[i]._cat) {
-            $itemString = $itemString + '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-up-undefined" data-role="list-divider" role="heading" style="height:20px;padding-top:0px;padding-bottom:0px">'+arrList[i]._cat+'</li>';
+            $itemString = $itemString + '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-btn-up-undefined comm-li-div" data-role="list-divider" role="heading">';
+            $itemString = $itemString + '<div class="name">' + arrList[i]._cat + '</div>';
+            $itemString = $itemString + '</li>';
             memCat = arrList[i]._cat;
         }
         //verifica se l'alimento è selezionato

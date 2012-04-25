@@ -1,7 +1,6 @@
 
-<div class="ui-grid-b">
-    <div class="ui-block-a"></div>
-    <div class="ui-block-b">
+
+    <div class="old-ord">
         <section class="ui-body ui-body-d" style="box-shadow: 3px 3px 10px #aaaaaa">
             <div style="padding-top: 10px; padding-bottom: 10px">
                 <ul class="ui-listview" data-role="listview" style="margin: 0px">
@@ -30,8 +29,7 @@
             <div id="old-ord-cs" style="padding-bottom: 10px; margin-left: 20px"></div>
         </section>
     </div>
-    <div class="ui-block-c"></div>
-</div>
+
 
 
 <script type="text/javascript">
@@ -98,21 +96,21 @@
         var strCass = '';
         
         for (var i=0; i<data.length; i++) {
-            prezzoTot = parseFloat(data[i][1]) * parseFloat(data[i][2]);
+            prezzoTot = parseFloat(data[i]["numero"]) * parseFloat(data[i]["prezzo"]);
             
             str = str + '<div class="old-ord-rig">';
-            str = str + '<div class="num">' + data[i][1] + '</div>';
-            str = str + '<div class="name">' + data[i][0] + '</div>';
+            str = str + '<div class="num">' + data[i]["numero"] + '</div>';
+            str = str + '<div class="name">' + data[i]["nome"] + '</div>';
             str = str + '<div class="prezzo">' + prezzoTot + ' \u20ac</div>';
             str = str + '</div>';
             
-            for (var j=0; j<data[i][5].length; j++) {   
+            for (var j=0; j<data[i]["arrVar"].length; j++) {   
                 str = str + '<div class="old-ord-rig-var">';
-                str = str + '<div class="name">' + data[i][5][j][0] + '</div>';
+                str = str + '<div class="name">' + data[i]["arrVar"][j]["descrizione"] + '</div>';
                 str = str + '</div>';
             }
             
-            if (i == 0) { strCass = 'Cameriere: ' + data[i][4]; }
+            if (i == 0) { strCass = 'Cameriere: ' + data[i]["cassiere_id"]; }
         }
         
         //Riepilogo ordine

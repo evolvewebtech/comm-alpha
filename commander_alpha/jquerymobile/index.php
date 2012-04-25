@@ -62,13 +62,26 @@
         // Last range entry is the maximum.
         // Separate ranges by "to" keyword.
         range: [
-            '0px    to 760px  = mobile.css',
+            '0px    to 760px  = style-comm-800.css',
             '760px  to 980px  = style-comm-800.css',
             '980px  to 1600px = style-comm.css'
         ]
         };
     </script>
     <script type="text/javascript" src="../lib/adapt.min.js"></script>
+    
+    <!-- Hide address bar in mobile-web-app -->
+    <script>
+        function hideAddressBar(){
+        if(document.documentElement.scrollHeight<window.outerHeight/window.devicePixelRatio)
+            document.documentElement.style.height=(window.outerHeight/window.devicePixelRatio)+'px';
+            setTimeout(window.scrollTo(1,1),0);
+        }
+        window.addEventListener("load",function(){hideAddressBar();});
+        window.addEventListener("orientationchange",function(){hideAddressBar();});
+    </script>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    
 </head>
 <body>
     

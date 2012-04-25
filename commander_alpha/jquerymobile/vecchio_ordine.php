@@ -23,20 +23,22 @@
                 //Recupero varianti alimento
                 $arrVar = array();
                 for ($j=0; $j<$rigaOrd->getNumberOfVarianti(); $j++) {
-                    $variante = array();
-                    $variante[0] = $rigaOrd->getVariante($j)->descrizione;
-                    //$variante[1] = $rigaOrd->getVariante($j)->prezzo;
+                    $variante = array(
+                                "descrizione" => $rigaOrd->getVariante($j)->descrizione
+                                //"prezzo" => $rigaOrd->getVariante($j)->prezzo 
+                                );
                     $arrVar[$j] = $variante;
                 }
                 
                 //Riga_ordine
                 if ($alimTemp) {
-                    $riga[0] = $alimTemp->nome;
-                    $riga[1] = $rigaOrd->numero;
-                    $riga[2] = $rigaOrd->prezzo;
-                    $riga[3] = $rigaOrd->iva;
-                    $riga[4] = $rigaOrd->cassiere_id;
-                    $riga[5] = $arrVar;
+                    $riga = array (
+                        "nome"          => $alimTemp->nome,
+                        "numero"        => $rigaOrd->numero,
+                        "prezzo"        => $rigaOrd->prezzo,
+                        "iva"           => $rigaOrd->iva,
+                        "cassiere_id"   => $rigaOrd->cassiere_id,
+                        "arrVar"        => $arrVar );
                 }
                 
                 $arrRighe[$i] = $riga;

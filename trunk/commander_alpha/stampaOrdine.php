@@ -305,7 +305,7 @@ for ($i=0; $i<count($arr); $i++) {
     $esc->text("  Data: $data");
 
 
-    $esc->cutCom();				// 30 spaces and paper cut
+    $esc->cutCom();
     $to_printer=$esc->out();
 
     echo $str;

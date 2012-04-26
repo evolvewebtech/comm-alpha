@@ -120,7 +120,7 @@ class EscPos {
      * @param $space [optional] space before cut
      */
     public function cutCom(){
-        $this->out.="\n\n\n\n".chr(27)."i";
+        $this->out.="\n\n\n\n\n".chr(27)."i";
     }
 
     public function cut($space=0){

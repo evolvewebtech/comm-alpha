@@ -164,6 +164,22 @@ class Utility{
         return $day_new;
     }
 
+    /**
+      * Questo metodo formatta la data in modo standard
+      * es: 30/10/12
+      *
+      * @param type $data
+      * @return type
+      */
+      public static function formattaData($data){
+
+          $ret=null;
+          $data=explode("-",$data);
+          $time = mktime(0, 0, 0, $data[1], $data[2], $data[0]);
+          $ret=date("d/m/Y", $time);
+          return $ret;
+      }
+
 
 }
 ?>

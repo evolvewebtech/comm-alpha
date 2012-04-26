@@ -296,6 +296,31 @@ class DataManager {
     }
 
     /**
+     * - id
+     * - utente_registrato_id
+     * - gestore_id
+     * - livello_cassiere
+     *
+     * @param <int> $userID
+     * @return <array cassiere>
+     */
+    public static function getCassiereDataByCassiereID($id){
+        $sql = "SELECT * FROM cmd_utente_registrato INNER JOIN cmd_cassiere ON cmd_utente_registrato.id=cmd_cassiere.utente_registrato_id WHERE cmd_cassiere.id=$id";
+        //$sql = "SELECT * FROM cmd_cassiere WHERE id=$id";
+        /*
+        print_r($sql);
+        echo "<pre>";
+        */
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            return 0;
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+
+    /**
      *
      * @return <Utente registrato object
      */

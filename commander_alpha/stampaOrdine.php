@@ -146,13 +146,14 @@ if($objSession->IsLoggedIn()){
 
        $gestore_id = $gestore->id;
        $utente_registrato_id = $gestore->utente_registrato_id;
+       //echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
 
-//           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
 ?>
-<h1 style="margin-bottom: 20px;">Statistiche<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
+<h1 style="margin-bottom: 20px;">Stampa<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
     <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-    <a style="color:#fff; font-size: 14px;" href="amministrazioneReport.php">
-    <b>Statistiche</b></a></small>
+    <a style="color:#fff; font-size: 12px;" href="amministrazioneReport.php">Statistiche</a> >
+    <a style="color:#fff; font-size: 14px;" href="stampaOrdine.php">
+    <b>Stampa</b></a></small>
 </h1>
 <div style="clear:both;"></div>
 
@@ -293,7 +294,7 @@ for ($i=0; $i<count($arr); $i++) {
 }
     $totale_ordine_data = sprintf("%01.2f",$totale_ordine) . " &#8364";
     $totale_ordine_print = sprintf("%01.2f",$totale_ordine)." ".$euro;
-    $data = Utility::formattaData($timestamp);
+    $data = Utility::formattaDataOra($timestamp);
 
     $esc->text("---------------------------------------");
     $esc->font(false,true,false,true,true);

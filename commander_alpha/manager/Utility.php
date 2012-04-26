@@ -180,6 +180,25 @@ class Utility{
           return $ret;
       }
 
+    /**
+      * Questo metodo formatta la data e l'ora in modo standard
+      * es: 30/10/12 18:30
+      *
+      * @param type $data
+      * @return type
+      */
+      public static function formattaDataOra($data){
+          $ret=null;
+          $data=explode("-",$data);
+          $data_new = explode(" ",$data[2]);
+          $time = mktime(0, 0, 0, $data[1], $data_new[0], $data[0]);
+          $ora = $data_new[1];
+          $ret = date("d/m/Y", $time);
+          $ret .= ", ".$ora;
+          return $ret;
+      }
+
+
 
 }
 ?>

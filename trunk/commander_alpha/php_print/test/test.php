@@ -1,4 +1,4 @@
-<?
+<?php
 require_once dirname(__FILE__).'/PosPrint.php';
 require_once dirname(__FILE__).'/EscPos.php';
 require_once dirname(__FILE__).'/../../manager/DataManager2.php';
@@ -86,7 +86,7 @@ $esc->text("Tavolo: $numero_tavolo");
 $esc->font();
 $esc->text($nome_stampante);
 $esc->align();
-$esc->text("  Ordine: $seriale");
+$esc->text("  Ordine: $seriale, coperti: $n_coperti");
 
 $euro = chr(213);
 $totale_ordine = 0;
@@ -145,6 +145,6 @@ for ($i=0; $i<count($arr); $i++) {
 
 
     //echo $totale_ordine."<br />".$to_printer;
-    echo PosPrint::comm_print($ip_address, $to_printer);
+    //PosPrint::comm_print($ip_address, $to_printer);
 
 ?>

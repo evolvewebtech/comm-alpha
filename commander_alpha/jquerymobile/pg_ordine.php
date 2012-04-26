@@ -31,10 +31,20 @@
         </ul>        
         <fieldset class="ui-grid-a">
             <div class="ui-block-a">
+                <div class="list-foo-bt-1">
                 <a href="#chiusura" id="conf-ord-btt" data-role="button" data-icon="check" class="ui-btn-right ui-disabled">Conferma</a>
+                </div>
+                <div class="list-foo-bt-2">
+                <a href="#chiusura" id="conf-ord-btt2" data-role="button" data-mini="true" data-icon="check" data-iconpos="bottom" class="ui-btn-right ui-disabled"></a>
+                </div>
             </div>
             <div class="ui-block-b">
+                <div class="list-foo-bt-1">
                 <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
+                </div>
+                <div class="list-foo-bt-2">
+                <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-mini="true" data-icon="delete" data-iconpos="bottom" class="ui-btn-right"></a>
+                </div>
             </div>
         </fieldset>
         </div>
@@ -65,19 +75,21 @@
                     <ul id="filter" class="option-set clearfix" data-option-key="filter">
                         <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">Mostra tutto</a></li>
                         <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">Categorie</a></li>
-                        <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">Menù</a></li>
-                        
+                                             
                         <?php
                             require_once dirname(__FILE__).'/../manager/DataManager2.php';
                             $arContacts = DataManager2::getAllCategoriesAsObjects();
                             $echostr = "";
                             foreach($arContacts as $objEntity) {
-                                $echostr .= '<li>';
+                                //Pulsanti non visualizzati!!!
+                                $echostr .= '<li style="display:none">';
                                 $echostr .= '<a id="'.$objEntity->nome.'" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">'.$objEntity->nome.'</a>';
                                 $echostr .= '</li>';
                             }
                             echo $echostr;
                         ?>
+                        
+                        <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">Menù</a></li>
                 </ul>
             </div>
             <div class="option-combo">

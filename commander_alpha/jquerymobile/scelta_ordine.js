@@ -434,8 +434,12 @@ function aggiornaLista(type) {
     //pulsante "conferma"
     if (arrList.length >= 1) {
         $('#conf-ord-btt').removeClass('ui-disabled');
+        $('#conf-ord-btt2').removeClass('ui-disabled');
     }
-    else $('#conf-ord-btt').addClass('ui-disabled');
+    else {
+        $('#conf-ord-btt').addClass('ui-disabled');
+        $('#conf-ord-btt2').addClass('ui-disabled');
+    }
 }
 
 

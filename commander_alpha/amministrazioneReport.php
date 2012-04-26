@@ -2,13 +2,17 @@
     require_once dirname(__FILE__).'/manager/Utility.php';
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
-
     $lang = 'ita';
 ?>
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
+<script type="text/javascript" src="media/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="media/js/report.js"></script>
+<link rel="stylesheet" type="text/css" href="media/css/jquery-ui.css" />
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.css" />
-<!-- jqPlot -->
+<link rel="stylesheet" type="text/css" href="jquerymobile/css/jquery.mobile-1.0.1.min.css"/>
+
+<!-- jqPlotscript e css -->
 <!--[if lt IE 9]>
     <script language="javascript" type="text/javascript" src="media/js/excanvas.js"></script>
 <![endif]-->
@@ -19,92 +23,58 @@
 <script type="text/javascript" src="media/js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
 <script type="text/javascript" src="media/js/plugins/jqplot.barRenderer.min.js"></script>
 
-<!-- tooltip -->
-<script type="text/javascript" src="media/js/jquery.betterTooltip.js"></script>
-
+<!-- main -->
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
 <!-- CSS -->
 <style type="text/css">
-/*-----------------------------------------------------------------------------------------------*/
-/*                                         TOOLTIP STYLES                                        */
-/*-----------------------------------------------------------------------------------------------*/
-
-.tTip {
-    width: 200px;
+.cloud {
     cursor: pointer;
-    color: #666;
-    font-weight: bold;
-    margin-top: 100px;
+    background-color: #fff;
+    border-radius: 5px 5px 5px 5px;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid #FFF;
+    margin: 10px;
 }
-.tip {
-    color: #333;
-}
-
-#day{
-    margin-top: 100px;
-    font-weight: bold;
-    float: left;
-    color:white;
-}
-
-.tip {
-    width: 212px;
-    padding-top: 37px;
-    overflow: hidden;
-    display: none;
-    position: absolute;
-    z-index: 500;
-    background: transparent url(img/tipTop.png) no-repeat top;}
-
-.tipMid {background: transparent url(img/tipMid.png) repeat-y;
-         padding: 0 25px 20px 25px;}
-.tipBtm {background: transparent url(img/tipBtm.png) no-repeat bottom;
-         height: 32px;}
-
-#cloud1 {
-    color: white;
-    font-size: 20px;
-    float: left;
-    margin-right: 30px;
-    width: 290px;
-}
-#cloud2{
-    color: white;
-    font-size: 20px;
-    float: left;
-    width: 290px;
-}
-a{ color: white;
+a {
+   color: white;
    text-decoration:none;
    cursor: pointer;
 }
+.ui-datepicker-trigger{
+    height: 30px;
+    margin: 0px 0px -10px 10px;
+    padding: 0px;
+}
+
+li.ordini:hover{
+    cursor: pointer;
+}
+
 </style>
 
 <div id="content">
-    <?php
-    if($objSession->IsLoggedIn()){
-        $objUser = $objSession->GetUserObject();
-        $gestore = $objUser[0];
-        if(get_class($gestore) == 'Gestore') {
+<?php
+if($objSession->IsLoggedIn()){
+    $objUser = $objSession->GetUserObject();
+    $gestore = $objUser[0];
+    if(get_class($gestore) == 'Gestore') {
 
-           $gestore_id = $gestore->id;
-           $utente_registrato_id = $gestore->utente_registrato_id;
+       $gestore_id = $gestore->id;
+       $utente_registrato_id = $gestore->utente_registrato_id;
 
-           $data_cassieri = DataManager::getTuttiCassieri($gestore_id);
-           $numero_cassieri = count($data_cassieri);
-
-           
+       $data_cassieri = DataManager::getTuttiCassieri($gestore_id);
+       $numero_cassieri = count($data_cassieri);
+       
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
-    ?>
-<h1>Business Intelligence
-    <small style="color:#fff;text-align: right; font-size: 12px; float: right;">
-        Sei qui: <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
-                 <a style="color:#fff; font-size: 14px;" href="amministrazioneReport.php">
-                     <b>Business Intelligence</b></a>
-    </small>
+?>
+<h1 style="margin-bottom: 20px;">Statistiche<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
+    <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+    <a style="color:#fff; font-size: 14px;" href="amministrazioneReport.php">
+    <b>Statistiche</b></a></small>
 </h1>
-
 <?php
     /*
      * prelevo tutti i giorni in cui sono stati effettuati ordini
@@ -140,179 +110,130 @@ a{ color: white;
     }
 
 ?>
-
-<?php
-    /*
-    //tutti gli ordini
-    $ordini = DataManager::getAllOrdiniChiusi();
-    //numero ordini
-    $n_ordini = count($ordini);
-
-    //nummero totale camerieri
-    $numero_cassieri;
-
-    //
-    foreach ($ordini as $ordine){
-
-        $new_ordine = DataManager::getOrdineByOrdineID($ordine['ordine_id']);
-        echo '<hr />ORDINE: '.$new_ordine['id'];
-        $righe_ordine = DataManager::getRigheOrdineByOrdineID($new_ordine['id']);
-
-        //prendo il cassiere id dalla prima riga (tanto sono tutti uguali)
-        //id cassiere
-        $id_cassiere = $righe_ordine[0]['cassiere_id'];
-        echo '<pre style="color:white;">';
-        print_r($righe_ordine);
-        echo "</pre>";
-        print_r($id_cassiere);
-
-        //dovrei aumentare a ogni cassiere il numero di ordini
-        //devo contare il numero di ordini per ogni cassiere
-
-        //per ogni cassiere vedo anche righe ordine compare l'id
-    }
-
-    $ordini2 = DataManager2::getAllOrdiniAsObjects();
-
-    echo 'ordini2:<pre style="color:white;">';
-    print_r($ordini2);
-    echo "</pre>";
-     *
-     * 
-     */
-    /*
-     * grafico ordini per cameriere
-     * elenco ordini per cameriere in media
-     */
-
-    /*
-     * grafico ordini per giorno
-     * elenco ordini per giorno in media
-     *
-     */
-
-    /*
-     * grafico ordini all'ora
-     * ordini per ora in media
-     *
-     */
-
-    /*
-     * grafico alimenti per ordine
-     * alimenti in media
-     *
-     */
-
-    /*
-     * grafico menu fissi per ordine
-     * menu fissi per ordine in media
-     */
-
-    /*
-     * grafico numero totali menu fissi
-     *
-     */
-
-    /*
-     * menu fissi per giorno
-     *
-     */
-
-    /*
-     * buoni utilizzati per giorno
-     * numero totale buoni
-     */
-
-    /*
-     * per ogni alimento visualizzare un grafico
-     */
-
-?>
-
 <script type="text/javascript">
     $(document).ready(function(){
 
-           var giorni = new Array();
-           <? //foreach ($new_day as $key=>$value) { ?>
-              //      giorni.push("<?=$value?>");
-           <? //} ?>
+        //datepicker
+        $.datepicker.setDefaults($.datepicker.regional['it']);
+        $( "#cerca_ordine" ).datepicker({
+                showOn: "button",
+                buttonImage: "media/css/images/datepicker.jpeg",
+                dateFormat: 'd MM, y',
+                buttonImageOnly: true,
+                onSelect: function(){
+                    var gg = $("#cerca_ordine").datepicker('getDate').getDate();
+                    var mm = ($("#cerca_ordine").datepicker('getDate').getMonth()) + 1;
+                    var aaaa = $("#cerca_ordine").datepicker('getDate').getFullYear();
+                    $('#debug').append('<br />data: '+gg+' - '+mm+' - '+aaaa);
 
-           //tooltip
-           $('.tTip').betterTooltip({speed: 150, delay: 300});
+                    var data = aaaa+"-"+zeroPad(mm,2)+"-"+zeroPad(gg,2);
+                    data = JSON.stringify(data);
+                    dataSel = data;
+                    $('#debug').append('<br />data2: '+data);
 
-           //display days
-           $('#cloud2').click(function () {
-               $("#cloud2").fadeToggle("fast", function () {
-                   $.each(giorni, function(key, value){
-                       var gg = value.split(" ");
-                       gg = gg[0]+"-"+gg[1]+"-"+gg[2];
-                       $("#day").append('<a class="giorno" href="amministrazioneSingleReport.php?gg='+gg+'">'+value+'</a><br />');
+                    $.ajax({
+                        type : "POST",
+                        data: data,
+//                        url: "jquerymobile/reportListaOrdini.php",
+                        url: "jquerymobile/lista_ordini.php",
+                        dataType: 'json',
+                        cache: false,
+                        success: onListaOrdiniSuccess,
+                        error: onError
                     });
-                });
-            });
-
-            var line2 = [[giorni[0],2],[giorni[1],4]];
-
-            var line1 = [['Cup Holder Pinion Bob', 7], ['Generic Fog Lamp', 9], ['HDTV Receiver', 15],
-              ['8 Track Control Module', 12], [' Sludge Pump Fourier Modulator', 3],
-              ['Transcender/Spice Rack', 6], ['Hair Spray Danger Indicator', 18]];
-
-            var plot1 = $.jqplot('chartdiv', [line2], {
-                title: 'Ordini per giorno',
-                series:[{renderer:$.jqplot.BarRenderer}],
-                axesDefaults: {
-                    tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-                    tickOptions: {
-                      angle: -30,
-                      fontSize: '11pt'
-                    }
-                },
-                axes: {
-                  xaxis: {
-                    renderer: $.jqplot.CategoryAxisRenderer
-                  }
                 }
-            });
-            
+             });
+
+function zeroPad(num,count) {
+    var numZeropad = num + '';
+    while(numZeropad.length < count) {
+    numZeropad = "0" + numZeropad;
+    }
+    return numZeropad;
+}
 /*
-          var line1 = [['Cup Holder Pinion Bob', 7], ['Generic Fog Lamp', 9], ['HDTV Receiver', 15],
-          ['8 Track Control Module', 12], [' Sludge Pump Fourier Modulator', 3],
-          ['Transcender/Spice Rack', 6], ['Hair Spray Danger Indicator', 18]];
+ * Richiesta Ajax completata con successo
+ *
+ */
+function onListaOrdiniSuccess(data, status) {
+    //alert("Successo lettura da database con Ajax!")
+    var totOrdini = 0;
+    str = '';
 
-          var plot1 = $.jqplot('chart1', [line1], {
-            title: 'Concern vs. Occurrance',
-            series:[{renderer:$.jqplot.BarRenderer}],
-            axesDefaults: {
-                tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
-                tickOptions: {
-                  angle: -30,
-                  fontSize: '10pt'
-                }
-            },
-            axes: {
-              xaxis: {
-                renderer: $.jqplot.CategoryAxisRenderer
-              }
-            }
-          });
-*/
+    //eliminazione carattere '"'
+    dataSel = dataSel.replace('"','');
+    dataSel = dataSel.replace('"','');
+
+    if (data.length > 0) {
+
+    str += '<ul style="width: 880px;margin:auto;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
+    str += '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini del '+dataSel+'</li>';
+
+    for (i=0; i<data.length; i++) {
+    var new_id = 'ord-ser-';
+    new_id = new_id + data[i].seriale + '&' + data[i].timestamp + '&' + data[i].tavolo_id;
+    new_id = new_id + '&' + data[i].n_coperti + '&' + data[i].totale;
+
+    str += '<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
+    str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
+    str += '<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="stampaOrdine.php?id='+data[i].id+'">';
+    str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + data[i].timestamp + '</div>';
+    str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + data[i].tavolo_id + '</div>';
+    str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + data[i].n_coperti + '</div>';
+    str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+data[i].totale+' &#8364;</span>';
+    str += '</a>';
+    str += '</div></div>';
+    str += '</li>';
+
+    totOrdini = totOrdini + data[i].totale;
+    }
+
+    str += '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
+    str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
+    str += '<span style="margin-right: 205px; border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 180px; font-size: 14px">Totale contanti incassati: '+totOrdini+' &#8364;</span>';
+    str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale ordini: '+totOrdini+' &#8364;</span>';
+    str += '</div></div>';
+    str += '</li>';
+
+    str += "</ul>";
+    }
+    else {
+        str += '<div style="margin:auto">';
+        str += 'Nessun ordine trovato</div>';
+    }
+    document.getElementById('lista-vecchi-ordini').innerHTML = str;
+}
 
 
+    /*
+     * Errore richiesta Ajax
+     *
+     */
+    function onError(data, status) {
+        alert("Errore Ajax");
+        str = '';
+        str = str + '<section class="ui-body ui-body-b" style="margin-top: 40px">';
+        str = str + '<div style="margin:auto">';
+        str = str + 'Nessun ordine trovato per questa data</div>';
+        str = str + '</section>';
+        document.getElementById('lista-vecchi-ordini').innerHTML = str;
+    }
 
-    });
+});
 </script>
 
-<div class="tTip" id="cloud1" title="In questa sezione sono disponibili tutte le
-     statistiche che riguardano l'intero periodo di attivit&agrave; fino ad oggi">STATISTICHE COMPLESSIVE</div>
-<div class="tTip" id="cloud2" title="Qui &egrave; possibile selezionare un singolo
-     giorno di attivit&agrave; e valutarne i risultati.">STATISTICHE GIORNALIERE</div>
-<div id="day"></div>
-<div style="clear:both;"></div>
+<div id="container" style="border:2px solid #fff; border-radius: 3px;">
+
+    <div class="cloud">STORICO ORDINI <input type="text" id="cerca_ordine"></div>
+    <div id="lista-vecchi-ordini" class="lista_ordini"></div>
+
+    <div class="cloud" title="Statistiche per l'intero periodo di attivit&agrave;.">STATISTICHE COMPLESSIVE</div>
+    <div class="cloud" title="Statistiche per un singolo giorno di attivit&agrave;.">STATISTICHE GIORNALIERE</div>
 
         <!--
         <div id="chartdiv" style="height:400px;width:600px; "></div>
         -->
-
+</div><!-- end container -->
         <!-- footer -->
         <? include_once 'footer.php'; ?>
 </div><!-- end content -->

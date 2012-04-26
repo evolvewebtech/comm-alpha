@@ -309,7 +309,7 @@ for ($i=0; $i<count($arr); $i++) {
     $to_printer=$esc->out();
 
     echo $str;
-    PosPrint::comm_print($ip_address, $to_printer);
+    //PosPrint::comm_print($ip_address, $to_printer);
 ?>
 
                 <ul class="ui-listview" data-role="listview" style="margin-top: 20px">

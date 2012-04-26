@@ -294,6 +294,11 @@
   vertical-align: middle;
 }
 
+.list-foo-bt-2 {
+  display: none;  
+}
+
+
 
 
 div#id-cat.element_list {

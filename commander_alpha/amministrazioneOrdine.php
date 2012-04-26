@@ -39,12 +39,12 @@ a {
    cursor: pointer;
 }
 .old-ord {
-    width: 400px;
+    width: 450px;
     margin: auto;
 }
 
 .old-ord-rig {
-    margin: 0px;
+/*    margin: 0px;*/
     height: 20px;
     font-family: Helvetica,Arial,sans-serif;
     font-weight: bold;
@@ -62,7 +62,7 @@ a {
 
 .old-ord-rig .name{
   margin: 0px;
-  margin-left: 20px;
+  margin-left: 10px;
   float: left;
   font-size: 150%;
   position:relative;
@@ -86,7 +86,7 @@ a {
 
 .old-ord-rig-var .name{
   margin: 0px;
-  margin-left: 60px;
+  margin-left: 43px;
   float: left;
   font-size: 1.05em;
   position:relative;
@@ -134,8 +134,8 @@ a {
   vertical-align: middle;
 }
 </style>
-<div id="content">
 
+<div id="content">
 <?php
 if($objSession->IsLoggedIn()){
     $objUser = $objSession->GetUserObject();
@@ -146,6 +146,17 @@ if($objSession->IsLoggedIn()){
        $utente_registrato_id = $gestore->utente_registrato_id;
        //echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
 
+?>
+<h1 style="margin-bottom: 20px;">Stampa ordine<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
+    <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+    <a style="color:#fff; font-size: 12px;" href="amministrazioneReport.php">Statistiche</a> >
+    <a style="color:#fff; font-size: 14px;" href="stampaOrdine.php">
+    <b>Stampa ordine</b></a></small>
+</h1>
+<div style="clear:both;"></div>
+
+<div id="container" style="border:2px solid #fff; border-radius: 3px;">
+<?
 $arr = array();
 if ($id > 0) {
     $ordine = DataManager2::getOrdineAsObject($id);
@@ -167,7 +178,7 @@ if ($id > 0) {
     $nome_tavolo   = $tavolo['nome'];
 
     $arrRighe = array();
-    
+
     for ($i=0; $i<$ordine->getNumberOfRigheOrdine(); $i++) {
         $rigaOrd = $ordine->getRigaOrdine($i);
         $riga = array();
@@ -208,7 +219,7 @@ $strCass = '';
 /*
  * inizio preparazione biglietto per la stampa del
  * riepilogo ordine
- * 
+ *
  */
 $esc = new EscPos("it",858,"àèìòù","\x7B\x7D\x7E\x7C\x60\xD5");	// initialize and select country, codepage and extra char trasformer string
 $esc->align("c");			// central align
@@ -225,7 +236,25 @@ $esc->text("  Ordine: $seriale, coperti: $n_coperti");
 $euro = chr(213);
 $totale_ordine = 0;
 $righe_ordine = count($arr);
+?>
+    <div class="old-ord" style="width: 450px; margin: 10px auto;">
+        <section class="ui-body ui-body-d" style="box-shadow:3px 3px 10px #aaaaaa">
+            <div style="padding-bottom: 10px">
+                <ul class="ui-listview" data-role="listview" style="margin: 0px">
+                    <li class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
+                        <div id="old-ord-tav" style="font-size: 22px">Tavolo <?=$numero_tavolo?></div>
+                        <div id="old-ord-ser">Ordine n&#176; <?=$seriale?></div>
+                        <div id="old-ord-cop">
+                            <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti <?=$n_coperti?></span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div id="old-ord-righe" style="padding-top: 10px; padding-bottom: 10px"></div>
+            <div style="padding-top: 10px; padding-bottom: 10px">
 
+
+<?
 for ($i=0; $i<count($arr); $i++) {
     $numero = floatval($arr[$i]['numero']);
     $prezzo = floatval($arr[$i]['prezzo']);
@@ -281,9 +310,75 @@ for ($i=0; $i<count($arr); $i++) {
     echo $str;
     //PosPrint::comm_print($ip_address, $to_printer);
 ?>
+
+                <ul class="ui-listview" data-role="listview" style="margin-top: 20px">
+                <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+                    <div id="old-ord-tot">
+                    <h2 class="name">Totale</h2>
+                    <h2 class="prezzo"><?=$totale_ordine_data?> &#8364;</h2>
+                    </div>
+                </li>
+                </ul>
+                <div style="font-size:12px;">
+                <?="<br />  Voci in comanda: ".$righe_ordine?>
+                <?="<br />  Cameriere: $nome_cameriere"?>
+                <?="<br />  Data: $data"?>
+                </div>
+            </div>
+            <div id="old-ord-ts" style="padding-top: 10px; margin-left: 20px"></div>
+            <div id="old-ord-cs" style="padding-bottom: 10px; margin-left: 20px"></div>
+        </section>
+    </div>
+
+    <div id="stampa" class="cloud" style="margin-top: 20px;">STAMPA ORDINE</div>
+<script type="text/javascript">
+    /*
+     * Evento "click" su lista vecchi ordini
+     *
+     */
+    $('#stampa').live("click", function() {
+
+
+        //Recupero alimenti ordine
+        $.ajax({
+            type : "POST",
+            data: 'ip='+$id+'&ordine=',
+            url: "jquerymobile/stampa.php",
+            dataType: 'json',
+            cache: false,
+            success: onStampaSuccess,
+            error: onError
+        });
+
+    });
+
+    /*
+     * Richiesta Ajax completata con successo
+     *
+     */
+    function onStampaSuccess(data, status) {
+        //alert("Successo lettura da database con Ajax!");
+
+    }
+
+    /*
+     * Errore richiesta Ajax
+     *
+     */
+    function onError(data, status) {
+        alert("Errore Ajax");
+    }
+</script>
+
+
+
+</div><!-- end container -->
         <!-- footer -->
         <? include_once 'footer.php'; ?>
 </div><!-- end content -->
+
+<!-- DEBUG -->
+<div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{
@@ -297,3 +392,5 @@ for ($i=0; $i<count($arr); $i++) {
             </h4>';
     }
 ?>
+
+

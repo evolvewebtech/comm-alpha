@@ -6,7 +6,7 @@
 ?>
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="media/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="media/js/report.js"></script>
+
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui.css" />
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.css" />
@@ -176,7 +176,7 @@ function onListaOrdiniSuccess(data, status) {
 
     str += '<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
     str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
-    str += '<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="stampaOrdine.php?id='+data[i].id+'">';
+    str += '<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+data[i].id+'">';
     str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + data[i].timestamp + '</div>';
     str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + data[i].tavolo_id + '</div>';
     str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + data[i].n_coperti + '</div>';

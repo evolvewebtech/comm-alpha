@@ -13,7 +13,8 @@
     $nome_stampante = "amministrazione";
     $ip_address = "192.168.1.101";   //sarà la stampante del gestore
 
-    $id = $_GET['id'];
+    //$id = $_GET['id'];
+    $id = intval(6);
 ?>
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 <link rel="stylesheet" type="text/css" href="jquerymobile/css/jquery.mobile-1.0.1.min.css"/>
@@ -175,6 +176,16 @@ if ($id > 0) {
         //Recupero nome alimento
         $alimTemp = DataManager2::getAlimentoAsObject($rigaOrd->alimento_id);
 
+        $num_stampanti = $alimTemp->getNumberOfStampanti();
+        echo $num_stampanti;
+        for($j=0; $j<$num_stampanti; $j++) {
+            $stampante = $alimTemp->getStampante($j);
+            echo "<pre>";
+            print_r($stampante);
+            echo "</pre>";
+            $stampante_id = $stampante->id;
+        }
+
         //Recupero varianti alimento
         $arrVar = array();
         for ($j=0; $j<$rigaOrd->getNumberOfVarianti(); $j++) {
@@ -193,6 +204,7 @@ if ($id > 0) {
                 "prezzo"        => $rigaOrd->prezzo,
                 "iva"           => $rigaOrd->iva,
                 "cassiere_id"   => $rigaOrd->cassiere_id,
+                "arrStampanti"  => $rigaOrd->stampanti,
                 "arrVar"        => $arrVar );
         }
 

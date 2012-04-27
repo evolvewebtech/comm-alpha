@@ -12,7 +12,6 @@
 
     $nome_stampante = "amministrazione";
     $ip_address = "192.168.1.101";   //sarà la stampante del gestore
-
     $id = $_GET['id'];
 ?>
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
@@ -150,7 +149,7 @@ if($objSession->IsLoggedIn()){
 <h1 style="margin-bottom: 20px;">Stampa ordine<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
     <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
     <a style="color:#fff; font-size: 12px;" href="amministrazioneReport.php">Statistiche</a> >
-    <a style="color:#fff; font-size: 14px;" href="stampaOrdine.php">
+    <a style="color:#fff; font-size: 14px;" href="amministrazioneOrdine.php?id=<?=$id?>">
     <b>Stampa ordine</b></a></small>
 </h1>
 <div style="clear:both;"></div>
@@ -303,7 +302,6 @@ for ($i=0; $i<count($arr); $i++) {
     $esc->text("  Cameriere: $nome_cameriere");
     $esc->text("  Data: $data");
 
-
     $esc->cutCom();
     $to_printer=$esc->out();
 
@@ -315,7 +313,7 @@ for ($i=0; $i<count($arr); $i++) {
                 <li class="ui-li ui-li-static ui-body-c comm-li-tot">
                     <div id="old-ord-tot">
                     <h2 class="name">Totale</h2>
-                    <h2 class="prezzo"><?=$totale_ordine_data?> &#8364;</h2>
+                    <h2 class="prezzo"><?=$totale_ordine_data?></h2>
                     </div>
                 </li>
                 </ul>
@@ -338,17 +336,19 @@ for ($i=0; $i<count($arr); $i++) {
      */
     $('#stampa').live("click", function() {
 
+       var answer = confirm("Ristampare l'ordine?");
 
-        //Recupero alimenti ordine
-        $.ajax({
-            type : "POST",
-            data: 'ip='+$id+'&ordine=',
-            url: "jquerymobile/stampa.php",
-            dataType: 'json',
-            cache: false,
-            success: onStampaSuccess,
-            error: onError
-        });
+       if (answer){
+            $.ajax({
+                type: "POST",
+                data: 'id='+<?=$id?>+"&ip=<?=$ip_address?>",
+                url: "stampaOrdine.php",
+                dataType: 'json',
+                cache: false,
+                success: onStampaSuccess,
+                error: onError
+            });
+        }
 
     });
 
@@ -357,8 +357,6 @@ for ($i=0; $i<count($arr); $i++) {
      *
      */
     function onStampaSuccess(data, status) {
-        //alert("Successo lettura da database con Ajax!");
-
     }
 
     /*
@@ -366,7 +364,7 @@ for ($i=0; $i<count($arr); $i++) {
      *
      */
     function onError(data, status) {
-        alert("Errore Ajax");
+        alert("Errore nel file di stampa. Contattare l'assistenza.");
     }
 </script>
 

@@ -224,7 +224,7 @@ function onListaOrdiniSuccess(data, status) {
 
 <div id="container" style="border:2px solid #fff; border-radius: 3px;">
 
-    <div class="cloud">STORICO ORDINI <input type="text" id="cerca_ordine"></div>
+    <div class="cloud">STORICO ORDINI <input style="display:none;" type="text" id="cerca_ordine"></div>
     <div id="lista-vecchi-ordini" class="lista_ordini"></div>
 
     <div class="cloud" title="Statistiche per l'intero periodo di attivit&agrave;.">STATISTICHE COMPLESSIVE</div>

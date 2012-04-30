@@ -284,6 +284,16 @@
   vertical-align: middle;
 }
 
+.comm-li-tot .name-big{
+  margin: 0px;
+  margin-left: 20px;
+  float: left;
+  font-size: 200%;
+  position:relative;
+  height: 100%;
+  vertical-align: middle;
+}
+
 .comm-li-tot .prezzo{
   margin: 0px;
   margin-right: 25px;
@@ -453,13 +463,24 @@ div#id-cat.element_list .name{
 }
 
 .ch-tot-ord {
-    width: 450px;
+    width: 730px;
     margin: auto;
 }
 
 .ch-tot-ord-div {
     padding-top: 10px;
     padding-bottom: 10px;
+}
+
+.ch-tot-ord-left {
+    width: 450px;
+    float: left;
+    margin-right: 30px;
+}
+
+.ch-tot-ord-right {
+    width: 250px;
+    float: left;
 }
 
 .scelta_buono {

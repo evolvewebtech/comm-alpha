@@ -35,6 +35,7 @@ try
             $utente_registrato_id = $gestore->utente_registrato_id;
 
             $arr = array();
+            $voci_comanda = 0;
             if ($id > 0) {
                 $ordine = DataManager2::getOrdineAsObject($id);
 
@@ -83,7 +84,9 @@ try
                             //"arrStampanti"  => $rigaOrd->stampanti,
                             "arrVar"        => $arrVar );
                     }
-
+                    
+                    $voci_comanda += $riga['numero'];
+                    
                     $arrRighe[$i] = $riga;
                 }
 
@@ -108,7 +111,6 @@ try
 
             $euro = chr(213);
             $totale_ordine = 0;
-            $righe_ordine = count($arr);
 
             for ($i=0; $i<count($arr); $i++) {
                 $numero = floatval($arr[$i]['numero']);
@@ -144,7 +146,7 @@ try
             $esc->text("  Totale: $totale_ordine_print");
             $esc->font();
             $esc->text("---------------------------------------");
-            $esc->text("  Voci in comanda: ".$righe_ordine);
+            $esc->text("  Voci in comanda: ".$voci_comanda);
             $esc->text("  Cameriere: $nome_cameriere");
             $esc->text("  Data: $data");
 

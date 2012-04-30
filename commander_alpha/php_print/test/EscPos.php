@@ -120,7 +120,9 @@ class EscPos {
      * @param $space [optional] space before cut
      */
     public function cutCom(){
-        $this->out.="\n\n\n\n\n".chr(27)."i";
+        //"i" = taglio totale
+        //"m" = taglio parziale
+        $this->out.="\n\n\n\n\n".chr(27)."m";
     }
 
     public function cut($space=0){

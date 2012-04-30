@@ -73,8 +73,8 @@
                 -->
                 <!-- <h2>Filter:</h2> -->
                     <ul id="filter" class="option-set clearfix" data-option-key="filter">
-                        <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">Mostra tutto</a></li>
                         <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">Categorie</a></li>
+                        <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">Mostra tutto</a></li>
                                              
                         <?php
                             require_once dirname(__FILE__).'/../manager/DataManager2.php';

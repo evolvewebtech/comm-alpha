@@ -1,5 +1,6 @@
 
 <div class="ch-tot-ord">
+    <div class="ch-tot-ord-left">
     <section class="ui-body ui-body-b" style="box-shadow: 3px 3px 10px #aaaaaa">
         <div class="ch-tot-ord-div">
             <ul class="ui-listview" data-role="listview" style="margin: 0px">
@@ -9,7 +10,7 @@
             </li>
             <li class="ui-li ui-li-static ui-body-c comm-li-tot">
                 <div id="chius-tot-ord">
-                <h2 class="name">Totale conto</h2>
+                <h2 class="name-big">Totale conto</h2>
                 <h2 class="prezzo">0 €</h2>
                 </div>
             </li>
@@ -46,26 +47,22 @@
             </ul>
         </div>
     </section>
-</div>
-
-
-<div class="ch-tot-ord-div"></div>
-<div class="ui-grid-c">
-    <div class="ui-block-a">
-        <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Gruppo</a>
     </div>
-    <div class="ui-block-b">
+    
+    <div class="ch-tot-ord-right">
+        <div class="ch-tot-ord-div"></div>
         <a href="#buoni-pre" data-role="button" data-icon="home" class="ui-btn-right">Buoni prepagati</a>
-    </div>
-    <div class="ui-block-c">
-        <a href="#chiusura" data-role="button" data-icon="home" class="ui-btn-right">Sconto</a>
-    </div>
-    <div class="ui-block-d">
+        <a data-role="button" data-icon="home" class="ui-btn-right">Sconto</a>
         <a href="#diag-ins-cont" data-rel="dialog" data-role="button" data-icon="home" class="ui-btn-right">Contanti</a>
+        <div class="ch-tot-ord-div"></div>
+        <div class="ch-tot-ord-div"></div>
+        <a id="conferma-ordine" href="#home" data-role="button" data-icon="home" class="ui-btn-right" data-transition="fade">Conferma ordine</a>
     </div>
 </div>
 
-<a id="conferma-ordine" href="#home" data-role="button" data-icon="home" class="ui-btn-right" data-transition="fade">Conferma ordine</a>
+
+
+
 
 
 <!--
@@ -80,6 +77,8 @@
 
 
 <script type="text/javascript">
+    
+    var id_ord_stmp = 0;
     
     $('#conferma-ordine').live("click", function() {
         
@@ -136,11 +135,31 @@
     });
     
     function onInvioOrdineSuccess(data, status) { 
-        alert("Ordine " + data + " inviato con successo!");
+        //alert("Ordine " + data + " inviato con successo!");
+        id_ord_stmp = data;
+        
+        $.ajax({
+            type: "POST",
+            data: 'id='+data,
+            url: "stampaOrdine.php",
+            dataType: 'json',
+            cache: false,
+            success: onStampaSuccess,
+            error: onStampaError
+        });
     }
     
     function onInvioOrdineError(data, status) { 
-        alert("Errore Ajax");
+        alert("Errore Ajax registrazione ordine");
+    }
+    
+    function onStampaSuccess(data, status) {
+        if (id_ord_stmp > 0) alert("Ordine " + id_ord_stmp + " inviato con successo!");
+        else alert("Ordine inviato con successo!");
+    } 
+    
+    function onStampaError(data, status) { 
+        alert("Errore stampa ordine " + id_ord_stmp);
     }
    
 </script>

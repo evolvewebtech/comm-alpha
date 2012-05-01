@@ -21,7 +21,6 @@
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
     <script src="js/jquery.mobile.datebox-1.0.1.min.js"></script>
     <script>
-        //Dichiarazione variabili globali;
         var numTavolo = 0;
         var numCoperti = 0;
         var totale = 0;
@@ -38,6 +37,7 @@
         var buono_nom = "";
         var buono_cred = 0;
         var buono_cred_us = 0;
+        var refreshAlim = false;
     </script>
     <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
@@ -62,8 +62,7 @@
         // Last range entry is the maximum.
         // Separate ranges by "to" keyword.
         range: [
-            '0px    to 760px  = style-comm-800.css',
-            '760px  to 980px  = style-comm-800.css',
+            '0px    to 980px  = style-comm-800.css',
             '980px  to 1600px = style-comm.css'
         ]
         };
@@ -93,10 +92,16 @@
         <div data-role="content">
             <div class="scelta_op">
                 <div class="button_opz" >
-                    <a href="#tavoli"><img src="images/symbol_add.png"/></a>
+                    <a href="#tavoli" class="comm-btn-1">
+                        <img src="images/symbol_add.png" />
+                        <span class="comm-btn-1-text">Nuovo ordine</span>
+                    </a>
                 </div>
                 <div class="button_opz">
-                    <a href="#info-ordini"><img src="images/symbol_information.png"/></a>
+                    <a href="#info-ordini" class="comm-btn-1">
+                        <img src="images/symbol_information.png" />
+                        <span class="comm-btn-1-text">Vecchi ordini</span>
+                    </a>
                 </div>
             </div>    
         </div>
@@ -183,6 +188,7 @@
         <div data-role="header">
             <h1>Chisura ordine</h1>
             <a href="#ordine" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
+            <a href="#diag-conf-canc-ord2" data-icon="delete" data-rel="dialog" class="ui-btn-right">Annulla ordine</a>
         </div>
         <div data-role="content"> 
             <?php include dirname(__FILE__).'/pg_chiusura.php';  ?>
@@ -233,6 +239,17 @@
         </div>
     </div>
     
+    <!-- DIALOG CONFERMA CANCELLA ORDINE 2 -->
+    <div data-role="page" id="diag-conf-canc-ord2">
+        <div data-role="header">
+            <h1>Annullare l'ordine?</h1>
+        </div>
+        <div data-role="content">
+            <a id="canc-ord" href="#home" data-role="button" data-icon="check" class="ui-btn-right canc-all-conf">Sì</a>
+            <a href="#chiusura" data-role="button" data-icon="delete" class="ui-btn-right canc-ann">No</a>
+        </div>
+    </div>
+    
     <!-- DIALOG INSERIMENTO CONTANTI -->
     <div data-role="page" id="diag-ins-cont">
         <div data-role="header">
@@ -240,6 +257,17 @@
         </div>
         <div data-role="content">
             <?php include dirname(__FILE__).'/pg_diag_ins_cont.php';  ?>
+        </div>
+    </div>
+    
+    <!-- DIALOG CONFERMA INVIO ORDINE -->
+    <div data-role="page" id="diag-conf-ord">
+        <div data-role="header">
+            <h1>Confermare la stampa dell'ordine?</h1>
+        </div>
+        <div data-role="content">
+            <a id="conferma-ordine" href="#home" data-transition="fade" data-role="button" data-icon="check" class="ui-btn-right">Sì</a>
+            <a href="#chiusura" data-transition="fade" data-role="button" data-icon="delete" class="ui-btn-right">No</a>
         </div>
     </div>
 </body>

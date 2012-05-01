@@ -10,6 +10,7 @@ class Alimento extends Entity {
 
     private $_stampanti;
     private $_varianti;
+    private $_esaurito;
     
     public function __construct($alimentoID) {
       
@@ -28,9 +29,10 @@ class Alimento extends Entity {
       $this->propertyTable['quantita'] = 'quantita';
       $this->propertyTable['gestore_id'] = 'gestore_id';
       $this->propertyTable['categoria_id'] = 'categoria_id';
-      $this->propertyTable['alimento_id'] = 'alimento_id';   
+      $this->propertyTable['alimento_id'] = 'alimento_id'; 
       $this->_stampanti = DataManager2::getStampanteObjectsForEntity($alimentoID);
       $this->_varianti = DataManager2::getVarianteObjectsForEntity($alimentoID);
+      $this->_esaurito = DataManager2::getAlimentoEsaurito($alimentoID);  
     }
 
     
@@ -79,6 +81,16 @@ class Alimento extends Entity {
      */
     public function getNumberOfVarianti() {
         return count($this->_varianti);
+    }
+    
+    
+    /**
+     *
+     * @return <int>
+     */
+    public function getEsaurito() {
+        if ($this->_esaurito) return 1; 
+        else return 0;
     }
     
     

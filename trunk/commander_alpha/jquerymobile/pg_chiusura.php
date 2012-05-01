@@ -8,13 +8,13 @@
                 <div>Tavolo x</div>
                 <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
             </li>
-            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <li class="ui-li ui-li-static ui-body-c comm-li-ch-big">
                 <div id="chius-tot-ord">
-                <h2 class="name-big">Totale conto</h2>
+                <h2 class="name">Totale conto</h2>
                 <h2 class="prezzo">0 €</h2>
                 </div>
             </li>
-            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <li class="ui-li ui-li-static ui-body-c comm-li-ch">
                 <div id="chius-tot-pers">
                 <h2 class="name">Totale per persona</h2>
                 <h2 class="prezzo">0 €</h2>
@@ -24,13 +24,13 @@
         </div>
         <div class="ch-tot-ord-div">
             <ul class="ui-listview" data-role="listview" style="margin: 0px">
-            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <li class="ui-li ui-li-static ui-body-c comm-li-ch">
                 <div id="chius-buoni">
                 <h2 class="name">Buono prepagato</h2>
                 <h2 class="prezzo">0 €</h2>
                 </div>
             </li>
-            <li id="chius-contanti" class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <li id="chius-contanti" class="ui-li ui-li-static ui-body-c comm-li-ch">
                 <div id="totale">
                 <h2 class="name">Contanti</h2>
                 <h2 class="prezzo">0 €</h2>
@@ -38,7 +38,7 @@
             </li>
         </div>
         <div class="ch-tot-ord-div">
-            <li id="chius-resto" class="ui-li ui-li-static ui-body-c comm-li-tot">
+            <li id="chius-resto" class="ui-li ui-li-static ui-body-c comm-li-ch">
                 <div id="totale">
                 <h2 class="name">Da ricevere</h2>
                 <h2 class="prezzo">0 €</h2>
@@ -56,13 +56,12 @@
         <a href="#diag-ins-cont" data-rel="dialog" data-role="button" data-icon="home" class="ui-btn-right">Contanti</a>
         <div class="ch-tot-ord-div"></div>
         <div class="ch-tot-ord-div"></div>
-        <a id="conferma-ordine" href="#home" data-role="button" data-icon="home" class="ui-btn-right" data-transition="fade">Conferma ordine</a>
+        <a href="#diag-conf-ord" data-rel="dialog" class="comm-C-btn comm-C-btn-conf">
+            <img src="css/images/desktop_printer.png" />
+            <span class="comm-C-btn-text">Conferma ordine</span>
+        </a>
     </div>
 </div>
-
-
-
-
 
 
 <!--

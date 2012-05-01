@@ -31,8 +31,10 @@
                     $arrTemp = array(   "id"    => $alim->id,
                                         "nome"  => $alim->nome,
                                         "prezzo"  => $alim->prezzo,
+                                        "colore_bottone"  => $alim->colore_bottone,
                                         "descrizione" => $alim->descrizione,
-                                        "varianti" => $arrV);
+                                        "varianti" => $arrV,
+                                        "esaurito" => $alim->getEsaurito() );
                     $arrA[$j] = $arrTemp;
                 }
                 //array categorie

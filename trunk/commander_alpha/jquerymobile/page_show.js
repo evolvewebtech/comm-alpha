@@ -20,6 +20,7 @@ $("#home").live('pageshow', function() {
     buono_nom = "";
     buono_cred = 0;
     buono_cred_us = 0;
+    refreshAlim = false;
     
     document.getElementById('text-num-t').value = "";
     document.getElementById('slider-0').value = 1;     
@@ -58,20 +59,23 @@ $("#chiusura").live('pageshow', function() {
     
     var soldi = 0;
     var strSoldi = "";
-    if (contanti + buono_cred_us <= totale) {
+    var strColor = "";
+    if (contanti + buono_cred_us < totale) {
         soldi = totale - contanti - buono_cred_us;
         strSoldi = "Da ricevere";
+        strColor = "#F00";
     }
     else {
         soldi = contanti + buono_cred_us - totale;
         strSoldi = "Resto";
+        strColor = "#00A700";
     }
     
     soldi = Math.round(soldi*100) / 100;
      
     str = "";
-    str = str + '<h2 class="name">' + strSoldi + '</h2>';
-    str = str + '<h2 class="prezzo">' + soldi + ' \u20ac</h2>';
+    str = str + '<h2 class="name" style="color: ' + strColor + '">' + strSoldi + '</h2>';
+    str = str + '<h2 class="prezzo" style="color: ' + strColor + '">' + soldi + ' \u20ac</h2>';
     document.getElementById('chius-resto').innerHTML = str;
 });
 

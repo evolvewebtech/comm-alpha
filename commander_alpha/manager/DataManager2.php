@@ -1352,6 +1352,19 @@ class DataManager2 {
     }
     
     
+    public static function getAlimentoEsaurito($alimentoID){
+        $sql = "SELECT * FROM cmd_alimento_esaurito WHERE alimento_id=$alimentoID AND record_attivo=1";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting entity Alimento");
+            return false;
+        }
+            return true;
+        }
+    }
+    
+    
     public static function getBuonoPrepagatoData($seriale){
         $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale=$seriale";
         

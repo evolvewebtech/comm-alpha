@@ -39,12 +39,13 @@
 .list-ord_foo {
     position: fixed;
     bottom: 13px;
-    height: 100px;
+    height: 110px;
     width: 29.3%
 }
 
 .list-ord_foo .list-ord_foo-cont {
     padding-top: 10px;
+    height: 110px;
 }
 
 .menu {

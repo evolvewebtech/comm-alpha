@@ -66,29 +66,10 @@
     <section id="cont-comm-ord">
         <section id="options" class="clearfix">
             <div class="option-combo">
-
-                <!--
-                    ho aggiunto un id ad ogni link, il valore è uguale al
-                    valore di ogni attributo href
-                -->
                 <!-- <h2>Filter:</h2> -->
                     <ul id="filter" class="option-set clearfix" data-option-key="filter">
                         <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">Categorie</a></li>
                         <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">Mostra tutto</a></li>
-                                             
-                        <?php
-                            require_once dirname(__FILE__).'/../manager/DataManager2.php';
-                            $arContacts = DataManager2::getAllCategoriesAsObjects();
-                            $echostr = "";
-                            foreach($arContacts as $objEntity) {
-                                //Pulsanti non visualizzati!!!
-                                $echostr .= '<li style="display:none">';
-                                $echostr .= '<a id="'.$objEntity->nome.'" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">'.$objEntity->nome.'</a>';
-                                $echostr .= '</li>';
-                            }
-                            echo $echostr;
-                        ?>
-                        
                         <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">Menù</a></li>
                 </ul>
             </div>

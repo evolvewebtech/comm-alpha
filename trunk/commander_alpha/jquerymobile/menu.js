@@ -31,9 +31,14 @@ $("#ordine").live('pageshow', function() {
 function onEventoInfoSuccess(data, status) { 
     //alert("Successo lettura da database con Ajax!")  
     
+    //Svuotamento iniziale "categorie" da container Isotope
+    var $removable = $('#container').find( ".categorie" );
+    $('#container').isotope( 'remove', $removable );
+        
     //Aggiunta Categorie e Alimenti al container Isotope    
     var $str = "";
     for($i=0; $i<data[0].length; $i++) {
+        $str = "";
         $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
         $str = $str + '<a class="options-set2" href="#'+data[0][$i].nome+'" data-option-value=".'+data[0][$i].nome+'">';
         $str = $str + '<div class="element" style="background: '+data[0][$i].colore_bottone_predef+'">';
@@ -42,19 +47,27 @@ function onEventoInfoSuccess(data, status) {
         $str = $str + '</a>';
         $str = $str + '</div>';
         
+        //Aggiunta dei nuovi elementi a Isotope
+        $('#container').append( $str ).isotope( 'reloadItems' );
+        
+        //Svuotamento iniziale "alimenti" da container Isotope
+        $removable = $('#container').find( "." + data[0][$i].nome );
+        $('#container').isotope( 'remove', $removable );
+        
         for($j=0; $j<data[0][$i].alimenti.length; $j++) {
-            var $strAl = "";
-            $strAl = $strAl + '<div class="element '+data[0][$i].nome+'" data-symbol="Sc" data-category='+data[0][$i].nome+'>';
-            $strAl = $strAl + '<a class="options-set3" href="#'+data[0][$i].alimenti[$j].id+'" data-option-value=".'+data[0][$i].alimenti[$j].nome+'">';
-            $strAl = $strAl + '<div class="element" style="background: '+data[0][$i].colore_bottone_predef+'">';
-            $strAl = $strAl + '<h2 class="el-name">'+data[0][$i].alimenti[$j].nome+'</h2>';
-            $strAl = $strAl + '<h2 class="el-prezzo">'+data[0][$i].alimenti[$j].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
-            $strAl = $strAl + '<h3 class="el-cat">'+data[0][$i].nome+'</h3>';
-            $strAl = $strAl + '</div>';
-            $strAl = $strAl + '</a>';
-            $strAl = $strAl + '</div>';
+            $str = "";
+            $str = $str + '<div class="element '+data[0][$i].nome+'" data-symbol="Sc" data-category='+data[0][$i].nome+'>';
+            $str = $str + '<a class="options-set3" href="#'+data[0][$i].alimenti[$j].id+'" data-option-value=".'+data[0][$i].alimenti[$j].nome+'">';
+            $str = $str + '<div class="element" style="background: '+data[0][$i].colore_bottone_predef+'">';
+            $str = $str + '<h2 class="el-name">'+data[0][$i].alimenti[$j].nome+'</h2>';
+            $str = $str + '<h2 class="el-prezzo">'+data[0][$i].alimenti[$j].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+            $str = $str + '<h3 class="el-cat">'+data[0][$i].nome+'</h3>';
+            $str = $str + '</div>';
+            $str = $str + '</a>';
+            $str = $str + '</div>';
             
-            $str = $str + $strAl;
+            //Aggiunta dei nuovi elementi a Isotope
+            $('#container').append( $str ).isotope( 'reloadItems' );
             
             //Creazione oggetti Variante
             var arrTempVar = new Array();
@@ -82,9 +95,13 @@ function onEventoInfoSuccess(data, status) {
         }
     }
     
+    //Svuotamento iniziale "menu fissi" da container Isotope
+    $removable = $('#container').find( ".menu_fissi" );
+    $('#container').isotope( 'remove', $removable );
     
     //Aggiunta Menu Fissi al container Isotope   
     for($i=0; $i<data[1].length; $i++) {
+        $str = "";
         $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
         $str = $str + '<a class="options-set4" href="#'+data[1][$i].id+'" data-option-value=".'+data[1][$i].nome+'">';
         $str = $str + '<div class="element" style="background: #abcd00">';
@@ -93,6 +110,9 @@ function onEventoInfoSuccess(data, status) {
         $str = $str + '</div>';
         $str = $str + '</a>';
         $str = $str + '</div>';
+        
+        //Aggiunta dei nuovi elementi a Isotope
+        $('#container').append( $str ).isotope( 'reloadItems' );
         
         var arrTempCat = new Array();
         for($j=0; $j<data[1][$i].categorie.length; $j++) {
@@ -145,18 +165,13 @@ function onEventoInfoSuccess(data, status) {
         arrMenu[menu._id] = menu;
     }
     
-    
-    //Svuotamento container Isotope
-    $('#container').isotope( 'remove' );
-    //Aggiunta dei nuovi elementi a Isotope
-    $('#container').append( $str ).isotope( 'insert', $str );
        
-      /*
-       * Inizializzazione Isotope
-       *
-       */
-      var $container = $('#container');  
-      $container.isotope({
+    /*
+     * Inizializzazione Isotope
+     *
+     */
+    var $container = $('#container');  
+    $container.isotope({
         masonry: {
           columnWidth: 120
         },
@@ -178,8 +193,20 @@ function onEventoInfoSuccess(data, status) {
         //al caricamento della pagina
         filter: '.categorie',
         layoutMode: 'fitRows'
-      });
+    });
     
+    
+    //Selezionato pulsante "Categorie" in pagina ordini
+    var $this = $('#categorie');
+    // don't proceed if already selected
+    if ( !$this.hasClass('selected') ) {
+        var $optionSet = $this.parents('.option-set');
+        $optionSet.find('.selected').removeClass('selected');
+        $this.addClass('selected');
+    }
+  
+    //Modifica layout Isotope per corretta visualizzazione elementi nel container
+    setTimeout("layoutMansory()",400);
 }
 
 
@@ -189,6 +216,27 @@ function onEventoInfoSuccess(data, status) {
  */
 function onEventoInfoError(data, status) {
     alert("Errore Ajax");
+}
+
+
+/*
+ * Funzione modifica layout Isotope
+ *
+ */
+function layoutMansory() {
+  $('#container').isotope({ layoutMode : 'masonry' });
+  $('#container').isotope( 'reLayout' );
+  setTimeout("layoutFitRows()",400);
+}
+
+
+/*
+ * Funzione modifica layout Isotope
+ *
+ */
+function layoutFitRows() {
+  $('#container').isotope({ layoutMode : 'fitRows' });
+  $('#container').isotope( 'reLayout' );
 }
 
 

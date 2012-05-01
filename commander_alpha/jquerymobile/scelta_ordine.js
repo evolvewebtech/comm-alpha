@@ -101,12 +101,12 @@ $(function(){
     var $optionSet = $('#filter');
 
     $optionSet.find('.selected').removeClass('selected');
-    $this.addClass('selected');
+    //$this.addClass('selected');
 
     // make option object dynamically, i.e. { filter: '.my-filter-class' }
     var options = {},
         key = $optionSet.attr('data-option-key'),
-        value = $this.attr('data-option-value');
+        value = $(this).attr('data-option-value');
     // parse 'false' as false boolean
     value = value === 'false' ? false : value;
     options[ key ] = value;

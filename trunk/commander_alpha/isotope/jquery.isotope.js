@@ -1,18 +1,20 @@
 /**
- * Isotope v1.5.11
- * An exquisite jQuery plugin for magical layouts
- * http://isotope.metafizzy.co
- *
- * Commercial use requires one-time license fee
- * http://metafizzy.co/#licenses
- *
- * Copyright 2012 David DeSandro / Metafizzy
- */
+* Isotope v1.5.19
+* An exquisite jQuery plugin for magical layouts
+* http://isotope.metafizzy.co
+*
+* Commercial use requires one-time license fee
+* http://metafizzy.co/#licenses
+*
+* Copyright 2012 David DeSandro / Metafizzy
+*/
 
-/*jshint curly: true, eqeqeq: true, forin: false, immed: false, newcap: true, noempty: true, undef: true */
-/*global window: true, jQuery: true */
+/*jshint asi: true, browser: true, curly: true, eqeqeq: true, forin: false, immed: false, newcap: true, noempty: true, strict: true, undef: true */
+/*global jQuery: false */
 
 (function( window, $, undefined ){
+
+  'use strict';
 
   // get global vars
   var document = window.document;
@@ -51,29 +53,29 @@
 
   var transformProp = getStyleProperty('transform'),
       transitionProp = getStyleProperty('transitionProperty');
-      
+
 
   // ========================= miniModernizr ===============================
   // <3<3<3 and thanks to Faruk and Paul for doing the heavy lifting
 
   /*!
-   * Modernizr v1.6ish: miniModernizr for Isotope
-   * http://www.modernizr.com
-   *
-   * Developed by: 
-   * - Faruk Ates  http://farukat.es/
-   * - Paul Irish  http://paulirish.com/
-   *
-   * Copyright (c) 2009-2010
-   * Dual-licensed under the BSD or MIT licenses.
-   * http://www.modernizr.com/license/
-   */
+* Modernizr v1.6ish: miniModernizr for Isotope
+* http://www.modernizr.com
+*
+* Developed by:
+* - Faruk Ates http://farukat.es/
+* - Paul Irish http://paulirish.com/
+*
+* Copyright (c) 2009-2010
+* Dual-licensed under the BSD or MIT licenses.
+* http://www.modernizr.com/license/
+*/
 
   /*
-   * This version whittles down the script just to check support for
-   * CSS transitions, transforms, and 3D transforms.
-  */
-  
+* This version whittles down the script just to check support for
+* CSS transitions, transforms, and 3D transforms.
+*/
+
   var tests = {
     csstransforms: function() {
       return !!transformProp;
@@ -125,7 +127,7 @@
     for ( testName in tests) {
       result = tests[ testName ]();
       Modernizr[ testName ] = result;
-      classes += ' ' + ( result ?  '' : 'no-' ) + testName;
+      classes += ' ' + ( result ? '' : 'no-' ) + testName;
     }
 
     // Add the new classes to the <html> element.
@@ -136,16 +138,16 @@
   // ========================= isoTransform ===============================
 
   /**
-   *  provides hooks for .css({ scale: value, translate: [x, y] })
-   *  Progressively enhanced CSS transforms
-   *  Uses hardware accelerated 3D transforms for Safari
-   *  or falls back to 2D transforms.
-   */
-  
+* provides hooks for .css({ scale: value, translate: [x, y] })
+* Progressively enhanced CSS transforms
+* Uses hardware accelerated 3D transforms for Safari
+* or falls back to 2D transforms.
+*/
+
   if ( Modernizr.csstransforms ) {
-    
+
         // i.e. transformFnNotations.scale(0.5) >> 'scale3d( 0.5, 0.5, 1)'
-    var transformFnNotations = Modernizr.csstransforms3d ? 
+    var transformFnNotations = Modernizr.csstransforms3d ?
       { // 3D transform functions
         translate : function ( position ) {
           return 'translate3d(' + position[0] + 'px, ' + position[1] + 'px, 0) ';
@@ -166,7 +168,7 @@
 
     var setIsoTransform = function ( elem, name, value ) {
           // unpack current transform data
-      var data =  $.data( elem, 'isoTransform' ) || {},
+      var data = $.data( elem, 'isoTransform' ) || {},
           newData = {},
           fnName,
           transformObj = {},
@@ -196,16 +198,16 @@
       // set name to vendor specific property
       elem.style[ transformProp ] = valueFns;
     };
-   
+
     // ==================== scale ===================
-  
+
     $.cssNumber.scale = true;
-  
+
     $.cssHooks.scale = {
       set: function( elem, value ) {
         // uncomment this bit if you want to properly parse strings
         // if ( typeof value === 'string' ) {
-        //   value = parseFloat( value );
+        // value = parseFloat( value );
         // }
         setIsoTransform( elem, 'scale', value );
       },
@@ -218,31 +220,31 @@
     $.fx.step.scale = function( fx ) {
       $.cssHooks.scale.set( fx.elem, fx.now+fx.unit );
     };
-  
-  
+
+
     // ==================== translate ===================
-    
+
     $.cssNumber.translate = true;
-  
+
     $.cssHooks.translate = {
       set: function( elem, value ) {
 
         // uncomment this bit if you want to properly parse strings
         // if ( typeof value === 'string' ) {
-        //   value = value.split(' ');
+        // value = value.split(' ');
         // }
-        // 
+        //
         // var i, val;
         // for ( i = 0; i < 2; i++ ) {
-        //   val = value[i];
-        //   if ( typeof val === 'string' ) {
-        //     val = parseInt( val );
-        //   }
+        // val = value[i];
+        // if ( typeof val === 'string' ) {
+        // val = parseInt( val );
+        // }
         // }
 
         setIsoTransform( elem, 'translate', value );
       },
-    
+
       get: function( elem, computed ) {
         var transform = $.data( elem, 'isoTransform' );
         return transform && transform.translate ? transform.translate : [ 0, 0 ];
@@ -250,13 +252,13 @@
     };
 
   }
-  
+
   // ========================= get transition-end event ===============================
   var transitionEndEvent, transitionDurProp;
-  
+
   if ( Modernizr.csstransitions ) {
     transitionEndEvent = {
-      WebkitTransitionProperty: 'webkitTransitionEnd',  // webkit
+      WebkitTransitionProperty: 'webkitTransitionEnd', // webkit
       MozTransitionProperty: 'transitionend',
       OTransitionProperty: 'oTransitionEnd',
       transitionProperty: 'transitionEnd'
@@ -268,14 +270,14 @@
   // ========================= smartresize ===============================
 
   /*
-   * smartresize: debounced resize event for jQuery
-   *
-   * latest version and complete README available on Github:
-   * https://github.com/louisremi/jquery.smartresize.js
-   *
-   * Copyright 2011 @louis_remi
-   * Licensed under the MIT license.
-   */
+* smartresize: debounced resize event for jQuery
+*
+* latest version and complete README available on Github:
+* https://github.com/louisremi/jquery.smartresize.js
+*
+* Copyright 2011 @louis_remi
+* Licensed under the MIT license.
+*/
 
   var $event = $.event,
       resizeTimeout;
@@ -318,9 +320,9 @@
     this._create( options );
     this._init( callback );
   };
-  
+
   // styles of container element we want to keep track of
-  var isoContainerStyles = [ 'overflow', 'position', 'width', 'height' ];
+  var isoContainerStyles = [ 'width', 'height' ];
 
   var $window = $(window);
 
@@ -332,6 +334,10 @@
     hiddenClass : 'isotope-hidden',
     hiddenStyle: { opacity: 0, scale: 0.001 },
     visibleStyle: { opacity: 1, scale: 1 },
+    containerStyle: {
+      position: 'relative',
+      overflow: 'hidden'
+    },
     animationEngine: 'best-available',
     animationOptions: {
       queue: false,
@@ -348,28 +354,30 @@
 
     // sets up widget
     _create : function( options ) {
-      
+
       this.options = $.extend( {}, $.Isotope.settings, options );
-      
+
       this.styleQueue = [];
       this.elemCount = 0;
 
       // get original styles in case we re-apply them in .destroy()
       var elemStyle = this.element[0].style;
       this.originalStyle = {};
-      for ( var i=0, len = isoContainerStyles.length; i < len; i++ ) {
-        var prop = isoContainerStyles[i];
+      // keep track of container styles
+      var containerStyles = isoContainerStyles.slice(0);
+      for ( var prop in this.options.containerStyle ) {
+        containerStyles.push( prop );
+      }
+      for ( var i=0, len = containerStyles.length; i < len; i++ ) {
+        prop = containerStyles[i];
         this.originalStyle[ prop ] = elemStyle[ prop ] || '';
       }
-      
-      this.element.css({
-        overflow : 'hidden',
-        position : 'relative'
-      });
-      
+      // apply container style from options
+      this.element.css( this.options.containerStyle );
+
       this._updateAnimationEngine();
       this._updateUsingTransforms();
-      
+
       // sorting
       var originalOrderSorter = {
         'original-order' : function( $elem, instance ) {
@@ -385,11 +393,11 @@
 
       // need to get atoms
       this.reloadItems();
-      
+
       // get top left position of where the bricks should be
       this.offset = {
-        left: parseInt( this.element.css('padding-left'), 10 ),
-        top: parseInt( this.element.css('padding-top'), 10 )
+        left: parseInt( ( this.element.css('padding-left') || 0 ), 10 ),
+        top: parseInt( ( this.element.css('padding-top') || 0 ), 10 )
       };
 
       // add isotope class first time around
@@ -397,28 +405,28 @@
       setTimeout( function() {
         instance.element.addClass( instance.options.containerClass );
       }, 0 );
-      
+
       // bind resize method
       if ( this.options.resizable ) {
         $window.bind( 'smartresize.isotope', function() {
           instance.resize();
         });
       }
-      
+
       // dismiss all click events from hidden events
       this.element.delegate( '.' + this.options.hiddenClass, 'click', function(){
         return false;
       });
-      
+
     },
-    
+
     _getAtoms : function( $elems ) {
       var selector = this.options.itemSelector,
-          // filter & find 
+          // filter & find
           $atoms = selector ? $elems.filter( selector ).add( $elems.find( selector ) ) : $elems,
           // base style for atoms
           atomStyle = { position: 'absolute' };
-          
+
       if ( this.usingTransforms ) {
         atomStyle.left = 0;
         atomStyle.top = 0;
@@ -427,16 +435,16 @@
       $atoms.css( atomStyle ).addClass( this.options.itemClass );
 
       this.updateSortData( $atoms, true );
-      
+
       return $atoms;
     },
-  
+
     // _init fires when your instance is first created
     // (from the constructor above), and when you
     // attempt to initialize the widget again (by the bridge)
     // after it has already been initialized.
     _init : function( callback ) {
-      
+
       this.$filteredAtoms = this._filter( this.$allAtoms );
       this._sort();
       this.reLayout( callback );
@@ -459,10 +467,10 @@
         }
       }
     },
-    
+
     // ====================== updaters ====================== //
     // kind of like setters
-    
+
     _updateAnimationEngine : function() {
       var animationEngine = this.options.animationEngine.toLowerCase().replace( /[ _\-]/g, '');
       var isUsingJQueryAnimation;
@@ -481,13 +489,13 @@
       this.isUsingJQueryAnimation = isUsingJQueryAnimation;
       this._updateUsingTransforms();
     },
-    
+
     _updateTransformsEnabled : function() {
       this._updateUsingTransforms();
     },
-    
+
     _updateUsingTransforms : function() {
-      var usingTransforms = this.usingTransforms = this.options.transformsEnabled && 
+      var usingTransforms = this.usingTransforms = this.options.transformsEnabled &&
         Modernizr.csstransforms && Modernizr.csstransitions && !this.isUsingJQueryAnimation;
 
       // prevent scales when transforms are disabled
@@ -499,7 +507,7 @@
       this.getPositionStyles = usingTransforms ? this._translate : this._positionAbs;
     },
 
-    
+
     // ====================== Filtering ======================
 
     _filter : function( $atoms ) {
@@ -509,10 +517,10 @@
         return $atoms;
       }
 
-      var hiddenClass    = this.options.hiddenClass,
+      var hiddenClass = this.options.hiddenClass,
           hiddenSelector = '.' + hiddenClass,
-          $hiddenAtoms   = $atoms.filter( hiddenSelector ),
-          $atomsToShow   = $hiddenAtoms;
+          $hiddenAtoms = $atoms.filter( hiddenSelector ),
+          $atomsToShow = $hiddenAtoms;
 
       if ( filter !== '*' ) {
         $atomsToShow = $hiddenAtoms.filter( filter );
@@ -525,9 +533,9 @@
 
       return $atoms.filter( filter );
     },
-    
+
     // ====================== Sorting ======================
-    
+
     updateSortData : function( $atoms, isIncrementingElemCount ) {
       var instance = this,
           getSortData = this.options.getSortData,
@@ -548,10 +556,10 @@
         $.data( this, 'isotope-sort-data', sortData );
       });
     },
-    
+
     // used on all the filtered atoms
     _sort : function() {
-      
+
       var sortBy = this.options.sortBy,
           getSorter = this._getSorter,
           sortDir = this.options.sortAscending ? 1 : -1,
@@ -565,7 +573,7 @@
             }
             return ( ( a > b ) ? 1 : ( a < b ) ? -1 : 0 ) * sortDir;
           };
-      
+
       this.$filteredAtoms.sort( sortFn );
     },
 
@@ -578,14 +586,14 @@
     _translate : function( x, y ) {
       return { translate : [ x, y ] };
     },
-    
+
     _positionAbs : function( x, y ) {
       return { left: x, top: y };
     },
 
     _pushPosition : function( $elem, x, y ) {
-      x += this.offset.left;
-      y += this.offset.top;
+      x = Math.round( x + this.offset.left );
+      y = Math.round( y + this.offset.top );
       var position = this.getPositionStyles( x, y );
       this.styleQueue.push({ $el: $elem, style: position });
       if ( this.options.itemPositionDataEnabled ) {
@@ -603,19 +611,19 @@
       var layoutMode = this.options.layoutMode;
 
       // layout logic
-      this[ '_' +  layoutMode + 'Layout' ]( $elems );
-      
+      this[ '_' + layoutMode + 'Layout' ]( $elems );
+
       // set the size of the container
       if ( this.options.resizesContainer ) {
-        var containerStyle = this[ '_' +  layoutMode + 'GetContainerSize' ]();
+        var containerStyle = this[ '_' + layoutMode + 'GetContainerSize' ]();
         this.styleQueue.push({ $el: this.element, style: containerStyle });
       }
 
       this._processStyleQueue( $elems, callback );
-      
+
       this.isLaidOut = true;
     },
-    
+
     _processStyleQueue : function( $elems, callback ) {
       // are we animating the layout arrangement?
       // use plugin-ish syntax for css or animate
@@ -639,7 +647,7 @@
           objStyleFn = obj.$el.hasClass('no-transition') ? 'css' : styleFn;
           obj.$el[ objStyleFn ]( obj.style, animOpts );
         };
-        
+
       } else if ( callback || onLayout || animOpts.complete ) {
         // has callback
         var isCallbackTriggered = false,
@@ -656,12 +664,12 @@
           for (var i=0, len = callbacks.length; i < len; i++) {
             hollaback = callbacks[i];
             if ( typeof hollaback === 'function' ) {
-              hollaback.call( instance.element, $elems );
+              hollaback.call( instance.element, $elems, instance );
             }
           }
           isCallbackTriggered = true;
         };
-        
+
         if ( this.isUsingJQueryAnimation && styleFn === 'animate' ) {
           // add callback to animation options
           animOpts.complete = callbackFn;
@@ -670,10 +678,11 @@
         } else if ( Modernizr.csstransitions ) {
           // detect if first item has transition
           var i = 0,
-              testElem = this.styleQueue[0].$el,
+              firstItem = this.styleQueue[0],
+              testElem = firstItem && firstItem.$el,
               styleObj;
           // get first non-empty jQ object
-          while ( !testElem.length ) {
+          while ( !testElem || !testElem.length ) {
             styleObj = this.styleQueue[ i++ ];
             // HACK: sometimes styleQueue[i] is undefined
             if ( !styleObj ) {
@@ -697,7 +706,7 @@
 
       // process styleQueue
       $.each( this.styleQueue, processor );
-      
+
       if ( triggerCallbackNow ) {
         callbackFn();
       }
@@ -705,26 +714,26 @@
       // clear out queue for next time
       this.styleQueue = [];
     },
-    
-    
+
+
     resize : function() {
       if ( this[ '_' + this.options.layoutMode + 'ResizeChanged' ]() ) {
         this.reLayout();
       }
     },
-    
-    
+
+
     reLayout : function( callback ) {
-      
-      this[ '_' +  this.options.layoutMode + 'Reset' ]();
+
+      this[ '_' + this.options.layoutMode + 'Reset' ]();
       this.layout( this.$filteredAtoms, callback );
-      
+
     },
-    
+
     // ====================== Convenience methods ======================
-    
+
     // ====================== Adding items ======================
-    
+
     // adds a jQuery object of items to a isotope container
     addItems : function( $content, callback ) {
       var $newAtoms = this._getAtoms( $content );
@@ -735,13 +744,13 @@
         callback( $newAtoms );
       }
     },
-    
+
     // convienence method for adding elements properly to any layout
     // positions items, hides them, then animates them back in <--- very sezzy
     insert : function( $content, callback ) {
       // position items
       this.element.append( $content );
-      
+
       var instance = this;
       this.addItems( $content, function( $newAtoms ) {
         var $newFilteredAtoms = instance._filter( $newAtoms );
@@ -750,9 +759,9 @@
         instance.reLayout();
         instance._revealAppended( $newFilteredAtoms, callback );
       });
-      
+
     },
-    
+
     // convienence method for working with Infinite Scroll
     appended : function( $content, callback ) {
       var instance = this;
@@ -762,18 +771,18 @@
         instance._revealAppended( $newAtoms, callback );
       });
     },
-    
+
     // adds new atoms, then hides them before positioning
     _addHideAppended : function( $newAtoms ) {
       this.$filteredAtoms = this.$filteredAtoms.add( $newAtoms );
       $newAtoms.addClass('no-transition');
-      
+
       this._isInserting = true;
-      
+
       // apply hidden styles
       this.styleQueue.push({ $el: $newAtoms, style: this.options.hiddenStyle });
     },
-    
+
     // sets visible style on new atoms
     _revealAppended : function( $newAtoms, callback ) {
       var instance = this;
@@ -787,19 +796,23 @@
         instance._processStyleQueue( $newAtoms, callback );
       }, 10 );
     },
-    
+
     // gathers all atoms
     reloadItems : function() {
       this.$allAtoms = this._getAtoms( this.element.children() );
     },
-    
+
     // removes elements from Isotope widget
     remove: function( $content, callback ) {
       // remove elements from Isotope instance in callback
       var instance = this;
+      // remove() as a callback, for after transition / animation
       var removeContent = function() {
         instance.$allAtoms = instance.$allAtoms.not( $content );
         $content.remove();
+        if ( callback ) {
+          callback.call( instance.element );
+        }
       };
 
       if ( $content.filter( ':not(.' + this.options.hiddenClass + ')' ).length ) {
@@ -807,24 +820,21 @@
         this.styleQueue.push({ $el: $content, style: this.options.hiddenStyle });
         this.$filteredAtoms = this.$filteredAtoms.not( $content );
         this._sort();
-        this.reLayout( removeContent, callback );
+        this.reLayout( removeContent );
       } else {
         // remove it now
         removeContent();
-        if ( callback ) {
-          callback.call( this.element );
-        }
       }
 
     },
-    
+
     shuffle : function( callback ) {
       this.updateSortData( this.$allAtoms );
       this.options.sortBy = 'random';
       this._sort();
       this.reLayout( callback );
     },
-    
+
     // destroys widget, returns elements and container back (close) to original style
     destroy : function() {
 
@@ -843,34 +853,33 @@
             style[ transformProp ] = '';
           }
         });
-      
+
       // re-apply saved container styles
       var elemStyle = this.element[0].style;
-      for ( var i=0, len = isoContainerStyles.length; i < len; i++ ) {
-        var prop = isoContainerStyles[i];
+      for ( var prop in this.originalStyle ) {
         elemStyle[ prop ] = this.originalStyle[ prop ];
       }
-      
+
       this.element
         .unbind('.isotope')
         .undelegate( '.' + options.hiddenClass, 'click' )
         .removeClass( options.containerClass )
         .removeData('isotope');
-      
+
       $window.unbind('.isotope');
 
     },
-    
-    
+
+
     // ====================== LAYOUTS ======================
-    
+
     // calculates number of rows or columns
     // requires columnWidth or rowHeight to be set on namespaced object
     // i.e. this.masonry.columnWidth = 200
     _getSegments : function( isRows ) {
       var namespace = this.options.layoutMode,
-          measure  = isRows ? 'rowHeight' : 'columnWidth',
-          size     = isRows ? 'height' : 'width',
+          measure = isRows ? 'rowHeight' : 'columnWidth',
+          size = isRows ? 'height' : 'width',
           segmentsName = isRows ? 'rows' : 'cols',
           containerSize = this.element[ size ](),
           segments,
@@ -880,7 +889,7 @@
                     this.$filteredAtoms[ 'outer' + capitalize(size) ](true) ||
                     // if there's no items, use size of container
                     containerSize;
-      
+
       segments = Math.floor( containerSize / segmentSize );
       segments = Math.max( segments, 1 );
 
@@ -888,9 +897,9 @@
       this[ namespace ][ segmentsName ] = segments;
       // i.e. this.masonry.columnWidth = ...
       this[ namespace ][ measure ] = segmentSize;
-      
+
     },
-    
+
     _checkIfSegmentsChanged : function( isRows ) {
       var namespace = this.options.layoutMode,
           segmentsName = isRows ? 'rows' : 'cols',
@@ -902,7 +911,7 @@
     },
 
     // ====================== Masonry ======================
-  
+
     _masonryReset : function() {
       // layout-specific props
       this.masonry = {};
@@ -914,12 +923,12 @@
         this.masonry.colYs.push( 0 );
       }
     },
-  
+
     _masonryLayout : function( $elems ) {
       var instance = this,
           props = instance.masonry;
       $elems.each(function(){
-        var $this  = $(this),
+        var $this = $(this),
             //how many columns does this brick span
             colSpan = Math.ceil( $this.outerWidth(true) / props.columnWidth );
         colSpan = Math.min( colSpan, props.cols );
@@ -942,14 +951,14 @@
             // and get the max value of the array
             groupY[i] = Math.max.apply( Math, groupColY );
           }
-        
+
           instance._masonryPlaceBrick( $this, groupY );
         }
       });
     },
-    
+
     // worker method that places brick in the columnSet
-    //   with the the minY
+    // with the the minY
     _masonryPlaceBrick : function( $brick, setY ) {
       // get the minimum Y value from the columns
       var minimumY = Math.min.apply( Math, setY ),
@@ -962,7 +971,7 @@
           break;
         }
       }
-    
+
       // position the brick
       var x = this.masonry.columnWidth * shortCol,
           y = minimumY;
@@ -976,18 +985,18 @@
       }
 
     },
-    
+
     _masonryGetContainerSize : function() {
       var containerHeight = Math.max.apply( Math, this.masonry.colYs );
       return { height: containerHeight };
     },
-  
+
     _masonryResizeChanged : function() {
       return this._checkIfSegmentsChanged();
     },
-  
+
     // ====================== fitRows ======================
-    
+
     _fitRowsReset : function() {
       this.fitRows = {
         x : 0,
@@ -995,43 +1004,43 @@
         height : 0
       };
     },
-  
+
     _fitRowsLayout : function( $elems ) {
       var instance = this,
           containerWidth = this.element.width(),
           props = this.fitRows;
-      
+
       $elems.each( function() {
         var $this = $(this),
             atomW = $this.outerWidth(true),
             atomH = $this.outerHeight(true);
-      
+
         if ( props.x !== 0 && atomW + props.x > containerWidth ) {
           // if this element cannot fit in the current row
           props.x = 0;
           props.y = props.height;
-        } 
-      
+        }
+
         // position the atom
         instance._pushPosition( $this, props.x, props.y );
-  
+
         props.height = Math.max( props.y + atomH, props.height );
         props.x += atomW;
-  
+
       });
     },
-  
+
     _fitRowsGetContainerSize : function () {
       return { height : this.fitRows.height };
     },
-  
+
     _fitRowsResizeChanged : function() {
       return true;
     },
-  
+
 
     // ====================== cellsByRow ======================
-  
+
     _cellsByRowReset : function() {
       this.cellsByRow = {
         index : 0
@@ -1049,8 +1058,8 @@
         var $this = $(this),
             col = props.index % props.cols,
             row = Math.floor( props.index / props.cols ),
-            x = Math.round( ( col + 0.5 ) * props.columnWidth - $this.outerWidth(true) / 2 ),
-            y = Math.round( ( row + 0.5 ) * props.rowHeight - $this.outerHeight(true) / 2 );
+            x = ( col + 0.5 ) * props.columnWidth - $this.outerWidth(true) / 2,
+            y = ( row + 0.5 ) * props.rowHeight - $this.outerHeight(true) / 2;
         instance._pushPosition( $this, x, y );
         props.index ++;
       });
@@ -1063,10 +1072,10 @@
     _cellsByRowResizeChanged : function() {
       return this._checkIfSegmentsChanged();
     },
-  
-  
+
+
     // ====================== straightDown ======================
-  
+
     _straightDownReset : function() {
       this.straightDown = {
         y : 0
@@ -1092,7 +1101,7 @@
 
 
     // ====================== masonryHorizontal ======================
-    
+
     _masonryHorizontalReset : function() {
       // layout-specific props
       this.masonryHorizontal = {};
@@ -1104,12 +1113,12 @@
         this.masonryHorizontal.rowXs.push( 0 );
       }
     },
-  
+
     _masonryHorizontalLayout : function( $elems ) {
       var instance = this,
           props = instance.masonryHorizontal;
       $elems.each(function(){
-        var $this  = $(this),
+        var $this = $(this),
             //how many rows does this brick span
             rowSpan = Math.ceil( $this.outerHeight(true) / props.rowHeight );
         rowSpan = Math.min( rowSpan, props.rows );
@@ -1136,11 +1145,11 @@
         }
       });
     },
-    
+
     _masonryHorizontalPlaceBrick : function( $brick, setX ) {
       // get the minimum Y value from the columns
-      var minimumX  = Math.min.apply( Math, setX ),
-          smallRow  = 0;
+      var minimumX = Math.min.apply( Math, setX ),
+          smallRow = 0;
       // Find index of smallest row, the first from the top
       for (var i=0, len = setX.length; i < len; i++) {
         if ( setX[i] === minimumX ) {
@@ -1166,14 +1175,14 @@
       var containerWidth = Math.max.apply( Math, this.masonryHorizontal.rowXs );
       return { width: containerWidth };
     },
-    
+
     _masonryHorizontalResizeChanged : function() {
       return this._checkIfSegmentsChanged(true);
     },
 
 
     // ====================== fitColumns ======================
-  
+
     _fitColumnsReset : function() {
       this.fitColumns = {
         x : 0,
@@ -1181,7 +1190,7 @@
         width : 0
       };
     },
-    
+
     _fitColumnsLayout : function( $elems ) {
       var instance = this,
           containerHeight = this.element.height(),
@@ -1195,7 +1204,7 @@
           // if this element cannot fit in the current column
           props.x = props.width;
           props.y = 0;
-        } 
+        }
 
         // position the atom
         instance._pushPosition( $this, props.x, props.y );
@@ -1205,19 +1214,19 @@
 
       });
     },
-    
+
     _fitColumnsGetContainerSize : function () {
       return { width : this.fitColumns.width };
     },
-    
+
     _fitColumnsResizeChanged : function() {
       return true;
     },
-    
 
-  
+
+
     // ====================== cellsByColumn ======================
-  
+
     _cellsByColumnReset : function() {
       this.cellsByColumn = {
         index : 0
@@ -1235,8 +1244,8 @@
         var $this = $(this),
             col = Math.floor( props.index / props.rows ),
             row = props.index % props.rows,
-            x = Math.round( ( col + 0.5 ) * props.columnWidth - $this.outerWidth(true) / 2 ),
-            y = Math.round( ( row + 0.5 ) * props.rowHeight - $this.outerHeight(true) / 2 );
+            x = ( col + 0.5 ) * props.columnWidth - $this.outerWidth(true) / 2,
+            y = ( row + 0.5 ) * props.rowHeight - $this.outerHeight(true) / 2;
         instance._pushPosition( $this, x, y );
         props.index ++;
       });
@@ -1249,7 +1258,7 @@
     _cellsByColumnResizeChanged : function() {
       return this._checkIfSegmentsChanged(true);
     },
-    
+
     // ====================== straightAcross ======================
 
     _straightAcrossReset : function() {
@@ -1276,15 +1285,15 @@
     }
 
   };
-  
-  
+
+
   // ======================= imagesLoaded Plugin ===============================
   /*!
-   * jQuery imagesLoaded plugin v1.1.0
-   * http://github.com/desandro/imagesloaded
-   *
-   * MIT License. by Paul Irish et al.
-   */
+* jQuery imagesLoaded plugin v1.1.0
+* http://github.com/desandro/imagesloaded
+*
+* MIT License. by Paul Irish et al.
+*/
 
 
   // $('#my-container').imagesLoaded(myFunction)
@@ -1295,7 +1304,7 @@
   // needed because .load() doesn't work on cached images
 
   // callback function gets image collection as argument
-  //  `this` is the container
+  // `this` is the container
 
   $.fn.imagesLoaded = function( callback ) {
     var $this = this,
@@ -1309,8 +1318,9 @@
     }
 
     function imgLoaded( event ) {
-      if ( event.target.src !== blank && $.inArray( this, loaded ) === -1 ){
-        loaded.push(this);
+      var img = event.target;
+      if ( img.src !== blank && $.inArray( img, loaded ) === -1 ){
+        loaded.push( img );
         if ( --len <= 0 ){
           setTimeout( triggerCallback );
           $images.unbind( '.imagesLoaded', imgLoaded );
@@ -1323,7 +1333,7 @@
       triggerCallback();
     }
 
-    $images.bind( 'load.imagesLoaded error.imagesLoaded',  imgLoaded ).each( function() {
+    $images.bind( 'load.imagesLoaded error.imagesLoaded', imgLoaded ).each( function() {
       // cached images don't fire load sometimes, so we reset src.
       var src = this.src;
       // webkit hack from http://groups.google.com/group/jquery-dev/browse_thread/thread/eee6ab7b2da50e1f
@@ -1344,12 +1354,12 @@
     }
   };
 
-  // =======================  Plugin bridge  ===============================
+  // ======================= Plugin bridge ===============================
   // leverages data method to either create or return $.Isotope constructor
   // A bit from jQuery UI
-  //   https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js
-  // A bit from jcarousel 
-  //   https://github.com/jsor/jcarousel/blob/master/lib/jquery.jcarousel.js
+  // https://github.com/jquery/jquery-ui/blob/master/ui/jquery.ui.widget.js
+  // A bit from jcarousel
+  // https://github.com/jsor/jcarousel/blob/master/lib/jquery.jcarousel.js
 
   $.fn.isotope = function( options, callback ) {
     if ( typeof options === 'string' ) {

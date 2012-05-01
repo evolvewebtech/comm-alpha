@@ -27,8 +27,9 @@
 }
 
 .list-ord {
-    margin-bottom: 110px;
+    /*margin-bottom: 110px;*/
     overflow: auto;
+    height: 330px;
 }
 
 .list-ord_nav {
@@ -37,14 +38,15 @@
 }
 
 .list-ord_foo {
-    position: fixed;
+    position:relative;
     bottom: 0px;
     height: 100px;
-    width: 29%
+    width: 100%
 }
 
 .list-ord_foo .list-ord_foo-cont {
     padding-top: 10px;
+    margin-top: 5px;
 }
 
 .menu {

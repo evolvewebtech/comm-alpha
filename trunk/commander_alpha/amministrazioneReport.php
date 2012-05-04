@@ -8,20 +8,7 @@
 <script type="text/javascript" src="media/js/jquery-ui.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="media/css/jquery-ui.css" />
-
-<link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.css" />
 <link rel="stylesheet" type="text/css" href="jquerymobile/css/jquery.mobile-1.0.1.min.css"/>
-
-<!-- jqPlotscript e css -->
-<!--[if lt IE 9]>
-    <script language="javascript" type="text/javascript" src="media/js/excanvas.js"></script>
-<![endif]-->
-<script language="javascript" type="text/javascript" src="media/js/jquery.jqplot.min.js"></script>
-<script type="text/javascript" src="media/js/plugins/jqplot.dateAxisRenderer.min.js"></script>
-<script type="text/javascript" src="media/js/plugins/jqplot.canvasTextRenderer.min.js"></script>
-<script type="text/javascript" src="media/js/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
-<script type="text/javascript" src="media/js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
-<script type="text/javascript" src="media/js/plugins/jqplot.barRenderer.min.js"></script>
 
 <!-- main -->
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -29,7 +16,6 @@
 <!-- CSS -->
 <style type="text/css">
 .cloud {
-    cursor: pointer;
     background-color: #fff;
     border-radius: 5px 5px 5px 5px;
     color: black;
@@ -38,9 +24,14 @@
     border: 1px solid #FFF;
     margin: 10px;
 }
+.cloud:hover{
+    cursor: pointer;
+}
 a {
    color: white;
    text-decoration:none;
+}
+a:hover{
    cursor: pointer;
 }
 .ui-datepicker-trigger{
@@ -52,7 +43,41 @@ a {
 li.ordini:hover{
     cursor: pointer;
 }
-
+/* -----------
+ * -----------
+ *
+ * form
+ */
+#ricerca-ordine-form{
+    border-radius: 5px 5px 5px 5px;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid #FFF;
+    margin: 0px 10px 10px 10px;
+}
+#ricerca-ordine-form fieldset{
+    border: none;
+}
+form{
+      margin:15px;
+      padding:5px;
+      border-bottom:1px solid #ddd;
+}
+form input[type=submit]{
+    display:none;
+}
+div#results{
+    margin-bottom: 10px;
+}
+div#results div.result{
+    padding:10px 0px;
+    margin:10px 0px 10px;
+}
+.ui-listview-inset .ui-li {
+    border-right-width: 0px;
+    border-left-width: 0px;
+}
 </style>
 
 <div id="content">
@@ -113,6 +138,84 @@ if($objSession->IsLoggedIn()){
 <script type="text/javascript">
     $(document).ready(function(){
 
+        /*
+         * toggle per la visualizzazione del form di ricerca
+         */
+         $("#ricerca-ordine").click(function () {
+            $("#ricerca-ordine-form").slideToggle("slow");
+        });
+
+
+        /*
+         * ricerca istantanea delle comande
+         * 
+         * dato il seriale dell'ordine
+         * o dato il numero/nome del tavolo
+         */
+        var runningRequest = false; //richieta inviata
+        var request;
+
+
+        //rilevo la pressione dei tasti
+        $('input#q').keyup(function(e){
+            e.preventDefault();
+            var $q = $(this);
+
+            if($q.val() == ''){
+                $('div#results').html('');
+                return false;
+            }
+
+            //Abort della richiesta aperta per velocizzare
+            if(runningRequest){
+                request.abort();
+            }
+
+            runningRequest=true;
+            request = $.getJSON('search.php?search=ordine',{
+                q:$q.val()
+            },function(data){
+                showResults(data,$q.val());
+                runningRequest=false;
+            });
+
+            $('form').submit(function(e){
+                e.preventDefault();
+            });
+
+        });
+
+
+        //rilevo la pressione dei tasti
+        $('input#q2').keyup(function(e){
+            e.preventDefault();
+            var $q2 = $(this);
+
+            if($q2.val() == ''){
+                $('div#results').html('');
+                return false;
+            }
+
+            //Abort della richiesta aperta per velocizzare
+            if(runningRequest){
+                request.abort();
+            }
+
+            runningRequest=true;
+            request = $.getJSON('search.php?search=tavolo',{
+                q2:$q2.val()
+            },function(data){
+                showResults(data,$q2.val());
+                runningRequest=false;
+            });
+
+            $('form').submit(function(e){
+                e.preventDefault();
+            });
+
+        });
+
+
         //datepicker
         $.datepicker.setDefaults($.datepicker.regional['it']);
         $( "#cerca_ordine" ).datepicker({
@@ -144,6 +247,55 @@ if($objSession->IsLoggedIn()){
                 }
              });
 
+/*
+ * creo l'HTML per la visualizzazione dei risultati
+ */
+function showResults(data, highlight){
+
+    var resultHtml = '';
+    var totOrdini = 0;
+
+    resultHtml+='<ul style="width: 880px;margin:auto;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
+    resultHtml+='<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini trovati</li>';
+
+    $.each(data, function(i,item){
+
+        var new_id = 'ord-ser-';
+        new_id = new_id + item.seriale + '&' + item.timestamp + '&' + item.tavolo_id;
+        new_id = new_id + '&' + item.n_coperti + '&' + item.totale;
+
+        resultHtml+='<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
+        resultHtml+='<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
+        resultHtml+='<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+item.id+'">';
+        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-s">' + item.seriale + '</div>';
+        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + item.timestamp + '</div>';
+        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + item.tavolo_id + '</div>';
+        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + item.n_coperti + '</div>';
+        resultHtml+='<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+item.totale+' &#8364;</span>';
+        resultHtml+='</a>';
+        resultHtml+='</div></div>';
+        resultHtml+='</li>';
+
+        totOrdini = totOrdini + item.totale;
+
+    });
+
+    resultHtml+='<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
+    resultHtml+='<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
+    resultHtml+='<span style="margin-right: 205px; border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 180px; font-size: 14px">Totale contanti incassati: '+totOrdini+' &#8364;</span>';
+    resultHtml+='<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale ordini: '+totOrdini+' &#8364;</span>';
+    resultHtml+='</div></div>';
+    resultHtml+='</li>';
+
+    resultHtml+="</ul>";
+
+
+    $('div#results').html(resultHtml);
+}
+
+/*
+ * aggiungo uno zero davanti se il numero ha una solo cifra
+ */
 function zeroPad(num,count) {
     var numZeropad = num + '';
     while(numZeropad.length < count) {
@@ -204,7 +356,6 @@ function onListaOrdiniSuccess(data, status) {
     document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
 
-
     /*
      * Errore richiesta Ajax
      *
@@ -229,10 +380,20 @@ function onListaOrdiniSuccess(data, status) {
 
     <div class="cloud" title="Statistiche per l'intero periodo di attivit&agrave;.">STATISTICHE COMPLESSIVE</div>
     <div class="cloud" title="Statistiche per un singolo giorno di attivit&agrave;.">STATISTICHE GIORNALIERE</div>
-
-        <!--
-        <div id="chartdiv" style="height:400px;width:600px; "></div>
-        -->
+    <div class="cloud" id="ricerca-ordine" title="Ricerca un ordine tra quelli disponibili.">RICERCA UN ORDINE</div>
+    <form id="ricerca-ordine-form" method="get" action="" style="display:none;background-color:white;">
+        <fieldset>
+            <p>Inserisci nei campi sottostanti il numero del tavolo o il numero dell'ordine per visualizzarne la comanda.</p>
+            <label style="margin-right: 85px;" class="" for="ricerca_ordine">numero ordine</label>
+            <input type="text" id="q" name="q" autocomplete="off" />
+            <input type="submit" value="Search" />
+            <br />
+            <label style="margin-right: 43px;" class="" for="ricerca_ordine">numero/nome tavolo</label>
+            <input type="text" id="q2" name="q2" autocomplete="off" />
+            <input type="submit" value="Search" />
+        </fieldset>
+    </form>
+    <div id="results"></div>
 </div><!-- end container -->
         <!-- footer -->
         <? include_once 'footer.php'; ?>

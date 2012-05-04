@@ -48,6 +48,81 @@ class DataManager {
 
     /**
      *
+     * @param <type> $q
+     * @return <type> 
+     */
+    public static function search_ordine($q){
+
+        $tabella = "cmd_ordine";
+
+        $sql = "SELECT $tabella.id".
+               " FROM $tabella".
+               " WHERE $tabella.seriale LIKE '%{$q}%'";
+
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return false;
+            }else{
+                if(mysql_num_rows($res)) {
+                      $objs = array();
+                      while($rec = mysql_fetch_assoc($res)) {                       
+                        //$objs[] = $rec['id'];
+                        $objs[] = new Ordine(intval($rec['id']));
+                      }
+                      return $objs;
+                } else {
+                    return array();
+                    }
+            }
+        }
+
+    }
+
+
+    /**
+     *
+     * @param <type> $q2
+     * @return Ordine 
+     */
+    public static function search_tavolo($q2) {
+
+        $tabella = "cmd_tavolo";
+        $tabella_ordine = "cmd_ordine";
+
+//        $sql = "SELECT $tabella.id".
+//               " FROM $tabella".
+//               " WHERE $tabella.seriale LIKE '%{$q}%'";
+
+        $sql = "SELECT $tabella_ordine.id".
+               " FROM $tabella_ordine".
+               " INNER JOIN $tabella".
+               " ON $tabella.id=$tabella_ordine.tavolo_id".
+               " WHERE $tabella.numero LIKE '%{$q2}%'".
+               " OR $tabella.nome LIKE '%{$q2}%'";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return false;
+            }else{
+                if(mysql_num_rows($res)) {
+                      $objs = array();
+                      while($rec = mysql_fetch_assoc($res)) {
+                        //$objs[] = $rec['id'];
+                        $objs[] = new Ordine(intval($rec['id']));
+                      }
+                      return $objs;
+                } else {
+                    return array();
+                    }
+            }
+        }
+    }
+
+    /**
+     *
      * controllo se esiste o meno una relazione nel db tra due elementi
      *
      * @param <type> $param1
@@ -79,9 +154,6 @@ class DataManager {
             }
             return true;
         }
-        //return false;
-        
-        //return true;
     }
 
 

@@ -449,7 +449,7 @@ $(function() {
   	</div>
 
         <!-- dialogs -->
-        <?php include_once 'dialogs.php';?>
+        <?php include_once dirname(__FILE__).'/dialogs.php';?>
 
         <button id="add_tab"><img id="plus" src="img/plus.png"><span id="add_span">aggiungi una categoria</span></button>
         <div class="clearfix"></div>
@@ -499,7 +499,7 @@ $(function() {
         </div><!-- End demo -->
 
         <!-- footer -->
-        <?php include_once 'footer.php';?>
+        <? include_once dirname(__FILE__).'/footer.php'; ?>
 </div><!-- end content -->
 
         <!-- DEBUG -->

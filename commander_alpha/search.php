@@ -7,6 +7,7 @@
         require_once dirname(__FILE__) . '/manager/DataManager.php';
         require_once dirname(__FILE__).'/manager/HTTPSession.php';
         $objSession = new HTTPSession();
+
         /*
          * controllo se il login sia valido
          */
@@ -38,10 +39,14 @@
                                 $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
                             }
 
+                            $tavolo_id = $arOrdini[$i]->tavolo_id;
+                            $tavolo = DataManager::getTavolo(intval($tavolo_id));
+
                             $arrTemp = array(   "id"            => $arOrdini[$i]->id,
                                                 "seriale"       => $arOrdini[$i]->seriale,
                                                 "timestamp"     => $arOrdini[$i]->timestamp,
                                                 "n_coperti"     => $arOrdini[$i]->n_coperti,
+                                                "tavolo"        => $tavolo,
                                                 "tavolo_id"     => $arOrdini[$i]->tavolo_id,
                                                 "totale"        => $tot);
 
@@ -63,13 +68,19 @@
                                 $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
                             }
 
+                            $tavolo_id = $arOrdini[$i]->tavolo_id;
+                            $tavolo = DataManager::getTavolo(intval($tavolo_id));
+
                             $arrTemp = array(   "id"            => $arOrdini[$i]->id,
                                                 "seriale"       => $arOrdini[$i]->seriale,
                                                 "timestamp"     => $arOrdini[$i]->timestamp,
                                                 "n_coperti"     => $arOrdini[$i]->n_coperti,
+                                                'tavolo'        => $tavolo,
                                                 "tavolo_id"     => $arOrdini[$i]->tavolo_id,
-                                                "totale"        => $tot);
+                                                "totale"        => $tot
+                                            );
 
+                            $tavolo = DataManager::getTavolo(intval($arrTemp['tavolo_id']));
                             $var[$i] = $arrTemp;
                         }
                     }

@@ -372,7 +372,7 @@ for ($i=0; $i<count($arr); $i++) {
 
 </div><!-- end container -->
         <!-- footer -->
-        <? include_once 'footer.php'; ?>
+        <? include_once dirname(__FILE__).'/footer.php'; ?>
 </div><!-- end content -->
 
 <!-- DEBUG -->

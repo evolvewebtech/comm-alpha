@@ -105,11 +105,11 @@ if($objSession->IsLoggedIn()){
      * prelevo tutti i giorni in cui sono stati effettuati ordini
      * ritorno un array con tutti i time stamp
      */
+    /*
     $giorni = DataManager::visualizzaGiorni();
     
-    /*
-     * creo un array con solo i giorni in cui ci sono stati ordini
-     */
+    
+    //creo un array con solo i giorni in cui ci sono stati ordini
     $day = array();
     foreach ($giorni as $giorno) {
         $timestamp = $giorno['timestamp'];
@@ -133,10 +133,45 @@ if($objSession->IsLoggedIn()){
     foreach ($day as $key=>$value) {
         $new_day[]=Utility::displayDate($value,$lang);
     }
+    */
 
 ?>
 <script type="text/javascript">
     $(document).ready(function(){
+
+        /*
+         * definisco i dialoghi
+         */
+        var $dialogERR = $( "#dialogERR" ).dialog({
+                position: 'center',
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                        Chiudi: function() {
+                                $( this ).dialog( "close" );
+                        }
+                },
+                open: function() {
+                },
+                close: function() {
+                }
+        });
+
+        var $dialogOK = $( "#dialogOK" ).dialog({
+                position: 'center',
+                autoOpen: false,
+                modal: true,
+                buttons: {
+                        Chiudi: function() {
+                                $( this ).dialog( "close" );
+                        }
+                },
+                open: function() {
+                },
+                close: function() {
+                }
+        });
+
 
         /*
          * toggle per la visualizzazione del form di ricerca
@@ -175,8 +210,19 @@ if($objSession->IsLoggedIn()){
             request = $.getJSON('search.php?search=ordine',{
                 q:$q.val()
             },function(data){
-                showResults(data,$q.val());
-                runningRequest=false;
+                    if (data.err=='E002'){
+                        $('#code-err').html('Sessione scaduta o login non valido.');
+                        $dialogERR.dialog("open");
+                        $('#debug').append(' ERR: '+data.err);
+                    } else if (data.err=='E001'){
+                        $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+                        $dialogERR.dialog("open");
+                        $('#debug').append(' ERR: '+data.err);
+
+                    } else {
+                        showResults(data,$q.val());
+                        runningRequest=false;
+                    }
             });
 
             $('form').submit(function(e){
@@ -205,9 +251,19 @@ if($objSession->IsLoggedIn()){
             request = $.getJSON('search.php?search=tavolo',{
                 q2:$q2.val()
             },function(data){
-                showResults(data,$q2.val());
-                runningRequest=false;
-            });
+                    if (data.err=='E002'){
+                        $('#code-err').html('Sessione scaduta o login non valido.');
+                        $dialogERR.dialog("open");
+                        $('#debug').append(' ERR: '+data.err);
+                    } else if (data.err=='E001'){
+                        $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+                        $dialogERR.dialog("open");
+                        $('#debug').append(' ERR: '+data.err);
+                    }else{
+                        showResults(data,$q2.val());
+                        runningRequest=false;
+                    } 
+                });
 
             $('form').submit(function(e){
                 e.preventDefault();
@@ -237,7 +293,6 @@ if($objSession->IsLoggedIn()){
                     $.ajax({
                         type : "POST",
                         data: data,
-//                        url: "jquerymobile/reportListaOrdini.php",
                         url: "jquerymobile/lista_ordini.php",
                         dataType: 'json',
                         cache: false,
@@ -269,7 +324,7 @@ function showResults(data, highlight){
         resultHtml+='<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+item.id+'">';
         resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-s">' + item.seriale + '</div>';
         resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + item.timestamp + '</div>';
-        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + item.tavolo_id + '</div>';
+        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo numero: ' + item.tavolo.numero + '<br />Tavolo nome: '+item.tavolo.nome+'</div>';
         resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + item.n_coperti + '</div>';
         resultHtml+='<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+item.totale+' &#8364;</span>';
         resultHtml+='</a>';
@@ -303,6 +358,7 @@ function zeroPad(num,count) {
     }
     return numZeropad;
 }
+
 /*
  * Richiesta Ajax completata con successo
  *
@@ -356,24 +412,27 @@ function onListaOrdiniSuccess(data, status) {
     document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
 
-    /*
-     * Errore richiesta Ajax
-     *
-     */
-    function onError(data, status) {
-        alert("Errore Ajax");
-        str = '';
-        str = str + '<section class="ui-body ui-body-b" style="margin-top: 40px">';
-        str = str + '<div style="margin:auto">';
-        str = str + 'Nessun ordine trovato per questa data</div>';
-        str = str + '</section>';
-        document.getElementById('lista-vecchi-ordini').innerHTML = str;
-    }
+/*
+ * Errore richiesta Ajax
+ *
+ */
+function onError(data, status) {
+    alert("Errore Ajax");
+    str = '';
+    str = str + '<section class="ui-body ui-body-b" style="margin-top: 40px">';
+    str = str + '<div style="margin:auto">';
+    str = str + 'Nessun ordine trovato per questa data</div>';
+    str = str + '</section>';
+    document.getElementById('lista-vecchi-ordini').innerHTML = str;
+}
 
 });
 </script>
 
 <div id="container" style="border:2px solid #fff; border-radius: 3px;">
+
+    <!-- dialogs -->
+    <? include_once dirname(__FILE__).'/dialogs.php'; ?>
 
     <div class="cloud">STORICO ORDINI <input style="display:none;" type="text" id="cerca_ordine"></div>
     <div id="lista-vecchi-ordini" class="lista_ordini"></div>
@@ -396,7 +455,7 @@ function onListaOrdiniSuccess(data, status) {
     <div id="results"></div>
 </div><!-- end container -->
         <!-- footer -->
-        <? include_once 'footer.php'; ?>
+        <? include_once dirname(__FILE__).'/footer.php'; ?>
 </div><!-- end content -->
 
 <!-- DEBUG -->

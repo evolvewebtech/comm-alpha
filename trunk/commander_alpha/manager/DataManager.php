@@ -67,8 +67,7 @@ class DataManager {
             }else{
                 if(mysql_num_rows($res)) {
                       $objs = array();
-                      while($rec = mysql_fetch_assoc($res)) {                       
-                        //$objs[] = $rec['id'];
+                      while($rec = mysql_fetch_assoc($res)) {
                         $objs[] = new Ordine(intval($rec['id']));
                       }
                       return $objs;
@@ -91,10 +90,6 @@ class DataManager {
         $tabella = "cmd_tavolo";
         $tabella_ordine = "cmd_ordine";
 
-//        $sql = "SELECT $tabella.id".
-//               " FROM $tabella".
-//               " WHERE $tabella.seriale LIKE '%{$q}%'";
-
         $sql = "SELECT $tabella_ordine.id".
                " FROM $tabella_ordine".
                " INNER JOIN $tabella".
@@ -110,7 +105,6 @@ class DataManager {
                 if(mysql_num_rows($res)) {
                       $objs = array();
                       while($rec = mysql_fetch_assoc($res)) {
-                        //$objs[] = $rec['id'];
                         $objs[] = new Ordine(intval($rec['id']));
                       }
                       return $objs;

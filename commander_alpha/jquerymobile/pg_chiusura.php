@@ -4,7 +4,7 @@
     <section class="ui-body ui-body-b" style="box-shadow: 3px 3px 10px #aaaaaa">
         <div class="ch-tot-ord-div">
             <ul class="ui-listview" data-role="listview" style="margin: 0px">
-            <li id="chius-head" class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
+            <li id="chius-head" class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined comm-li-ch-t" data-role="list-divider" role="heading">
                 <div>Tavolo x</div>
                 <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
             </li>

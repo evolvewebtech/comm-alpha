@@ -31,7 +31,6 @@
     </div>
 
 
-
 <script type="text/javascript">
     
     /*
@@ -69,7 +68,7 @@
         document.getElementById('old-ord-tot').innerHTML = str
         
         //Timestamp
-        document.getElementById('old-ord-ts').innerHTML = $ts;
+        document.getElementById('old-ord-ts').innerHTML = formato_data_ora($ts, '-');
         
         //Recupero alimenti ordine
         $.ajax({

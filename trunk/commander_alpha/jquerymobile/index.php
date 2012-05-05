@@ -41,6 +41,7 @@
     </script>
     <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
+    <script type="text/javascript" src="../lib/formato_data.js"></script>
     <script type="text/javascript" src="lista_ordini.js"></script>
     
     <link rel="stylesheet" href="css/style-isotope.css"/>
@@ -93,13 +94,13 @@
             <div class="scelta_op">
                 <div class="button_opz" >
                     <a href="#tavoli" class="comm-btn-1">
-                        <img src="images/symbol_add.png" />
+                        <img src="css/images/symbol_add.png" />
                         <span class="comm-btn-1-text">Nuovo ordine</span>
                     </a>
                 </div>
                 <div class="button_opz">
                     <a href="#info-ordini" class="comm-btn-1">
-                        <img src="images/symbol_information.png" />
+                        <img src="css/images/symbol_information.png" />
                         <span class="comm-btn-1-text">Vecchi ordini</span>
                     </a>
                 </div>

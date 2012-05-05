@@ -517,6 +517,12 @@ div#id-cat.element_list .name{
     font-weight: bold;
 }
 
+.comm-li-ch-t {
+    padding-top: 14px;
+    padding-bottom: 14px;
+    padding-left: 27px;
+}
+
 .comm-li-ch-big {
     margin: 0px;
     height: 35px;

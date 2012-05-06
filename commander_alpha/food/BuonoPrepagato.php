@@ -18,6 +18,7 @@ class BuonoPrepagato extends Entity {
       $this->propertyTable['credito'] = 'credito';
       $this->propertyTable['nominativo'] = 'nominativo';
       $this->propertyTable['gestore_id'] = 'gestore_id';
+      $this->propertyTable['record_attivo'] = 'record_attivo';
     }
 
     

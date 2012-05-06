@@ -55,7 +55,7 @@ if ($objSession->IsLoggedIn()){
          *
          */
         //echo '<a href="ordinazione.php">inizia a gestire gli ordini</a>';
-        header("location: ordinazione.php");
+        header("location: jquerymobile/index.php");
     }
 } else {
     //login fallito

@@ -39,9 +39,10 @@
         var buono_cred_us = 0;
         var refreshAlim = false;
     </script>
+    <script type="text/javascript" src="../lib/contrast_color.js"></script>
+    <script type="text/javascript" src="../lib/formato_data.js"></script>
     <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
-    <script type="text/javascript" src="../lib/formato_data.js"></script>
     <script type="text/javascript" src="lista_ordini.js"></script>
     
     <link rel="stylesheet" href="css/style-isotope.css"/>
@@ -89,6 +90,7 @@
     <div data-role="page" id="home">
         <div data-role="header">
             <h1>Scelta operazioni</h1>
+            <a id="logoutBt" data-icon="delete" class="ui-btn-right">Esci</a> 
         </div>
         <div data-role="content">
             <div class="scelta_op">
@@ -291,9 +293,30 @@
             <h1>Confermare la stampa dell'ordine?</h1>
         </div>
         <div data-role="content">
-            <a id="conferma-ordine" href="#home" data-transition="fade" data-role="button" data-icon="check" class="ui-btn-right">Sì</a>
-            <a href="#chiusura" data-transition="fade" data-role="button" data-icon="delete" class="ui-btn-right">No</a>
+            <a id="conferma-ordine" data-role="button" data-icon="check" class="ui-btn-right">Sì</a>
+            <a href="#chiusura" data-role="button" data-icon="delete" class="ui-btn-right">No</a>
         </div>
     </div>
+    
+    <!-- DIALOG UTENTE NON LOGGATO -->
+    <div data-role="page" id="diag-log-err">
+        <div data-role="header">
+            <h1>Verifica utente</h1>
+        </div>
+        <div data-role="content">
+            <h3 id="log-err-text">Non possiedi i permessi per visualizzare questa pagina!</h3>
+            <a id="diag-log-back" data-role="button" data-icon="alert" class="ui-btn-right">Indietro</a>
+        </div>
+    </div>
+    
+    <script type="text/javascript">
+        $('#logoutBt').live("click", function() { logout() });
+        $('#diag-log-back').live("click", function() { logout() });
+        
+        function logout() {
+            document.location.href="../logout.php";
+            $.mobile.changePage( "../logout.php", 'none', false, true);
+        }
+    </script>  
 </body>
 </html>

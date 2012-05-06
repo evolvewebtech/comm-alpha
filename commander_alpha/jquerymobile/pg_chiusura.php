@@ -51,9 +51,9 @@
     
     <div class="ch-tot-ord-right">
         <div class="ch-tot-ord-div"></div>
-        <a href="#buoni-pre" data-role="button" data-icon="home" class="ui-btn-right">Buoni prepagati</a>
-        <a data-role="button" data-icon="home" class="ui-btn-right">Sconto</a>
-        <a href="#diag-ins-cont" data-rel="dialog" data-role="button" data-icon="home" class="ui-btn-right">Contanti</a>
+        <a href="#buoni-pre" data-role="button" data-icon="search" class="ui-btn-right">Buoni prepagati</a>
+        <a data-role="button" data-icon="star" class="ui-btn-right">Sconto</a>
+        <a href="#diag-ins-cont" data-rel="dialog" data-role="button" data-icon="check" class="ui-btn-right">Contanti</a>
         <div class="ch-tot-ord-div"></div>
         <div class="ch-tot-ord-div"></div>
         <a href="#diag-conf-ord" data-rel="dialog" class="comm-C-btn comm-C-btn-conf">
@@ -150,15 +150,24 @@
     
     function onInvioOrdineError(data, status) { 
         alert("Errore Ajax registrazione ordine");
+        
+        document.location.href="#chiusura";
+        $.mobile.changePage( "#chiusura", 'none', false, true);
     }
     
     function onStampaSuccess(data, status) {
         if (id_ord_stmp > 0) alert("Ordine " + id_ord_stmp + " inviato con successo!");
         else alert("Ordine inviato con successo!");
+        
+        document.location.href="#home";
+        $.mobile.changePage( "#home", 'none', false, true);
     } 
     
     function onStampaError(data, status) { 
         alert("Errore stampa ordine " + id_ord_stmp);
+        
+        document.location.href="#home";
+        $.mobile.changePage( "#home", 'none', false, true);
     }
    
 </script>

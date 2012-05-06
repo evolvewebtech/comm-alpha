@@ -84,7 +84,7 @@
 .comm_checkbox.selected .cc_icon{
     background-color: #46769e;
     /*background-color: #e2cd71;*/
-    background-image: url("../images/icons-18-white.png");
+    background-image: url("images/icons-18-white.png");
     background-repeat: no-repeat;
     background-position: -648px 50%;
     background-attachment: scroll;

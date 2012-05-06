@@ -77,14 +77,14 @@
             <!-- <h2>Sort:</h2> -->
             <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
                 <!-- <li><a href="#mixed" data-option-value="number">mixed</a></li> -->
-                <li><a href="#categorie" data-option-value="original-order" class="selected">Categorie</a></li>
+                <li><a id="catSort" href="#categorie" data-option-value="original-order" class="selected">Categorie</a></li>
                 <li><a href="#alphabetical" data-option-value="alphabetical">Alfabetico</a></li>
             </ul>
             </div>
             <div class="option-combo">
             <!-- <h2>Layout: </h2> -->
             <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
-                <li><a href="#fitRows" data-option-value="fitRows" class="selected">Vista 1</a></li>
+                <li><a id="fitRows" href="#fitRows" data-option-value="fitRows" class="selected">Vista 1</a></li>
                 <li><a href="#masonry" data-option-value="masonry">Vista 2</a></li>
                 <li><a href="#straightDown" data-option-value="straightDown">Vista 3</a></li>
             </ul>

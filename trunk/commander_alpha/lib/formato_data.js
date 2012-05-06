@@ -3,7 +3,7 @@ var mesi = new Array('Gennaio','Febbraio','Marzo','Aprile','Maggio','Giugno', 'L
 
 function formato_data_ora(data, tipo) {
         
-        if(data.length!=19){
+        if ((data.length!=10) && (data.length!=19)){
             return 0;
         }
         

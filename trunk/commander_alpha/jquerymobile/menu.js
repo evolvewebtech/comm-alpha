@@ -27,6 +27,19 @@ $("#ordine").live('pageshow', function() {
         aggiornaLista("cat");
     
     }
+    else {
+        //aggiornamento layout Isotope
+        $('#container').isotope({ layoutMode : 'fitRows' });
+        $('#container').isotope( 'reLayout' );
+        //Selezionato pulsante "Categorie" in pagina ordini
+        var $this = $('#fitRows');
+        // don't proceed if already selected
+        if ( !$this.hasClass('selected') ) {
+            var $optionSet = $this.parents('.option-set');
+            $optionSet.find('.selected').removeClass('selected');
+            $this.addClass('selected');
+        }
+    }      
 });
 
 
@@ -35,20 +48,37 @@ $("#ordine").live('pageshow', function() {
  *
  */
 function onEventoInfoSuccess(data, status) { 
-    //alert("Successo lettura da database con Ajax!")  
+    //alert("Successo lettura da database con Ajax!")
     
+    //Verifica se utente loggato
+    if (data['err'] != '') {
+        //utente non loggato correttamente 
+        var str = '';
+        if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
+        else str = 'Non possiedi i permessi per visualizzare questa pagina!';
+        document.getElementById('log-err-text').innerHTML = str;
+        //apertura pagina avviso
+        document.location.href="#diag-log-err";
+        $.mobile.changePage( "#diag-log-err", 'none', false, true);
+        return
+    }
+        
     //Svuotamento iniziale "categorie" da container Isotope
     var $removable = $('#container').find( ".categorie" );
     $('#container').isotope( 'remove', $removable );
         
     //Aggiunta Categorie e Alimenti al container Isotope    
-    var $str = "";
-    for($i=0; $i<data[0].length; $i++) {
+    var $str = '';
+    var textColor = '';
+    for($i=0; $i<data['cat'].length; $i++) {
+        //colore testo
+        textColor = contrastColor( data['cat'][$i].colore_bottone_predef );
+        
         $str = "";
         $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-        $str = $str + '<a class="options-set2" href="#'+data[0][$i].nome+'" data-option-value=".'+data[0][$i].nome+'">';
-        $str = $str + '<div class="element" style="background: '+data[0][$i].colore_bottone_predef+'">';
-        $str = $str + '<h2 class="el-name">'+data[0][$i].nome+'</h2>';
+        $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+'">';
+        $str = $str + '<div class="element" style="background: '+data['cat'][$i].colore_bottone_predef+'">';
+        $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h2>';
         $str = $str + '</div>';
         $str = $str + '</a>';
         $str = $str + '</div>';
@@ -57,26 +87,28 @@ function onEventoInfoSuccess(data, status) {
         $('#container').append( $str ).isotope( 'reloadItems' );
         
         //Svuotamento iniziale "alimenti" da container Isotope
-        $removable = $('#container').find( "." + data[0][$i].nome );
+        $removable = $('#container').find( "." + data['cat'][$i].nome );
         $('#container').isotope( 'remove', $removable );
         
-        for($j=0; $j<data[0][$i].alimenti.length; $j++) {
+        for($j=0; $j<data['cat'][$i].alimenti.length; $j++) {
             //Verifica se alimento esaurito
-            if (data[0][$i].alimenti[$j].esaurito == 0) {
+            if (data['cat'][$i].alimenti[$j].esaurito == 0) {
                 //Colore pulsante alimento
-                var $strColorCat = data[0][$i].colore_bottone_predef;
-                var $strColorAlim = data[0][$i].alimenti[$j].colore_bottone;
+                var $strColorCat = data['cat'][$i].colore_bottone_predef;
+                var $strColorAlim = data['cat'][$i].alimenti[$j].colore_bottone;
                 var $strColor = '';
                 if ($strColorAlim == '') $strColor = $strColorCat;
                 else $strColor = $strColorAlim;
+                //colore testo
+                textColor = contrastColor( $strColor );
 
                 $str = "";
-                $str = $str + '<div class="element '+data[0][$i].nome+'" data-symbol="Sc" data-category='+data[0][$i].nome+'>';
-                $str = $str + '<a class="options-set3" href="#'+data[0][$i].alimenti[$j].id+'" data-option-value=".'+data[0][$i].alimenti[$j].nome+'">';
+                $str = $str + '<div class="element '+data['cat'][$i].nome+'" data-symbol="Sc" data-category='+data['cat'][$i].nome+'>';
+                $str = $str + '<a class="options-set3" href="#'+data['cat'][$i].alimenti[$j].id+'" data-option-value=".'+data['cat'][$i].alimenti[$j].nome+'">';
                 $str = $str + '<div class="element" style="background: '+$strColor+'">';
-                $str = $str + '<h2 class="el-name">'+data[0][$i].alimenti[$j].nome+'</h2>';
-                $str = $str + '<h2 class="el-prezzo">'+data[0][$i].alimenti[$j].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
-                $str = $str + '<h3 class="el-cat">'+data[0][$i].nome+'</h3>';
+                $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].alimenti[$j].nome+'</h2>';
+                $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+data['cat'][$i].alimenti[$j].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+                $str = $str + '<h3 class="el-cat" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h3>';
                 $str = $str + '</div>';
                 $str = $str + '</a>';
                 $str = $str + '</div>';
@@ -86,27 +118,27 @@ function onEventoInfoSuccess(data, status) {
 
                 //Creazione oggetti Variante
                 var arrTempVar = new Array();
-                for($t=0; $t<data[0][$i].alimenti[$j].varianti.length; $t++) {
+                for($t=0; $t<data['cat'][$i].alimenti[$j].varianti.length; $t++) {
                     //Creazione oggetto Variante
-                    var variante = new Variante(data[0][$i].alimenti[$j].varianti[$t].id,
-                                                data[0][$i].alimenti[$j].varianti[$t].descrizione,
-                                                data[0][$i].alimenti[$j].varianti[$t].prezzo);
+                    var variante = new Variante(data['cat'][$i].alimenti[$j].varianti[$t].id,
+                                                data['cat'][$i].alimenti[$j].varianti[$t].descrizione,
+                                                data['cat'][$i].alimenti[$j].varianti[$t].prezzo);
 
                     //Aggiunta elementi all'array delle Varianti
                     arrTempVar.push(variante);
                 }
 
                 //Creazione oggetto Alimento
-                var alimento = new Alim(data[0][$i].alimenti[$j].id,
-                                        data[0][$i].nome,
-                                        data[0][$i].alimenti[$j].nome,
-                                        data[0][$i].alimenti[$j].prezzo,
-                                        data[0][$i].alimenti[$j].descrizione,
+                var alimento = new Alim(data['cat'][$i].alimenti[$j].id,
+                                        data['cat'][$i].nome,
+                                        data['cat'][$i].alimenti[$j].nome,
+                                        data['cat'][$i].alimenti[$j].prezzo,
+                                        data['cat'][$i].alimenti[$j].descrizione,
                                         0,
                                         arrTempVar);
 
                 //Aggiunta elementi all'array degli Alimenti
-                arrAlim[data[0][$i].alimenti[$j].id] = alimento;
+                arrAlim[data['cat'][$i].alimenti[$j].id] = alimento;
             }
         }
     }
@@ -129,13 +161,13 @@ function onEventoInfoSuccess(data, status) {
     $('#container').isotope( 'remove', $removable );
     
     //Aggiunta Menu Fissi al container Isotope   
-    for($i=0; $i<data[1].length; $i++) {
+    for($i=0; $i<data['menu'].length; $i++) {
         $str = "";
         $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
-        $str = $str + '<a class="options-set4" href="#'+data[1][$i].id+'" data-option-value=".'+data[1][$i].nome+'">';
+        $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
         $str = $str + '<div class="element" style="background: #abcd00">';
-        $str = $str + '<h2 class="el-name">'+data[1][$i].nome+'</h2>';
-        $str = $str + '<h2 class="el-prezzo">'+data[1][$i].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+        $str = $str + '<h2 class="el-name">'+data['menu'][$i].nome+'</h2>';
+        $str = $str + '<h2 class="el-prezzo">'+data['menu'][$i].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
         $str = $str + '</div>';
         $str = $str + '</a>';
         $str = $str + '</div>';
@@ -144,30 +176,30 @@ function onEventoInfoSuccess(data, status) {
         $('#container').append( $str ).isotope( 'reloadItems' );
         
         var arrTempCat = new Array();
-        for($j=0; $j<data[1][$i].categorie.length; $j++) {
-            var $strAl = "";
-            $strAl = $strAl + "";
-            
-            $str = $str + $strAl;
+        for($j=0; $j<data['menu'][$i].categorie.length; $j++) {
+//            var $strAl = "";
+//            $strAl = $strAl + "";
+//            
+//            $str = $str + $strAl;
             
             //Creazione oggetti Alimenti
             var arrTempAlim = new Array();
-            for($t=0; $t<data[1][$i].categorie[$j].alimenti.length; $t++) {
+            for($t=0; $t<data['menu'][$i].categorie[$j].alimenti.length; $t++) {
                 
                 var arrTempVar = new Array();
-                for($s=0; $s<data[1][$i].categorie[$j].alimenti[$t].varianti.length; $s++) {
+                for($s=0; $s<data['menu'][$i].categorie[$j].alimenti[$t].varianti.length; $s++) {
                     //Creazione oggetto Variante
-                    var variante = new Variante(data[1][$i].categorie[$j].alimenti[$t].varianti[$s].id,
-                                                data[1][$i].categorie[$j].alimenti[$t].varianti[$s].descrizione,
-                                                data[1][$i].categorie[$j].alimenti[$t].varianti[$s].prezzo);
+                    var variante = new Variante(data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].id,
+                                                data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].descrizione,
+                                                data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].prezzo);
                     
                     //Aggiunta elementi all'array delle Varianti
                     arrTempVar.push(variante);
                 }   
                 
                 //Creazione oggetto Alimento
-                var alimento = new AlimMenu(data[1][$i].categorie[$j].alimenti[$t].id,
-                                            data[1][$i].categorie[$j].alimenti[$t].nome,
+                var alimento = new AlimMenu(data['menu'][$i].categorie[$j].alimenti[$t].id,
+                                            data['menu'][$i].categorie[$j].alimenti[$t].nome,
                                             arrTempVar);
                 
                 //Aggiunta elementi all'array delle Varianti
@@ -175,8 +207,8 @@ function onEventoInfoSuccess(data, status) {
             }
 
             //Creazione oggetto CatManu contente i parametri
-            var categoria = new CatMenu(data[1][$i].categorie[$j].id,
-                                        data[1][$i].categorie[$j].nome_cat,
+            var categoria = new CatMenu(data['menu'][$i].categorie[$j].id,
+                                        data['menu'][$i].categorie[$j].nome_cat,
                                         arrTempAlim);
             
             //Aggiunta elementi all'array delle categorie
@@ -184,10 +216,10 @@ function onEventoInfoSuccess(data, status) {
         }
         
         //Creazione oggetto Menu
-        var menu = new Menu(data[1][$i].id,
-                            data[1][$i].nome,
-                            data[1][$i].prezzo,
-                            data[1][$i].descrizione,
+        var menu = new Menu(data['menu'][$i].id,
+                            data['menu'][$i].nome,
+                            data['menu'][$i].prezzo,
+                            data['menu'][$i].descrizione,
                             arrTempCat);
         
         //Aggiunta Menu all'array
@@ -227,6 +259,15 @@ function onEventoInfoSuccess(data, status) {
     
     //Selezionato pulsante "Categorie" in pagina ordini
     var $this = $('#categorie');
+    // don't proceed if already selected
+    if ( !$this.hasClass('selected') ) {
+        var $optionSet = $this.parents('.option-set');
+        $optionSet.find('.selected').removeClass('selected');
+        $this.addClass('selected');
+    }
+    
+    //Selezionato pulsante "Categorie" in pagina ordini
+    $this = $('#catSort');
     // don't proceed if already selected
     if ( !$this.hasClass('selected') ) {
         var $optionSet = $this.parents('.option-set');

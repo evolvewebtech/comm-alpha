@@ -68,7 +68,7 @@
         document.getElementById('old-ord-tot').innerHTML = str
         
         //Timestamp
-        document.getElementById('old-ord-ts').innerHTML = formato_data_ora($ts, '-');
+        document.getElementById('old-ord-ts').innerHTML = $ts;
         
         //Recupero alimenti ordine
         $.ajax({

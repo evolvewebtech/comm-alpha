@@ -37,6 +37,7 @@ function onListaOrdiniSuccess(data, status) {
     //eliminazione carattere '"'
     dataSel = dataSel.replace('"','');
     dataSel = dataSel.replace('"','');
+    dataSel = formato_data_ora(dataSel, '-');
     
     if (data.length > 0) {
     
@@ -48,7 +49,7 @@ function onListaOrdiniSuccess(data, status) {
     var timestamp = formato_data_ora(data[i].timestamp, '-');
           
     var new_id = 'ord-ser-';
-    new_id = new_id + data[i].seriale + '&' + data[i].timestamp + '&' + data[i].tavolo_id;
+    new_id = new_id + data[i].seriale + '&' + timestamp + '&' + data[i].tavolo_id;
     new_id = new_id + '&' + data[i].n_coperti + '&' + data[i].totale;
     
     str = str + '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';

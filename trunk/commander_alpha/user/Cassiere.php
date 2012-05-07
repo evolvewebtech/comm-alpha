@@ -11,21 +11,21 @@ class Cassiere extends User {
     public function __construct($userID) {
 
         $arData = DataManager::getCassiereData($userID);
-        /*
-        echo "<pre>";
-        print_r($arData);
-        echo "</pre>";
-        */
+        
+//        echo "<pre>";
+//        print_r($arData);
+//        echo "</pre>";
+        
         parent::__construct($arData);
 
         $this->propertyTable['id'] = 'id';
-        $this->propertyTable['livello_cassiere'] = 'livello_cassiere';
+        //$this->propertyTable['livello_cassiere'] = 'livello_cassiere';
         $this->propertyTable['utente_registrato_id'] = 'utente_registrato_id';
         $this->propertyTable['gestore_id'] = 'gestore_id';
     }
 
     public function __toString() {
-        return 'id: ' . $this->id . ' lc: '. $this->livello_cassiere . ' ur_id: ' . $this->utente_registrato_id . ' g_id: ' . $this->gestore_id . '<p>' . $this->username .'</p>';
+        return 'id: ' . $this->id . ' ur_id: ' . $this->utente_registrato_id . ' g_id: ' . $this->gestore_id . '<p>' . $this->username .'</p>';
     }
 
     /**
@@ -49,18 +49,18 @@ class Cassiere extends User {
     }
 
 
-    /**
-     *
-     * prendo il livello del cassiere
-     * 1 -
-     * 2 -
-     * 3 - 
-     * 
-     * @return <int> 
-     */
-    public function getLivelloCassiere(){
-        return intval($this->livello_cassiere);
-    }
+//    /**
+//     *
+//     * prendo il livello del cassiere
+//     * 1 -
+//     * 2 -
+//     * 3 -
+//     *
+//     * @return <int>
+//     */
+//    public function getLivelloCassiere(){
+//        return intval($this->livello_cassiere);
+//    }
 
 
     public function validate() {

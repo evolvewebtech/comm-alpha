@@ -31,6 +31,8 @@ if ($objSession->IsLoggedIn()){
     $objUser = $objSession->GetUserObject();
     $objSession->UTENTE_REGISTRATO_ID = $objSession->GetUserID();
 
+    
+
     if(get_class($objUser[0]) == 'Gestore') {
         $objSession->RUOLO = 'GESTORE';
 
@@ -43,8 +45,8 @@ if ($objSession->IsLoggedIn()){
 
     } elseif (get_class($objUser[0]) == 'Cassiere') {
         $objSession->RUOLO = 'CASSIERE';
-        $livello_cassiere = $objUser[0]->getLivelloCassiere();
-        $objSession->LIVELLO_CASSIERE = $livello_cassiere;
+        //$livello_cassiere = $objUser[0]->getLivelloCassiere();
+        //$objSession->LIVELLO_CASSIERE = $livello_cassiere;
 
         $gestore_id = $objUser[0]->getGestoreID();
         $objSession->GESTORE_ID = $gestore_id;

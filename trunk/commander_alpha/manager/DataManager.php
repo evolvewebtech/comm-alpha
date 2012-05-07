@@ -471,12 +471,11 @@ class DataManager {
      * @param <string> $email
      * @param <string> $nome
      * @param <string> $cognome
-     * @param <int> $livello_cassiere
      * @return <bool>
      */
     public static function inserisciCassiere($cassiere_id, $utente_registrato_id, 
                                              $gestore_id, $username, $password, $nome,
-                                             $cognome, $tipo, $livello_cassiere){
+                                             $cognome, $tipo){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -499,7 +498,7 @@ class DataManager {
          */
         if ($ret)
             $ret2 = $db->insert('cmd_cassiere',
-                            array($cassiere_id, $livello_cassiere, $utente_registrato_id2, $gestore_id));
+                            array($cassiere_id, $utente_registrato_id2, $gestore_id));
         else
             $ret2 = false;
 
@@ -535,11 +534,10 @@ class DataManager {
      * @param <string> $email
      * @param <string> $nome
      * @param <string> $cognome
-     * @param <int> $livello_cassiere
      * @return <bool>
      */
     public static function aggiornaCassiere($cassiere_id, $gestore_id, $username,
-                                            $password, $nome, $cognome, $tipo, $livello_cassiere){
+                                            $password, $nome, $cognome, $tipo){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
@@ -549,13 +547,14 @@ class DataManager {
          * aggiorno il livello del cassiere
          */
         $ret = $db->update('cmd_cassiere',
-                            array('livello_cassiere' => $livello_cassiere),
+                            array('gestore_id' => $gestore_id),
                             array('id',$cassiere_id));
         /*
          * prelevo l'id dalla tabella cmd_cassiere appena aggiornata
          */
         $db->select('cmd_cassiere', 'utente_registrato_id', "id='$cassiere_id'");
         $utente_registrato_id = $db->getResult();
+
         /*
          * trasformo per sicurezza utente_registrato in un numero intero
          */

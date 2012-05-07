@@ -3,11 +3,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  *
- * $ret_addCassiere = $gestore->addCassiere('NULL', 'NULL', 'utenteProva','passProva', 'nome1', 'nome2', 'G', 1);
  * 
  */
-
-
 ?>
 <?php
     try
@@ -24,7 +21,6 @@
         $cassiere_id            = intval(mysql_real_escape_string($_POST['cassiere_id']));
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));
         $utente_registrato_id   = intval(mysql_real_escape_string($_POST['utente_registrato_id']));
-        $livello_cassiere       = intval(mysql_real_escape_string($_POST['tab_livello_cassiere']));
         $current_tab            = intval(mysql_real_escape_string($_POST['current_tab']));
         $action                 = mysql_real_escape_string($_POST['action']);
        
@@ -35,7 +31,6 @@
                      "cassiere_id"          => $cassiere_id,
                      "gestore_id"           => $gestore_id,
                      "utente_registrato_id" => $utente_registrato_id,
-                     "livello_cassiere"     => $livello_cassiere,
                      "current_tab"          => $current_tab,
                      "action"               => $action,
                      "err"                  => '');
@@ -73,31 +68,28 @@
                     /*
                      * cassiere non presente, devo aggiungerlo
                      */
-                    
-                    $ret = $gestore->addCassiere($cassiere_id, 'NULL', $username, $password, $nome, $cognome, 'C', $livello_cassiere);
+                    $ret = $gestore->addCassiere($cassiere_id, 'NULL', $username, $password, $nome, $cognome, 'C');
                     if(!$ret){
                         $var['err'] = $ret;
                     }
                     
-
                 }else{
                     /*
                      * aggiorno il cassiere
                      */
-
-                    $ret = $gestore->editCassiere($cassiere_id, $username, $password, $nome, $cognome, 'G', $livello_cassiere);
+                    $ret = $gestore->editCassiere($cassiere_id, $username, $password, $nome, $cognome, 'C');
                     if(!$ret){
-                        $var['err'] = $ret;
+                        $var['err'] = 'ciao';
                     }
 
                 }
 
             }//end save
 
-/*
- * fine login
- *
- */
+        /*
+         * fine login
+         *
+         */
         } else{
             $var['err'] = 'E001'; //non è un gestore
         }

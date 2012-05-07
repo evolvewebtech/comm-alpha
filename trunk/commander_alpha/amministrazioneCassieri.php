@@ -294,7 +294,7 @@ $(function() {
         $('#debug').append('<br />selected: '+selected);
 
         if($("#cassiereForm-"+selected).valid()){
-            
+
             var cassiereForm = $("#cassiereForm-"+selected).serialize();
             cassiereForm = cassiereForm+'&action=save&current_tab='+selected;
 
@@ -447,6 +447,9 @@ $(function() {
                   // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
                   location.reload();
                });
+           } else{
+               alert(data);
+               console.log(data);
            }
         }
     }

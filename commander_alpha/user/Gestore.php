@@ -59,11 +59,10 @@ class Gestore extends User {
      * @param <type> $nome
      * @param <type> $cognome
      * @param <type> $tipo
-     * @param <type> $livello_cassiere
      * @return <type>
      */
-    public function addCassiere($cassiere_id, $utente_registrato_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
-        return DataManager::inserisciCassiere($cassiere_id, $utente_registrato_id, $this->id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere);
+    public function addCassiere($cassiere_id, $utente_registrato_id, $username, $password, $nome, $cognome, $tipo){
+        return DataManager::inserisciCassiere($cassiere_id, $utente_registrato_id, $this->id, $username, $password, $nome, $cognome, $tipo);
     }
 
     /**
@@ -74,11 +73,10 @@ class Gestore extends User {
      * @param <type> $nome
      * @param <type> $cognome
      * @param <type> $tipo
-     * @param <type> $livello_cassiere
      * @return <type>
      */
-    public function editCassiere($cassiere_id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere){
-        return DataManager::aggiornaCassiere($cassiere_id, $this->id, $username, $password, $nome, $cognome, $tipo, $livello_cassiere);
+    public function editCassiere($cassiere_id, $username, $password, $nome, $cognome, $tipo){
+        return DataManager::aggiornaCassiere($cassiere_id, $this->id, $username, $password, $nome, $cognome, $tipo);
     }
 
     

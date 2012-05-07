@@ -439,6 +439,13 @@ class DataManager {
 
     }
 
+    /**
+     *
+     * eseguo il logut del cassiere
+     *
+     * @param <array> $cassiere
+     * @return <type>
+     */
     public static function logoutCassiere($cassiere){
 
         $cassiere_id = intval($cassiere['utente_registrato_id']);

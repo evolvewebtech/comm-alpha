@@ -211,6 +211,7 @@ class HTTPSession {
             $objUser = DataManager::getUserAsObject($this->user_id);
             if ($objUser) {
                 return($objUser);
+
             } else {
                 return(false);
             };

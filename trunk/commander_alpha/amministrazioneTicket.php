@@ -31,7 +31,7 @@ todo: 2. Togliere debug
            $gestore_id = $gestore->id;
            $utente_registrato_id = $gestore->utente_registrato_id;
 
-           $data_ticket = DataManager::getAllBuonoPrepagatoByGestoreID($gestore_id);//($gestore_id);
+           $data_ticket = DataManager::getAllBuonoPrepagatoAttiviByGestoreID($gestore_id);//($gestore_id);
            $numero_ticket = count($data_ticket);
            $max_id = DataManager::getMAXID('cmd_buoni_prepagati');
            if (!$max_id){

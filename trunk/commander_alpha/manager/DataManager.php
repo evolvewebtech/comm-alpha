@@ -2153,7 +2153,7 @@ class DataManager {
      * @param <type> $gestore_id
      * @return <type> 
      */
-    static function inserisciBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id){
+    static function inserisciBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo){
 
         require_once 'Database.php';
         $db = new Database();
@@ -2162,7 +2162,7 @@ class DataManager {
         /*
          * inserisco una variante
          */
-        $ret = $db->insert('cmd_buoni_prepagati', array($id, $seriale, $credito, $nominativo, $gestore_id));
+        $ret = $db->insert('cmd_buoni_prepagati', array($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo));
 
         if ($ret) return true;
         else return false;
@@ -2178,17 +2178,18 @@ class DataManager {
      * @param <type> $gestore_id
      * @return <type>
      */
-    static function aggiornaBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id){
+    static function aggiornaBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo){
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
         /*
          * modifico una variante
          */
-        $ret = $db->update('cmd_buoni_prepagati', array('seriale'     => $seriale,
-                                                        'credito'     => $credito,
-                                                        'nominativo'  => $nominativo,
-                                                        'gestore_id'  => $gestore_id),
+        $ret = $db->update('cmd_buoni_prepagati', array('seriale'       => $seriale,
+                                                        'credito'       => $credito,
+                                                        'nominativo'    => $nominativo,
+                                                        'gestore_id'    => $gestore_id,
+                                                        'record_attivo' => $record_attivo),
                                                         array('id', $id)
                     );
         if ($ret) return true;
@@ -2240,6 +2241,25 @@ class DataManager {
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
                 die("Failed getting Buoni data");
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
+    }
+
+    public static function getAllBuonoPrepagatoAttiviByGestoreID($gestore_id) {
+        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE gestore_id=$gestore_id AND record_attivo=1";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                return array();
             }
             if(mysql_num_rows($res)) {
                   $objs = array();

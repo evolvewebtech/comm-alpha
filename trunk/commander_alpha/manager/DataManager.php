@@ -340,18 +340,12 @@ class DataManager {
      * - id
      * - utente_registrato_id
      * - gestore_id
-     * - livello_cassiere
      *
      * @param <int> $userID
      * @return <array cassiere>
      */
     public static function getCassiereData($id){
         $sql = "SELECT * FROM cmd_cassiere WHERE utente_registrato_id=$id";
-        //$sql = "SELECT * FROM cmd_cassiere WHERE id=$id";
-        /*
-        print_r($sql);
-        echo "<pre>";
-        */
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
@@ -365,24 +359,18 @@ class DataManager {
      * - id
      * - utente_registrato_id
      * - gestore_id
-     * - livello_cassiere
      *
      * @param <int> $userID
      * @return <array cassiere>
      */
     public static function getCassiereDataByCassiereID($id){
         $sql = "SELECT * FROM cmd_utente_registrato INNER JOIN cmd_cassiere ON cmd_utente_registrato.id=cmd_cassiere.utente_registrato_id WHERE cmd_cassiere.id=$id";
-        //$sql = "SELECT * FROM cmd_cassiere WHERE id=$id";
-        /*
-        print_r($sql);
-        echo "<pre>";
-        */
         if (DataManager::_getConnection()){
-        $res = mysql_query($sql);
-        if(($res && mysql_num_rows($res))==false) {
-            return 0;
-        }
-            return mysql_fetch_assoc($res);
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return 0;
+            }
+                return mysql_fetch_assoc($res);
         }
     }
 
@@ -435,11 +423,9 @@ class DataManager {
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
                 if($row['type'] == 'G') {
-                                                   // echo "<br />---A---<br />";
                     $id = intval($row['id']);
                     $objs[] = new Gestore($id);
                 } elseif ($row['type'] == 'C') {
-                                                   // echo "<br />---B---<br />";
                     $id = intval($row['id']);
                     $objs[] = new Cassiere($id);
                 } else {
@@ -452,6 +438,24 @@ class DataManager {
             }
 
     }
+
+    public static function logoutCassiere($cassiere){
+
+        $cassiere_id = intval($cassiere['utente_registrato_id']);
+        $sql = "UPDATE http_session".
+              " INNER JOIN cmd_cassiere".
+              " ON cmd_cassiere.utente_registrato_id=http_session.user_id".
+              " SET http_session.logged_in=false, http_session.user_id=0".
+              " WHERE cmd_cassiere.utente_registrato_id =".$cassiere_id;
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            return $res;
+           }
+        
+
+    }
+
 
     //--------------------------------------------------------------------------
 
@@ -544,7 +548,7 @@ class DataManager {
 
 
         /*
-         * aggiorno il livello del cassiere
+         * aggiorno il cassiere
          */
         $ret = $db->update('cmd_cassiere',
                             array('gestore_id' => $gestore_id),

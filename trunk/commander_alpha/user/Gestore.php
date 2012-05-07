@@ -50,6 +50,14 @@ class Gestore extends User {
         return $cassiere;
     }
 
+    public function logOutCassiere($cassiere_id) {
+        $cassiere =  DataManager::getCassiereDataByCassiereID($cassiere_id);
+        $ret = DataManager::logoutCassiere($cassiere);
+        return $ret;
+
+    }
+
+
     /**
      *
      * @param <type> $cassiere_id

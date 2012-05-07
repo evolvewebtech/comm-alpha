@@ -265,6 +265,7 @@ class HTTPSession {
             return(false);
         }
     }
+    
 
     public function __get($nm) {
 

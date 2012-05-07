@@ -60,11 +60,6 @@ $(function() {
 
        $("#addNewTab").validate({
                   rules: {
-                        tab_livello_cassiere: {
-                            required: true,
-                            digits: true,
-                            rangelength: [1, 1]
-                        },
                         tab_username: {
                             required: true,
                             minlength: 2,
@@ -87,11 +82,6 @@ $(function() {
                         }
                     },
                     messages: {
-                        tab_livello_cassiere:{
-                            required: "Inserisci il livello del cassiere",
-                            digits: "Inserisci solo cifre",
-                            rangelength: "Inserisci un valore compreso tra 1 e 3"
-                        },
                         tab_username: {
                             required: "Inserisci l'username del cassiere.",
                             minlength: "minimo 2 caratteri",
@@ -119,8 +109,7 @@ $(function() {
     var $tab_username_input         = $("#tab_username"),
         $tab_password_input         = $('#tab_password'),
         $tab_nome_input             = $('#tab_nome'),
-        $tab_cognome_input          = $('#tab_cognome'),
-        $tab_livello_cassiere_input = $('#tab_livello_cassiere');
+        $tab_cognome_input          = $('#tab_cognome');
 
     var tab_counter = <?=$numero_cassieri?>,
         max_id      = <?=$max_id?>,
@@ -145,8 +134,7 @@ $(function() {
                     var tab_content_username         = $tab_username_input.val(),
                         tab_content_password         = $tab_password_input.val(),
                         tab_content_nome             = $tab_nome_input.val(),
-                        tab_content_cognome          = $tab_cognome_input.val(),
-                        tab_content_livello_cassiere = $tab_livello_cassiere_input.val();
+                        tab_content_cognome          = $tab_cognome_input.val();
 
                     $( ui.panel ).append('<div style="min-height:150px;">'+
                         '<form id="cassiereForm-'+tab_counter+'" style="min-height:60px; float:left;">'+
@@ -159,8 +147,6 @@ $(function() {
                                 '<input type="text" name="tab_nome" id="tab_nome" value="'+tab_content_nome+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 51px;" class="tab_cognome" for="tab_cognome">Cognome: </label>'+
                                 '<input type="text" name="tab_cognome" id="tab_cognome" value="'+tab_content_cognome+'" class="ui-widget-content ui-corner-all" />'+
-                                '<br /><label for="tab_livello_cassiere">Livello cassiere: </label>'+
-                                '<input type="text" name="tab_livello_cassiere" id="tab_livello_cassiere" value="'+tab_content_livello_cassiere+'" class="ui-widget-content ui-corner-all" />'+
                                 '<input type="hidden" name="cassiere_id" id="cassiere_id" value="'+next_id+'" />'+
                                 '<input type="hidden" name="utente_registrato_id" id="utente_registrato_id" value="'+next_ur_id+'"  />'+
                                 '<input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>"  />'+
@@ -190,11 +176,6 @@ $(function() {
 
                 $("#cassiereForm-"+ui.index).validate({
                     rules: {
-                        tab_livello_cassiere: {
-                            required: true,
-                            digits: true,
-                            rangelength: [1, 1]
-                        },
                         tab_username: {
                             required: true,
                             minlength: 2,
@@ -217,11 +198,6 @@ $(function() {
                         }
                     },
                     messages: {
-                        tab_livello_cassiere:{
-                            required: "Inserisci il livello del cassiere",
-                            digits: "Inserisci solo cifre",
-                            rangelength: "Inserisci un valore compreso tra 1 e 3"
-                        },
                         tab_username: {
                             required: "Inserisci l'username del cassiere.",
                             minlength: "minimo 2 caratteri",
@@ -465,7 +441,6 @@ $(function() {
                                    ' Cognome: '    + data.cognome+
                                    ' Username: '   + data.username+
                                    ' Password: '   + data.password+
-                                   ' Livello: '    + data.livello_cassiere+
                                    ' Current: '    + data.current_tab+
                                    ' Err: '        + data.err );
                $dialogOK.bind( "dialogclose", function(event, ui) {
@@ -498,8 +473,6 @@ $(function() {
                     <input type="text" name="tab_nome" id="tab_nome" value="" class="addNewTab ui-widget-content ui-corner-all" />
                     <label for="tab_cognome">Cognome </label>
                     <input type="text" name="tab_cognome" id="tab_cognome" value="" class="addNewTab ui-widget-content ui-corner-all" />
-                    <label for="tab_livello_cassiere">Livello cassiere: </label>
-                    <input type="text" name="tab_livello_cassiere" id="tab_livello_cassiere" value="" class="addNewTab ui-widget-content ui-corner-all" />
                 </fieldset>
             </form>
   	</div>
@@ -537,8 +510,6 @@ $(function() {
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=$cassiere->first_name?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 51px;" class="tab_cognome" for="tab_cognome">Cognome: </label>
                                 <input type="text" name="tab_cognome" id="tab_cognome" value="<?=$cassiere->last_name?>" class="ui-widget-content ui-corner-all" />
-                                <br /><label for="tab_livello_cassiere">Livello cassiere: </label>
-                                <input type="text" name="tab_livello_cassiere" id="tab_livello_cassiere" value="<?=$cassiere->livello_cassiere?>" class="ui-widget-content ui-corner-all" />
                                 <input type="hidden" name="cassiere_id" id="cassiere_id" value="<?=$cassiere->id?>" />
                                 <input type="hidden" name="utente_registrato_id" id="utente_registrato_id" value="<?=$cassiere->utente_registrato_id?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>" />

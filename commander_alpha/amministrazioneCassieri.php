@@ -284,7 +284,7 @@ $(function() {
 
     /*
      *
-     * salvo il nuovo tavolo aggiunto al premere del bottone: salva.
+     * salvo il nuovo cassiere aggiunto al premere del bottone: salva.
      *
      */
     $("#save_cassiere").live("click", function() {
@@ -311,9 +311,36 @@ $(function() {
 
     });
 
+
     /*
      *
-     * Elimina il tavolo aggiunto al premere del bottone: elimina.
+     * disconnetto il cassiere, forzo il logout
+     *
+     */
+    $("#logout_cassiere").live("click", function() {
+
+        $("#debug").append('Disconnetto il cassiere');
+        var selected = $tabs.tabs('option', 'selected');
+        selected+=1;
+        $('#debug').append('<br />selected: '+selected);
+        var cassiere = $("#cassiereForm-"+selected).serialize();
+        cassiere = cassiere+'&action=log&current_tab='+selected;
+
+        $.ajax({
+            type: "POST",
+            data: cassiere,
+            url: "manager/gestore/cassiere.php",
+            dataType: 'json',
+            cache: false,
+            success: onCassiereSuccess,
+            error: onError
+        });
+
+    });
+
+    /*
+     *
+     * Elimina il cassiere aggiunto al premere del bottone: elimina.
      *
      */
     $("#delete_cassiere").live("click", function() {
@@ -406,6 +433,43 @@ $(function() {
            }
 
         }
+        if (data.action=='log'){
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante la disconnesione del cassiere.');
+               $dialogERR.dialog("open");
+               console.log(data);
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               $('#code-ok').html('Il cassiere &egrave; stato disattivato.');
+               $dialogOK.dialog( "open" );
+               $('#debug').append( '<br />DATA SAVED:<br />'+
+                                   'ID_cassiere: ' + data.cassiere_id+
+                                   ' ID_gestore: ' + data.gestore_id+
+                                   ' ID_ut_reg: '  + data.gestore_id+
+                                   ' Nome:'        + data.nome +
+                                   ' Cognome: '    + data.cognome+
+                                   ' Username: '   + data.username+
+                                   ' Password: '   + data.password+
+                                   ' Current: '    + data.current_tab+
+                                   ' Err: '        + data.err );
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                  location.reload();
+               });
+           } else{
+               alert(data);
+               console.log(data);
+           }
+        }
+
         /*
         else{
 
@@ -453,6 +517,7 @@ $(function() {
            }
         }
     }
+    
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
@@ -518,6 +583,7 @@ $(function() {
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>" />
                            </fieldset>
                         </form>
+                        <button type="submit" id="logout_cassiere">DISCONNETTI CASSIERE</button>
                         <fieldset style="float:right" class="ui-helper-reset">
                             <button type="submit" id="save_cassiere">SALVA</button><br />
                             <button type="submit" id="delete_cassiere">ELIMINA</button>

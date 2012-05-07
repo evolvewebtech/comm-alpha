@@ -38,9 +38,9 @@
     /*
      * controllo se il login sia valido
      */
-/*
- * inizio login
- */
+    /*
+     * inizio login
+     */
     if($objSession->IsLoggedIn()){
 
         $objUser = $objSession->GetUserObject();
@@ -79,12 +79,21 @@
                      */
                     $ret = $gestore->editCassiere($cassiere_id, $username, $password, $nome, $cognome, 'C');
                     if(!$ret){
-                        $var['err'] = 'ciao';
+                        $var['err'] = $ret;
                     }
 
                 }
 
             }//end save
+            elseif($action == 'log'){
+
+                /*
+                 * forzo il logout del cassiere
+                 */
+               $ret = $gestore->logoutCassiere($cassiere_id);
+               if (!$ret)
+                    $var['err'] = $ret;
+            }
 
         /*
          * fine login

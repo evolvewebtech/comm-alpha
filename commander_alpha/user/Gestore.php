@@ -794,8 +794,8 @@ class Gestore extends User {
      * @param <type> $gestore_id
      * @return <type>
      */
-    public function addBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id){
-        return DataManager::inserisciBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id);
+    public function addBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo){
+        return DataManager::inserisciBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo);
     }
 
     /**
@@ -805,10 +805,11 @@ class Gestore extends User {
      * @param <type> $credito
      * @param <type> $nominativo
      * @param <type> $gestore_id
+     * @param <int>  $record_attivo
      * @return <type> 
      */
-    public function editBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id){
-        return DataManager::aggiornaBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id);
+    public function editBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo){
+        return DataManager::aggiornaBuonoPrepagato($id, $seriale, $credito, $nominativo, $gestore_id, $record_attivo);
     }
 
     /**

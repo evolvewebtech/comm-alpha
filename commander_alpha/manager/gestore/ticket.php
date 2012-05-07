@@ -36,29 +36,37 @@
 
         if ($action == 'del'){
 
-            $ret = $gestore->delBuonoPrepagato($buono_prepagato_id);
+//            $ret = $gestore->delBuonoPrepagato($buono_prepagato_id);
+//            if(!$ret){
+//                $var['err'] = $ret;
+//            }
+            $ret = $gestore->editBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id, 0);
             if(!$ret){
                 $var['err'] = $ret;
+                echo json_encode($var);
             }
 
 	}elseif($action == 'save'){
 
+                //verifico se il buono esiste già
                 $nome_buono_prepagato_db = $gestore->getBuonoPrepagato($buono_prepagato_id);
 
                 if($nome_buono_prepagato_db==0){
 
 
-                    $ret = $gestore->addBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id);
+                    $ret = $gestore->addBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id, 1);
                     if(!$ret){
                         $var['err'] = $ret;
+                        echo json_encode($var);
                     }
 
 
                 }else{
 
-                    $ret = $gestore->editBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id);
+                    $ret = $gestore->editBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id, 1);
                     if(!$ret){
                         $var['err'] = $ret;
+                        echo json_encode($var);
                     }
                 }
 

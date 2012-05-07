@@ -435,9 +435,11 @@ class DataManager {
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
                 if($row['type'] == 'G') {
+                                                   // echo "<br />---A---<br />";
                     $id = intval($row['id']);
                     $objs[] = new Gestore($id);
                 } elseif ($row['type'] == 'C') {
+                                                   // echo "<br />---B---<br />";
                     $id = intval($row['id']);
                     $objs[] = new Cassiere($id);
                 } else {

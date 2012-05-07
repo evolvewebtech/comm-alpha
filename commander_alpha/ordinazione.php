@@ -22,10 +22,11 @@
     
 </div>
 <?php
-        }//l'utente non è un cassiere
+    }//isLoggedin
     else {
-        //Utente non loggato
-        header("location: login.php");
-    }//l'utente non è loggato
+       echo '<h4 style="margin-left: 10px;">Sessione scaduta o autenticazione errata.
+                <br /><a style="color:#fff;" href="logout.php"> <-- LOGIN</a>
+            </h4>';
+    }
 ?>
         

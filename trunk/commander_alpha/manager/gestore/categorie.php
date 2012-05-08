@@ -47,7 +47,6 @@
                      * quindi devo effettuare una modifica ad una categoria già esistente
                      *
                      */
-
                     $nome_categoria_db = $gestore->getCategoria($categoria_id);
 
                     if($nome_categoria_db==0){

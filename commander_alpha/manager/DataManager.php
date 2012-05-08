@@ -1332,9 +1332,48 @@ class DataManager {
          * inserisco una categoria
          */
         $ret = $db->insert('cmd_categoria', array($id, $nome, $colore_bottone_predef, $gestore_id));
+        if ($ret) {
 
-        if ($ret) return true;
-        else return false;
+            /*
+             * prelevo l'id appena assegnato (AI) dalla tabella cmd_categoria
+             */
+            $db->select('cmd_categoria', 'id', "nome='$nome'");
+            $categoria_id2 = $db->getResult();
+            $categoria_id2 = $categoria_id2['id'];
+
+            /*
+             * inserisco la categoria nella tabella livelli
+             * - id
+             * - nome
+             */
+            $ret = $db->insert('cmd_livello', array('NULL', $nome));
+            if ($ret){
+
+                /*
+                 * prelevo l'id appena assegnato (AI) dalla tabella cmd_livello
+                 */
+                $db->select('cmd_livello', 'id', "nome='$nome'");
+                $livello_id2 = $db->getResult();
+                $livello_id2 = $livello_id2['id'];
+
+                /*
+                 * inserisco l'associazione rel_livello_categoria
+                 * - categoria_id
+                 * - livello_id
+                 *
+                 */
+                $ret = $db->insert('rel_livello_categoria', array($categoria_id2, $livello_id2));
+                if ($ret){
+                    return true;
+                }else return false;
+
+
+            }else return false;
+            
+        }else return false;
+
+
+
     }//end inserisciCategoria
 
 
@@ -1460,9 +1499,42 @@ class DataManager {
          * inserisco un menu fisso
          */
         $ret = $db->insert('cmd_menu_fisso', array($id, $nome, $prezzo, $iva, $descrizione, $gestore_id));
+        if($ret){
+            /*
+             * prelevo l'id appena assegnato (AI) dalla tabella cmd_menu_fisso
+             */
+            $db->select('cmd_menu_fisso', 'id', "nome='$nome'");
+            $menu_fisso_id2 = $db->getResult();
+            $menu_fisso_id2 = $menu_fisso_id2['id'];
 
-        if ($ret) return true;
-        else return false;
+            /*
+             * inserisco il menu_fisso nella tabella livelli
+             * - id
+             * - nome
+             */
+            $ret = $db->insert('cmd_livello', array('NULL', $nome));
+            if ($ret){
+
+                /*
+                 * prelevo l'id appena assegnato (AI) dalla tabella cmd_livello
+                 */
+                $db->select('cmd_livello', 'id', "nome='$nome'");
+                $livello_id2 = $db->getResult();
+                $livello_id2 = $livello_id2['id'];
+
+                /*
+                 * inserisco l'associazione rel_livello_categoria
+                 * - categoria_id
+                 * - livello_id
+                 *
+                 */
+                $ret = $db->insert('rel_livello_menufisso', array($menu_fisso_id2, $livello_id2));
+                if ($ret){
+                    return true;
+                }else return false;
+
+            }else return false;
+        }else return false;
     }//end inserisciMenuFisso
 
 

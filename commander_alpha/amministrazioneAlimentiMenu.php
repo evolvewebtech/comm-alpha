@@ -70,14 +70,13 @@ $(function() {
      */
     var id_alimento_menu = new Array();
     <? foreach ($data_alimento_menu as $al_ID_var_ID) { ?>
-        id_alimento_menu.push("<?=$al_ID_var_ID[alimento_menu_id]?>-<?=$al_ID_var_ID[alimento_id]?>");
+        id_alimento_menu.push("<?=$al_ID_var_ID['alimento_menu_id']?>-<?=$al_ID_var_ID['alimento_id']?>");
     <? } ?>
 
     /*
      *  metto a checked=true le checkbox che rappresentano relazioni nel db
      */
     $.each(id_alimento_menu, function(key, value){
-        //alert(key + ': ' + value);
         $('#'+value).prop('checked', true);
     });
 

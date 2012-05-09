@@ -837,5 +837,15 @@ class Gestore extends User {
     }
 
 
+
+    /* ------------- gestione permessi ------------ */
+    public function eliminaPermesso($livello_id, $cassiere_id) {
+        return DataManager::eliminaPermesso($livello_id, $cassiere_id);
+    }
+
+    public function aggiungiPermesso($livello_id, $cassiere_id) {
+        return DataManager::aggiungiPermesso($livello_id, $cassiere_id);
+    }
+
 }
 ?>

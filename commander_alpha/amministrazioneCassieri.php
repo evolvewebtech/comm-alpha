@@ -583,8 +583,8 @@ $(function() {
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>" />
                            </fieldset>
                         </form>
-                        <a href="amministrazionePermessi.php?id=<?=$cassiere->id?>" style="border: 1px solid #000; padding: 1px;" id="permessi_cassiere">GESTISCI I PERMESSI</a><br />
-                        <button type="submit" id="logout_cassiere">DISCONNETTI CASSIERE</button>
+                        <a href="amministrazionePermessi.php?id=<?=$cassiere->utente_registrato_id?>" style="background-color: buttonface; border: 1px solid #000; margin:2px; padding: 1px;" id="permessi_cassiere">GESTISCI I PERMESSI</a><br />
+                        <button style="margin-top:5px;" type="submit" id="logout_cassiere">DISCONNETTI CASSIERE</button>
                         <fieldset style="float:right" class="ui-helper-reset">
                             <button type="submit" id="save_cassiere">SALVA</button><br />
                             <button type="submit" id="delete_cassiere">ELIMINA</button>

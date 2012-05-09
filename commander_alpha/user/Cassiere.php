@@ -49,18 +49,15 @@ class Cassiere extends User {
     }
 
 
-//    /**
-//     *
-//     * prendo il livello del cassiere
-//     * 1 -
-//     * 2 -
-//     * 3 -
-//     *
-//     * @return <int>
-//     */
-//    public function getLivelloCassiere(){
-//        return intval($this->livello_cassiere);
-//    }
+    /**
+     *
+     * prendo il livello del cassiere
+     *
+     * @return <array>
+     */
+    public function getLivelli(){
+        return DataManager::getLivelliCassiere(intval($this->id));
+    }
 
 
     public function validate() {

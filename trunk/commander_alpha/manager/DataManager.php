@@ -138,6 +138,8 @@ class DataManager {
             $sql = "SELECT * FROM $table WHERE variante_id=$param1 AND alimento_id=$param2";
         }elseif($table=='cmd_alimento_menu'){
             $sql = "SELECT * FROM $table WHERE menu_fisso_id=$param1 AND nome_cat='".$param2."'";
+        }elseif($table=='rel_livello_cassiere'){
+            $sql = "SELECT * FROM $table WHERE id_livello=$param1 AND id_cassiere='".$param2."'";
         }else{
             return false;
         }
@@ -268,22 +270,13 @@ class DataManager {
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
 
-        /*
-        var_dump($res);
-        echo "<br />";
-         * 
-         */
         if(! ($res && mysql_num_rows($res))) {
             return 0;
         }
         if(mysql_num_rows($res)) {
               $objs = array();
               while($rec = mysql_fetch_assoc($res)) {
-                  /*
-                  echo "<pre>";
-                  print_r($rec);
-                  echo "</pre>";
-                  */
+
                 $objs[] = new Cassiere(intval($rec['utente_registrato_id']));
                 }
               return $objs;
@@ -291,6 +284,105 @@ class DataManager {
             return array();
             }
         }
+    }
+
+    /*
+     * ------------------------------------------------------
+     * ------------------------------------------------------
+     * GESTIONE PERMESSI
+     */
+
+    /**
+     *
+     * @param <int> $livello_id
+     * @param <int> $cassiere_id
+     * @return <bool>
+     */
+    public function eliminaPermesso($livello_id, $cassiere_id) {
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * cancello una relazione livello - cassiere
+         */
+        $ret = $db->delete('rel_livello_cassiere', "id_livello = ".$livello_id.
+                        " AND "."id_cassiere = ".$cassiere_id);
+
+        if ($ret) return true;
+        else return false;
+    }
+
+
+    /**
+     *
+     * @param <int> $livello_id
+     * @param <int> $cassiere_id
+     * @return <bool>
+     */
+    public function aggiungiPermesso($livello_id, $cassiere_id) {
+        require_once 'Database.php';
+        $db = new Database();
+        $db->connect();
+
+        /*
+         * inserisco una relazione livello - cassiere
+         */
+        $ret = $db->insert('rel_livello_cassiere', array($cassiere_id, $livello_id));
+
+        if ($ret) return true;
+        else return false;
+    }
+
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @return <array>
+     */
+    public static function getLivelliCassiere($cassiere_id){
+        $sql = "SELECT * FROM rel_livello_cassiere WHERE id_cassiere='$cassiere_id'";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+
+        if(! ($res && mysql_num_rows($res))) {
+            return 0;
+        }
+        if(mysql_num_rows($res)) {
+              $objs = array();
+              while($rec = mysql_fetch_assoc($res)) {
+
+                $objs[] = $rec['id_livello'];
+                }
+              return $objs;
+        } else {
+            return array();
+            }
+        }
+    }
+
+
+    /**
+     *
+     * @return <type>
+     */
+    public function getAllPermessi() {
+        $sql = "SELECT * FROM cmd_livello";
+        if (DataManager::_getConnection()){
+        $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                //die("Failed getting Allstampante byID data");
+                return array();
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec;
+                    }
+                  return $objs;
+            } else {
+                return array();
+                }
+            }
     }
 
 

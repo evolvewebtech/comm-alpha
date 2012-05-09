@@ -133,13 +133,27 @@
         
     });
     
-    function onInvioOrdineSuccess(data, status) { 
-        //alert("Ordine " + data + " inviato con successo!");
-        id_ord_stmp = data;
+    function onInvioOrdineSuccess(data, status) {
         
+        //Verifica se utente loggato
+        if (data['err'] != '') {
+            //utente non loggato correttamente 
+            var str = '';
+            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
+            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
+            document.getElementById('log-err-text').innerHTML = str;
+            //apertura pagina avviso
+            document.location.href="#diag-log-err";
+            $.mobile.changePage( "#diag-log-err", 'none', false, true);
+            return
+        }
+        
+        //alert("Ordine " + data + " inviato con successo!");
+        id_ord_stmp = data['next_id'];
+
         $.ajax({
             type: "POST",
-            data: 'id='+data,
+            data: 'id='+id_ord_stmp,
             url: "stampaOrdine.php",
             dataType: 'json',
             cache: false,

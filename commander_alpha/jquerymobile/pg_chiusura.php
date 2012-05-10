@@ -136,7 +136,7 @@
     function onInvioOrdineSuccess(data, status) {
         
         //Verifica se utente loggato
-        if (data['err'] != '') {
+        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
             //utente non loggato correttamente 
             var str = '';
             if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';

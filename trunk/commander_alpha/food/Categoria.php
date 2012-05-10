@@ -19,7 +19,7 @@ class Categoria extends Entity {
       $this->propertyTable['nome'] = 'nome';
       $this->propertyTable['colore_bottone_predef'] = 'colore_bottone_predef';
       $this->propertyTable['gestore_id'] = 'gestore_id';
-      $this->_alimenti = DataManager2::getAlimentoObjectsForEntity($categoriaID);
+      $this->_alimenti = DataManager2::getAlimentoObjectsForEntity($categoriaID, $this->propertyTable['gestore_id']);
     }
 
     

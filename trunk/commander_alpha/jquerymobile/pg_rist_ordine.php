@@ -123,7 +123,7 @@
                 str = str + '</div>';
             }
             
-            if (i == 0) { strCass = 'Cameriere: ' + data['righe'][i]["cassiere_id"]; }
+            if (i == 0) { strCass = 'Cameriere: ' + data['righe'][i]["cassiere"]; }
         }
         
         //Riepilogo ordine

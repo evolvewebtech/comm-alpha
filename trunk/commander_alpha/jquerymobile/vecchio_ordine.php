@@ -48,7 +48,8 @@
                             "numero"        => $rigaOrd->numero,
                             "prezzo"        => $rigaOrd->prezzo,
                             "iva"           => $rigaOrd->iva,
-                            "cassiere_id"   => $rigaOrd->cassiere_id,
+                            //"cassiere"      => $rigaOrd->cassiere_id,
+                            "cassiere"      => $user->username,
                             "arrVar"        => $arrVar );
                     }
 

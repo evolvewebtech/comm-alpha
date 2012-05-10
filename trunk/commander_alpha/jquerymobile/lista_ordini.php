@@ -7,10 +7,10 @@
         
         $data = file_get_contents('php://input');
         $dataQuery = json_decode($data, true);
-        $arOrdini = DataManager2::getAllOrdiniDateAsObjects($dataQuery);
         
         //Array da passare con JSON  
         $arr = array(   "ordini"   => array(),
+                        "cassiere" => '',
                         "err"   => ''); 
         
         /*
@@ -20,6 +20,10 @@
             $objUser = $objSession->GetUserObject();
             $user = $objUser[0];
             if(get_class($user) == 'Cassiere') {
+                
+            $arr['cassiere'] = $user->username;
+                
+            $arOrdini = DataManager2::getAllOrdiniDateAsObjects($dataQuery, $objSession->GetUserID());
         
             if ($arOrdini) {
                 for($i=0; $i<count($arOrdini); $i++) {

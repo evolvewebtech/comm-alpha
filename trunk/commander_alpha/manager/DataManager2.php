@@ -1622,8 +1622,8 @@ class DataManager2 {
         }
     }
     
-    public static function getAlimentoObjectsForEntity($categoriaID){
-        $sql = "SELECT * FROM cmd_alimento WHERE categoria_id=$categoriaID";
+    public static function getAlimentoObjectsForEntity($categoriaID, $gestoreID){
+        $sql = "SELECT * FROM cmd_alimento WHERE categoria_id=$categoriaID AND gestore_id=$gestoreID";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
@@ -1821,9 +1821,16 @@ class DataManager2 {
         }
     }
     
-    public static function getAllOrdiniDateAsObjects($dataQuery) {
+    public static function getAllOrdiniDateAsObjects($dataQuery, $cassiere_id) {
 
-        $sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=date('$dataQuery') ORDER BY timestamp DESC";
+        //$sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=date('$dataQuery') ORDER BY timestamp DESC";
+        
+        $sql = "SELECT DISTINCT cmd_ordine.id, cmd_ordine.seriale, cmd_ordine.timestamp, cmd_ordine.n_coperti, cmd_ordine.tavolo_id".
+               " FROM cmd_ordine".
+               " INNER JOIN cmd_riga_ordine".
+               " ON cmd_ordine.id=cmd_riga_ordine.ordine_id".
+               " WHERE cmd_riga_ordine.cassiere_id=$cassiere_id".
+               " AND date(cmd_ordine.timestamp)=date('$dataQuery') ORDER BY cmd_ordine.timestamp DESC";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);

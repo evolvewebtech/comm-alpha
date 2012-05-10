@@ -88,28 +88,42 @@
      * Richiesta Ajax completata con successo
      *
      */
-    function onVecchioOrdineSuccess(data, status) { 
+    function onVecchioOrdineSuccess(data, status) {
+        
+        //Verifica se utente loggato
+        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
+            //utente non loggato correttamente 
+            var str = '';
+            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
+            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
+            document.getElementById('log-err-text').innerHTML = str;
+            //apertura pagina avviso
+            document.location.href="#diag-log-err";
+            $.mobile.changePage( "#diag-log-err", 'none', false, true);
+            return
+        }
+        
         //alert("Successo lettura da database con Ajax!");
         
         var str = '';
         var strCass = '';
         
-        for (var i=0; i<data.length; i++) {
-            prezzoTot = parseFloat(data[i]["numero"]) * parseFloat(data[i]["prezzo"]);
+        for (var i=0; i<data['righe'].length; i++) {
+            prezzoTot = parseFloat(data['righe'][i]["numero"]) * parseFloat(data['righe'][i]["prezzo"]);
             
             str = str + '<div class="old-ord-rig">';
-            str = str + '<div class="num">' + data[i]["numero"] + '</div>';
-            str = str + '<div class="name">' + data[i]["nome"] + '</div>';
+            str = str + '<div class="num">' + data['righe'][i]["numero"] + '</div>';
+            str = str + '<div class="name">' + data['righe'][i]["nome"] + '</div>';
             str = str + '<div class="prezzo">' + prezzoTot + ' \u20ac</div>';
             str = str + '</div>';
             
-            for (var j=0; j<data[i]["arrVar"].length; j++) {   
+            for (var j=0; j<data['righe'][i]["arrVar"].length; j++) {   
                 str = str + '<div class="old-ord-rig-var">';
-                str = str + '<div class="name">' + data[i]["arrVar"][j]["descrizione"] + '</div>';
+                str = str + '<div class="name">' + data['righe'][i]["arrVar"][j]["descrizione"] + '</div>';
                 str = str + '</div>';
             }
             
-            if (i == 0) { strCass = 'Cameriere: ' + data[i]["cassiere_id"]; }
+            if (i == 0) { strCass = 'Cameriere: ' + data['righe'][i]["cassiere_id"]; }
         }
         
         //Riepilogo ordine

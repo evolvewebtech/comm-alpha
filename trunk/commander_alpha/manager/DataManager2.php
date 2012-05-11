@@ -1366,7 +1366,7 @@ class DataManager2 {
     
     
     public static function getBuonoPrepagatoData($seriale){
-        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale=$seriale";
+        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale='$seriale'";
         
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
@@ -1489,8 +1489,8 @@ class DataManager2 {
         }
     }
     
-    public static function getBuonoPrepagatoAsObject($seriale){
-        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale=$seriale";
+    public static function getBuonoPrepagatoAsObject($seriale, $gestoreID){
+        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale='$seriale' AND gestore_id=$gestoreID";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
@@ -1758,9 +1758,9 @@ class DataManager2 {
         return null;
     }
     
-    public static function getAllCategoriesAsObjects() {
+    public static function getAllCategoriesAsObjects($gestore_id) {
 
-        $sql = "SELECT id FROM cmd_categoria";
+        $sql = "SELECT id FROM cmd_categoria WHERE gestore_id=$gestore_id";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
@@ -1779,9 +1779,9 @@ class DataManager2 {
         }
     }
     
-    public static function getAllMenuAsObjects() {
+    public static function getAllMenuAsObjects($gestore_id) {
 
-        $sql = "SELECT id FROM cmd_menu_fisso";
+        $sql = "SELECT id FROM cmd_menu_fisso WHERE gestore_id=$gestore_id";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);

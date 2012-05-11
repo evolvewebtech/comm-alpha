@@ -154,7 +154,7 @@
         $.ajax({
             type: "POST",
             data: 'id='+id_ord_stmp,
-            url: "stampaOrdine.php",
+            url: "stampa_ordine.php",
             dataType: 'json',
             cache: false,
             success: onStampaSuccess,

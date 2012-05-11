@@ -74,17 +74,20 @@ function onEventoInfoSuccess(data, status) {
         //colore testo
         textColor = contrastColor( data['cat'][$i].colore_bottone_predef );
         
-        $str = "";
-        $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-        $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+'">';
-        $str = $str + '<div class="element" style="background: '+data['cat'][$i].colore_bottone_predef+'">';
-        $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h2>';
-        $str = $str + '</div>';
-        $str = $str + '</a>';
-        $str = $str + '</div>';
-        
-        //Aggiunta dei nuovi elementi a Isotope
-        $('#container').append( $str ).isotope( 'reloadItems' );
+        //Visualizzate solo categoria non vuote
+        if (data['cat'][$i].alimenti.length > 0) {
+            $str = "";
+            $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
+            $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+'">';
+            $str = $str + '<div class="element" style="background: '+data['cat'][$i].colore_bottone_predef+'">';
+            $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h2>';
+            $str = $str + '</div>';
+            $str = $str + '</a>';
+            $str = $str + '</div>';
+
+            //Aggiunta dei nuovi elementi a Isotope
+            $('#container').append( $str ).isotope( 'reloadItems' );
+        }
         
         //Svuotamento iniziale "alimenti" da container Isotope
         $removable = $('#container').find( "." + data['cat'][$i].nome );

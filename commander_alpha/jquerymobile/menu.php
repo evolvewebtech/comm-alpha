@@ -4,10 +4,6 @@
         require_once dirname(__FILE__).'/../manager/HTTPSession.php';
         $objSession = new HTTPSession();
         
-        //Query database
-        $arCat = DataManager2::getAllCategoriesAsObjects();
-        $arMenu = DataManager2::getAllMenuAsObjects();
-        
         //Array da passare con JSON  
         $arr = array(   "cat"   => array(),
                         "menu"  => array(),
@@ -20,6 +16,13 @@
             $objUser = $objSession->GetUserObject();
             $user = $objUser[0];
             if(get_class($user) == 'Cassiere') {
+                
+                //ID gestore
+                $gestore_id = $user->getGestoreID();
+                
+                //Query database
+                $arCat = DataManager2::getAllCategoriesAsObjects($gestore_id);
+                $arMenu = DataManager2::getAllMenuAsObjects($gestore_id);
                 
                 //Creazione array Categorie
                 if ($arCat){          

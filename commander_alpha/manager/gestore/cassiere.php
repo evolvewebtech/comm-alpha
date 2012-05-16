@@ -93,6 +93,22 @@
                $ret = $gestore->logoutCassiere($cassiere_id);
                if (!$ret)
                     $var['err'] = $ret;
+
+            }elseif($action == 'visualizza_cassa'){
+                /*
+                 * visualizzo la quantità in cassa
+                 */
+               $var['cassa'] = $gestore->visualizzaCassa($cassiere_id);
+               if (!$var['cassa'])
+                    $var['err'] = $var['cassa'];
+
+            }elseif($action == 'azzera_cassa'){
+                 /*
+                 * visualizzo la quantità in cassa
+                 */
+               $var['cassa'] = $gestore->azzeraCassa($cassiere_id);
+               if (!$var['cassa'])
+                    $var['err'] = $var['cassa'];
             }
 
         /*

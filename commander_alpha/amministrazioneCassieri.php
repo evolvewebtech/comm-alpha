@@ -1,6 +1,15 @@
 <?php
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
+
+
+    /*
+     * todo:
+     *
+     * 1. visualizzza_cassa, con dialoghi
+     * 2. azzera cassa,       "     "
+     *
+     */
 ?>
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 
@@ -583,12 +592,16 @@ $(function() {
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>" />
                            </fieldset>
                         </form>
-                        <a href="amministrazionePermessi.php?id=<?=$cassiere->utente_registrato_id?>" style="background-color: buttonface; border: 1px solid #000; margin:2px; padding: 1px;" id="permessi_cassiere">GESTISCI I PERMESSI</a><br />
-                        <button style="margin-top:5px;" type="submit" id="logout_cassiere">DISCONNETTI CASSIERE</button>
+
                         <fieldset style="float:right" class="ui-helper-reset">
                             <button type="submit" id="save_cassiere">SALVA</button><br />
                             <button type="submit" id="delete_cassiere">ELIMINA</button>
                         </fieldset>
+
+                        <button style="margin-top:5px;" type="submit" id="saldo_cassiere">VISUALIZZA CASSA</button><br />
+                        <button style="margin-top: 1px; margin-bottom: 6px;" type="submit" id="saldo_cassiere">AZZERA CASSA</button><br />
+                        <a href="amministrazionePermessi.php?id=<?=$cassiere->utente_registrato_id?>" style="background-color: buttonface; border: 1px solid #000; margin:2px; padding: 1px;" id="permessi_cassiere">GESTISCI I PERMESSI</a><br />
+                        <button style="margin-top:5px;" type="submit" id="logout_cassiere">DISCONNETTI CASSIERE</button>
                     </div>
                     <?php
                         $count++;

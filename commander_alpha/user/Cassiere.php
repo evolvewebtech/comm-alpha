@@ -60,6 +60,10 @@ class Cassiere extends User {
     }
 
 
+    public function aggiornaCassa($saldo){
+        return DataManager::aggiornaCassa(intval($this->id), intval($this->gestore_id),$saldo);
+    }
+
     public function validate() {
         parent::validate();
     //add individual-specific validation

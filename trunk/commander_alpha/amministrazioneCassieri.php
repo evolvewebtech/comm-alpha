@@ -347,6 +347,59 @@ $(function() {
 
     /*
      *
+     * visualizzo quantità in cassa
+     *
+     */
+    $("#saldo_cassiere").live("click", function() {
+
+        $("#debug").append('VISUALIZZO CASSA<br />');
+        var selected = $tabs.tabs('option', 'selected');
+        selected+=1;
+
+        var cassiere = $("#cassiereForm-"+selected).serialize();
+        cassiere = cassiere+'&action=visualizza_cassa&current_tab='+selected;
+
+        $.ajax({
+            type: "POST",
+            data: cassiere,
+            url: "manager/gestore/cassiere.php",
+            dataType: 'json',
+            cache: false,
+            success: onCassiereSuccess,
+            error: onError
+        });
+
+    });
+
+    /*
+     *
+     * visualizzo quantità in cassa
+     *
+     */
+    $("#azzera_saldo_cassiere").live("click", function() {
+
+        $("#debug").append('AZZERO CASSA<br />');
+        var selected = $tabs.tabs('option', 'selected');
+        selected+=1;
+
+        var cassiere = $("#cassiereForm-"+selected).serialize();
+        cassiere = cassiere+'&action=azzera_cassa&current_tab='+selected;
+
+        $.ajax({
+            type: "POST",
+            data: cassiere,
+            url: "manager/gestore/cassiere.php",
+            dataType: 'json',
+            cache: false,
+            success: onCassiereSuccess,
+            error: onError
+        });
+
+    });
+
+
+    /*
+     *
      * Elimina il cassiere aggiunto al premere del bottone: elimina.
      *
      */
@@ -457,33 +510,81 @@ $(function() {
            } else if(data.err==''){
                $('#code-ok').html('Il cassiere &egrave; stato disattivato.');
                $dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   'ID_cassiere: ' + data.cassiere_id+
-                                   ' ID_gestore: ' + data.gestore_id+
-                                   ' ID_ut_reg: '  + data.gestore_id+
-                                   ' Nome:'        + data.nome +
-                                   ' Cognome: '    + data.cognome+
-                                   ' Username: '   + data.username+
-                                   ' Password: '   + data.password+
-                                   ' Current: '    + data.current_tab+
-                                   ' Err: '        + data.err );
                $dialogOK.bind( "dialogclose", function(event, ui) {
                   // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
                   location.reload();
                });
            } else{
-               alert(data);
+               $('#code-err').html('Errore durante la disconnesione del cassiere.');
+               $dialogERR.dialog("open");
                console.log(data);
            }
         }
+        if (data.action=='visualizza_cassa'){
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante la visualizzazione della cassa del cassiere.');
+               $dialogERR.dialog("open");
+               console.log(data);
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               if(data.cassa==0){
+                   $('#code-ok').html('Quantit&agrave; in cassa: 0 &#8364;');
+               }else{
+                   console.log(data.cassa);
+                   if (data.cassa.consegnato=="1"){
+                       $('#code-ok').html('Quantit&agrave; in cassa gi&agrave; consegnata. Saldo: 0 &#8364;');
+                   }else{
+                $('#code-ok').html('Quantit&agrave; in cassa: '+data.cassa.saldo+ ' &#8364;');
+                    }
+                }
+               $dialogOK.dialog( "open" );
+               console.log(data.cassa);
+           } else{
+               $('#code-err').html('Errore durante la visualizzazione della cassa del cassiere.');
+               $dialogERR.dialog("open");
+               console.log(data);
+           }
 
-        /*
-        else{
-
-           $dialogOK.dialog( "open" );
-           $('#debug').append('<br />data saved:<br />'+ 'ID: '+data.id +' NOME:'+ data.nome +' N: '+ data.n_tavoli + ' Current: '+data.current_tab);
         }
-        */
+
+        if (data.action=='azzera_cassa'){
+           if (data.err=='E002'){
+               $('#code-err').html('Sessione scaduta o login non valido.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='E001'){
+               $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
+           } else if (data.err=='false'){
+               $('#code-err').html('Errore durante la visualizzazione della cassa del cassiere.');
+               $dialogERR.dialog("open");
+               console.log(data);
+               $('#debug').append(' ERR: '+data.err);
+           } else if(data.err==''){
+               if(data.cassa==0){
+                   $('#code-ok').html('Cassa gi&agrave; azzerata. Saldo: 0 &#8364;');
+               }else{
+                $('#code-ok').html('Cassa azzerata con successo. Ultimo saldo: '+data.cassa.saldo+ ' &#8364;');
+                }
+               $dialogOK.dialog( "open" );
+               console.log(data.cassa);
+           } else{
+               $('#code-err').html('Errore durante l\'azzeramento della cassa del cassiere.');
+               $dialogERR.dialog("open");
+               console.log(data);
+           }
+
+        }
+
         /*
          *  verico che l'operazione di salvataggio sia andata a buon fine.
          */
@@ -519,8 +620,9 @@ $(function() {
                   location.reload();
                });
            } else{
-               alert(data);
-               console.log(data);
+               $('#code-err').html('Errore durante l\'inserimento o aggioramento del cassiere.');
+               $dialogERR.dialog("open");
+               $('#debug').append(' ERR: '+data.err);
            }
         }
     }
@@ -597,7 +699,7 @@ $(function() {
                         </fieldset>
 
                         <button style="margin-top:5px;" type="submit" id="saldo_cassiere">VISUALIZZA CASSA</button><br />
-                        <button style="margin-top: 1px; margin-bottom: 6px;" type="submit" id="saldo_cassiere">AZZERA CASSA</button><br />
+                        <button style="margin-top: 1px; margin-bottom: 6px;" type="submit" id="azzera_saldo_cassiere">AZZERA CASSA</button><br />
                         <a href="amministrazionePermessi.php?id=<?=$cassiere->utente_registrato_id?>" style="background-color: buttonface; border: 1px solid #000; margin:2px; padding: 1px;" id="permessi_cassiere">GESTISCI I PERMESSI</a><br />
                         <button style="margin-top:5px;" type="submit" id="logout_cassiere">DISCONNETTI CASSIERE</button>
                     </div>

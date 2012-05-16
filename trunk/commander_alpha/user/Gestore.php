@@ -50,6 +50,12 @@ class Gestore extends User {
         return $cassiere;
     }
 
+    /**
+     * forzo il logout di un cassiere
+     *
+     * @param <int> $cassiere_id
+     * @return <type>
+     */
     public function logOutCassiere($cassiere_id) {
         $cassiere =  DataManager::getCassiereDataByCassiereID($cassiere_id);
         $ret = DataManager::logoutCassiere($cassiere);
@@ -57,6 +63,29 @@ class Gestore extends User {
 
     }
 
+    /**
+     * azzero la quantità in cassa di un determinato cassiere
+     *
+     * @param <int> $cassiere_id
+     * @return <type>
+     */
+    public function azzeraCassa($cassiere_id) {
+        $cassiere =  DataManager::getCassiereDataByCassiereID($cassiere_id);
+        $ret = DataManager::azzeraCassa($cassiere);
+        return $ret;
+
+    }
+
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @return <float>
+     */
+    public function visualizzaCassa($cassiere_id) {
+        $cassiere =  DataManager::getCassiereDataByCassiereID($cassiere_id);
+        $ret = DataManager::visualizzaCassa($cassiere);
+        return $ret; 
+    }
 
     /**
      *

@@ -360,7 +360,6 @@ class DataManager {
         }
     }
 
-
     /**
      *
      * @return <type>
@@ -385,6 +384,65 @@ class DataManager {
             }
     }
 
+    /**
+     *
+     * @param <int> $cassiere_id
+     * @param <int> $gestore_id
+     * @return <type>
+     */
+    public function aggiornaCassa($cassiere_id, $gestore_id, $saldo) {
+        $sql = "SELECT * FROM cmd_cassa WHERE cassiere_id='$cassiere_id' AND record_attivo=1";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(!($res && mysql_num_rows($res))) {
+                //non esistono record attivi, ne creo uno
+                $sql2 = "INSERT INTO cmd_cassa (id, cassiere_id,gestore_id, saldo, consegnato, ora_consegna, record_attivo) VALUES (NULL, $cassiere_id, $gestore_id, $saldo, 0, NULL, 1)";
+                $res = mysql_query($sql2);
+                return $res;
+            }
+            /*
+             * esiste un record attivo:
+             * lo aggiorno se non ancora consegnato
+             *  altrimenti lo imposto a zero e crao un nuovo record.
+             */
+            $row = mysql_fetch_assoc($res);
+            $id = intval($row['id']);
+            
+            if ($row['consegnato']==0){
+                //nuovo saldo
+                $new_saldo = floatval($saldo) + floatval($row['saldo']);
+
+                $sq3 = "UPDATE cmd_cassa".
+                       " SET record_attivo=1, consegnato=0, saldo=$new_saldo".
+                       " WHERE id=".$id;
+                $res2 = mysql_query($sq3);
+                if ($res2){
+                    return $res2;
+                }else {
+                    return false;
+                }
+            }elseif($row['consegnato']==1) {
+
+                $sql4 = "UPDATE cmd_cassa".
+                       " SET record_attivo=0".
+                       " WHERE id=".$id;
+                $res4 = mysql_query($sql4);
+                if (!$res4){
+                    return $res4;
+                    }
+
+                $sql5 = "INSERT INTO cmd_cassa (id, cassiere_id,gestore_id, saldo, consegnato, ora_consegna, record_attivo) VALUES (NULL, $cassiere_id, $gestore_id, $saldo, 0, NULL, 1)";
+                $res5 = mysql_query($sql5);
+                if ($res5){
+                    return $res5;
+                }
+
+            }
+
+        }
+    }
+
+    //---------------------------------------------------------------
 
     /**
      * ritorno tutti i dati di un utente registrato:
@@ -555,6 +613,49 @@ class DataManager {
 
     }
 
+    /**
+     * azzero la quantità in cassa di un cassiere
+     *
+     * @param <cassiere> $cassiere
+     * @return <bool>
+     */
+    public static function azzeraCassa($cassiere){
+        $cassiere_id = intval($cassiere['id']);
+        $sql = "SELECT * FROM cmd_cassa WHERE record_attivo=1 AND cassiere_id=".$cassiere_id;
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //non è ancora presente un record nel db
+                return 0;
+            }
+            $row = mysql_fetch_assoc($res);
+            $id = intval($row['id']);
+            //aggiorno l'ultimo record attivo di questo cassiere, il saldo ciò che consegna
+            $sql = "UPDATE cmd_cassa".
+                   " SET record_attivo=1, consegnato=1, ora_consegna=now()".
+                   " WHERE id=".$id;
+            $res2 = mysql_query($sql);
+            if ($res2){
+                return $row;
+            }else {
+                return false;
+            }
+
+        }
+    }
+
+
+    public static function visualizzaCassa($cassiere) {
+        $cassiere_id = intval($cassiere['id']);
+        $sql = "SELECT * FROM cmd_cassa WHERE record_attivo=1 AND cassiere_id=".$cassiere_id;
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return 0;
+            }
+            return mysql_fetch_assoc($res);
+        }
+    }
 
     //--------------------------------------------------------------------------
 

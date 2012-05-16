@@ -79,7 +79,7 @@
             $cassiere = $objUser[0];
 
             echo "<p>aggiorna cassa: ";
-            $ret = $cassiere->aggiornaCassa(20);
+            $ret = $cassiere->aggiornaCassa(10);
             if(!$ret){
                 echo "Errore nell'aggionramento";
             }else{

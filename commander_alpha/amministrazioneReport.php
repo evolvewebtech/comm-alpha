@@ -13,8 +13,22 @@
 <!-- main -->
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
+<script type="text/javascript" src="media/js/timepicker.js"></script>
+
 <!-- CSS -->
 <style type="text/css">
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+.ui-slider-horizontal .ui-slider-handle {
+    top: 0.7em;
+    margin-left: -.6em;
+}
+
 .cloud {
     background-color: #fff;
     border-radius: 5px 5px 5px 5px;
@@ -105,9 +119,12 @@ if($objSession->IsLoggedIn()){
      * prelevo tutti i giorni in cui sono stati effettuati ordini
      * ritorno un array con tutti i time stamp
      */
-    /*
-    $giorni = DataManager::visualizzaGiorni();
     
+//    $giorni = DataManager::visualizzaGiorni();
+//    echo "<pre>";
+//    print_r($giorni);
+//    echo "</pre>";
+    /*
     
     //creo un array con solo i giorni in cui ci sono stati ordini
     $day = array();
@@ -302,6 +319,44 @@ if($objSession->IsLoggedIn()){
                 }
              });
 
+        $('#inizio_ordini').datetimepicker({
+            onClose: function(dateText, inst) {
+                var endDateTextBox = $('#fine_ordini');
+                if (endDateTextBox.val() != '') {
+                    var testStartDate = new Date(dateText);
+                    var testEndDate = new Date(endDateTextBox.val());
+                    if (testStartDate > testEndDate)
+                        endDateTextBox.val(dateText);
+                }
+                else {
+                    endDateTextBox.val(dateText);
+                }
+            },
+            onSelect: function (selectedDateTime){
+                var start = $(this).datetimepicker('getDate');
+                $('#fine_ordini').datetimepicker('option', 'minDate', new Date(start.getTime()));
+            }
+        });
+        $('#fine_ordini').datetimepicker({
+            onClose: function(dateText, inst) {
+                var startDateTextBox = $('#inizio_ordini');
+                if (startDateTextBox.val() != '') {
+                    var testStartDate = new Date(startDateTextBox.val());
+                    var testEndDate = new Date(dateText);
+                    if (testStartDate > testEndDate)
+                        startDateTextBox.val(dateText);
+                }
+                else {
+                    startDateTextBox.val(dateText);
+                }
+            },
+            onSelect: function (selectedDateTime){
+                var end = $(this).datetimepicker('getDate');
+                $('#inizio_ordini').datetimepicker('option', 'maxDate', new Date(end.getTime()) );
+            }
+        });
+
+
 /*
  * creo l'HTML per la visualizzazione dei risultati
  */
@@ -364,50 +419,51 @@ function zeroPad(num,count) {
  *
  */
 function onListaOrdiniSuccess(data, status) {
-    //alert("Successo lettura da database con Ajax!")
     var totOrdini = 0;
     str = '';
 
     //eliminazione carattere '"'
     dataSel = dataSel.replace('"','');
     dataSel = dataSel.replace('"','');
+    
+    console.log(data);
 
     if (data.length > 0) {
 
-    str += '<ul style="width: 880px;margin:auto;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
-    str += '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini del '+dataSel+'</li>';
+        str += '<ul style="width: 880px;margin:auto;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
+        str += '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini del '+dataSel+'</li>';
 
-    for (i=0; i<data.length; i++) {
-    var new_id = 'ord-ser-';
-    new_id = new_id + data[i].seriale + '&' + data[i].timestamp + '&' + data[i].tavolo_id;
-    new_id = new_id + '&' + data[i].n_coperti + '&' + data[i].totale;
+        for (i=0; i<data.length; i++) {
+            var new_id = 'ord-ser-';
+            new_id = new_id + data[i].seriale + '&' + data[i].timestamp + '&' + data[i].tavolo_id;
+            new_id = new_id + '&' + data[i].n_coperti + '&' + data[i].totale;
 
-    str += '<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
-    str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
-    str += '<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+data[i].id+'">';
-    str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + data[i].timestamp + '</div>';
-    str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + data[i].tavolo_id + '</div>';
-    str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + data[i].n_coperti + '</div>';
-    str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+data[i].totale+' &#8364;</span>';
-    str += '</a>';
-    str += '</div></div>';
-    str += '</li>';
+            str += '<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
+            str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
+            str += '<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+data[i].id+'">';
+            str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + data[i].timestamp + '</div>';
+            str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + data[i].tavolo_id + '</div>';
+            str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + data[i].n_coperti + '</div>';
+            str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+data[i].totale+' &#8364;</span>';
+            str += '</a>';
+            str += '</div></div>';
+            str += '</li>';
 
-    totOrdini = totOrdini + data[i].totale;
-    }
+            totOrdini = totOrdini + data[i].totale;
+        }
 
-    str += '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
-    str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
-    str += '<span style="margin-right: 205px; border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 180px; font-size: 14px">Totale contanti incassati: '+totOrdini+' &#8364;</span>';
-    str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale ordini: '+totOrdini+' &#8364;</span>';
-    str += '</div></div>';
-    str += '</li>';
+        str += '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
+        str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
+        str += '<span style="margin-right: 205px; border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 180px; font-size: 14px">Totale contanti incassati: '+totOrdini+' &#8364;</span>';
+        str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale ordini: '+totOrdini+' &#8364;</span>';
+        str += '</div></div>';
+        str += '</li>';
 
-    str += "</ul>";
-    }
-    else {
-        str += '<div style="margin:auto">';
-        str += 'Nessun ordine trovato</div>';
+        str += "</ul>";
+    
+        } else {
+            str += '<div style="margin:auto">';
+            str += 'Nessun ordine trovato</div>';
     }
     document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
@@ -426,6 +482,7 @@ function onError(data, status) {
     document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
 
+    $('#example1').datetimepicker();
 });
 </script>
 
@@ -434,11 +491,24 @@ function onError(data, status) {
     <!-- dialogs -->
     <? include_once dirname(__FILE__).'/dialogs.php'; ?>
 
+    <!--
     <div class="cloud">STORICO ORDINI <input style="display:none;" type="text" id="cerca_ordine"></div>
+    -->
+    <div class="cloud example-container">INSERISCI LE DATE DI INIZIO E FINE
+        <input type="text" name="inizio_ordini" id="inizio_ordini" value="">
+        <input type="text" name="fine_ordini" id="fine_ordini" value="">
+    </div>
     <div id="lista-vecchi-ordini" class="lista_ordini"></div>
+    
+    <div class="cloud">RICERCA PER CAMERIERE
+    <?php
+    $cassiere = $gestore->getallCassiere();
+    echo "<pre>";
+    print_r($cassiere);
+    echo "</pre>";
+    ?>
+    </div>
 
-    <div class="cloud" title="Statistiche per l'intero periodo di attivit&agrave;.">STATISTICHE COMPLESSIVE</div>
-    <div class="cloud" title="Statistiche per un singolo giorno di attivit&agrave;.">STATISTICHE GIORNALIERE</div>
     <div class="cloud" id="ricerca-ordine" title="Ricerca un ordine tra quelli disponibili.">RICERCA UN ORDINE</div>
     <form id="ricerca-ordine-form" method="get" action="" style="display:none;background-color:white;">
         <fieldset>

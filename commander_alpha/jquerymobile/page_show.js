@@ -23,8 +23,55 @@ $("#home").live('pageshow', function() {
     refreshAlim = false;
     
     document.getElementById('text-num-t').value = "";
-    document.getElementById('slider-0').value = 1;     
+    document.getElementById('slider-0').value = 1;
+    
+    if (refreshLiv) {
+        refreshLiv = false;
+        
+        $.ajax({
+            type : "POST",
+            data: '',
+            url: "livelli.php",
+            dataType: 'json',
+            cache: false,
+            success: onLivelliSuccess,
+            error: onLivelliError
+        });
+    }
 });
+
+
+/*
+ * Richiesta Ajax completata con successo
+ *
+ */
+function onLivelliSuccess(data, status) { 
+    
+    //Verifica se utente loggato
+    if ( !logged(data['err']) ) return;
+    
+    //alert("Successo lettura da database con Ajax!");  
+    for(var i=0; i<data['livelli'].length; i++) {
+        livelli[i] = data['livelli'][i];
+    }
+    
+    //Verifica se cassiere abilitato per prenotazione al tavolo
+    if (livelli[1] != 2) {
+        cassa_fissa = true;
+        //nascosto pulsante "Indietro" in pagina "ordine"
+        document.getElementById('#pg-ord-back').style.display='none';
+    }
+}
+
+
+
+/*
+ * Errore richiesta Ajax
+ *
+ */
+function onLivelliError(data, status) { 
+    alert("Errore Ajax");
+}
 
 
 
@@ -77,23 +124,20 @@ $("#chiusura").live('pageshow', function() {
     str = str + '<h2 class="name" style="color: ' + strColor + '">' + strSoldi + '</h2>';
     str = str + '<h2 class="prezzo" style="color: ' + strColor + '">' + soldi + ' \u20ac</h2>';
     document.getElementById('chius-resto').innerHTML = str;
-});
-
-
-$("#diag-ins-cont").live('pageshow', function() {
-    document.getElementById('cont-ric').value = '';
+    
+    str = "";
+    str = str + '<h2 class="name">Buono prepagato</h2>';
+    str = str + '<h2 class="prezzo">' + buono_cred_us + ' \u20ac</h2>';
+    document.getElementById('chius-buoni').innerHTML = str;
 });
 
 
 
 /*
- * PAGINA "BUONI PREPAGATI"
+ * PAGINA-DIALOG "INSERIMENTO CONTANTI"
  */
-$("#chiusura").live('pageshow', function() {
-    str = "";
-    str = str + '<h2 class="name">Buono prepagato</h2>';
-    str = str + '<h2 class="prezzo">' + buono_cred_us + ' \u20ac</h2>';
-    document.getElementById('chius-buoni').innerHTML = str;
+$("#diag-ins-cont").live('pageshow', function() {
+    document.getElementById('cont-ric').value = '';
 });
 
 

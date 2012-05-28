@@ -38,6 +38,9 @@
         var buono_cred = 0;
         var buono_cred_us = 0;
         var refreshAlim = false;
+        var refreshLiv = true;
+        var livelli = new Array();
+        var cassa_fissa = false;
     </script>
     <script type="text/javascript" src="../lib/contrast_color.js"></script>
     <script type="text/javascript" src="../lib/formato_data.js"></script>
@@ -47,7 +50,7 @@
     
     <link rel="stylesheet" href="css/style-isotope.css"/>
     <link rel="stylesheet" href="css/comm_checkbox.css" />
-    <script>
+    <script type="text/javascript">
         // Edit to suit your needs.
         var ADAPT_CONFIG = {
         // Where is your CSS?
@@ -72,7 +75,7 @@
     <script type="text/javascript" src="../lib/adapt.min.js"></script>
     
     <!-- Hide address bar in mobile-web-app -->
-    <script>
+    <script type="text/javascript">
         function hideAddressBar(){
         if(document.documentElement.scrollHeight<window.outerHeight/window.devicePixelRatio)
             document.documentElement.style.height=(window.outerHeight/window.devicePixelRatio)+'px';
@@ -82,6 +85,23 @@
         window.addEventListener("orientationchange",function(){hideAddressBar();});
     </script>
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    <script type="text/javascript">
+        function logged(err) {
+            //Verifica se utente loggato
+            if ((err == 'E001') || (err == 'E002')) {
+                //utente non loggato correttamente 
+                var str = '';
+                if (err == 'E002') str = 'Utente non autenticato o sessione scaduta';
+                else str = 'Non possiedi i permessi per visualizzare questa pagina!';
+                document.getElementById('log-err-text').innerHTML = str;
+                //apertura pagina avviso
+                document.location.href="#diag-log-err";
+                $.mobile.changePage( "#diag-log-err", 'none', false, true);
+                return false;
+            }
+            else return true;
+        }
+    </script>
     
 </head>
 <body>
@@ -89,13 +109,13 @@
     <!-- PAGINA HOME -->
     <div data-role="page" id="home">
         <div data-role="header">
-            <h1>Scelta operazioni</h1>
+            <h1 style="margin-top: 17px">Scelta operazioni</h1>
             <a id="logoutBt" data-icon="delete" class="ui-btn-right">Esci</a> 
         </div>
         <div data-role="content">
             <div class="scelta_op">
                 <div class="button_opz" >
-                    <a href="#tavoli" class="comm-btn-1">
+                    <a id="new-ord-bt" class="comm-btn-1">
                         <img src="css/images/symbol_add.png" />
                         <span class="comm-btn-1-text">Nuovo ordine</span>
                     </a>
@@ -103,17 +123,29 @@
                 <div class="button_opz">
                     <a href="#info-ordini" class="comm-btn-1">
                         <img src="css/images/symbol_information.png" />
-                        <span class="comm-btn-1-text">Vecchi ordini</span>
+                        <span class="comm-btn-1-text" style="padding-left: 20px">Info ordini</span>
                     </a>
                 </div>
-            </div>    
+            </div>
+            <script>
+                $('#new-ord-bt').live("click", function() {
+                    if (cassa_fissa) {
+                        document.location.href="#ordine";
+                        $.mobile.changePage( "#ordine", 'none', false, true);
+                    }
+                    else {
+                        document.location.href="#tavoli";
+                        $.mobile.changePage( "#tavoli", 'none', false, true);     
+                    }
+                });
+            </script>    
         </div>
     </div>
     
     <!-- PAGINA INFO ORDINI -->
     <div data-role="page" id="info-ordini">
         <div data-role="header">
-            <h1>Info ordini</h1>
+            <h1 style="margin-top: 17px">Info ordini</h1>
             <a href="#home" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content">
@@ -128,7 +160,7 @@
     <!-- PAGINA VECCHIO ORDINE -->
     <div data-role="page" id="ristampa-ordine">
         <div data-role="header">
-            <h1>Riepilogo ordine</h1>
+            <h1 style="margin-top: 17px">Riepilogo ordine</h1>
             <a href="#info-ordini" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content">
@@ -139,7 +171,7 @@
     <!-- PAGINA APERTURA TAVOLO -->
     <div data-role="page" id="tavoli">
         <div data-role="header">
-            <h1>Scelta tavolo</h1>
+            <h1 style="margin-top: 17px">Scelta tavolo</h1>
         </div>
         <div data-role="content">
             <?php include dirname(__FILE__).'/pg_ap_tavolo.php';  ?>
@@ -149,8 +181,9 @@
     <!-- PAGINA ORDINE -->
     <div data-role="page" id="ordine">
         <div data-role="header">
-            <h1>Ordinazione</h1>
-            <a href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
+            <h1 style="margin-top: 17px">Ordinazione</h1>
+            <div id="ord01" style="float: right; margin-top: -34px; margin-right: 20px"></div>
+            <a id="pg-ord-back" href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content">          
             <?php include dirname(__FILE__).'/pg_ordine.php';  ?>
@@ -160,7 +193,7 @@
     <!-- PAGINA CONFERMA E CHIUSURA -->
     <div data-role="page" id="chiusura">
         <div data-role="header">
-            <h1>Chisura ordine</h1>
+            <h1 style="margin-top: 17px">Chisura ordine</h1>
             <a href="#ordine" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
             <a href="#diag-conf-canc-ord2" data-icon="delete" data-rel="dialog" class="ui-btn-right">Annulla ordine</a>
         </div>
@@ -172,7 +205,7 @@
     <!-- PAGINA BUONI PREPAGATI -->
     <div data-role="page" id="buoni-pre">
         <div data-role="header">
-            <h1>Buoni prepagati</h1>
+            <h1 style="margin-top: 17px">Buoni prepagati</h1>
             <a href="#chiusura" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content"> 
@@ -242,6 +275,7 @@
         <div data-role="content">
             <a id="conferma-ordine" data-role="button" data-icon="check" class="ui-btn-right">Sì</a>
             <a href="#chiusura" data-role="button" data-icon="delete" class="ui-btn-right">No</a>
+            <div id="debug-sim-01"></div>
         </div>
     </div>
     

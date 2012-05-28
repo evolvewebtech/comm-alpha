@@ -46,17 +46,7 @@
         //alert("Credito buono: " + data[0] + " €, Nominativo: " + data[1]);
         
         //Verifica se utente loggato
-        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
-            //utente non loggato correttamente 
-            var str = '';
-            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
-            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
-            document.getElementById('log-err-text').innerHTML = str;
-            //apertura pagina avviso
-            document.location.href="#diag-log-err";
-            $.mobile.changePage( "#diag-log-err", 'none', false, true);
-            return
-        }
+        if ( !logged(data['err']) ) return;
         
         buono_ser = document.getElementById('searc-basic').value;
         buono_cred = data['buono'][0];

@@ -40,10 +40,10 @@
                 $buono_ok = false;
                 if ($buono_ser != "") {
                     //Recupero dati "Buono prepagato"
-                    $buono = DataManager2::getBuonoPrepagatoAsObject($buono_ser);
+                    $buono = DataManager2::getBuonoPrepagatoAsObject($buono_ser, $user->getGestoreID() );
                     if ($buono->credito >= $buono_cred_us) {
                         //Inserimento relazione "BuonoOrdine"
-                        $ret2 = DataManager2::inserisciBuonoOrdine((int)$buono->id, $next_id);               
+                        $ret2 = DataManager2::inserisciBuonoOrdine((int)$buono->id, $next_id, (double)$buono_cred_us);               
                         if ($ret2) {
                             $nuovo_credito = $buono->credito - $buono_cred_us;
                             //Aggiornamento del credito del buono utilizzato
@@ -51,7 +51,8 @@
                                                                     $buono->seriale,
                                                                     $nuovo_credito,
                                                                     $buono->nominativo,
-                                                                    (int)$buono->gestore_id);
+                                                                    (int)$buono->gestore_id,
+                                                                    0);
                         }
                         if ($ret2) { $buono_ok = true; }
                     }

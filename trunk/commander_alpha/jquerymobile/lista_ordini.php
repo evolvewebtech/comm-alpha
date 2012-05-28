@@ -5,11 +5,14 @@
         require_once dirname(__FILE__).'/../manager/HTTPSession.php';
         $objSession = new HTTPSession();
         
-        $data = file_get_contents('php://input');
-        $dataQuery = json_decode($data, true);
+        $dataQuery = mysql_real_escape_string($_POST['dataora']);
+        $numRes = mysql_real_escape_string($_POST['numres']);
         
         //Array da passare con JSON  
         $arr = array(   "ordini"   => array(),
+                        "num_ord"  => 0,
+                        "totale"   => 0,
+                        "contanti" => 0,
                         "cassiere" => '',
                         "err"   => ''); 
         
@@ -22,26 +25,44 @@
             if(get_class($user) == 'Cassiere') {
                 
             $arr['cassiere'] = $user->username;
+            $totOrdini = 0;
+            $totBuoni = 0;
                 
             $arOrdini = DataManager2::getAllOrdiniDateAsObjects($dataQuery, $objSession->GetUserID());
         
             if ($arOrdini) {
-                for($i=0; $i<count($arOrdini); $i++) {
+                $numOrd = count($arOrdini);
+                $arr['num_ord'] = $numOrd;
+                
+                for($i=0; $i<$numOrd; $i++) {
 
                     $tot = 0;
                     for($j=0; $j<$arOrdini[$i]->getNumberOfRigheOrdine(); $j++) {
                         $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
                     }
+                    $totOrdini = $totOrdini + $tot;
+                    $buono = DataManager2::getCreditoBuonoUsato($arOrdini[$i]->id);
 
                     $arrTemp = array(   "id"            => $arOrdini[$i]->id,
                                         "seriale"       => $arOrdini[$i]->seriale,
                                         "timestamp"     => $arOrdini[$i]->timestamp,
                                         "n_coperti"     => $arOrdini[$i]->n_coperti,
                                         "tavolo_id"     => $arOrdini[$i]->tavolo_id,
-                                        "totale"        => $tot);
-
-                    $arr['ordini'][$i] = $arrTemp;
+                                        "totale"        => $tot,
+                                        "tot_buono"     => $buono );
+                    
+                    $totBuoni = $totBuoni + $buono;
+                    //Visulizzati solo n risultati
+                    if (($numRes<$numOrd) && ($i<$numRes) && ($numRes>0)) {
+                        $arr['ordini'][$i] = $arrTemp;
+                    }
+                    if (($numRes<=0) || ($numRes>=$numOrd)) {
+                        $arr['ordini'][$i] = $arrTemp;
+                    }
+                    $arrTemp = null;
                 }
+                $arr['totale'] = $totOrdini;
+                $arr['contanti'] = $totOrdini - $totBuoni;
             }
 
 

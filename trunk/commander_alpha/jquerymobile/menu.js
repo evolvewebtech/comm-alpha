@@ -39,7 +39,13 @@ $("#ordine").live('pageshow', function() {
             $optionSet.find('.selected').removeClass('selected');
             $this.addClass('selected');
         }
-    }      
+    }
+    
+    //Visualizzazione numero tavolo e numero coperti
+    numTavolo = document.getElementById('text-num-t').value;
+    numCoperti = document.getElementById('slider-0').value;   
+    str = 'Tavolo ' + numTavolo + ' - Coperti ' + numCoperti;
+    document.getElementById('ord01').innerHTML = str;
 });
 
 
@@ -51,17 +57,7 @@ function onEventoInfoSuccess(data, status) {
     //alert("Successo lettura da database con Ajax!")
     
     //Verifica se utente loggato
-    if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
-        //utente non loggato correttamente 
-        var str = '';
-        if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
-        else str = 'Non possiedi i permessi per visualizzare questa pagina!';
-        document.getElementById('log-err-text').innerHTML = str;
-        //apertura pagina avviso
-        document.location.href="#diag-log-err";
-        $.mobile.changePage( "#diag-log-err", 'none', false, true);
-        return
-    }
+    if ( !logged(data['err']) ) return;
         
     //Svuotamento iniziale "categorie" da container Isotope
     var $removable = $('#container').find( ".categorie" );
@@ -146,12 +142,14 @@ function onEventoInfoSuccess(data, status) {
         }
     }
     
+    textColor = contrastColor( '#000000' );
+    
     //Aggiunto pulsante categoria "Menù fissi""
     $str = "";
     $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
     $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi">';
-    $str = $str + '<div class="element" style="background: #abcd00">';
-    $str = $str + '<h2 class="el-name">Menù fissi</h2>';
+    $str = $str + '<div class="element" style="background: #000000">';
+    $str = $str + '<h2 class="el-name" style="color: '+textColor+'">Menù fissi</h2>';
     $str = $str + '</div>';
     $str = $str + '</a>';
     $str = $str + '</div>';
@@ -168,9 +166,9 @@ function onEventoInfoSuccess(data, status) {
         $str = "";
         $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
         $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
-        $str = $str + '<div class="element" style="background: #abcd00">';
-        $str = $str + '<h2 class="el-name">'+data['menu'][$i].nome+'</h2>';
-        $str = $str + '<h2 class="el-prezzo">'+data['menu'][$i].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+        $str = $str + '<div class="element" style="background: #000000">';
+        $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['menu'][$i].nome+'</h2>';
+        $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+data['menu'][$i].prezzo+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
         $str = $str + '</div>';
         $str = $str + '</a>';
         $str = $str + '</div>';
@@ -180,10 +178,6 @@ function onEventoInfoSuccess(data, status) {
         
         var arrTempCat = new Array();
         for($j=0; $j<data['menu'][$i].categorie.length; $j++) {
-//            var $strAl = "";
-//            $strAl = $strAl + "";
-//            
-//            $str = $str + $strAl;
             
             //Creazione oggetti Alimenti
             var arrTempAlim = new Array();

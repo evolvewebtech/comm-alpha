@@ -1069,7 +1069,7 @@ class DataManager2 {
      * @param <int> $ordine_id
      * @return <bool> 
      */
-    static function inserisciBuonoOrdine($buono_id, $ordine_id){
+    static function inserisciBuonoOrdine($buono_id, $ordine_id, $buono_cred_us){
         
         require_once 'Database.php';
         $db = new Database();
@@ -1078,7 +1078,7 @@ class DataManager2 {
         /*
          * inserisco una relazione buono_ordine
          */
-        $ret = $db->insert('rel_buono_ordine', array($buono_id, $ordine_id));
+        $ret = $db->insert('rel_buono_ordine', array($buono_id, $ordine_id, $buono_cred_us));
                 
         if ($ret) return true;
         else return false;
@@ -1379,6 +1379,22 @@ class DataManager2 {
     }
     
     
+    public static function getCreditoBuonoUsato($ordine_id){
+        $sql = "SELECT * FROM rel_buono_ordine WHERE ordine_id='$ordine_id'";
+        
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting entity BuonoPrepagato");
+            return 0;
+        }
+            while($row = mysql_fetch_assoc($res)) {
+                return $row['credito_usato'];
+            }
+        }
+    }
+    
+    
     public static function getCategoriaData($categoriaID){
         $sql = "SELECT * FROM cmd_categoria WHERE id=$categoriaID";
         if (DataManager2::_getConnection()){
@@ -1490,7 +1506,7 @@ class DataManager2 {
     }
     
     public static function getBuonoPrepagatoAsObject($seriale, $gestoreID){
-        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale='$seriale' AND gestore_id=$gestoreID";
+        $sql = "SELECT * FROM cmd_buoni_prepagati WHERE seriale='$seriale' AND gestore_id=$gestoreID AND record_attivo=1";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);

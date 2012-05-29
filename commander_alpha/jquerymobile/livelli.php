@@ -18,7 +18,8 @@
             $user = $objUser[0];
             if(get_class($user) == 'Cassiere') {
             
-            $arr['livelli'] = $user->getLivelli(); 
+            $arr['livelli'] = $user->getLivelli();
+            $arr['cassiere'] = $user->username;
                 
             //Invio array con Ajax
             if ($arr){

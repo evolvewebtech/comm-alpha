@@ -110,6 +110,7 @@
     <div data-role="page" id="home">
         <div data-role="header">
             <h1 style="margin-top: 17px">Scelta operazioni</h1>
+            <div id="user01" style="float: right; margin-top: -34px; margin-right: 90px"></div>
             <a id="logoutBt" data-icon="delete" class="ui-btn-right">Esci</a> 
         </div>
         <div data-role="content">

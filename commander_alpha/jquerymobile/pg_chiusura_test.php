@@ -76,11 +76,16 @@
 
 
 <script type="text/javascript">
-    /*
     var id_ord_stmp = 0;
     
+    var indSimulazione = 1;
+    
     $('#conferma-ordine').live("click", function() {
-        
+        invioOrdine();
+    });
+    
+    function invioOrdine() {
+         
         var alimenti = new Array();
         
         //Estrazione dati dalla lista degli alimenti selezionati
@@ -130,51 +135,65 @@
             success: onInvioOrdineSuccess,
             error: onInvioOrdineError
         });
-        
-    });
+               
+    }
     
     function onInvioOrdineSuccess(data, status) {
         
         //Verifica se utente loggato
-        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
-            //utente non loggato correttamente 
-            var str = '';
-            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
-            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
-            document.getElementById('log-err-text').innerHTML = str;
-            //apertura pagina avviso
-            document.location.href="#diag-log-err";
-            $.mobile.changePage( "#diag-log-err", 'none', false, true);
-            return
+        if ( !logged(data['err']) ) return;
+        
+        id_ord_stmp = data['next_id'];
+
+        if (data['err'] == '') {
+            onStampaSuccess(data, status); 
+        }
+        else if (data['err'] == 'E200') {
+            onStampaError(data, status);
+        }
+        else {
+            onInvioOrdineError(data, status);
         }
         
         //alert("Ordine " + data + " inviato con successo!");
-        id_ord_stmp = data['next_id'];
+        
+//        $.ajax({
+//            type: "POST",
+//            data: 'id='+id_ord_stmp,
+//            url: "stampa_ordine.php",
+//            dataType: 'json',
+//            cache: false,
+//            success: onStampaSuccess,
+//            error: onStampaError
+//        });
 
-        $.ajax({
-            type: "POST",
-            data: 'id='+id_ord_stmp,
-            url: "stampa_ordine.php",
-            dataType: 'json',
-            cache: false,
-            success: onStampaSuccess,
-            error: onStampaError
-        });
+        if (indSimulazione < 5) {
+            var randNum = Math.random()*5000;
+            randNum = parseInt(randNum);
+            if (randNum < 1000) randNum = 1000;
+            indSimulazione = indSimulazione + 1;
+            document.getElementById('debug-sim-01').innerHTML = 'Simulazione: ' + indSimulazione + ' - Delay: ' + randNum;
+            setTimeout("invioOrdine()",randNum);
+        }
+        else {
+            document.location.href="#home";
+            $.mobile.changePage( "#home", 'none', false, true);
+        }
     }
     
-    function onInvioOrdineError(data, status) { 
-        alert("Errore Ajax registrazione ordine");
-        
+    function onInvioOrdineError(data, status) {
+        alert("Errore Ajax registrazione ordine: " + data['err']);
+
         document.location.href="#chiusura";
         $.mobile.changePage( "#chiusura", 'none', false, true);
     }
     
     function onStampaSuccess(data, status) {
-        if (id_ord_stmp > 0) alert("Ordine " + id_ord_stmp + " inviato con successo!");
-        else alert("Ordine inviato con successo!");
+        //if (id_ord_stmp > 0) alert("Ordine " + id_ord_stmp + " inviato con successo!");
+        //else alert("Ordine inviato con successo!");
         
-        document.location.href="#home";
-        $.mobile.changePage( "#home", 'none', false, true);
+        //document.location.href="#home";
+        //$.mobile.changePage( "#home", 'none', false, true);
     } 
     
     function onStampaError(data, status) { 
@@ -183,7 +202,6 @@
         document.location.href="#home";
         $.mobile.changePage( "#home", 'none', false, true);
     }
-   */
 </script>
 
 
@@ -194,128 +212,128 @@
 
 //SIMULAZIONE!!!!   Da rimuovere!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-    var id_ord_stmp = 0;
-    
-    var indSimulazione = 1;
-    
-    $('#conferma-ordine').live("click", function() {
-        invioOrdineTest();
-    });
-    
-    function invioOrdineTest() {
-        var alimenti = new Array();
-        
-        //Estrazione dati dalla lista degli alimenti selezionati
-        for (var i=0; i<arrList.length; i++) {
-            
-            var alimento = new Array();
-            
-            alimento[0] = arrList[i]._id;       //id
-            alimento[1] = arrList[i]._num;      //numero 
-            alimento[2] = arrList[i]._prezzo;   //prezzo
-            alimento[3] = 0;                    //iva
-            
-            var varianti = new Array();           
-            for (var j=0; j<arrList[i]._varianti.length; j++) {
-                var variante = arrList[i]._varianti[j];
-                varianti[j] = variante._id;
-                //aggiornamento prezzo
-                alimento[2] = parseFloat(alimento[2]) + parseFloat(variante._prezzo);
-                alimento[2] = Math.round(alimento[2]*100) / 100;
-            }          
-            alimento[4] = varianti;             //varianti
-            
-            alimenti[i] = alimento;
-        }
-                
-        //Creazione array
-        var data = new Array();
-        data = {
-            n_coperti:  numCoperti,
-            tavolo_id:  numTavolo,
-            buono_ser:  buono_ser,
-            buono_cred_us:   buono_cred_us,
-            
-            alimenti:   alimenti
-        }
-        
-        //Creazione stringa Json
-        data = JSON.stringify(data);
-        
-        
-        $.ajax({
-            type : "POST",
-            data: data,
-            url: "invio_ordine.php",
-            dataType: 'json',
-            cache: false,
-            success: onInvioOrdineSuccess,
-            error: onInvioOrdineError
-        });
-    }
-    
-    function onInvioOrdineSuccess(data, status) {
-        
-        //Verifica se utente loggato
-        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
-            //utente non loggato correttamente 
-            var str = '';
-            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
-            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
-            document.getElementById('log-err-text').innerHTML = str;
-            //apertura pagina avviso
-            document.location.href="#diag-log-err";
-            $.mobile.changePage( "#diag-log-err", 'none', false, true);
-            return
-        }
-        
-        //alert("Ordine " + data + " inviato con successo!");
-        id_ord_stmp = data['next_id'];
-
-        $.ajax({
-            type: "POST",
-            data: 'id='+id_ord_stmp,
-            url: "stampa_ordine.php",
-            dataType: 'json',
-            cache: false,
-            success: onStampaSuccess,
-            error: onStampaError
-        });
-        
-        if (indSimulazione < 10) {
-            var randNum = Math.random()*5000;
-            randNum = parseInt(randNum);
-            if (randNum < 1000) randNum = 1000;
-            indSimulazione = indSimulazione + 1;
-            document.getElementById('debug-sim-01').innerHTML = 'Simulazione: ' + indSimulazione + ' - Delay: ' + randNum;
-            setTimeout("invioOrdineTest()",randNum);
-        }
-        else {
-            document.location.href="#home";
-            $.mobile.changePage( "#home", 'none', false, true);
-        }
-    }
-    
-    function onInvioOrdineError(data, status) { 
-        //alert("Errore Ajax registrazione ordine"); DA RIPRISTINARE!!!!!!!!!!!!!
-        
-        document.location.href="#chiusura";
-        $.mobile.changePage( "#chiusura", 'none', false, true);
-    }
-    
-    function onStampaSuccess(data, status) {
-        //if (id_ord_stmp > 0) alert("Ordine " + id_ord_stmp + " inviato con successo!");
-        //else alert("Ordine inviato con successo!"); DA RIPRISTINARE!!!!!!!!!!!!!
-        
-        //document.location.href="#home";
-        //$.mobile.changePage( "#home", 'none', false, true); DA RIPRISTINARE!!!!!!!!!!!!!
-    } 
-    
-    function onStampaError(data, status) { 
-        //alert("Errore stampa ordine " + id_ord_stmp); DA RIPRISTINARE!!!!!!!!!!!!!
-        
-        //document.location.href="#home";
-        //$.mobile.changePage( "#home", 'none', false, true); DA RIPRISTINARE!!!!!!!!!!!!!
-    }
-   
+//    var id_ord_stmp = 0;
+//    
+//    var indSimulazione = 1;
+//    
+//    $('#conferma-ordine').live("click", function() {
+//        invioOrdineTest();
+//    });
+//    
+//    function invioOrdineTest() {
+//        var alimenti = new Array();
+//        
+//        //Estrazione dati dalla lista degli alimenti selezionati
+//        for (var i=0; i<arrList.length; i++) {
+//            
+//            var alimento = new Array();
+//            
+//            alimento[0] = arrList[i]._id;       //id
+//            alimento[1] = arrList[i]._num;      //numero 
+//            alimento[2] = arrList[i]._prezzo;   //prezzo
+//            alimento[3] = 0;                    //iva
+//            
+//            var varianti = new Array();           
+//            for (var j=0; j<arrList[i]._varianti.length; j++) {
+//                var variante = arrList[i]._varianti[j];
+//                varianti[j] = variante._id;
+//                //aggiornamento prezzo
+//                alimento[2] = parseFloat(alimento[2]) + parseFloat(variante._prezzo);
+//                alimento[2] = Math.round(alimento[2]*100) / 100;
+//            }          
+//            alimento[4] = varianti;             //varianti
+//            
+//            alimenti[i] = alimento;
+//        }
+//                
+//        //Creazione array
+//        var data = new Array();
+//        data = {
+//            n_coperti:  numCoperti,
+//            tavolo_id:  numTavolo,
+//            buono_ser:  buono_ser,
+//            buono_cred_us:   buono_cred_us,
+//            
+//            alimenti:   alimenti
+//        }
+//        
+//        //Creazione stringa Json
+//        data = JSON.stringify(data);
+//        
+//        
+//        $.ajax({
+//            type : "POST",
+//            data: data,
+//            url: "invio_ordine.php",
+//            dataType: 'json',
+//            cache: false,
+//            success: onInvioOrdineSuccess,
+//            error: onInvioOrdineError
+//        });
+//    }
+//    
+//    function onInvioOrdineSuccess(data, status) {
+//        
+//        //Verifica se utente loggato
+//        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
+//            //utente non loggato correttamente 
+//            var str = '';
+//            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
+//            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
+//            document.getElementById('log-err-text').innerHTML = str;
+//            //apertura pagina avviso
+//            document.location.href="#diag-log-err";
+//            $.mobile.changePage( "#diag-log-err", 'none', false, true);
+//            return
+//        }
+//        
+//        //alert("Ordine " + data + " inviato con successo!");
+//        id_ord_stmp = data['next_id'];
+//
+//        $.ajax({
+//            type: "POST",
+//            data: 'id='+id_ord_stmp,
+//            url: "stampa_ordine.php",
+//            dataType: 'json',
+//            cache: false,
+//            success: onStampaSuccess,
+//            error: onStampaError
+//        });
+//        
+//        if (indSimulazione < 10) {
+//            var randNum = Math.random()*5000;
+//            randNum = parseInt(randNum);
+//            if (randNum < 1000) randNum = 1000;
+//            indSimulazione = indSimulazione + 1;
+//            document.getElementById('debug-sim-01').innerHTML = 'Simulazione: ' + indSimulazione + ' - Delay: ' + randNum;
+//            setTimeout("invioOrdineTest()",randNum);
+//        }
+//        else {
+//            document.location.href="#home";
+//            $.mobile.changePage( "#home", 'none', false, true);
+//        }
+//    }
+//    
+//    function onInvioOrdineError(data, status) { 
+//        //alert("Errore Ajax registrazione ordine"); DA RIPRISTINARE!!!!!!!!!!!!!
+//        
+//        document.location.href="#chiusura";
+//        $.mobile.changePage( "#chiusura", 'none', false, true);
+//    }
+//    
+//    function onStampaSuccess(data, status) {
+//        //if (id_ord_stmp > 0) alert("Ordine " + id_ord_stmp + " inviato con successo!");
+//        //else alert("Ordine inviato con successo!"); DA RIPRISTINARE!!!!!!!!!!!!!
+//        
+//        //document.location.href="#home";
+//        //$.mobile.changePage( "#home", 'none', false, true); DA RIPRISTINARE!!!!!!!!!!!!!
+//    } 
+//    
+//    function onStampaError(data, status) { 
+//        //alert("Errore stampa ordine " + id_ord_stmp); DA RIPRISTINARE!!!!!!!!!!!!!
+//        
+//        //document.location.href="#home";
+//        //$.mobile.changePage( "#home", 'none', false, true); DA RIPRISTINARE!!!!!!!!!!!!!
+//    }
+//   
 </script>

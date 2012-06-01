@@ -92,7 +92,7 @@ $("#chiusura").live('pageshow', function() {
 
     str = "";
     str = str + '<h2 class="name">Totale conto</h2>';
-    str = str + '<h2 class="prezzo">' + totale + ' \u20ac</h2>';
+    str = str + '<h2 class="prezzo">' + formatMoney(totale,2,true) + ' \u20ac</h2>';
     document.getElementById('chius-tot-ord').innerHTML = str;
 
     var totPersona = 0;
@@ -104,7 +104,7 @@ $("#chiusura").live('pageshow', function() {
     
     str = "";
     str = str + '<h2 class="name">Totale per persona</h2>';
-    str = str + '<h2 class="prezzo">' + totPersona + ' \u20ac</h2>';
+    str = str + '<h2 class="prezzo">' + formatMoney(totPersona,2,true) + ' \u20ac</h2>';
     document.getElementById('chius-tot-pers').innerHTML = str;
     
     var soldi = 0;
@@ -125,12 +125,12 @@ $("#chiusura").live('pageshow', function() {
      
     str = "";
     str = str + '<h2 class="name" style="color: ' + strColor + '">' + strSoldi + '</h2>';
-    str = str + '<h2 class="prezzo" style="color: ' + strColor + '">' + soldi + ' \u20ac</h2>';
+    str = str + '<h2 class="prezzo" style="color: ' + strColor + '">' + formatMoney(soldi,2,true) + ' \u20ac</h2>';
     document.getElementById('chius-resto').innerHTML = str;
     
     str = "";
     str = str + '<h2 class="name">Buono prepagato</h2>';
-    str = str + '<h2 class="prezzo">' + buono_cred_us + ' \u20ac</h2>';
+    str = str + '<h2 class="prezzo">' + formatMoney(buono_cred_us,2,true) + ' \u20ac</h2>';
     document.getElementById('chius-buoni').innerHTML = str;
 });
 

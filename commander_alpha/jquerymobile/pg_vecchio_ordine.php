@@ -64,7 +64,7 @@
         
         //Totale
         var str = '<h2 class="name">Totale</h2>';
-        str = str + '<h2 class="prezzo">' + $totale + ' \u20ac</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney($totale, 2, true) + ' \u20ac</h2>';
         document.getElementById('old-ord-tot').innerHTML = str
         
         //Timestamp
@@ -114,7 +114,7 @@
             str = str + '<div class="old-ord-rig">';
             str = str + '<div class="num">' + data['righe'][i]["numero"] + '</div>';
             str = str + '<div class="name">' + data['righe'][i]["nome"] + '</div>';
-            str = str + '<div class="prezzo">' + prezzoTot + ' \u20ac</div>';
+            str = str + '<div class="prezzo">' + formatMoney(prezzoTot, 2) + ' \u20ac</div>';
             str = str + '</div>';
             
             for (var j=0; j<data['righe'][i]["arrVar"].length; j++) {   

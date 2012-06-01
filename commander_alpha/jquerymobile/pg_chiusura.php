@@ -79,7 +79,11 @@
     var id_ord_stmp = 0;
     
     $('#conferma-ordine').live("click", function() {
-        
+        invioOrdine();
+    });
+    
+    function invioOrdine() {
+         
         var alimenti = new Array();
         
         //Estrazione dati dalla lista degli alimenti selezionati
@@ -129,31 +133,42 @@
             success: onInvioOrdineSuccess,
             error: onInvioOrdineError
         });
-        
-    });
+               
+    }
     
     function onInvioOrdineSuccess(data, status) {
         
         //Verifica se utente loggato
         if ( !logged(data['err']) ) return;
         
-        //alert("Ordine " + data + " inviato con successo!");
         id_ord_stmp = data['next_id'];
 
-        $.ajax({
-            type: "POST",
-            data: 'id='+id_ord_stmp,
-            url: "stampa_ordine.php",
-            dataType: 'json',
-            cache: false,
-            success: onStampaSuccess,
-            error: onStampaError
-        });
+        if (data['err'] == '') {
+            onStampaSuccess(data, status); 
+        }
+        else if (data['err'] == 'E200') {
+            onStampaError(data, status);
+        }
+        else {
+            onInvioOrdineError(data, status);
+        }
+        
+        //alert("Ordine " + data + " inviato con successo!");
+        
+//        $.ajax({
+//            type: "POST",
+//            data: 'id='+id_ord_stmp,
+//            url: "stampa_ordine.php",
+//            dataType: 'json',
+//            cache: false,
+//            success: onStampaSuccess,
+//            error: onStampaError
+//        });
     }
     
-    function onInvioOrdineError(data, status) { 
-        alert("Errore Ajax registrazione ordine");
-        
+    function onInvioOrdineError(data, status) {
+        alert("Errore Ajax registrazione ordine: " + data['err']);
+
         document.location.href="#chiusura";
         $.mobile.changePage( "#chiusura", 'none', false, true);
     }

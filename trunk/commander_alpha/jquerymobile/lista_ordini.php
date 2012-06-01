@@ -53,10 +53,10 @@
                     
                     $totBuoni = $totBuoni + $buono;
                     //Visulizzati solo n risultati
-                    if (($numRes<$numOrd) && ($i<$numRes) && ($numRes>0)) {
+                    if (($numRes<$numOrd) && (($numOrd-$numRes)>3) && ($i<$numRes) && ($numRes>0)) {
                         $arr['ordini'][$i] = $arrTemp;
                     }
-                    if (($numRes<=0) || ($numRes>=$numOrd)) {
+                    if (($numRes<=0) || ($numRes>=$numOrd) || (($numOrd-$numRes)<=3)) {
                         $arr['ordini'][$i] = $arrTemp;
                     }
                     $arrTemp = null;

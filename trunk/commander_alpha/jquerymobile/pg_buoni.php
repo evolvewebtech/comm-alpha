@@ -55,7 +55,7 @@
         var str = "";
         str = str + '<ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-inset="true" data-role="listview">';
         str = str + '<li class="ui-li ui-li-static ui-body-c ui-corner-top ui-corner-bottom">';
-        str = str + '<p class="ui-li-aside ui-li-desc" style="font-size: 14px">Credito residuo: ' + buono_cred + '\u20ac</p>';
+        str = str + '<p class="ui-li-aside ui-li-desc" style="font-size: 14px">Credito residuo: ' + formatMoney(buono_cred,2,true) + '\u20ac</p>';
         str = str + '<h3 class="ui-li-heading">Buono n°: ' + buono_ser + '</h3>';
         str = str + '<p class="ui-li-desc">Nominativo: ' + buono_nom + '</p>';
         str = str + '</li>';

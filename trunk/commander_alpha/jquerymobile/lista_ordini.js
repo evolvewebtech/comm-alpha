@@ -83,9 +83,9 @@ function onListaOrdiniSuccess(data, status) {
             str = str + '<div class="ord-num-t">Tavolo ' + data['ordini'][i].tavolo_id + '</div>';
             str = str + '<div class="ord-num-c">Coperti ' + data['ordini'][i].n_coperti + '</div>';
             if (buono > 0) {
-                str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 100px">'+buono + ' € da buono prepagato</span>';
+                str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 100px">'+ formatMoney(buono,2) + ' \u20ac da buono prepagato</span>';
             }
-            str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+data['ordini'][i].totale+' €</span>';
+            str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+ formatMoney(data['ordini'][i].totale,2) +' \u20ac</span>';
             str = str + '</a>';
             str = str + '</div></div>';
             str = str + '</li>';
@@ -109,8 +109,8 @@ function onListaOrdiniSuccess(data, status) {
 
         str = str + '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
         str = str + '<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
-        str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 220px; font-size: 14px">Totale contanti incassati: '+totContanti+' €</span>';
-        str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale incassato: '+totOrdini+' €</span>';
+        str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 220px; font-size: 14px">Totale contanti incassati: '+ formatMoney(totContanti,2,true) +' \u20ac</span>';
+        str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale incassato: '+ formatMoney(totOrdini,2,true) +' \u20ac</span>';
         str = str + '</div></div>';
         str = str + '</li>';
 

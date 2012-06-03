@@ -6,7 +6,7 @@
         $objSession = new HTTPSession();
 
         $nome                   = mysql_real_escape_string($_POST['tab_nome']);
-        $indirizzo              = mysql_real_escape_string($_POST['tab_indirizzo']);
+        $indirizzo              = mysql_real_escape_string($_POST['ip']);
         $posizione              = "NULL";//mysql_real_escape_string($_POST['tab_posizione']);
         $stampante_id           = intval(mysql_real_escape_string($_POST['stampante_id']));
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));

@@ -42,10 +42,11 @@ $("#ordine").live('pageshow', function() {
     }
     
     //Visualizzazione numero tavolo e numero coperti
-    numTavolo = document.getElementById('text-num-t').value;
-    numCoperti = document.getElementById('slider-0').value;   
+    //numTavolo = document.getElementById('text-num-t').value;
+    //numCoperti = document.getElementById('slider-0').value;   
     str = 'Tavolo ' + numTavolo + ' - Coperti ' + numCoperti;
     document.getElementById('ord01').innerHTML = str;
+    
 });
 
 
@@ -304,6 +305,46 @@ function layoutMansory() {
 function layoutFitRows() {
   $('#container').isotope({ layoutMode : 'fitRows' });
   $('#container').isotope( 'reLayout' );
+  
+  //Test
+  setTimeout("testOrd()",1000);
+}
+
+var i;
+var rand;
+//Test
+function testOrd() {
+    $('#container').isotope({ filter : '*:not(.categorie), not(.menu_fissi)' });
+    $('#container').isotope( 'reLayout' );
+    
+    //Test
+    rand = Math.random()*10
+    rand = parseInt(rand);
+    
+    i = 1;
+    insOrd();
+}
+
+
+//Test
+function insOrd() {
+    testOrdine();
+    
+    if (i<rand) {
+        i = i + 1;
+        var randNum = Math.random()*3000;
+        randNum = parseInt(randNum);
+        if (randNum < 500) randNum = 500;
+        setTimeout("insOrd()",randNum);
+    }
+    else setTimeout("changePageOrd()",500);
+}
+
+
+//Test
+function changePageOrd() {
+    document.location.href="#chiusura";
+    $.mobile.changePage( "#chiusura", 'none', false, true);
 }
 
 

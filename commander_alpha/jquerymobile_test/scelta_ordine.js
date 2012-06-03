@@ -122,83 +122,7 @@ $(function(){
     });
 
 
-    /*
-     *  Script per aggiungere gli alimenti selezionati
-     *  alla lista dell'ordine
-     *  
-     */
-    var $optionSets3 = $('.options-set3');
-    $optionSets3.live("click", function() {
 
-    var $this = $(this);
-
-    //salvo nella var $param i parametri passati
-    var $param = $this.attr('href');
-
-    //eliminazione carattere iniziale '#'
-    $param = $param.replace('#','');
-
-    //creazione oggetto alimento contente i parametri
-    var alimento = new alimList(arrList.length,
-                                $param,
-                                arrAlim[$param]._cat,
-                                arrAlim[$param]._nome,
-                                arrAlim[$param]._prezzo,
-                                arrAlim[$param]._descrizione,
-                                0,
-                                new Array(),
-                                false,
-                                0);
-
-    //verifica se l'alimento è già stato aggiunto all'array
-    var ver = false;  
-    var memI = 0; //memoria indice lista
-    for(var i=0; i<arrList.length; i++) {
-        if(arrList[i]._id == $param) {            
-            //se già aggiunte varianti non incrementa numero
-            if (arrList[i]._varianti.length > 0) {;}
-            else {
-                arrList[i]._num += 1;
-                memI = i;
-                ver = true;
-                break
-            }
-        }          
-    }
-
-    //aggiunta alimento alla lista
-    if (!ver) {           
-        alimento._num = 1;
-        arrList.push(alimento);
-        alimento = null;
-
-        //aggiornamento lista
-        if (mem_ord_type == "nome") {
-            aggiornaLista("nome");
-        }
-        else aggiornaLista("cat"); 
-    }
-    //incremento quantità alimento (senza aggiornale l'intera lista)
-    else { 
-        var costo = arrList[memI]._num * arrList[memI]._prezzo;
-
-        var $itemString = '';
-        $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
-        $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#'+memI+'">';
-        $itemString = $itemString + '<div class="num">'+arrList[memI]._num+'</div>';
-        $itemString = $itemString + '<div class="name">'+arrList[memI]._nome+'</div>';
-        $itemString = $itemString + '<div class="prezzo">'+formatMoney(costo,2,true)+' \u20ac</div>'; //carattere "€" -> "\u20ac"
-        $itemString = $itemString + '</a>';
-        $itemString = $itemString + '</div>';
-
-        //modifica del div già creato
-        document.getElementById("list-" + memI).innerHTML= $itemString;
-
-        //aggiornamento totale ordine
-        aggiornaTotale();
-    }
-    return false;
-    });
     
     
     /*
@@ -308,7 +232,94 @@ $(function(){
     return false;
     });
 });
-   
+
+
+    /*
+     *  Script per aggiungere gli alimenti selezionati
+     *  alla lista dell'ordine
+     *  
+     */
+    //var $optionSets3 = $('.options-set3');
+    //$optionSets3.live("click", function() {
+    function testOrdine() {
+
+    //var $this = $(this);
+
+    //salvo nella var $param i parametri passati
+    //var $param = $this.attr('href');
+
+    //eliminazione carattere iniziale '#'
+    //$param = $param.replace('#','');
+    
+    //Test
+    var randNum = Math.random()*3;
+    var $param;
+    if (randNum < 1) $param = '21';
+    if ((randNum >= 1) && (randNum < 2)) $param = '22';
+    if (randNum >= 2) $param = '23';
+
+    //creazione oggetto alimento contente i parametri
+    var alimento = new alimList(arrList.length,
+                                $param,
+                                arrAlim[$param]._cat,
+                                arrAlim[$param]._nome,
+                                arrAlim[$param]._prezzo,
+                                arrAlim[$param]._descrizione,
+                                0,
+                                new Array(),
+                                false,
+                                0);
+
+    //verifica se l'alimento è già stato aggiunto all'array
+    var ver = false;  
+    var memI = 0; //memoria indice lista
+    for(var i=0; i<arrList.length; i++) {
+        if(arrList[i]._id == $param) {            
+            //se già aggiunte varianti non incrementa numero
+            if (arrList[i]._varianti.length > 0) {;}
+            else {
+                arrList[i]._num += 1;
+                memI = i;
+                ver = true;
+                break
+            }
+        }          
+    }
+
+    //aggiunta alimento alla lista
+    if (!ver) {           
+        alimento._num = 1;
+        arrList.push(alimento);
+        alimento = null;
+
+        //aggiornamento lista
+        if (mem_ord_type == "nome") {
+            aggiornaLista("nome");
+        }
+        else aggiornaLista("cat"); 
+    }
+    //incremento quantità alimento (senza aggiornale l'intera lista)
+    else { 
+        var costo = arrList[memI]._num * arrList[memI]._prezzo;
+
+        var $itemString = '';
+        $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
+        $itemString = $itemString + '<a class="ui-link-inherit comm-li-link" href="#'+memI+'">';
+        $itemString = $itemString + '<div class="num">'+arrList[memI]._num+'</div>';
+        $itemString = $itemString + '<div class="name">'+arrList[memI]._nome+'</div>';
+        $itemString = $itemString + '<div class="prezzo">'+formatMoney(costo,2,true)+' \u20ac</div>'; //carattere "€" -> "\u20ac"
+        $itemString = $itemString + '</a>';
+        $itemString = $itemString + '</div>';
+
+        //modifica del div già creato
+        document.getElementById("list-" + memI).innerHTML= $itemString;
+
+        //aggiornamento totale ordine
+        aggiornaTotale();
+    }
+    return false;
+}
+    
       
 /*
  * Confronto tra stringhe

@@ -48,6 +48,11 @@
  */
 $(function() {
 
+        $.validator.addMethod('IP4Checker', function(value) {
+             var ip = "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$";
+             return value.match(ip);
+            }, 'Inserisci un indirizzo valido, es: 192.168.1.x');
+
         $("#addNewTab").validate({
                     rules: {
                         tab_nome: {
@@ -55,15 +60,15 @@ $(function() {
                             minlength: 2,
                             maxlength: 15
                         },
-                        tab_indirizzo: {
+                        ip: {
                             required: true,
-                            url: true
+                            IP4Checker: true
                         }
                     },
                     messages: {
-                        tab_indirizzo: {
-                            required: "Inserisci un indirizzo IP.",
-                            url: "Inserisci un indirizzo valido (es: http://100.100.100.100)"
+                        ip: {
+                            required: "Inserisci un indirizzo IP."
+//                            IP4Checker: true
                         },
                         tab_nome: {
                             required: "Inserisci il nome della stampante",
@@ -74,7 +79,7 @@ $(function() {
         });
 
     var $tab_nome_input       = $("#tab_nome"),
-        $tab_indirizzo_input  = $('#tab_indirizzo');
+        $tab_indirizzo_input  = $('#ip');
 
     var tab_counter = <?=$numero_stampante?>,
         max_id      = <?=$max_id?>,
@@ -104,7 +109,7 @@ $(function() {
                                 '<label style="margin-right: 160px;" class="tab_title" for="tab_nome">Nome: </label>'+
                                 '<input type="text" name="tab_nome" id="tab_nome" value="'+tab_content_nome+'" class="ui-widget-content ui-corner-all" />'+
                                 '<br /><label style="margin-right: 10px;" class="tab_indirizzo" for="tab_indirizzo">Indirizzo IP stampante: </label>'+
-                                '<input style="margin-right: 9px;" type="text" name="tab_indirizzo" id="tab_indirizzo" value="'+tab_content_indirizzo+'" class="ui-widget-content ui-corner-all" />'+
+                                '<input style="margin-right: 9px;" type="text" name="ip" id="ip" value="'+tab_content_indirizzo+'" class="ui-widget-content ui-corner-all" />'+
                                 '<input type="hidden" name="stampante_id" id="stampante_id" value="'+next_id+'" />'+
                                 '<input type="hidden" name="gestore_id" id="gestore_id" value="<?=$gestore_id?>"  />'+
                            '</fieldset>'+
@@ -138,15 +143,16 @@ $(function() {
                             minlength: 2,
                             maxlength: 15
                         },
-                        tab_indirizzo: {
-                            required: true,
-                            url: true
+                        ip: {
+                            required: true,//url: true
+                            IP4Checker: true
                         }
                     },
                     messages: {
-                        tab_indirizzo: {
-                            required: "Inserisci un indirizzo IP.",
-                            url: "Inserisci un indirizzo valido (es: http://100.100.100.100)"
+                        ip: {
+                            required: "Inserisci un indirizzo IP."
+//                            //url: "Inserisci un indirizzo valido (es: http://100.100.100.100)"
+//                            IP4Checker: true
                         },
                         tab_nome: {
                             required: "Inserisci il nome della stampante",
@@ -404,7 +410,7 @@ $(function() {
                     <label for="tab_nome">Nome </label>
                     <input type="text" name="tab_nome" id="tab_nome" value="" class="addNewTab ui-widget-content ui-corner-all" />
                     <label for="tab_indirizzo">Indirizzo </label>
-                    <input type="text" name="tab_indirizzo" id="tab_indirizzo" value="" class="addNewTab ui-widget-content ui-corner-all" />
+                    <input type="text" name="ip" id="ip" value="" class="addNewTab ui-widget-content ui-corner-all" />
                 </fieldset>
             </form>
   	</div>
@@ -437,7 +443,7 @@ $(function() {
                                 <label style="margin-right: 160px;" class="tab_title" for="tab_nome">Nome: </label>
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=$stampante['nome']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 10px;" class="tab_indirizzo" for="tab_indirizzo">Indirizzo IP stampante: </label>
-                                <input style="margin-right: 9px;" type="text" name="tab_indirizzo" id="tab_indirizzo" value="<?=$stampante['indirizzo']?>" class="ui-widget-content ui-corner-all" />
+                                <input style="margin-right: 9px;" type="text" name="ip" id="ip" value="<?=$stampante['indirizzo']?>" class="ui-widget-content ui-corner-all" />
                                 <input type="hidden" name="stampante_id" id="stampante_id" value="<?=$stampante['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$stampante['gestore_id']?>" />
                            </fieldset>

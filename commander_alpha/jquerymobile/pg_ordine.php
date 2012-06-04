@@ -77,8 +77,8 @@
             <!-- <h2>Sort:</h2> -->
             <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
                 <!-- <li><a href="#mixed" data-option-value="number">mixed</a></li> -->
-                <li><a id="catSort" href="#categorie" data-option-value="original-order" class="selected">Categorie</a></li>
-                <li><a href="#alphabetical" data-option-value="alphabetical">Alfabetico</a></li>
+                <li><a id="catSort" href="#categorie" data-option-value="original-order" class="selected">Ord. Cat.</a></li>
+                <li><a href="#alphabetical" data-option-value="alphabetical">Ord. Alfab.</a></li>
             </ul>
             </div>
             <div class="option-combo">

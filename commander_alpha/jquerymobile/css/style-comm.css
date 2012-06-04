@@ -59,10 +59,11 @@
 
 .element .el-name{
   margin-left: 10px;
+  width: 185px;
   float: left;
   font-size: 1.50em;
   position:relative;
-  top: 25%;
+  top: 20%;
 }
 
 .element .el-cat {
@@ -77,7 +78,8 @@
 
 .element .el-prezzo {
   margin: 0px;
-  margin-right: 30px;
+  margin-top: 18px;
+  margin-right: 10px;
   float: right;
   font-size: 1.50em;
   position:relative;

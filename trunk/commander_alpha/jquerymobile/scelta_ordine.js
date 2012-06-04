@@ -493,7 +493,9 @@ function visualizzaOpzioni($obj, $index) {
         //Visualizzazione nome alimento in finestra opzioni
         document.getElementById('opt-alim-name').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
         //Visualizzazione descrizione alimento
-        document.getElementById('alim-desc').innerHTML = arrList[$index]._descrizione;
+        var strDescr = '';
+        if (arrList[$index]._descrizione.length > 0) strDescr = 'Descrizione: ' + arrList[$index]._descrizione;
+        document.getElementById('alim-desc').innerHTML = strDescr;
         //aggiunta classe "selected" all'alimento selezionato
         $('#container2').find('.selected').removeClass('selected');
         $obj.addClass('selected');

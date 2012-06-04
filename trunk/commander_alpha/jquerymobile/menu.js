@@ -101,11 +101,14 @@ function onEventoInfoSuccess(data, status) {
                 //colore testo
                 textColor = contrastColor( $strColor );
 
+                var elName = data['cat'][$i].alimenti[$j].nome;
+                if (elName.length > 17) elName = elName.substring(0,15) + '...';
+                
                 $str = "";
                 $str = $str + '<div class="element '+data['cat'][$i].nome+'" data-symbol="Sc" data-category='+data['cat'][$i].nome+'>';
                 $str = $str + '<a class="options-set3" href="#'+data['cat'][$i].alimenti[$j].id+'" data-option-value=".'+data['cat'][$i].alimenti[$j].nome+'">';
                 $str = $str + '<div class="element" style="background: '+$strColor+'">';
-                $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].alimenti[$j].nome+'</h2>';
+                $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+elName+'</h2>';
                 $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['cat'][$i].alimenti[$j].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
                 $str = $str + '<h3 class="el-cat" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h3>';
                 $str = $str + '</div>';

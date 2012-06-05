@@ -1,6 +1,7 @@
 <?php
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
+    $objSession->Impress();
 ?>
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 

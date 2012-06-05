@@ -10,6 +10,7 @@ try
     require_once dirname(__FILE__).'/manager/DataManager.php';
 
     $objSession = new HTTPSession();
+    $objSession->Impress();
     $lang = 'ita';
     
     //deve essere in base all'ip

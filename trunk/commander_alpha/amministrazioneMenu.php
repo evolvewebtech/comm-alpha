@@ -1,6 +1,7 @@
 <?php
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
+    $objSession->Impress();
 ?>
 <!--
 todo: 2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"

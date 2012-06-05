@@ -5,6 +5,7 @@
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
 
     $objSession = new HTTPSession();
+    $objSession->Impress();
     $sess_id = $objSession->GetSessionIdentifier();
     $log_in = $objSession->IsLoggedIn();
     $utente_registrato = $objSession->__get('UTENTE_REGISTRATO_ID');

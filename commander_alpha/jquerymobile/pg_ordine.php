@@ -8,7 +8,7 @@
                 <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
                     <li><a href="#categorie" id="sortby-cat" data-option-value="cat" class="selected">Categorie</a></li>
                     <li><a href="#alphabetical" data-option-value="nome">Alfabetico</a></li>
-                    <li><a href="#" data-option-value="annulla-voci">Annulla voci</a></li>
+                    <li><a href="#" id="ann-voci" data-option-value="annulla-voci">Annulla voci</a></li>
                 </ul>
             </div>
         </section>

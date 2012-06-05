@@ -46,6 +46,9 @@ $("#ordine").live('pageshow', function() {
     numCoperti = document.getElementById('slider-0').value;   
     str = 'Tavolo ' + numTavolo + ' - Coperti ' + numCoperti;
     document.getElementById('ord01').innerHTML = str;
+    
+    //Reset "Annulla voci"
+    resetAnnullaVoci();
 });
 
 

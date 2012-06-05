@@ -8,7 +8,7 @@
     require_once dirname(__FILE__).'/../php_print/test/PosPrint.php';
     require_once dirname(__FILE__).'/../php_print/test/EscPos.php';
         $objSession = new HTTPSession();
-                
+        $objSession->Impress();        
    
         $data = file_get_contents('php://input');
         $data = json_decode($data, true);

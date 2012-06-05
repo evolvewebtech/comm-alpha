@@ -320,6 +320,20 @@ $(function(){
     return false;
     });
 });
+
+
+/*
+ * Reset "Annulla voci"
+ *
+ */
+function resetAnnullaVoci() {
+    if ($('#ann-voci').hasClass('selected')) {
+        ann_voci = false;
+        $('#sort').find('.selected').removeClass('selected');
+        $('#sortby-cat').addClass('selected');
+        aggiornaLista("cat");
+    }
+}
    
       
 /*
@@ -692,7 +706,7 @@ $('.alim-min').bind("click", function() {
     $index = mem_index;
     for(var i=0; i<arrList.length; i++) {
         if (arrList[i]._index == $index) {
-            if (arrList[i]._num > 1) {
+            if ((arrList[i]._num > 1) || (arrList[i]._num < 0)) {
                 arrList[i]._num -= 1;
             }
             else { 

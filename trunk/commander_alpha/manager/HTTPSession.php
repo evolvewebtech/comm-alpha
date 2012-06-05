@@ -147,7 +147,6 @@ class HTTPSession {
 
       # Call the session_start method to get things started
       session_start();
-
     }
 
     /*
@@ -173,19 +172,28 @@ class HTTPSession {
      * @return <type> 
      */
     public function IsLoggedIn() {
-        /*
+/*
         $stmt = "SELECT logged_in FROM http_session WHERE ascii_session_id = '" .
                         $this->php_session_id . "' AND ((now() - created) < ' " .
                         $this->session_lifespan . " seconds') AND ((now() - last_impression) <= '".
                         $this->session_timeout ." seconds' OR last_impression IS NULL) AND user_agent='" .
                         $strUserAgent . "'";
+*/
+        $stmt = 'SELECT logged_in'.
+                ' FROM http_session'.
+                ' WHERE ascii_session_id = "874d03505ed0227dbccffa737a814052"'.
+                ' AND ((now() - created) < \'7200 seconds\')'.
+                ' AND ((now() - last_impression) <= \'3600 seconds\')'.
+                ' OR last_impression IS NULL'.
+                ' AND user_agent=\''.$strUserAgent.'\'';
+                //' AND user_agent=\'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.53 Safari/536.5\'';
         $result = mysql_query($stmt);
         if(!$result){
             return false;
         }
         $row = mysql_fetch_Row($result);
         $this->logged_in = $row;
-        */
+        
         return($this->logged_in);
     }
 

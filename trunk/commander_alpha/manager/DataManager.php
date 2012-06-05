@@ -535,7 +535,7 @@ class DataManager {
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore");
+                die("Errore getAllEntitiesAsObjects");
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
@@ -568,7 +568,7 @@ class DataManager {
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {
-                die("Errore");
+                die("Errore getUserAsObject");
             }
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {

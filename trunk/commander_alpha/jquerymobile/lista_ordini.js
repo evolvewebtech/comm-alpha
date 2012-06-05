@@ -28,7 +28,7 @@ $('#ord-non-vis').live("click", function() {
 });
 
 
-function viewResult(numRes) {  
+function viewResult(numRes) {
     data = 'dataora=' + memPayload + '&numres=' + numRes;
 
     $.ajax({

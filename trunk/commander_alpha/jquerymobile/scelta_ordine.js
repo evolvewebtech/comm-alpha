@@ -155,8 +155,8 @@ $(function(){
     var memI = 0; //memoria indice lista
     for(var i=0; i<arrList.length; i++) {
         if(arrList[i]._id == $param) {            
-            //se già aggiunte varianti non incrementa numero
-            if (arrList[i]._varianti.length > 0) {;}
+            //se già aggiunte varianti non incrementa numero (oppure se annullamento voce)
+            if ( (arrList[i]._varianti.length > 0) || (ann_voci) ) {;}
             else {
                 arrList[i]._num += 1;
                 memI = i;
@@ -167,8 +167,9 @@ $(function(){
     }
 
     //aggiunta alimento alla lista
-    if (!ver) {           
-        alimento._num = 1;
+    if (!ver) {
+        if (ann_voci) alimento._num = -1; //annullamento voce
+        else alimento._num = 1; //inserimento nuova voce
         arrList.push(alimento);
         alimento = null;
 
@@ -276,11 +277,22 @@ $(function(){
     $optionSetsList.click(function(){
     var $this = $(this);
 
+    var $optionSet = $this.parents('.option-set_list');
+    
     // don't proceed if already selected
     if ( $this.hasClass('selected') ) {
+        if ($this.attr('data-option-value') == "annulla-voci") {
+            $optionSet.find('.selected').removeClass('selected');
+            $optionSet.find('#sortby-cat').addClass('selected');
+            ann_voci = false;
+        }
         return false;
     }
-    var $optionSet = $this.parents('.option-set_list');
+    
+    //Selezione "Annulla voci"
+    if ($this.attr('data-option-value') == "annulla-voci") ann_voci = true;
+    else ann_voci = false;
+    
     $optionSet.find('.selected').removeClass('selected');
     $this.addClass('selected');
 
@@ -994,7 +1006,7 @@ $('.menu-checkbox').live("click", function() {
         }
     }
 });
-    
+
 
 /*
  * Annulla ordine

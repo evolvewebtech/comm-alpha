@@ -5,6 +5,7 @@
         require_once dirname(__FILE__) . '/../HTTPSession.php';
 
         $objSession = new HTTPSession();
+        $objSession->Impress();
 
         $action       = mysql_real_escape_string($_POST['action']);
         $alimento_id  = intval(mysql_real_escape_string($_POST['id']));

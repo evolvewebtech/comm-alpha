@@ -4,6 +4,7 @@
         require_once dirname(__FILE__) . '/../DataManager.php';
         require_once dirname(__FILE__) . '/../HTTPSession.php';
         $objSession = new HTTPSession();
+        $objSession->Impress();
 
         $nome                   = mysql_real_escape_string($_POST['tab_nome']);
         $descrizione            = mysql_real_escape_string($_POST['tab_descrizione']);

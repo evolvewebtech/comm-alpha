@@ -5,6 +5,7 @@
         require_once dirname(__FILE__) . '/../HTTPSession.php';
 
         $objSession = new HTTPSession();
+        $objSession->Impress();
 
         $post0 = json_encode($_POST);
         $post = str_replace('"', '', $post0);

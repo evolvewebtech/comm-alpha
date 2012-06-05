@@ -26,8 +26,8 @@ class HTTPSession {
     private $dbhandle;
     private $logged_in;
     private $user_id;
-    private $session_timeout = 3600;      # 60 minute inactivity timeout
-    private $session_lifespan = 7200;    # 2 hour session duration
+    private $session_timeout = 3600;//60;//      # 60 minute inactivity timeout
+    private $session_lifespan = 7200;//180;//    # 2 hour session duration
 
     /*
      * Edit the following variables
@@ -160,6 +160,7 @@ class HTTPSession {
     public function Impress() {
         if ($this->native_session_id) {
             $result = mysql_query("UPDATE http_session SET last_impression = NOW() WHERE id = " . $this->native_session_id);
+            //var_dump($result);
             if (!$result) {
                 die('4 - Invalid query: ' . mysql_error());
             }

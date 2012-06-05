@@ -2,6 +2,7 @@
     require_once dirname(__FILE__).'/manager/Utility.php';
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
+    $objSession->Impress();
     $lang = 'ita';
 ?>
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>

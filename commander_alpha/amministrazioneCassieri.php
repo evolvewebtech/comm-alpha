@@ -1,6 +1,7 @@
 <?php
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
+    $objSession->Impress();
     /*
      * todo:
      *

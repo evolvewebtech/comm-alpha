@@ -21,6 +21,7 @@ $("#home").live('pageshow', function() {
     buono_cred = 0;
     buono_cred_us = 0;
     refreshAlim = false;
+    var ann_voci = false;
     
     document.getElementById('text-num-t').value = "";
     document.getElementById('slider-0').value = 1;
@@ -75,6 +76,15 @@ function onLivelliSuccess(data, status) {
 function onLivelliError(data, status) { 
     alert("Errore Ajax");
 }
+
+
+
+/*
+ * PAGINA "INFO ORDINI"
+ */
+$("#info-ordini").live('pageshow', function() {
+    if (memPayload != '') setTimeout("viewResult(8)", 500);
+});
 
 
 

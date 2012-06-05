@@ -38,6 +38,7 @@
         var buono_cred = 0;
         var buono_cred_us = 0;
         var refreshAlim = false;
+        var ann_voci = false;
         var refreshLiv = true;
         var livelli = new Array();
         var cassa_fissa = false;
@@ -45,9 +46,9 @@
     <script type="text/javascript" src="../lib/contrast_color.js"></script>
     <script type="text/javascript" src="../lib/formato_data.js"></script>
     <script type="text/javascript" src="../lib/accounting.js"></script>
-    <script type="text/javascript" src="page_show.js"></script>
     <script type="text/javascript" src="menu.js"></script>
     <script type="text/javascript" src="lista_ordini.js"></script>
+    <script type="text/javascript" src="page_show.js"></script>
     
     <link rel="stylesheet" href="css/style-isotope.css"/>
     <link rel="stylesheet" href="css/comm_checkbox.css" />

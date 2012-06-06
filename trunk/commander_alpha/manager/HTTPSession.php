@@ -26,8 +26,8 @@ class HTTPSession {
     private $dbhandle;
     private $logged_in;
     private $user_id;
-    private $session_timeout = 3600;//60;//      # 60 minute inactivity timeout
-    private $session_lifespan = 7200;//180;//    # 2 hour session duration
+    private $session_timeout = 10800;       # 180 minute - 3 hour inactivity timeout
+    private $session_lifespan = 18000;      # 5 hour session duration
 
     /*
      * Edit the following variables
@@ -194,8 +194,24 @@ class HTTPSession {
         $row = mysql_fetch_Row($result);
          //var_dump($row);
         $this->logged_in = $row;
-        
-        return($this->logged_in);
+
+        //print_r($this->logged_in[0]);
+        /*
+         * -------------------------------------------------
+         * -------------------------------------------------
+         *
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+         *
+         * sistemare! attenzione!
+         *
+         */
+        if ($this->logged_in[0]==1){
+            return(true);
+        }
+        else
+            return(false);
     }
 
     /**
@@ -215,7 +231,7 @@ class HTTPSession {
      * @return <type>
      */
     public function GetUserObject() {
-
+    
         if ($this->logged_in) {
             require_once  dirname(__FILE__).'/DataManager.php';
             $objUser = DataManager::getUserAsObject($this->user_id);
@@ -225,7 +241,7 @@ class HTTPSession {
             } else {
                 return(false);
             };
-        };
+        }
     }
 
     /**

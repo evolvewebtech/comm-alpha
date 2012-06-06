@@ -4,8 +4,8 @@ require_once dirname(__FILE__).'/manager/HTTPSession.php';
 $objSession = new HTTPSession();
 $objSession->Impress();
 
-$sess_id = $objSession->GetSessionIdentifier();
-$log_in = $objSession->IsLoggedIn();
+//$sess_id = $objSession->GetSessionIdentifier();
+//$log_in = $objSession->IsLoggedIn();
 
 ?>
 <link rel="stylesheet" href="media/css/mosaic.css" type="text/css" media="screen" />
@@ -103,7 +103,12 @@ $log_in = $objSession->IsLoggedIn();
 </style>
 <div id="content">
     <?php
+//        echo '<pre style="background-color: #fff">';
+//        var_dump($objSession->IsLoggedIn());
+//        echo '</pre>';
+
     if($objSession->IsLoggedIn()){
+
         $objUser = $objSession->GetUserObject();
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {

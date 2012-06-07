@@ -3,7 +3,8 @@
     try {
         require_once dirname(__FILE__).'/../manager/DataManager2.php';
         require_once dirname(__FILE__).'/../manager/HTTPSession.php';
-        $objSession = new HTTPSession();
+        $objSession = new HTTPSession;
+        $objSession->Impress();
         
         $id = intval(mysql_real_escape_string($_POST['id']));
         

@@ -232,7 +232,8 @@ $(function(){
                                 true,
                                 arrMenuSel.length );
     
-    menu._num = 1;
+    if (ann_voci) menu._num = -1; //annullamento voce
+    else menu._num = 1; //inserimento nuova voce
     arrList.push(menu);
     menu = null;
     
@@ -425,6 +426,8 @@ function aggiornaLista(type) {
         //if ($('#list-'+i).find('.selected').hasClass('selected')) {selClass = " selected";}
         if (mem_index == i) {selClass = " selected";}
         //creazione div
+        var elName = arrList[i]._nome;
+        if (elName.length > 22) elName = elName.substring(0,20) + '...';
         $itemString = $itemString + '<li id=list-'+i+' class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c" data-theme="c">';
         $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim">';
         $itemString = $itemString + '<a class="ui-link-inherit comm-li-link'+ selClass +'" href="#'+i+'">';
@@ -437,10 +440,12 @@ function aggiornaLista(type) {
         
         //aggiunta varianti dell'alimento
         for(var j=0; j<arrList[i]._varianti.length; j++) {
+            elName = arrList[i]._varianti[j]._descrizione;
+            if (elName.length > 26) elName = elName.substring(0,24) + '...';
             $itemString = $itemString + '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-btn-up-c" data-theme="c">';
             $itemString = $itemString + '<div class="ui-btn-inner ui-li comm-li-alim-var">';
             $itemString = $itemString + '<a class="comm-li-link-var'+ selClass +'">';
-            $itemString = $itemString + '<div class="name">'+arrList[i]._varianti[j]._descrizione+'</div>';
+            $itemString = $itemString + '<div class="name">'+elName+'</div>';
             $itemString = $itemString + '<div class="prezzo">'+formatMoney(arrList[i]._varianti[j]._prezzo,2,true)+' \u20ac</div>';
             $itemString = $itemString + '</a>';
             $itemString = $itemString + '</div>';
@@ -543,11 +548,13 @@ function visualizzaOpzioni($obj, $index) {
                     //aggiunta classe "selected" se variante già selezionata
                     var selClass = "";
                     if (varPresente) {selClass = " selected";}
-
-                    //str = str + '<a data-role="button" data-icon="delete" class="ui-btn-right">'+arrAlim[id]._varianti[i]._descrizione+'</a>';
+                    
+                    var elName = arrAlim[id]._varianti[i]._descrizione;
+                    if (elName.length > 30) elName = elName.substring(0,28) + '...';
+            
                     str = str + '<div class="comm_checkbox'+selClass+' var-checkbox" href='+arrAlim[id]._varianti[i]._id+'>';
                     str = str + '<div class="cc_icon"></div>';
-                    str = str + '<div class="cc_text">' + arrAlim[id]._varianti[i]._descrizione + '</div>';
+                    str = str + '<div class="cc_text">' + elName + '</div>';
                     str = str + '</div>';
                 }
             }
@@ -607,12 +614,19 @@ function visualizzaOpzioniMenu($obj, $index) {
                         }
                     }
                 }
+                
+                var hasVariant = false;
+                if (menu._categorie[i]._alimenti[j]._varianti.length > 0) hasVariant = true;
+                
+                var elName = alimMenuTemp._nome;
+                if (elName.length > 17) elName = elName.substring(0,15) + '...';
+                
                 str = str + '<div class="cont-check-menu">'
                 str = str + '<div class="comm_checkbox comm_checkbox_min '+selClass+' menu-checkbox" href='+idMenuSel+'&'+menu._categorie[i]._nome+'&'+alimMenuTemp._id+'>';
                 str = str + '<div class="cc_icon"></div>';
-                str = str + '<div class="cc_text">' + alimMenuTemp._nome + '</div>';
+                str = str + '<div class="cc_text">' + elName + '</div>';
                 str = str + '</div>';
-                str = str + '<a href="#diag-var-menu" data-rel="dialog"><div id="' + alimParam + '" class="menu-bt-var bt-var"></div></a>'       
+                if (hasVariant) str = str + '<a href="#diag-var-menu" data-rel="dialog"><div id="' + alimParam + '" class="menu-bt-var bt-var"></div></a>'       
                 str = str + '</div>';
             }
             str = str + '<div class="comm-clear-left"></>'

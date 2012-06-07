@@ -4,6 +4,7 @@
         require_once dirname(__FILE__).'/../manager/DataManager.php';
         require_once dirname(__FILE__).'/../manager/HTTPSession.php';
         $objSession = new HTTPSession();
+        $objSession->Impress();
         
         //Array da passare con JSON  
         $arr = array(   "livelli"   => array(),

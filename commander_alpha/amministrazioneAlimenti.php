@@ -4,15 +4,13 @@
     $objSession->Impress();
 ?>
 <!--
-todo: 1. Gli alimenti non si aggiungono più!!
-      2. Creare tutti i controlli del form
-      3. Attenzione al refresh della pagina
-      4. Alimento esaurito non segnato come presente
-      5. Gestisci le eliminazioni:
+todo: 1. Attenzione al refresh della pagina
+      2. Alimento esaurito non segnato come presente
+      3. Gestisci le eliminazioni:
             - rel_alimento_stampante
             - rel_variante_alimento
             - cmd_alimento_esaurito
-      6. Se un alimento è presente in un menu non di deve eliminare:
+      4. Se un alimento è presente in un menu non di deve eliminare:
             - rel_alimentomenu_alimento
             -
 -->

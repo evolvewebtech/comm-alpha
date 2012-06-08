@@ -2670,5 +2670,82 @@ class DataManager {
           return array();
         }
     }
+
+
+
+//---------- statistiche
+
+    /**
+     *
+     * @param int $cassiere_id
+     * @param timestamp $start_timestamp
+     * @param timestamp $end_timestamp
+     * @return Ordine
+     */
+    public static function getAllOrdiniByCassiereAsObjects($cassiere_id,$start_timestamp, $end_timestamp) {
+
+        $sql = "SELECT DISTINCT cmd_ordine.id, cmd_ordine.seriale, cmd_ordine.timestamp, cmd_ordine.n_coperti, cmd_ordine.tavolo_id".
+               " FROM cmd_ordine".
+               " INNER JOIN cmd_riga_ordine".
+               " ON cmd_ordine.id=cmd_riga_ordine.ordine_id".
+               " WHERE cmd_riga_ordine.cassiere_id=$cassiere_id".
+               " AND TIMESTAMP(cmd_ordine.timestamp)>=STR_TO_DATE('$start_timestamp','%m/%d/%Y%H:%i:%s')".//es: " AND TIMESTAMP(cmd_ordine.timestamp)>=STR_TO_DATE('04/26/2012 23:17:44','%m/%d/%Y%H:%i:%s')".
+               " AND TIMESTAMP(cmd_ordine.timestamp)<=STR_TO_DATE('$end_timestamp','%m/%d/%Y%H:%i:%s')".
+               " ORDER BY cmd_ordine.timestamp DESC";
+
+//        print_r($sql);
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Ordine($id);
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+
+
+    /**
+     *
+     * @param timestamp $start_timestamp
+     * @param timestamp $end_timestamp
+     * @return Ordine
+     */
+    public static function getAllOrdiniByDateStartEndAsObjects($start_timestamp, $end_timestamp) {
+
+        $sql = "SELECT DISTINCT cmd_ordine.id, cmd_ordine.seriale, cmd_ordine.timestamp, cmd_ordine.n_coperti, cmd_ordine.tavolo_id".
+               " FROM cmd_ordine".
+               " INNER JOIN cmd_riga_ordine".
+               " ON cmd_ordine.id=cmd_riga_ordine.ordine_id".
+               " WHERE TIMESTAMP(cmd_ordine.timestamp)>=STR_TO_DATE('$start_timestamp','%m/%d/%Y%H:%i:%s')".//es: " AND TIMESTAMP(cmd_ordine.timestamp)>=STR_TO_DATE('04/26/2012 23:17:44','%m/%d/%Y%H:%i:%s')".
+               " AND TIMESTAMP(cmd_ordine.timestamp)<=STR_TO_DATE('$end_timestamp','%m/%d/%Y%H:%i:%s')".
+               " ORDER BY cmd_ordine.timestamp DESC";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Ordine($id);
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+
+
 }
 ?>

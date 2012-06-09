@@ -29,11 +29,11 @@
         if(get_class($gestore) == 'Gestore') {
 
 
-            if( $cameriere_id !="null" ){
-                $cameriere_id = intval($cameriere_id);
-                    $arOrdini = DataManager::getAllOrdiniByCassiereAsObjects($cameriere_id, $start_timestamp, $end_timestamp);
+            if( $cameriere_id == "null" || $cameriere_id=="0" ){
+                $arOrdini = DataManager::getAllOrdiniByDateStartEndAsObjects($start_timestamp, $end_timestamp);
                 } else{
-                    $arOrdini = DataManager::getAllOrdiniByDateStartEndAsObjects($start_timestamp, $end_timestamp);
+                    $cameriere_id = intval($cameriere_id);
+                    $arOrdini = DataManager::getAllOrdiniByCassiereAsObjects($cameriere_id, $start_timestamp, $end_timestamp);
                     }
 
 

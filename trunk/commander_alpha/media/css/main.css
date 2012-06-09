@@ -281,8 +281,101 @@ em {
     width: 387px;
 }
 
+/*
+ *  pagina statistiche
+ */
+.cloud {
+    background-color: #fff;
+    border-radius: 5px 5px 5px 5px;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid #FFF;
+    margin: 10px;
+}
+.cloud:hover{
+    cursor: pointer;
+}
+.ui-datepicker-trigger{
+    height: 30px;
+    margin: 0px 0px -10px 10px;
+    padding: 0px;
+}
+
+li.ordini:hover{
+    cursor: pointer;
+}
+/* -----------
+ * -----------
+ *
+ * form
+ */
+#ricerca-ordine-form{
+    border-radius: 5px 5px 5px 5px;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid #FFF;
+    margin: 0px 10px 10px 10px;
+    padding:5px;
+}
+#ricerca-ordine-form fieldset{
+    border: none;
+}
+#ricerca-cameriere-form{
+    border-radius: 5px 5px 5px 5px;
+    color: black;
+    padding: 10px;
+    text-decoration: none;
+    border: 1px solid #FFF;
+    margin: 0px 10px 10px 10px;
+    padding:5px;
+
+}
+#ricerca-cameriere-form fieldset{
+    border: none;
+}
+
+#data-ordini-form{
+    width: 550px;
+    display: inline;
+    margin: 0px;
+    padding: 10px 10px 10px 0px;
+}
+#data-alimenti-ordini-form{
+    width: 550px;
+    display: inline;
+    margin: 0px;
+    padding: 10px 10px 10px 0px;
+}
+#filtro-cameriere p{
+    margin: 0px;
+}
+div#results{
+    margin-bottom: 10px;
+}
+div#results div.result{
+    padding:10px 0px;
+    margin:10px 0px 10px;
+}
+.ui-listview-inset .ui-li {
+    border-right-width: 0px;
+    border-left-width: 0px;
+}
+.cec-button{
+   height: 30px;
+   text-transform: uppercase;
+   cursor: pointer;
+}
+#cerca-ordini{
+    margin-left: 20px;
+    float: none;
+}
+div#results2{
+    margin-bottom: 10px;
+}
 
 
-
-
-
+#report{
+    padding: 10px;
+}

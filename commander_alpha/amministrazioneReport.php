@@ -5,120 +5,48 @@
     $objSession->Impress();
     $lang = 'ita';
 ?>
+<!-- jq -->
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 <script type="text/javascript" src="media/js/jquery-ui.min.js"></script>
 <script src="media/js/jquery.validate.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="media/css/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="jquerymobile/css/jquery.mobile-1.0.1.min.css"/>
+<!-- End additional plugins -->
 
-<!-- main -->
-<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
+<!-- jq plot css -->
+<link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.min.css" />
+
 
 <!-- timepicker -->
 <script type="text/javascript" src="media/js/timepicker.js"></script>
 
-<!-- CSS -->
+<!-- lib -->
+<script type="text/javascript" src="media/js/functions.js"></script>
+
+<!-- jq -->
+<link rel="stylesheet" type="text/css" href="media/css/jquery-ui.css" />
+<link rel="stylesheet" type="text/css" href="jquerymobile/css/jquery.mobile-1.0.1.min.css"/>
+
+<!-- lib -->
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
+
 <style type="text/css">
-/* css for timepicker */
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
-.ui-timepicker-div dl { text-align: left; }
-.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
-.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
-.ui-timepicker-div td { font-size: 90%; }
-.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
-.ui-slider-horizontal .ui-slider-handle {
-    top: 0.7em;
-    margin-left: -.6em;
-}
-
-.cloud {
-    background-color: #fff;
-    border-radius: 5px 5px 5px 5px;
-    color: black;
-    padding: 10px;
-    text-decoration: none;
-    border: 1px solid #FFF;
-    margin: 10px;
-}
-.cloud:hover{
-    cursor: pointer;
-}
-a {
-   color: white;
-   text-decoration:none;
-}
-a:hover{
-   cursor: pointer;
-}
-.ui-datepicker-trigger{
-    height: 30px;
-    margin: 0px 0px -10px 10px;
-    padding: 0px;
-}
-
-li.ordini:hover{
-    cursor: pointer;
-}
-/* -----------
- * -----------
- *
- * form
- */
-#ricerca-ordine-form{
-    border-radius: 5px 5px 5px 5px;
-    color: black;
-    padding: 10px;
-    text-decoration: none;
-    border: 1px solid #FFF;
-    margin: 0px 10px 10px 10px;
-}
-#ricerca-ordine-form fieldset{
-    border: none;
-}
-#ricerca-cameriere-form{
-    border-radius: 5px 5px 5px 5px;
-    color: black;
-    padding: 10px;
-    text-decoration: none;
-    border: 1px solid #FFF;
-    margin: 0px 10px 10px 10px;
-}
-#ricerca-cameriere-form fieldset{
-    border: none;
-}
-form{
-      margin:15px;
-      padding:5px;
-/*      border-bottom:1px solid #ddd;*/
-}
-/*form input[type=submit]{
-    display:none;
-}*/
-div#results{
-    margin-bottom: 10px;
-}
-div#results div.result{
-    padding:10px 0px;
-    margin:10px 0px 10px;
-}
-.ui-listview-inset .ui-li {
-    border-right-width: 0px;
-    border-left-width: 0px;
-}
-.cec-button{
-   height: 30px;
-   text-transform: uppercase;
-   cursor: pointer;
-}
-#cerca-ordini{
-    margin-left: 20px;
-}
-div#results2{
-    margin-bottom: 10px;
-}
-
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+        margin-top:0px;
+    }
 </style>
+
+<!-- jq plot-->
+<script type="text/javascript" src="media/js/jquery.jqplot.min.js"></script>
+<!--<script type="text/javascript" src="media/js/syntaxhighlighter/shCore.min.js"></script>
+<script type="text/javascript" src="media/js/syntaxhighlighter/shBrushJScript.min.js"></script>
+<script type="text/javascript" src="media/js/syntaxhighlighter/shBrushXml.min.js"></script>-->
+
+<!-- Additional plugins go here -->
+<script type="text/javascript" src="media/js/plugins/jqplot.barRenderer.min.js"></script>
+<script type="text/javascript" src="media/js/plugins/jqplot.pieRenderer.min.js"></script>
+<script type="text/javascript" src="media/js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="media/js/plugins/jqplot.pointLabels.min.js"></script>
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="media/js/excanvas.min.js"></script><![endif]-->
 
 <div id="content">
 <?php
@@ -133,10 +61,6 @@ if($objSession->IsLoggedIn()){
 
        $cassieri = $gestore->getallCassiere();
 
- //      $data_cassieri = DataManager::getTuttiCassieri($gestore_id);
- //      $numero_cassieri = count($data_cassieri);
-       
-//           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
 ?>
 <h1 style="margin-bottom: 20px;">Statistiche<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
     <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
@@ -290,37 +214,6 @@ if($objSession->IsLoggedIn()){
 
         });
 
-
-//        //datepicker
-//        $.datepicker.setDefaults($.datepicker.regional['it']);
-//        $( "#cerca_ordine" ).datepicker({
-//                showOn: "button",
-//                buttonImage: "media/css/images/datepicker.jpeg",
-//                dateFormat: 'd MM, y',
-//                buttonImageOnly: true,
-//                onSelect: function(){
-//                    var gg = $("#cerca_ordine").datepicker('getDate').getDate();
-//                    var mm = ($("#cerca_ordine").datepicker('getDate').getMonth()) + 1;
-//                    var aaaa = $("#cerca_ordine").datepicker('getDate').getFullYear();
-//                    $('#debug').append('<br />data: '+gg+' - '+mm+' - '+aaaa);
-//
-//                    var data = aaaa+"-"+zeroPad(mm,2)+"-"+zeroPad(gg,2);
-//                    data = JSON.stringify(data);
-//                    dataSel = data;
-//                    $('#debug').append('<br />data2: '+data);
-//
-//                    $.ajax({
-//                        type : "POST",
-//                        data: data,
-//                        url: "jquerymobile/lista_ordini.php",
-//                        dataType: 'json',
-//                        cache: false,
-//                        success: onListaOrdiniSuccess,
-//                        error: onError
-//                    });
-//                }
-//             });
-
         $('#inizio_ordini').datetimepicker({
             onClose: function(dateText, inst) {
                 var endDateTextBox = $('#fine_ordini');
@@ -378,7 +271,6 @@ if($objSession->IsLoggedIn()){
                     }
         });
 
-
         $("#cerca-ordini").live("click", function() {
 
              $('button').css('background-color','buttonface');
@@ -395,6 +287,12 @@ if($objSession->IsLoggedIn()){
                  */
                 var data_inizio = $('#inizio_ordini').val();
                 var data_fine   = $('#fine_ordini').val();
+
+                var data_da = $('#data-da');
+                data_da.html(data_inizio);
+
+                var data_al = $('#data-al');
+                data_al.html(data_fine);
 
                 var ricercaOrdineForm = 'start_timestamp='+data_inizio+'&'+'end_timestamp='+data_fine+'&'+'cameriere_id='+null;
 
@@ -456,153 +354,7 @@ if($objSession->IsLoggedIn()){
             }
         });
         
-function onReportSuccess(data, status) {
-    console.log(data);
-   if (data.err=='E002'){
-       $('#code-err').html('Sessione scaduta o login non valido.');
-       $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
-   } else if (data.err=='E001'){
-       $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-       $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
-   } else if (data.err=='false'){
-       $('#code-err').html('Errore durante la richiesta.');
-       $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+ data.err);
-   } else if(data.err==''){
-       $('#code-ok').html('OK.');
-       console.log(data);
-       $dialogOK.dialog( "open" );      
-   }else{
-       showResults(data, 'div#lista-vecchi-ordini');
-   }
-}
 
-/*
- * creo l'HTML per la visualizzazione dei risultati
- */
-function showResults(data, selettore){
-
-    var resultHtml = '';
-    var totOrdini = 0;
-
-    resultHtml+='<ul style="width: 880px;margin:auto;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
-    resultHtml+='<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini trovati</li>';
-
-    $.each(data, function(i,item){
-
-        var new_id = 'ord-ser-';
-        new_id = new_id + item.seriale + '&' + item.timestamp + '&' + item.tavolo_id;
-        new_id = new_id + '&' + item.n_coperti + '&' + item.totale;
-
-        resultHtml+='<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
-        resultHtml+='<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
-        resultHtml+='<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+item.id+'">';
-        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-s">' + item.seriale + '</div>';
-        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + item.timestamp + '</div>';
-        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo numero: ' + item.tavolo.numero + '<br />Tavolo nome: '+item.tavolo.nome+'</div>';
-        resultHtml+='<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + item.n_coperti + '</div>';
-        resultHtml+='<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+item.totale+' &#8364;</span>';
-        resultHtml+='</a>';
-        resultHtml+='</div></div>';
-        resultHtml+='</li>';
-
-        totOrdini = totOrdini + item.totale;
-
-    });
-
-    resultHtml+='<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
-    resultHtml+='<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
-    resultHtml+='<span style="margin-right: 205px; border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 180px; font-size: 14px">Totale contanti incassati: '+totOrdini+' &#8364;</span>';
-    resultHtml+='<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale ordini: '+totOrdini+' &#8364;</span>';
-    resultHtml+='</div></div>';
-    resultHtml+='</li>';
-
-    resultHtml+="</ul>";
-
-
-    $(selettore).html(resultHtml);
-}
-
-/*
- * aggiungo uno zero davanti se il numero ha una solo cifra
- */
-function zeroPad(num,count) {
-    var numZeropad = num + '';
-    while(numZeropad.length < count) {
-    numZeropad = "0" + numZeropad;
-    }
-    return numZeropad;
-}
-
-/*
- * Richiesta Ajax completata con successo
- *
- */
-function onListaOrdiniSuccess(data, status) {
-    var totOrdini = 0;
-    str = '';
-
-    //eliminazione carattere '"'
-    dataSel = dataSel.replace('"','');
-    dataSel = dataSel.replace('"','');
-    
-    console.log(data);
-
-    if (data.length > 0) {
-
-        str += '<ul style="width: 880px;margin:auto;" class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-icon="star" data-inset="true" data-role="listview">';
-        str += '<li class="ui-li ui-li-divider ui-btn ui-bar-b ui-corner-top ui-btn-up-undefined" data-role="list-divider" role="heading">Ordini del '+dataSel+'</li>';
-
-        for (i=0; i<data.length; i++) {
-            var new_id = 'ord-ser-';
-            new_id = new_id + data[i].seriale + '&' + data[i].timestamp + '&' + data[i].tavolo_id;
-            new_id = new_id + '&' + data[i].n_coperti + '&' + data[i].totale;
-
-            str += '<li class="ordini ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
-            str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
-            str += '<a class="ui-link-inherit ristampa-ordine" id="'+new_id+'" href="amministrazioneOrdine.php?id='+data[i].id+'">';
-            str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-d">' + data[i].timestamp + '</div>';
-            str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-t">Tavolo ' + data[i].tavolo_id + '</div>';
-            str += '<div style="float: left; margin: 0px 20px 0px 0px;" class="ord-num-c">Coperti ' + data[i].n_coperti + '</div>';
-            str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px">Totale '+data[i].totale+' &#8364;</span>';
-            str += '</a>';
-            str += '</div></div>';
-            str += '</li>';
-
-            totOrdini = totOrdini + data[i].totale;
-        }
-
-        str += '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-corner-bottom ui-btn-up-a" data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="a">';
-        str += '<div class="ui-btn-inner ui-li"><div class="ui-btn-text" style="height: 36px">';
-        str += '<span style="margin-right: 205px; border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 180px; font-size: 14px">Totale contanti incassati: '+totOrdini+' &#8364;</span>';
-        str += '<span style="border-radius:2px; font-size: 18px;" class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; font-size: 14px">Totale ordini: '+totOrdini+' &#8364;</span>';
-        str += '</div></div>';
-        str += '</li>';
-
-        str += "</ul>";
-    
-        } else {
-            str += '<div style="margin:auto">';
-            str += 'Nessun ordine trovato</div>';
-    }
-    document.getElementById('lista-vecchi-ordini').innerHTML = str;
-}
-
-/*
- * Errore richiesta Ajax
- *
- */
-function onError(data, status) {
-    alert("Errore Ajax");
-    str = '';
-    str = str + '<section class="ui-body ui-body-b" style="margin-top: 40px">';
-    str = str + '<div style="margin:auto">';
-    str = str + 'Nessun ordine trovato per questa data</div>';
-    str = str + '</section>';
-    document.getElementById('lista-vecchi-ordini').innerHTML = str;
-}
 
 });
 </script>
@@ -612,78 +364,67 @@ function onError(data, status) {
     <!-- dialogs -->
     <? include_once dirname(__FILE__).'/dialogs.php'; ?>
 
-    <!--
-    <div class="cloud">STORICO ORDINI <input style="display:none;" type="text" id="cerca_ordine"></div>
-    -->
-    <div class="cloud example-container">
+    <div class="cloud" id="">
         <form id="data-ordini-form" style="background-color:white;">
             <label style="margin-right: 25px;" class="" for="ricerca_ordine">INSERISCI LE DATE DI INIZIO E FINE</label>
             <input type="text" name="inizio_ordini" id="inizio_ordini" value="">
-            <input type="text" name="fine_ordini" id="fine_ordini" value="">           
+            <input type="text" name="fine_ordini" id="fine_ordini" value="">
         </form>
         <button type="submit" id="cerca-ordini" class="cec-button">cerca</button>
-        <span>Filtra i risultati per cameriere </span>
+    </div>
+    <div id="report" class="lista_ordini">
+
+        <span>Quntit&agrave; consumate dal <span id="data-da"></span> al <span id="data-al"></span></span>
+        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>
+        <div id="chart1" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
+<!--        <script type="text/javascript">$(document).ready(function(){
+                $.jqplot.config.enablePlugins = true;
+                var s1 = [2, 6, 7, 10];
+                var ticks = ['a', 'b', 'c', 'd'];
+
+                plot1 = $.jqplot('chart1', [s1], {
+                    // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+                    animate: !$.jqplot.use_excanvas,
+                    seriesDefaults:{
+                        renderer:$.jqplot.BarRenderer,
+                        pointLabels: { show: true }
+                    },
+                    axes: {
+                        xaxis: {
+                            renderer: $.jqplot.CategoryAxisRenderer,
+                            ticks: ticks
+                        }
+                    },
+                    highlighter: { show: false }
+                });
+
+                $('#chart1').bind('jqplotDataClick',
+                    function (ev, seriesIndex, pointIndex, data) {
+                        $('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+                    }
+                );
+            });
+        </script>-->
+        <?
+        $totali = DataManager::getTotaliAlimentiConsumati('03/01/2012 23:17:44', '06/01/2012 23:17:44');
+
+//        echo "<pre>";
+//        print_r($totali);
+//        echo "<pre>";
+//        ?>
+
+    </div>
+
+
+    <!--RICERCA -->
+    <div class="cloud" id="filtro-cameriere">
+        <p><span>Filtra i risultati per cameriere</span>
+        <button type="submit" id="0" class="cameriere-button cec-button">tutti</button>
         <?foreach ($cassieri as $cassiere) {?>
                 <button type="submit" id="<?=$cassiere->id?>" class="cameriere-button cec-button"><?=$cassiere->username;?></button>
-        <?}?>
+        <?}?></p>
     </div>
     <div id="lista-vecchi-ordini" class="lista_ordini"></div>
-    <!--
-    <div class="cloud" id="ricerca-ordine-cameriere">RICERCA PER CAMERIERE</div>
-    <div id="ricerca-cameriere-form" style="display:none;background-color:white;">
-        <fieldset>
-            <p>Seleziona un camerie e visualizza i suoi ordini</p>
-            <?foreach ($cassieri as $cassiere) {?>
-                    <button type="submit" id="<?=$cassiere->id?>" class="cameriere-button cec-button"><?=$cassiere->username;?></button>
-            <?}?>
-        </fieldset>
-    </div>
-    <div id="cameriere-results" style="background-color: white">
-    -->
-<?
-//$arOrdini = DataManager::getAllOrdiniByCassiereAsObjects(1, '04/1/2012 23:17:44', '05/26/2012 23:17:44');
-
-//echo "<pre>";
-//var_dump($arOrdini);
-//echo "</pre>";
-
-//        if ($arOrdini) {
-//                $numOrd = count($arOrdini);
-//                $arr['num_ord'] = $numOrd;
-//
-//                for($i=0; $i<$numOrd; $i++) {
-//
-//                    $tot = 0;
-//                    for($j=0; $j<$arOrdini[$i]->getNumberOfRigheOrdine(); $j++) {
-//                        $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
-//                    }
-//                    $totOrdini = $totOrdini + $tot;
-//                    $buono = DataManager2::getCreditoBuonoUsato($arOrdini[$i]->id);
-//
-//                    $arrTemp = array(   "id"            => $arOrdini[$i]->id,
-//                                        "seriale"       => $arOrdini[$i]->seriale,
-//                                        "timestamp"     => $arOrdini[$i]->timestamp,
-//                                        "n_coperti"     => $arOrdini[$i]->n_coperti,
-//                                        "tavolo_id"     => $arOrdini[$i]->tavolo_id,
-//                                        "totale"        => $tot,
-//                                        "tot_buono"     => $buono );
-//
-//                    $totBuoni = $totBuoni + $buono;
-//                    //Visulizzati solo n risultati
-//                    if (($numRes<$numOrd) && (($numOrd-$numRes)>3) && ($i<$numRes) && ($numRes>0)) {
-//                        $arr['ordini'][$i] = $arrTemp;
-//                    }
-//                    if (($numRes<=0) || ($numRes>=$numOrd) || (($numOrd-$numRes)<=3)) {
-//                        $arr['ordini'][$i] = $arrTemp;
-//                    }
-//                    $arrTemp = null;
-//                }
-//                $arr['totale'] = $totOrdini;
-//                $arr['contanti'] = $totOrdini - $totBuoni;
-//            }
-?>
-
-<!--    </div>-->
 
     <div class="cloud" id="ricerca-ordine" title="Ricerca un ordine tra quelli disponibili.">RICERCA UN ORDINE</div>
     <form id="ricerca-ordine-form" method="get" action="" style="display:none;background-color:white;">
@@ -719,3 +460,4 @@ function onError(data, status) {
             </h4>';
     }
 ?>
+<script type="text/javascript" src="media/js/example.js"></script>

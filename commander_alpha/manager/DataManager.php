@@ -2719,7 +2719,7 @@ class DataManager {
      * @param timestamp $end_timestamp
      * @return Ordine
      */
-    public static function getAllOrdiniByDateStartEndAsObjects($start_timestamp, $end_timestamp) {
+    public static function getAllOrdiniByDateStartEndAsObjects ($start_timestamp, $end_timestamp) {
 
         $sql = "SELECT DISTINCT cmd_ordine.id, cmd_ordine.seriale, cmd_ordine.timestamp, cmd_ordine.n_coperti, cmd_ordine.tavolo_id".
                " FROM cmd_ordine".
@@ -2746,6 +2746,87 @@ class DataManager {
         }
     }
 
+
+    /**
+     *
+     * @param <type> $alimento_id
+     * @param <type> $start_timestamp
+     * @param <type> $end_timestamp
+     * @return <type>
+     */
+    public static function getTotaleAlimentoConsumato ($alimento_id, $start_timestamp, $end_timestamp) {
+
+        $sql = " SELECT SUM(cmd_riga_ordine.numero),cmd_alimento.nome,cmd_alimento.prezzo,cmd_alimento.quantita".
+               " FROM cmd_riga_ordine".
+               " INNER JOIN cmd_ordine_chiuso".
+               " ON cmd_riga_ordine.ordine_id = cmd_ordine_chiuso.ordine_id".
+               " INNER JOIN cmd_alimento".
+               " ON cmd_riga_ordine.alimento_id = cmd_alimento.id".
+               " WHERE cmd_riga_ordine.alimento_id=$alimento_id".
+               " AND TIMESTAMP(cmd_ordine_chiuso.timestamp)>=STR_TO_DATE('$start_timestamp','%m/%d/%Y%H:%i:%s')".
+               " AND TIMESTAMP(cmd_ordine_chiuso.timestamp)<=STR_TO_DATE('$end_timestamp','%m/%d/%Y%H:%i:%s')".
+               " ORDER BY cmd_ordine_chiuso.timestamp DESC";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+
+              $totale = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $totale['quantita_consumata'] = $row['SUM(cmd_riga_ordine.numero)'];
+                  $totale['nome'] = $row['nome'];
+                  $totale['prezzo'] = $row['prezzo'];
+                  $totale['quantita'] = $row['quantita'];
+              }
+//              echo "<pre>";
+//              print_r($totale);
+//              echo "</pre>";
+              return $totale;
+              
+        } else {
+          return array();
+        }
+    }
+
+    public static function getTotaliAlimentiConsumati ($start_timestamp, $end_timestamp) {
+
+        $sql = " SELECT DISTINCT cmd_riga_ordine.alimento_id".
+               " FROM cmd_riga_ordine".
+               " INNER JOIN cmd_ordine_chiuso".
+               " ON cmd_riga_ordine.ordine_id = cmd_ordine_chiuso.ordine_id".
+               " WHERE TIMESTAMP(cmd_ordine_chiuso.timestamp)>=STR_TO_DATE('$start_timestamp','%m/%d/%Y%H:%i:%s')".
+               " AND TIMESTAMP(cmd_ordine_chiuso.timestamp)<=STR_TO_DATE('$end_timestamp','%m/%d/%Y%H:%i:%s')".
+               " ORDER BY cmd_ordine_chiuso.timestamp DESC";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+              $alimenti = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $alimento_id = intval($row['alimento_id']);
+                  $alimenti[] = $alimento_id;
+
+              }
+
+              $objs = array();
+              foreach ($alimenti as $alimento_id) {
+
+                  $totale_consumato = DataManager::getTotaleAlimentoConsumato($alimento_id, $start_timestamp, $end_timestamp);
+                  $objs[$alimento_id] = $totale_consumato;
+              }
+
+              return $objs;
+              
+        } else {
+          return array();
+        }
+    }
 
 }
 ?>

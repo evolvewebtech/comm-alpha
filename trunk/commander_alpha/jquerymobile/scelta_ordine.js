@@ -688,7 +688,7 @@ $('.bt-var').live("click", function() {
     for(var i=0; i<arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti.length; i++) {
         //Verifica se variante già inserita
         var varPresente = false;
-        var varianti = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti;
+        var varianti = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._varianti;
         for(var t=0; t<varianti.length; t++) {
             if (varianti[t]._id == arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[t]._id) {
                 varPresente = true;
@@ -724,6 +724,14 @@ $('.alim-min').bind("click", function() {
                 arrList[i]._num -= 1;
             }
             else { 
+//                if(arrList[i]._menu) { //Alimento selezionato è un menù fisso
+//                    for(var j=0; j<arrMenuSel.length; j++) {
+//                        if (arrMenuSel[j]._id == arrList[i]._id) {
+//                            arrMenuSel.splice(j, 1);
+//                        }
+//                    }
+//                }
+                    
                 arrList.splice(i, 1);
                 mem_index = -1;
                 
@@ -955,7 +963,7 @@ $('.var-menu-checkbox').live("click", function() {
     //Verifica se variante già inserita
     var varPresente = false;
     var indexVar = 0;
-    var varSel = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti;
+    var varSel = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._varianti;
     for(var t=0; t<varSel.length; t++) {
         if (varSel[t]._id == id_var) {
             varPresente = true;
@@ -971,14 +979,14 @@ $('.var-menu-checkbox').live("click", function() {
         // ......
         
         //Aggiunta variante ad Alimento della Lista
-        arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti.push(variante);
+        arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._varianti.push(variante);
         
         //Modifica indice alimento selezionato
         //mem_index = index;   
     }
     else {
         //rimozione variante dall'array
-        arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[idAlim]._varianti.splice(indexVar, 1);
+        arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._varianti.splice(indexVar, 1);
         //rimozione classe "selected"
         $(this).removeClass('selected');
     }

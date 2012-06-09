@@ -64,17 +64,6 @@
 </div>
 
 
-<!--
-<link rel="stylesheet" href="css/comm_C_Button.css" />
-<a href="#" class="comm-C-btn">
-    <span class="comm-C-btn-slide-text">$29</span>
-    <img src="images/icons/1.png" alt="Photos" />
-    <span class="comm-C-btn-text"><small>Available on the Apple</small> App Store</span>
-    <span class="comm-C-btn-icon-right"><span></span></span>
-</a>
--->
-
-
 <script type="text/javascript">
     var id_ord_stmp = 0;
     
@@ -89,26 +78,60 @@
         //Estrazione dati dalla lista degli alimenti selezionati
         for (var i=0; i<arrList.length; i++) {
             
-            var alimento = new Array();
+            if (!arrList[i]._menu) {
+                var alimento = new Array();
+
+                alimento[0] = arrList[i]._id;       //id
+                alimento[1] = arrList[i]._num;      //numero 
+                alimento[2] = arrList[i]._prezzo;   //prezzo
+                alimento[3] = 0;                    //iva
+                alimento[5] = false;                //menù fisso
+
+                var varianti = new Array();           
+                for (var j=0; j<arrList[i]._varianti.length; j++) {
+                    var variante = arrList[i]._varianti[j];
+                    varianti[j] = variante._id;
+                    //aggiornamento prezzo
+                    alimento[2] = parseFloat(alimento[2]) + parseFloat(variante._prezzo);
+                    alimento[2] = Math.round(alimento[2]*100) / 100;
+                }          
+                alimento[4] = varianti;             //varianti
+
+                alimenti.push(alimento);
+            }
             
-            alimento[0] = arrList[i]._id;       //id
-            alimento[1] = arrList[i]._num;      //numero 
-            alimento[2] = arrList[i]._prezzo;   //prezzo
-            alimento[3] = 0;                    //iva
-            
-            var varianti = new Array();           
-            for (var j=0; j<arrList[i]._varianti.length; j++) {
-                var variante = arrList[i]._varianti[j];
-                varianti[j] = variante._id;
-                //aggiornamento prezzo
-                alimento[2] = parseFloat(alimento[2]) + parseFloat(variante._prezzo);
-                alimento[2] = Math.round(alimento[2]*100) / 100;
-            }          
-            alimento[4] = varianti;             //varianti
-            
-            alimenti[i] = alimento;
-        }
+            else {
                 
+                //Estrazione dati dalla lista dei menù fissi selezionati
+                for (var t=0; t<arrMenuSel.length; t++) {
+                    if (arrMenuSel[t]._id == arrList[i]._id) {
+                        for (var s=0; s<arrMenuSel[t]._categorie.length; s++) {
+                            for (var u=0; u<arrMenuSel[t]._categorie[s]._alimenti.length; u++) {
+
+                                var alimento = new Array();
+
+                                alimento[0] = arrMenuSel[t]._categorie[s]._alimenti[u]._id;       //id
+                                alimento[1] = 1;    //numero 
+                                alimento[2] = 0;    //prezzo
+                                alimento[3] = 0;    //iva
+                                alimento[5] = true; //menù fisso
+
+                                var varianti = new Array(); 
+                                for (var v=0; v<arrMenuSel[t]._categorie[s]._alimenti[u]._varianti.length; v++) {
+                                    var variante = arrMenuSel[t]._categorie[s]._alimenti[u]._varianti[v];
+                                    varianti[v] = variante._id;
+                                }
+                                alimento[4] = new Array();             //varianti
+
+                                alimenti.push(alimento);
+                            }
+                        }
+                    }
+                } 
+                
+            }
+        }
+                        
         //Creazione array
         var data = new Array();
         data = {

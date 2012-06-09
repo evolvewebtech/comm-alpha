@@ -375,12 +375,28 @@ if($objSession->IsLoggedIn()){
     <div id="report" class="lista_ordini">
 
         <span>Quntit&agrave; consumate dal <span id="data-da"></span> al <span id="data-al"></span></span>
-        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>
+<!--        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>-->
         <div id="chart1" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
-<!--        <script type="text/javascript">$(document).ready(function(){
+        <?
+        $totali = DataManager::getTotaliAlimentiConsumati('03/01/2012 23:17:44', '06/01/2012 23:17:44');
+
+//        echo "<pre>";
+//        print_r($totali);
+//        echo "<pre>";
+        ?>
+        <script type="text/javascript">$(document).ready(function(){
                 $.jqplot.config.enablePlugins = true;
-                var s1 = [2, 6, 7, 10];
-                var ticks = ['a', 'b', 'c', 'd'];
+
+               var s1    = new Array();
+               var ticks = new Array();
+               <? foreach ($totali as $totale) { ?>
+                    ticks.push("<?=$totale['nome']?>");
+                    s1.push("<?=$totale['quantita_consumata']?>");
+               <? } ?>
+               console.log(s1);
+               console.log(ticks);
+                //var s1 = [2, 6, 7, 10];
+                //var ticks = ['a', 'b', 'c', 'd'];
 
                 plot1 = $.jqplot('chart1', [s1], {
                     // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
@@ -404,15 +420,7 @@ if($objSession->IsLoggedIn()){
                     }
                 );
             });
-        </script>-->
-        <?
-        $totali = DataManager::getTotaliAlimentiConsumati('03/01/2012 23:17:44', '06/01/2012 23:17:44');
-
-//        echo "<pre>";
-//        print_r($totali);
-//        echo "<pre>";
-//        ?>
-
+        </script>
     </div>
 
 

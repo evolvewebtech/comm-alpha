@@ -5,8 +5,8 @@
         require_once dirname(__FILE__).'/../manager/DataManager2.php';
         require_once dirname(__FILE__).'/../manager/HTTPSession.php';
         require_once dirname(__FILE__).'/../manager/Utility.php';
-    require_once dirname(__FILE__).'/../php_print/test/PosPrint.php';
-    require_once dirname(__FILE__).'/../php_print/test/EscPos.php';
+        require_once dirname(__FILE__).'/../php_print/test/PosPrint.php';
+        require_once dirname(__FILE__).'/../php_print/test/EscPos.php';
         $objSession = new HTTPSession();
         $objSession->Impress();        
    
@@ -37,7 +37,7 @@
                 $buono_cred_us = $data['buono_cred_us'];
 
                 //Inserimento del nuovo ordine nel database
-                $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
+                //$ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
 
                 //Verifica se credito buono sufficiente
                 $buono_ok = false;
@@ -63,13 +63,16 @@
                 else $buono_ok = true;
 
                 //Inserimento del nuovo ordine nel database
-                /*if ($buono_ok) {
+                if ($buono_ok) {
                     $ret = DataManager2::inserisciOrdine('null', $seriale, $n_coperti, $tavolo_id);
                 }
                 else {
                     DataManager2::rollbackTransaction();
-                    die();
-                }*/
+                    //die();
+                    $arr['err'] = 'E104';
+                    echo json_encode($arr);
+                    return;
+                }
 
                 if(($ret) && ($buono_ok)){
                     for ($i=0; $i<count($data['alimenti']); $i++) {

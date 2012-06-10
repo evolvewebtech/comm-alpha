@@ -95,6 +95,7 @@
                 var str = '';
                 if (err == 'E002') str = 'Utente non autenticato o sessione scaduta';
                 else str = 'Non possiedi i permessi per visualizzare questa pagina!';
+                console.log(err + ': ' + str);
                 document.getElementById('log-err-text').innerHTML = str;
                 //apertura pagina avviso
                 document.location.href="#diag-log-err";

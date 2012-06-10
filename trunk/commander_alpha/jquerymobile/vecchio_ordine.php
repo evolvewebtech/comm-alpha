@@ -52,7 +52,7 @@
                                 "prezzo"        => $rigaOrd->prezzo,
                                 "iva"           => $rigaOrd->iva,
                                 //"cassiere"      => $rigaOrd->cassiere_id,
-                                "cassiere"      => $user->username,
+                                "cassiere"      => $user->first_name,
                                 "arrVar"        => $arrVar );
                         }
 
@@ -69,7 +69,7 @@
                                 "prezzo"        => $rigaOrd->prezzo,
                                 "iva"           => $rigaOrd->iva,
                                 //"cassiere"      => $rigaOrd->cassiere_id,
-                                "cassiere"      => $user->username,
+                                "cassiere"      => $user->first_name,
                                 "arrVar"        => array() );
                         
                         array_push($arrRighe, $riga);

@@ -170,6 +170,8 @@
     }
     
     function onInvioOrdineSuccess(data, status) {
+        console.log("Ordine inviato al server");
+        console.log(data);
         
         //Verifica se utente loggato
         if ( !logged(data['err']) ) return;
@@ -200,6 +202,9 @@
     }
     
     function onInvioOrdineError(data, status) {
+        console.log("Errore invio ordine");
+        console.log(data);
+        
         alert("Errore Ajax registrazione ordine: " + data['err']);
 
         document.location.href="#chiusura";

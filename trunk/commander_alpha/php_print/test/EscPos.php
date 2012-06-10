@@ -140,6 +140,16 @@ class EscPos {
     public function raw($str){
             $this->out.=$str;
     }
+    
+    
+    /**
+     * Tab
+     *  
+     */
+    public function tab(){
+            $this->out.=chr(9);
+    }
+    
 
     /**
      * Print a text (removes invalid chars)

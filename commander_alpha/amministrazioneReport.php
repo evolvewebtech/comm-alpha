@@ -42,6 +42,9 @@
 <script type="text/javascript" src="media/js/syntaxhighlighter/shBrushXml.min.js"></script>-->
 
 <!-- Additional plugins go here -->
+<script type="text/javascript" src="media/js/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="media/js/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="media/js/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
 <script type="text/javascript" src="media/js/plugins/jqplot.barRenderer.min.js"></script>
 <script type="text/javascript" src="media/js/plugins/jqplot.pieRenderer.min.js"></script>
 <script type="text/javascript" src="media/js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
@@ -58,6 +61,10 @@ if($objSession->IsLoggedIn()){
        $gestore_id = $gestore->id;
        $utente_registrato_id = $gestore->utente_registrato_id;
 
+       $totali = DataManager::getTotaleLastWeek();
+//       echo "<pre>";
+//       var_dump($totali);
+//       echo "</pre>";
 
        $cassieri = $gestore->getallCassiere();
 
@@ -309,6 +316,17 @@ if($objSession->IsLoggedIn()){
                     success: onReportSuccess,
                     error: onError
                 });
+
+                $.ajax({
+                    type: "POST",
+                    data: ricercaOrdineForm,
+                    url: "manager/gestore/reportAlimenti.php",
+                    dataType: 'json',
+                    cache: false,
+                    success: onReportAlimentoSuccess,
+                    error: onError
+                });
+
             }            
         });
 
@@ -354,7 +372,52 @@ if($objSession->IsLoggedIn()){
             }
         });
         
+function onReportSuccess(data) {
+   if (data.err=='E002'){
+       $('#code-err').html('Sessione scaduta o login non valido.');
+       $dialogERR.dialog("open");
+       $('#debug').append(' ERR: '+data.err);
+   } else if (data.err=='E001'){
+       $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+       $dialogERR.dialog("open");
+       $('#debug').append(' ERR: '+data.err);
+   } else if (data.err=='false'){
+       $('#code-err').html('Errore durante la richiesta.');
+       $dialogERR.dialog("open");
+       $('#debug').append(' ERR: '+ data.err);
+   } else if(data.err==''){
+//       $('#code-ok').html('OK.');
+//       $dialogOK.dialog( "open" );
+   }else{
+       showResults(data, 'div#lista-vecchi-ordini');
+   }
+}
 
+function onReportAlimentoSuccess(data){
+   console.log('++++++++++++');
+   console.log(data);
+   console.log('++++++++++++');
+   if (data.err=='E002'){
+       $('#code-err').html('Sessione scaduta o login non valido.');
+       $dialogERR.dialog("open");
+       $('#debug').append(' ERR: '+data.err);
+   } else if (data.err=='E001'){
+       $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
+       $dialogERR.dialog("open");
+       $('#debug').append(' ERR: '+data.err);
+   } else if (data.err=='false'){
+       $('#code-err').html('Errore durante la richiesta.');
+       $dialogERR.dialog("open");
+       $('#debug').append(' ERR: '+ data.err);
+   } else if(data.err==''){
+//       $('#code-ok').html('OK.');
+//       console.log(data);
+//       $dialogOK.dialog( "open" );
+         print_graph('chart1',data.s1,data.ticks);
+   }else{
+       print_graph('chart1',data.s1,data.ticks);
+   }
+}
 
 });
 </script>
@@ -378,21 +441,21 @@ if($objSession->IsLoggedIn()){
 <!--        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>-->
         <div id="chart1" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
         <?
-        $totali = DataManager::getTotaliAlimentiConsumati('03/01/2012 23:17:44', '06/01/2012 23:17:44');
 
 //        echo "<pre>";
 //        print_r($totali);
 //        echo "<pre>";
         ?>
         <script type="text/javascript">$(document).ready(function(){
-                $.jqplot.config.enablePlugins = true;
+               $.jqplot.config.enablePlugins = true;
 
                var s1    = new Array();
                var ticks = new Array();
-               <? foreach ($totali as $totale) { ?>
-                    ticks.push("<?=$totale['nome']?>");
-                    s1.push("<?=$totale['quantita_consumata']?>");
-               <? } ?>
+               <? if ($totali){
+                    foreach ($totali as $totale) { ?>
+                        ticks.push("<?=$totale['nome']?>");
+                        s1.push("<?=$totale['quantita_consumata']?>");
+               <?   }} ?>
                console.log(s1);
                console.log(ticks);
                 //var s1 = [2, 6, 7, 10];
@@ -401,24 +464,32 @@ if($objSession->IsLoggedIn()){
                 plot1 = $.jqplot('chart1', [s1], {
                     // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
                     animate: !$.jqplot.use_excanvas,
+                    title: 'Consumi',
                     seriesDefaults:{
                         renderer:$.jqplot.BarRenderer,
                         pointLabels: { show: true }
                     },
+                    axesDefaults: {
+                        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+                        tickOptions: {
+                          angle: -30,
+                          fontSize: '10pt'
+                        }
+                    },
                     axes: {
                         xaxis: {
                             renderer: $.jqplot.CategoryAxisRenderer,
-                            ticks: ticks
+                            ticks: ticks                            
                         }
                     },
                     highlighter: { show: false }
                 });
 
-                $('#chart1').bind('jqplotDataClick',
-                    function (ev, seriesIndex, pointIndex, data) {
-                        $('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
-                    }
-                );
+//                $('#chart1').bind('jqplotDataClick',
+//                    function (ev, seriesIndex, pointIndex, data) {
+//                        $('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);
+//                    }
+//                );
             });
         </script>
     </div>

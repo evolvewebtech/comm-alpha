@@ -2,28 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-function onReportSuccess(data, status) {
-    console.log(data);
-   if (data.err=='E002'){
-       $('#code-err').html('Sessione scaduta o login non valido.');
-       $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
-   } else if (data.err=='E001'){
-       $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-       $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
-   } else if (data.err=='false'){
-       $('#code-err').html('Errore durante la richiesta.');
-       $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+ data.err);
-   } else if(data.err==''){
-       $('#code-ok').html('OK.');
-       console.log(data);
-       $dialogOK.dialog( "open" );
-   }else{
-       showResults(data, 'div#lista-vecchi-ordini');
-   }
-}
+
 
 /*
  * creo l'HTML per la visualizzazione dei risultati
@@ -150,3 +129,38 @@ function onError(data, status) {
     document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
 
+function print_graph(selettore, s1, ticks){
+
+    $('#'+selettore).html();
+
+    console.log('s1:');
+    console.log(s1);
+    console.log('ticks:');
+    console.log(ticks);
+
+    $.jqplot.config.enablePlugins = true;
+
+    plot1 = $.jqplot(selettore, [s1], {
+        // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
+        animate: !$.jqplot.use_excanvas,
+        title: 'Consumi',
+        seriesDefaults:{
+            renderer:$.jqplot.BarRenderer,
+            pointLabels: { show: true }
+        },
+        axesDefaults: {
+            tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+            tickOptions: {
+              angle: -30,
+              fontSize: '10pt'
+            }
+        },
+        axes: {
+            xaxis: {
+                renderer: $.jqplot.CategoryAxisRenderer,
+                ticks: ticks
+            }
+        },
+        highlighter: { show: false }
+    });
+}

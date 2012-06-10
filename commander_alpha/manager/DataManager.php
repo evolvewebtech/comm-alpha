@@ -2828,5 +2828,77 @@ class DataManager {
         }
     }
 
+    public static function getTotaleLastWeek () {
+
+        $sql = " SELECT DISTINCT cmd_riga_ordine.alimento_id
+                FROM cmd_riga_ordine
+                INNER JOIN cmd_ordine_chiuso ON cmd_riga_ordine.ordine_id = cmd_ordine_chiuso.ordine_id
+                WHERE TIMESTAMP( cmd_ordine_chiuso.timestamp ) >= DATE_SUB( CURDATE( ) , INTERVAL 7 DAY ) ";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+              $alimenti = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $alimento_id = intval($row['alimento_id']);
+                  $alimenti[] = $alimento_id;
+
+              }
+
+              $objs = array();
+              foreach ($alimenti as $alimento_id) {
+
+                  $totale_consumato = DataManager::getTotaleAlimentoLastWeek($alimento_id);
+                  $objs[$alimento_id] = $totale_consumato;
+              }
+
+              return $objs;
+              
+        } else {
+          return array();
+        }
+    }
+
+    /**
+     *
+     * @param <type> $alimento_id
+     * @return <type> 
+     */
+    public static function getTotaleAlimentoLastWeek($alimento_id){
+        $sql = "SELECT SUM( cmd_riga_ordine.numero ) , cmd_alimento.nome, cmd_alimento.prezzo, cmd_alimento.quantita
+                FROM cmd_riga_ordine
+                INNER JOIN cmd_ordine_chiuso ON cmd_riga_ordine.ordine_id = cmd_ordine_chiuso.ordine_id
+                INNER JOIN cmd_alimento ON cmd_riga_ordine.alimento_id = cmd_alimento.id
+                WHERE cmd_riga_ordine.alimento_id = $alimento_id
+                AND TIMESTAMP( cmd_ordine_chiuso.timestamp ) >= DATE_SUB( CURDATE( ) , INTERVAL 7 DAY )";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+
+              $totale = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $totale['quantita_consumata'] = $row['SUM(cmd_riga_ordine.numero)'];
+                  $totale['nome'] = $row['nome'];
+                  $totale['prezzo'] = $row['prezzo'];
+                  $totale['quantita'] = $row['quantita'];
+              }
+
+              return $totale;
+
+        } else {
+          return array();
+        }
+
+
+    }
+
+
 }
 ?>

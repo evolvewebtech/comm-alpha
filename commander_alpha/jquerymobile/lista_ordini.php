@@ -25,11 +25,11 @@
             $user = $objUser[0];
             if(get_class($user) == 'Cassiere') {
                 
-            $arr['cassiere'] = $user->username;
+            $arr['cassiere'] = $user->first_name;
             $totOrdini = 0;
             $totBuoni = 0;
                 
-            $arOrdini = DataManager2::getAllOrdiniDateAsObjects($dataQuery, $objSession->GetUserID());
+            $arOrdini = DataManager2::getAllOrdiniDateAsObjects($dataQuery, $user->id);
         
             if ($arOrdini) {
                 $numOrd = count($arOrdini);

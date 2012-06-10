@@ -30,39 +30,21 @@
 
 
             if( $cameriere_id == "null" || $cameriere_id=="0" ){
-                $arOrdini = DataManager::getAllOrdiniByDateStartEndAsObjects($start_timestamp, $end_timestamp);
+                $totali = DataManager::getTotaliAlimentiConsumati($start_timestamp, $end_timestamp);
                 } else{
                     $cameriere_id = intval($cameriere_id);
-                    $arOrdini = DataManager::getAllOrdiniByCassiereAsObjects($cameriere_id, $start_timestamp, $end_timestamp);
+                    $totali = DataManager::getTotaliAlimentiConsumati($start_timestamp, $end_timestamp);
                     }
 
+           $var['s1'] = array();
+           $var['ticks'] = array();
+           if ($totali){
+                    foreach ($totali as $totale) {
+                        $var['s1'][] = intval($totale['quantita_consumata']);
+                        $var['ticks'][] = $totale['nome'];
+                  }}
 
-            $var = array();
-
-            if ($arOrdini) {
-                for($i=0; $i<count($arOrdini); $i++) {
-
-                    $tot = 0;
-                    for($j=0; $j<$arOrdini[$i]->getNumberOfRigheOrdine(); $j++) {
-                        $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
-                    }
-
-                    $tavolo_id = $arOrdini[$i]->tavolo_id;
-                    $tavolo = DataManager::getTavolo(intval($tavolo_id));
-
-                    $arrTemp = array(   "id"            => $arOrdini[$i]->id,
-                                        "seriale"       => $arOrdini[$i]->seriale,
-                                        "timestamp"     => $arOrdini[$i]->timestamp,
-                                        "n_coperti"     => $arOrdini[$i]->n_coperti,
-                                        "tavolo"        => $tavolo,
-                                        "tavolo_id"     => $arOrdini[$i]->tavolo_id,
-                                        "totale"        => $tot);
-
-                    $var[$i] = $arrTemp;
-                }
-            }
-
-
+            
         /*
          * fine login
          *

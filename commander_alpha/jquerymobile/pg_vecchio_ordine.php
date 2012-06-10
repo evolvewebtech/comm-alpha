@@ -18,7 +18,7 @@
             <div style="padding-top: 10px; padding-bottom: 10px">
                 <ul class="ui-listview" data-role="listview" style="margin: 0px">
                 <li class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="old-ord-tot">
+                    <div id="old-ord-tot" style="margin-right: -20px">
                     <h2 class="name">Totale</h2>
                     <h2 class="prezzo">0 €</h2>
                     </div>
@@ -91,17 +91,7 @@
     function onVecchioOrdineSuccess(data, status) {
         
         //Verifica se utente loggato
-        if ((data['err'] == 'E001') || (data['err'] == 'E002')) {
-            //utente non loggato correttamente 
-            var str = '';
-            if (data['err'] == 'E002') str = 'Utente non autenticato o sessione scaduta';
-            else str = 'Non possiedi i permessi per visualizzare questa pagina!';
-            document.getElementById('log-err-text').innerHTML = str;
-            //apertura pagina avviso
-            document.location.href="#diag-log-err";
-            $.mobile.changePage( "#diag-log-err", 'none', false, true);
-            return
-        }
+        if ( !logged(data['err']) ) return;
         
         //alert("Successo lettura da database con Ajax!");
         
@@ -114,7 +104,10 @@
             str = str + '<div class="old-ord-rig">';
             str = str + '<div class="num">' + data['righe'][i]["numero"] + '</div>';
             str = str + '<div class="name">' + data['righe'][i]["nome"] + '</div>';
-            str = str + '<div class="prezzo">' + formatMoney(prezzoTot, 2) + ' \u20ac</div>';
+            if ( (data['righe'][i]["menu_id"] == 0) || (data['righe'][i]["prezzo"] != 0) ) {
+                str = str + '<div class="prezzo">' + formatMoney(prezzoTot, 2) + ' \u20ac</div>';
+            }
+            else str = str + '<div class="prezzo"></div>'; //Solo per riga con nome Menù
             str = str + '</div>';
             
             for (var j=0; j<data['righe'][i]["arrVar"].length; j++) {   

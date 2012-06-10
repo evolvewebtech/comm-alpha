@@ -18,7 +18,7 @@ class RigaOrdine extends Entity {
         $this->propertyTable['id'] = 'id';
         $this->propertyTable['ordine_id'] = 'ordine_id';     
         $this->propertyTable['alimento_id'] = 'alimento_id';
-        $this->propertyTable['alimento_menu_id'] = 'alimento_menu_id';
+        $this->propertyTable['menu_fisso_id'] = 'menu_fisso_id';
         $this->propertyTable['numero'] = 'numero';
         $this->propertyTable['prezzo'] = 'prezzo';
         $this->propertyTable['iva'] = 'iva';
@@ -59,7 +59,7 @@ class RigaOrdine extends Entity {
         return 'id: ' . $this->id .
                ', ordine_id: '. $this->ordine_id.
                ', alimento_id: '. $this->alimento_id.
-               ', alimento_menu_id: '. $this->alimento_menu_id;
+               ', menu_fisso_id: '. $this->menu_fisso_id;
     }  
       
     

@@ -78,14 +78,14 @@
                         $next_id_rigaordine = DataManager2::nextIDRigaOrdine();
                         $ordine_id = $next_id;
                         $alimento_id = $data['alimenti'][$i][0];
-                        $alimento_menu_id = 0;
+                        $menu_fisso_id = 0;
                         $numero = $data['alimenti'][$i][1];
                         $prezzo = $data['alimenti'][$i][2];
                         $iva = $data['alimenti'][$i][3];
                         $cassiere_id = $objSession->GetUserID();
 
                         //Inserimento "RigaOrdine nel database"
-                        $ret = DataManager2::inserisciRigaOrdine('null', $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassiere_id);
+                        $ret = DataManager2::inserisciRigaOrdine('null', $ordine_id, $alimento_id, $menu_fisso_id, $numero, $prezzo, $iva, $cassiere_id);
 
                         if ($ret) {
                             //Inserimento relazioni "VarianteRigaOrdine" nel database

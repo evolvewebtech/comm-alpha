@@ -85,7 +85,7 @@
                 alimento[1] = arrList[i]._num;      //numero 
                 alimento[2] = arrList[i]._prezzo;   //prezzo
                 alimento[3] = 0;                    //iva
-                alimento[5] = false;                //menù fisso
+                alimento[5] = 0;                    //id menù fisso
 
                 var varianti = new Array();           
                 for (var j=0; j<arrList[i]._varianti.length; j++) {
@@ -105,30 +105,40 @@
                 //Estrazione dati dalla lista dei menù fissi selezionati
                 for (var t=0; t<arrMenuSel.length; t++) {
                     if (arrMenuSel[t]._id == arrList[i]._id) {
+                        
+                        //Per ogni menù fisso aggiungo una RigaOrdine con il prezzo del menù
+                        var alimentoM = new Array();
+                        alimentoM[0] = 0;                    //id
+                        alimentoM[1] = 1;                    //numero 
+                        alimentoM[2] = arrMenuSel[t]._prezzo;//prezzo
+                        alimentoM[3] = 0;                    //iva
+                        alimentoM[5] = arrMenuSel[t]._id;    //id menù fisso
+                        alimenti.push(alimentoM);
+                        
+                        //Aggiunta RigheOrdine con gli alimenti del menù
                         for (var s=0; s<arrMenuSel[t]._categorie.length; s++) {
                             for (var u=0; u<arrMenuSel[t]._categorie[s]._alimenti.length; u++) {
 
                                 var alimento = new Array();
 
                                 alimento[0] = arrMenuSel[t]._categorie[s]._alimenti[u]._id;       //id
-                                alimento[1] = 1;    //numero 
-                                alimento[2] = 0;    //prezzo
-                                alimento[3] = 0;    //iva
-                                alimento[5] = true; //menù fisso
+                                alimento[1] = 1;                    //numero 
+                                alimento[2] = 0;                    //prezzo
+                                alimento[3] = 0;                    //iva
+                                alimento[5] = arrMenuSel[t]._id;    //id menù fisso
 
                                 var varianti = new Array(); 
                                 for (var v=0; v<arrMenuSel[t]._categorie[s]._alimenti[u]._varianti.length; v++) {
                                     var variante = arrMenuSel[t]._categorie[s]._alimenti[u]._varianti[v];
                                     varianti[v] = variante._id;
                                 }
-                                alimento[4] = new Array();             //varianti
+                                alimento[4] = varianti;             //varianti
 
                                 alimenti.push(alimento);
                             }
                         }
                     }
-                } 
-                
+                }            
             }
         }
                         

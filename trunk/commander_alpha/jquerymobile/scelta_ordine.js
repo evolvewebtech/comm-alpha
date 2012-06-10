@@ -682,30 +682,34 @@ $('.bt-var').live("click", function() {
     var idMenuSel = $arr[0];
     var idMenu = arrMenu[arrMenuSel[idMenuSel]._id]._id;
     var idCat = $arr[1];
-    var idAlim = $arr[2];
-    
+    var idAlim = $arr[2];    
     str = '';
-    for(var i=0; i<arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti.length; i++) {
-        //Verifica se variante già inserita
-        var varPresente = false;
-        var varianti = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._varianti;
-        for(var t=0; t<varianti.length; t++) {
-            if (varianti[t]._id == arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[t]._id) {
-                varPresente = true;
-                break;
+    
+    //Aggiunti nomi varianti solo se alimento selezionato
+    if (arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._id == arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._id) {
+    
+        for(var i=0; i<arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti.length; i++) {
+            //Verifica se variante già inserita
+            var varPresente = false;
+            var varianti = arrMenuSel[idMenuSel]._categorie[idCat]._alimenti[0]._varianti;
+            for(var t=0; t<varianti.length; t++) {
+                if (varianti[t]._id == arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[t]._id) {
+                    varPresente = true;
+                    break;
+                }
             }
+            //aggiunta classe "selected" se variante già selezionata
+            var selClass = "";
+            if (varPresente) {selClass = " selected";}
+
+            var strHref = idMenuSel + '&' + idMenu + '&' + idCat + '&' + idAlim;
+            strHref = strHref + '&' + arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[i]._id;
+
+            str = str + '<div class="comm_checkbox'+selClass+' var-menu-checkbox" href='+strHref+'>';
+            str = str + '<div class="cc_icon"></div>';
+            str = str + '<div class="cc_text">' + arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[i]._descrizione + '</div>';
+            str = str + '</div>';
         }
-        //aggiunta classe "selected" se variante già selezionata
-        var selClass = "";
-        if (varPresente) {selClass = " selected";}
-        
-        var strHref = idMenuSel + '&' + idMenu + '&' + idCat + '&' + idAlim;
-        strHref = strHref + '&' + arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[i]._id;
-        
-        str = str + '<div class="comm_checkbox'+selClass+' var-menu-checkbox" href='+strHref+'>';
-        str = str + '<div class="cc_icon"></div>';
-        str = str + '<div class="cc_text">' + arrMenu[idMenu]._categorie[idCat]._alimenti[idAlim]._varianti[i]._descrizione + '</div>';
-        str = str + '</div>';
     }
     
     document.getElementById('var-menu-cont').innerHTML = str;
@@ -1006,6 +1010,9 @@ $('.var-menu-checkbox').live("click", function() {
  *
  */
 $('.menu-checkbox').live("click", function() {
+    //verifica se alimento selezionato è cambiato
+    var changed = false;
+    if ($(this).hasClass('selected')) changed = true;
     //rimozione della classe "selected" dagli alimenti della categoria del menu
     var $optionSet = $(this).parents('.menu-alim-item');
     $optionSet.find('.selected').removeClass('selected');
@@ -1036,6 +1043,7 @@ $('.menu-checkbox').live("click", function() {
                                                 tempCat._alimenti[r]._nome,
                                                 new Array() );
                     arrMenuSel[idMenuSel]._categorie[s]._alimenti[0] = newAlim;
+                    if (changed) arrMenuSel[idMenuSel]._categorie[s]._alimenti[0]._varianti = new Array();
                 }
             }
 

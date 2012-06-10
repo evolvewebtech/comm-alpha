@@ -27,34 +27,53 @@
 
                 for ($i=0; $i<$ordine->getNumberOfRigheOrdine(); $i++) {
                     $rigaOrd = $ordine->getRigaOrdine($i);
-                    $riga = array();
+                    if ($rigaOrd->alimento_id > 0) {
+                        $riga = array();
 
-                    //Recupero nome alimento
-                    $alimTemp = DataManager2::getAlimentoAsObject($rigaOrd->alimento_id);
+                        //Recupero nome alimento
+                        $alimTemp = DataManager2::getAlimentoAsObject($rigaOrd->alimento_id);
 
-                    //Recupero varianti alimento
-                    $arrVar = array();
-                    for ($j=0; $j<$rigaOrd->getNumberOfVarianti(); $j++) {
-                        $variante = array(
-                                    "descrizione" => $rigaOrd->getVariante($j)->descrizione
-                                    //"prezzo" => $rigaOrd->getVariante($j)->prezzo 
-                                    );
-                        $arrVar[$j] = $variante;
+                        //Recupero varianti alimento
+                        $arrVar = array();
+                        for ($j=0; $j<$rigaOrd->getNumberOfVarianti(); $j++) {
+                            $variante = array(
+                                        "descrizione" => $rigaOrd->getVariante($j)->descrizione
+                                        //"prezzo" => $rigaOrd->getVariante($j)->prezzo 
+                                        );
+                            $arrVar[$j] = $variante;
+                        }
+
+                        //Riga_ordine
+                        if ($alimTemp) {
+                            $riga = array (
+                                "nome"          => $alimTemp->nome,
+                                "menu_id"       => $rigaOrd->menu_fisso_id,
+                                "numero"        => $rigaOrd->numero,
+                                "prezzo"        => $rigaOrd->prezzo,
+                                "iva"           => $rigaOrd->iva,
+                                //"cassiere"      => $rigaOrd->cassiere_id,
+                                "cassiere"      => $user->username,
+                                "arrVar"        => $arrVar );
+                        }
+
+                        array_push($arrRighe, $riga);
                     }
-
-                    //Riga_ordine
-                    if ($alimTemp) {
+                    else {
+                        //Recupero nome menù fisso
+                        $menuTemp = DataManager2::getMenuFissoAsObject($rigaOrd->menu_fisso_id);
+                        
                         $riga = array (
-                            "nome"          => $alimTemp->nome,
-                            "numero"        => $rigaOrd->numero,
-                            "prezzo"        => $rigaOrd->prezzo,
-                            "iva"           => $rigaOrd->iva,
-                            //"cassiere"      => $rigaOrd->cassiere_id,
-                            "cassiere"      => $user->username,
-                            "arrVar"        => $arrVar );
+                                "nome"          => $menuTemp->nome,
+                                "menu_id"       => $rigaOrd->menu_fisso_id,
+                                "numero"        => $rigaOrd->numero,
+                                "prezzo"        => $rigaOrd->prezzo,
+                                "iva"           => $rigaOrd->iva,
+                                //"cassiere"      => $rigaOrd->cassiere_id,
+                                "cassiere"      => $user->username,
+                                "arrVar"        => array() );
+                        
+                        array_push($arrRighe, $riga);
                     }
-
-                    $arrRighe[$i] = $riga;
                 }
 
                 $arr['righe'] = $arrRighe;

@@ -994,7 +994,7 @@ class DataManager2 {
      *
      * 
      */
-    static function inserisciRigaOrdine($id, $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id){
+    static function inserisciRigaOrdine($id, $ordine_id, $alimento_id, $menu_fisso_id, $numero, $prezzo, $iva, $cassire_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -1003,7 +1003,7 @@ class DataManager2 {
         /*
          * inserisco una oggetto RigaOrdine
          */
-        $ret = $db->insert('cmd_riga_ordine', array($id, $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id));
+        $ret = $db->insert('cmd_riga_ordine', array($id, $ordine_id, $alimento_id, $menu_fisso_id, $numero, $prezzo, $iva, $cassire_id));
                 
         if ($ret) return true;
         else return false;
@@ -1015,7 +1015,7 @@ class DataManager2 {
      *
      * 
      */
-    static function aggiornaRigaOrdine($id, $ordine_id, $alimento_id, $alimento_menu_id, $numero, $prezzo, $iva, $cassire_id){
+    static function aggiornaRigaOrdine($id, $ordine_id, $alimento_id, $menu_fisso_id, $numero, $prezzo, $iva, $cassire_id){
         
         require_once 'Database.php';
         $db = new Database();
@@ -1026,7 +1026,7 @@ class DataManager2 {
          */
         $ret = $db->update('cmd_riga_ordine', array('ordine_id' => $ordine_id,
                                                     'alimento_id' => $alimento_id,
-                                                    'alimento_menu_id' => $alimento_menu_id,
+                                                    'menu_fisso_id' => $menu_fisso_id,
                                                     'numero' => $numero,
                                                     'prezzo' => $prezzo,
                                                     'iva' => $iva,

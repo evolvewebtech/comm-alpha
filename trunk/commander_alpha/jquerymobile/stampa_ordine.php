@@ -48,73 +48,75 @@ try
 
                 for ($i=0; $i<$ordine->getNumberOfRigheOrdine(); $i++) {
                     $rigaOrd = $ordine->getRigaOrdine($i);
-                    $riga = array();
-                    $arrRigaStamp = array();
+                    if ($rigaOrd->alimento_id > 0) {
+                        $riga = array();
+                        $arrRigaStamp = array();
 
-                    //Recupero nome alimento
-                    $alimTemp = DataManager2::getAlimentoAsObject($rigaOrd->alimento_id);
+                        //Recupero nome alimento
+                        $alimTemp = DataManager2::getAlimentoAsObject($rigaOrd->alimento_id);
 
-                    //Recupero varianti alimento
-                    $arrVar = array();
-                    for ($j=0; $j<$rigaOrd->getNumberOfVarianti(); $j++) {
-                        $variante = array(
-                                    "descrizione" => $rigaOrd->getVariante($j)->descrizione
-                                    //"prezzo" => $rigaOrd->getVariante($j)->prezzo
-                                    );
-                        $arrVar[$j] = $variante;
-                    }
+                        //Recupero varianti alimento
+                        $arrVar = array();
+                        for ($j=0; $j<$rigaOrd->getNumberOfVarianti(); $j++) {
+                            $variante = array(
+                                        "descrizione" => $rigaOrd->getVariante($j)->descrizione
+                                        //"prezzo" => $rigaOrd->getVariante($j)->prezzo
+                                        );
+                            $arrVar[$j] = $variante;
+                        }
 
-                    //Riga_ordine
-                    if ($alimTemp) {
-                        $riga = array (
-                            "nome"          => $alimTemp->nome,
-                            "numero"        => $rigaOrd->numero,
-                            "prezzo"        => $rigaOrd->prezzo,
-                            "iva"           => $rigaOrd->iva,
-                            "cassiere_id"   => $rigaOrd->cassiere_id,
-                            //"arrStampanti"  => $rigaOrd->stampanti,
-                            "arrVar"        => $arrVar );
-                    }
-                    
-                    //Stampanti associate all'alimento
-                    //Creato un array con un numero di elementi pari al numero
-                    //di stampanti utilizzate per questo ordine.
-                    //A ogni stampante sono inviati i rispettivi alimenti dell'ordine
-                    $num_stampanti = $alimTemp->getNumberOfStampanti();                   
-                    for($j=0; $j<$num_stampanti; $j++) {
-                        $stampante = $alimTemp->getStampante($j);
-                        $stampante_id = $stampante->id;
-                        $ip_address = $stampante->indirizzo;
-                        $nome_stamp = $stampante->nome;
-                        
-                        $stmpPres = false;
-                        
-                        for($t=0; $t<count($arr); $t++) {
-                            //Se la stampante è già aggiunta all'array, è
-                            //inserito l'alimento
-                            if ($arr[$t]["stampante_id"] == $stampante_id) {           
-                                $stmpPres = true;
+                        //Riga_ordine
+                        if ($alimTemp) {
+                            $riga = array (
+                                "nome"          => $alimTemp->nome,
+                                "numero"        => $rigaOrd->numero,
+                                "prezzo"        => $rigaOrd->prezzo,
+                                "iva"           => $rigaOrd->iva,
+                                "cassiere_id"   => $rigaOrd->cassiere_id,
+                                //"arrStampanti"  => $rigaOrd->stampanti,
+                                "arrVar"        => $arrVar );
+                        }
+
+                        //Stampanti associate all'alimento
+                        //Creato un array con un numero di elementi pari al numero
+                        //di stampanti utilizzate per questo ordine.
+                        //A ogni stampante sono inviati i rispettivi alimenti dell'ordine
+                        $num_stampanti = $alimTemp->getNumberOfStampanti();                   
+                        for($j=0; $j<$num_stampanti; $j++) {
+                            $stampante = $alimTemp->getStampante($j);
+                            $stampante_id = $stampante->id;
+                            $ip_address = $stampante->indirizzo;
+                            $nome_stamp = $stampante->nome;
+
+                            $stmpPres = false;
+
+                            for($t=0; $t<count($arr); $t++) {
+                                //Se la stampante è già aggiunta all'array, è
+                                //inserito l'alimento
+                                if ($arr[$t]["stampante_id"] == $stampante_id) {           
+                                    $stmpPres = true;
+                                    $temp = array();
+                                    array_push($temp, $riga);
+                                    array_push($arr[$t]["alimenti"], $temp);
+                                }
+                            }
+
+                            //Se la stampante non è stata già aggiunta all'array
+                            //è creato un nuovo elemento con id e indirizzo della
+                            //stampante ed è aggiunto l'alimento
+                            if (!$stmpPres) { 
+                                $arrRigaStamp = array (
+                                    "stampante_id" => $stampante_id,
+                                    "ip_address" => $ip_address,
+                                    "nome_stamp" => $nome_stamp,
+                                    "alimenti" => array()
+                                );
+                                array_push($arr, $arrRigaStamp);
                                 $temp = array();
                                 array_push($temp, $riga);
-                                array_push($arr[$t]["alimenti"], $temp);
+                                $tempID = count($arr) - 1;
+                                array_push($arr[$tempID]["alimenti"], $temp);
                             }
-                        }
-                        
-                        //Se la stampante non è stata già aggiunta all'array
-                        //è creato un nuovo elemento con id e indirizzo della
-                        //stampante ed è aggiunto l'alimento
-                        if (!$stmpPres) { 
-                            $arrRigaStamp = array (
-                                "stampante_id" => $stampante_id,
-                                "ip_address" => $ip_address,
-                                "nome_stamp" => $nome_stamp,
-                                "alimenti" => array()
-                            );
-                            array_push($arr, $arrRigaStamp);
-                            $temp = array();
-                            array_push($temp, $riga);
-                            $tempID = count($arr) - 1;
-                            array_push($arr[$tempID]["alimenti"], $temp);
                         }
                     }
                 }

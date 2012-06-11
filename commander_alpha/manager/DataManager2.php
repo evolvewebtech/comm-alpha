@@ -1886,5 +1886,35 @@ class DataManager2 {
         }
     }
     
+    
+    public static function getAllScontiCassiere($id_cassiere) {
+
+        $sql = "SELECT DISTINCT cmd_sconto.percentuale".
+               " FROM cmd_sconto".
+               " INNER JOIN rel_livello_sconto".
+               " ON cmd_sconto.id=rel_livello_sconto.id_sconto".
+               " INNER JOIN cmd_livello".
+               " ON cmd_livello.id=rel_livello_sconto.id_livello".
+               " INNER JOIN rel_livello_cassiere".
+               " ON cmd_livello.id=rel_livello_cassiere.id_livello".
+               " WHERE rel_livello_cassiere.id_cassiere=$id_cassiere";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(! ($res && mysql_num_rows($res))) {
+                return null;
+            }
+            if(mysql_num_rows($res)) {
+                  $objs = array();
+                  while($rec = mysql_fetch_assoc($res)) {
+                    $objs[] = $rec['percentuale'];
+                    }
+                  return $objs;
+            } else {
+                return array();
+            }
+        }
+    }
+    
    } 
 ?>

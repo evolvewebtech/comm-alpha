@@ -21,7 +21,7 @@ $("#home").live('pageshow', function() {
     buono_cred = 0;
     buono_cred_us = 0;
     refreshAlim = false;
-    var ann_voci = false;
+    ann_voci = false;
     
     document.getElementById('text-num-t').value = "";
     document.getElementById('slider-0').value = 1;
@@ -63,7 +63,12 @@ function onLivelliSuccess(data, status) {
     if (livelli[1] != 2) {
         cassa_fissa = true;
         //nascosto pulsante "Indietro" in pagina "ordine"
-        document.getElementById('#pg-ord-back').style.display='none';
+        //document.getElementById('#pg-ord-back').style.display='none';
+    }
+    
+    //Creazione pulsanti selezione sconto
+    for(var j=0; j<data['sconti'].length; j++) {
+        //alert(data['sconti'][j]);
     }
 }
 

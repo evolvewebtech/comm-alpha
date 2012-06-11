@@ -261,6 +261,20 @@
         </div>
     </div>
     
+    <!-- DIALOG SCELTA SCONTO -->
+    <div data-role="page" id="diag-sconto">
+        <div data-role="header">
+            <h1>Sconto</h1>
+        </div>
+        <div data-role="content">
+            <div>
+                <div id="diag-sconto-text">Utente non abilitato per sconto</div>
+                <div id="diag-sconto-bt"></div>
+            </div>
+            <a href="#chiusura" data-role="button" data-icon="arrow-l" class="ui-btn-right canc-ann">Indietro</a>
+        </div>
+    </div>
+    
     <!-- DIALOG INSERIMENTO CONTANTI -->
     <div data-role="page" id="diag-ins-cont">
         <div data-role="header">

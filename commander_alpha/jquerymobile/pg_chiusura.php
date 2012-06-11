@@ -52,7 +52,7 @@
     <div class="ch-tot-ord-right">
         <div class="ch-tot-ord-div"></div>
         <a href="#buoni-pre" data-role="button" data-icon="search" class="ui-btn-right">Buoni prepagati</a>
-        <a data-role="button" data-icon="star" class="ui-btn-right">Sconto</a>
+        <a href="#diag-sconto" data-rel="dialog" data-role="button" data-icon="star" class="ui-btn-right">Sconto</a>
         <a href="#diag-ins-cont" data-rel="dialog" data-role="button" data-icon="check" class="ui-btn-right">Contanti</a>
         <div class="ch-tot-ord-div"></div>
         <div class="ch-tot-ord-div"></div>

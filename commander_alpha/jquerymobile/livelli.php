@@ -9,6 +9,8 @@
         //Array da passare con JSON  
         $arr = array(   "livelli"   => array(),
                         "cassiere" => '',
+                        "sconti" => array(),
+                        "id" => 0,
                         "err"   => ''); 
         
         /*
@@ -20,7 +22,9 @@
             if(get_class($user) == 'Cassiere') {
             
             $arr['livelli'] = $user->getLivelli();
-            $arr['cassiere'] = $user->username;
+            $arr['cassiere'] = $user->first_name;
+            $arr['id'] = $user->id;
+            $arr['sconti'] = DataManager2::getAllScontiCassiere($user->id);
                 
             //Invio array con Ajax
             if ($arr){

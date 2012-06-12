@@ -56,7 +56,7 @@ function onLivelliSuccess(data, status) {
     document.getElementById('user01').innerHTML = 'Cameriere: ' + data['cassiere'];
     
     for(var i=0; i<data['livelli'].length; i++) {
-        livelli[i] = data['livelli'][i];
+        livelli.push(data['livelli'][i]);
     }
     
     //Verifica se cassiere abilitato per prenotazione al tavolo
@@ -68,7 +68,21 @@ function onLivelliSuccess(data, status) {
     
     //Creazione pulsanti selezione sconto
     for(var j=0; j<data['sconti'].length; j++) {
-        //alert(data['sconti'][j]);
+        sconti.push(data['sconti'][j]);
+        var str = '';
+        str = str + '<a href="#'+data['sconti'][j]+'" data-role="button" class="ui-link-inherit cl-sconto">';
+        str = str + '<div class="name" style="font-size: 150%">Sconto '+data['sconti'][j]+'%</div>';
+        str = str + '</a>';        
+        document.getElementById('diag-sconto-bt').innerHTML = str;
+    }
+    
+    if (data['sconti'].length > 0) {
+        document.getElementById('diag-sconto-text').style.display = 'none';
+        document.getElementById('diag-sconto-bt').style.display = 'inline';
+    }
+    else {
+        document.getElementById('diag-sconto-text').style.display = 'inline';
+        document.getElementById('diag-sconto-bt').style.display = 'none';
     }
 }
 

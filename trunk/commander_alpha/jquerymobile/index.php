@@ -41,6 +41,7 @@
         var ann_voci = false;
         var refreshLiv = true;
         var livelli = new Array();
+        var sconti = new Array();
         var cassa_fissa = false;
     </script>
     <script type="text/javascript" src="../lib/contrast_color.js"></script>
@@ -267,8 +268,8 @@
             <h1>Sconto</h1>
         </div>
         <div data-role="content">
-            <div>
-                <div id="diag-sconto-text">Utente non abilitato per sconto</div>
+            <div style="padding-left: 80px; padding-right: 80px; margin-bottom: 15px">
+                <div id="diag-sconto-text" style="margin-left: -80px">Utente non abilitato per sconto</div>
                 <div id="diag-sconto-bt"></div>
             </div>
             <a href="#chiusura" data-role="button" data-icon="arrow-l" class="ui-btn-right canc-ann">Indietro</a>

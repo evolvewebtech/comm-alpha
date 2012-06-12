@@ -67,6 +67,15 @@
 <script type="text/javascript">
     var id_ord_stmp = 0;
     
+    $('.cl-sconto').live("click", function() {
+        var param = $(this).attr('href');
+        var sconto = param.replace('#','');
+        
+        document.location.href="#chiusura";
+        $.mobile.changePage( "#chiusura", 'none', false, true);
+    });
+    
+    
     $('#conferma-ordine').live("click", function() {
         invioOrdine();
     });

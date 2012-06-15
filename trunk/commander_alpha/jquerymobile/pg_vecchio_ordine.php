@@ -1,34 +1,35 @@
 
+<!-- PAGINA VECCHIO ORDINE -->
 
-    <div class="old-ord">
-        <section class="ui-body ui-body-d" style="box-shadow: 3px 3px 10px #aaaaaa">
-            <div style="padding-top: 10px; padding-bottom: 10px">
-                <ul class="ui-listview" data-role="listview" style="margin: 0px">
-                <li class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
-                    <div id="old-ord-tav" style="font-size: 22px">Tavolo</div>
-                    <div id="old-ord-ser">Ordine n°</div>
-                    <div id="old-ord-cop">
-                    <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
-                    </div>
-                </li>
-                
-                </ul>
-            </div>
-            <div id="old-ord-righe" style="padding-top: 10px; padding-bottom: 10px"></div>
-            <div style="padding-top: 10px; padding-bottom: 10px">
-                <ul class="ui-listview" data-role="listview" style="margin: 0px">
-                <li class="ui-li ui-li-static ui-body-c comm-li-tot">
-                    <div id="old-ord-tot" style="margin-right: -20px">
-                    <h2 class="name">Totale</h2>
-                    <h2 class="prezzo">0 €</h2>
-                    </div>
-                </li>
-                </ul>
-            </div>
-            <div id="old-ord-ts" style="padding-top: 10px; margin-left: 20px"></div>
-            <div id="old-ord-cs" style="padding-bottom: 10px; margin-left: 20px"></div>
-        </section>
-    </div>
+<div class="old-ord">
+    <section class="ui-body ui-body-d" style="box-shadow: 3px 3px 10px #aaaaaa">
+        <div style="padding-top: 10px; padding-bottom: 10px">
+            <ul class="ui-listview" data-role="listview" style="margin: 0px">
+            <li class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
+                <div id="old-ord-tav" style="font-size: 22px">Tavolo</div>
+                <div id="old-ord-ser">Ordine n°</div>
+                <div id="old-ord-cop">
+                <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
+                </div>
+            </li>
+
+            </ul>
+        </div>
+        <div id="old-ord-righe" style="padding-top: 10px; padding-bottom: 10px"></div>
+        <div style="padding-top: 10px; padding-bottom: 10px">
+            <ul class="ui-listview" data-role="listview" style="margin: 0px">
+            <li class="ui-li ui-li-static ui-body-c comm-li-tot">
+                <div id="old-ord-tot" style="margin-right: -20px">
+                <h2 class="name">Totale</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
+            </ul>
+        </div>
+        <div id="old-ord-ts" style="padding-top: 10px; margin-left: 20px"></div>
+        <div id="old-ord-cs" style="padding-bottom: 10px; margin-left: 20px"></div>
+    </section>
+</div>
 
 
 <script type="text/javascript">

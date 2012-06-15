@@ -25,6 +25,7 @@
         var numCoperti = 0;
         var totale = 0;
         var contanti = 0;
+        var scontato = 0;
         var arrAlim = new Array();
         var arrMenu = new Array();
         var arrMenuSel = new Array();
@@ -117,33 +118,8 @@
             <div id="user01" style="float: right; margin-top: -34px; margin-right: 90px"></div>
             <a id="logoutBt" data-icon="delete" class="ui-btn-right">Esci</a> 
         </div>
-        <div data-role="content">
-            <div class="scelta_op">
-                <div class="button_opz" >
-                    <a id="new-ord-bt" class="comm-btn-1">
-                        <img src="css/images/symbol_add.png" />
-                        <span class="comm-btn-1-text">Nuovo ordine</span>
-                    </a>
-                </div>
-                <div class="button_opz">
-                    <a href="#info-ordini" class="comm-btn-1">
-                        <img src="css/images/symbol_information.png" />
-                        <span class="comm-btn-1-text" style="padding-left: 20px">Info ordini</span>
-                    </a>
-                </div>
-            </div>
-            <script>
-                $('#new-ord-bt').live("click", function() {
-                    if (cassa_fissa) {
-                        document.location.href="#ordine";
-                        $.mobile.changePage( "#ordine", 'none', false, true);
-                    }
-                    else {
-                        document.location.href="#tavoli";
-                        $.mobile.changePage( "#tavoli", 'none', false, true);     
-                    }
-                });
-            </script>    
+        <div data-role="content"> 
+            <?php include dirname(__FILE__).'/pg_home.php';  ?>   
         </div>
     </div>
     

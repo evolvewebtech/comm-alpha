@@ -1,4 +1,6 @@
 
+<!-- PAGINA APERTURA TAVOLO -->
+
 <div class="scelta_tav">
     <h1></h1>
     <label for="text-num-t">Inserire il numero del tavolo:</label>
@@ -25,6 +27,7 @@
 
 
 <script type="text/javascript">
+    
     $("#text-num-t").live("change" , function() {
         enDisButton();
     });

@@ -1,4 +1,6 @@
 
+<!-- PAGINA CONFERMA E CHIUSURA -->
+
 <div class="ch-tot-ord">
     <div class="ch-tot-ord-left">
     <section class="ui-body ui-body-b" style="box-shadow: 3px 3px 10px #aaaaaa">
@@ -30,21 +32,27 @@
                 <h2 class="prezzo">0 €</h2>
                 </div>
             </li>
+            <li id="chius-sconto" class="ui-li ui-li-static ui-body-c comm-li-ch">
+                <div>
+                <h2 class="name">Sconto</h2>
+                <h2 class="prezzo">0 €</h2>
+                </div>
+            </li>
             <li id="chius-contanti" class="ui-li ui-li-static ui-body-c comm-li-ch">
-                <div id="totale">
+                <div>
                 <h2 class="name">Contanti</h2>
                 <h2 class="prezzo">0 €</h2>
                 </div>
             </li>
+            </ul>
         </div>
         <div class="ch-tot-ord-div">
             <li id="chius-resto" class="ui-li ui-li-static ui-body-c comm-li-ch">
-                <div id="totale">
+                <div>
                 <h2 class="name">Da ricevere</h2>
                 <h2 class="prezzo">0 €</h2>
                 </div>
             </li>
-            </ul>
         </div>
     </section>
     </div>
@@ -65,21 +73,99 @@
 
 
 <script type="text/javascript">
+    
     var id_ord_stmp = 0;
     
+    
+    /**
+     * Funzione evento pageshow pagina "Chiusura"
+     *
+     */
+    function chiusuraPageShow() {
+        numTavolo = document.getElementById('text-num-t').value;
+        numCoperti = document.getElementById('slider-0').value;   
+        var str = "";
+        str = str + '<div style="font-size: 24px">Tavolo ' + numTavolo + '</div>';
+        str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti ' + numCoperti + '</span>';           
+        document.getElementById('chius-head').innerHTML = str;
+
+        str = "";
+        str = str + '<h2 class="name">Totale conto</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(totale,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-tot-ord').innerHTML = str;
+
+        var totPersona = 0;
+        try {
+            totPersona = parseFloat(totale) / parseFloat(numCoperti);
+            totPersona = Math.round(totPersona*100) / 100;
+        }
+        catch(err) {;}
+
+        str = "";
+        str = str + '<h2 class="name">Totale per persona</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(totPersona,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-tot-pers').innerHTML = str;
+
+        var soldi = 0;
+        var strSoldi = "";
+        var strColor = "";
+        if ( (contanti + buono_cred_us) < (totale - scontato) ) {
+            soldi = totale - scontato - contanti - buono_cred_us;
+            strSoldi = "Da ricevere";
+            strColor = "#F00";
+        }
+        else {
+            soldi = contanti + buono_cred_us - (totale - scontato);
+            strSoldi = "Resto";
+            strColor = "#00A700";
+        }
+
+        soldi = Math.round(soldi*100) / 100;
+
+        str = "";
+        str = str + '<h2 class="name" style="color: ' + strColor + '">' + strSoldi + '</h2>';
+        str = str + '<h2 class="prezzo" style="color: ' + strColor + '">' + formatMoney(soldi,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-resto').innerHTML = str;
+
+        str = "";
+        str = str + '<h2 class="name">Buono prepagato</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(buono_cred_us,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-buoni').innerHTML = str;
+    }
+    
+    
+    /**
+     * Evento click pulsante sconto (dialog scelta sconto)
+     * 
+     */
     $('.cl-sconto').live("click", function() {
         var param = $(this).attr('href');
-        var sconto = param.replace('#','');
+        var sconto = parseFloat(param.replace('#',''));
+        scontato = parseFloat( (parseFloat(totale) * sconto) / 100 );
+               
+        str = '';
+        str = str + '<h2 class="name">Sconto</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(scontato,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-sconto').innerHTML = str;
         
         document.location.href="#chiusura";
         $.mobile.changePage( "#chiusura", 'none', false, true);
     });
     
     
+    /**
+     * Evento click pulsante invio ordine
+     * 
+     */
     $('#conferma-ordine').live("click", function() {
         invioOrdine();
     });
     
+    
+    /**
+     * Funzione invio ordine
+     * 
+     */
     function invioOrdine() {
          
         var alimenti = new Array();
@@ -178,6 +264,11 @@
                
     }
     
+    
+    /**
+     * Richiesta Ajax completata con successo
+     *
+     */
     function onInvioOrdineSuccess(data, status) {
         console.log("Ordine inviato al server");
         console.log(data);
@@ -195,21 +286,15 @@
         }
         else {
             onInvioOrdineError(data, status);
-        }
-        
+        }       
         //alert("Ordine " + data + " inviato con successo!");
-        
-//        $.ajax({
-//            type: "POST",
-//            data: 'id='+id_ord_stmp,
-//            url: "stampa_ordine.php",
-//            dataType: 'json',
-//            cache: false,
-//            success: onStampaSuccess,
-//            error: onStampaError
-//        });
     }
     
+    
+    /**
+     * Errore richiesta Ajax
+     *
+     */
     function onInvioOrdineError(data, status) {
         console.log("Errore invio ordine");
         console.log(data);

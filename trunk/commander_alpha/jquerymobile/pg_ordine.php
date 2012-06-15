@@ -1,4 +1,6 @@
 
+<!-- PAGINA ORDINE -->
+
 <div class="comm-a">
 <section id="contentList">
     <div id="list">
@@ -12,6 +14,7 @@
                 </ul>
             </div>
         </section>
+    </div>
     </div>
 
     <div id="list-ord" class="list-ord">
@@ -48,6 +51,7 @@
                 </div>
             </div>
         </fieldset>
+        </div>
         </div>
     </div>
 

@@ -984,7 +984,7 @@ $(function() {
                     <div id='color-picker-dialog'></div>
                     <input type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="" class="addNewTab-color ui-widget-content ui-corner-all" />
                     <label for="tab_descrizione">Descrizione: </label>
-                    <input type="text" name="tab_descrizione" id="tab_descrizione" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
+                    <input type="textarea" name="tab_descrizione" id="tab_descrizione" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_apeso">A peso: </label>
                     <input type="text" name="tab_apeso" id="tab_apeso" value="" class="addNewTab-alimento ui-widget-content ui-corner-all" />
                     <label for="tab_codice_prodotto">Codice prodotto: </label>
@@ -1056,7 +1056,7 @@ $(function() {
                                 <div id="color-picker-<?=$count;?>"></div>
                                 <input style="margin-right: 9px;" type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="<?=$alimento['colore_bottone']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 89px;" class="tab_descrizione" for="tab_descrizione">Descrizione: </label>
-                                <input style="margin-right: 9px;" type="text" name="tab_descrizione" id="tab_descrizione" value="<?=$alimento['descrizione']?>" class="ui-widget-content ui-corner-all" />
+                                <input style="margin-right: 9px;" type="textarea" name="tab_descrizione" id="tab_descrizione" value="<?=$alimento['descrizione']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 132px;" class="tab_apeso" for="tab_apeso">A peso: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_apeso" id="tab_apeso" value="<?=$alimento['apeso']?>" class="ui-widget-content ui-corner-all" />
                                 <!-- futuro -->

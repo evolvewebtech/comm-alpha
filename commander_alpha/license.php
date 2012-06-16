@@ -14,6 +14,6 @@
     <p>
         
     </p>
-    <h4>&copy; commander, some rights reserver.</h4><br />
+    <h4>&copy; comander, some rights reserver.</h4><br />
     <a style="text-decoration: none; font-size: 12px;" href="amministrazione.php"> <- torna</a>
 </div>

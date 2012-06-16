@@ -1,9 +1,3 @@
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 /*
  * creo l'HTML per la visualizzazione dei risultati
  */
@@ -115,23 +109,12 @@ function onListaOrdiniSuccess(data, status) {
     document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
 
-/*
- * Errore richiesta Ajax
- *
- */
-function onError(data, status) {
-    alert("Errore Ajax");
-    str = '';
-    str = str + '<section class="ui-body ui-body-b" style="margin-top: 40px">';
-    str = str + '<div style="margin:auto">';
-    str = str + 'Nessun ordine trovato per questa data</div>';
-    str = str + '</section>';
-    document.getElementById('lista-vecchi-ordini').innerHTML = str;
-}
-
 function print_graph(selettore, s1, ticks){
 
-    $('#'+selettore).html();
+    $('#'+selettore).empty();
+    $('.jqplot-axis').empty();
+    $('.jqplot-xaxis').empty();
+//    $('#'+selettore).empty();
 
     console.log('s1:');
     console.log(s1);

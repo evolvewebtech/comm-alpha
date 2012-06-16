@@ -84,7 +84,14 @@
 
                    }
                     */
-                }
+                }else if($action=='controllo'){
+                    $finito = Datamanager::controlloAlimentoEsaurito($alimento_id);
+                    if ($finito==FALSE || $finito['record_attivo']==0){
+                        $var['finito'] = false;
+                        }else{
+                            $var['finito'] = true;
+                            }
+                    }
 
         /*
          * fine login

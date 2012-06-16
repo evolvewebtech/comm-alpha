@@ -95,12 +95,51 @@ todo: 1. Attenzione al refresh della pagina
  */
 $(function() {
 
+
+    /*
+     * al caricamento della pagina controllo se l'alimento è esaurito
+     *
+     */
+    $('a#button').each(function(){
+        var alimento_ID = ($(this).next().val());
+        console.log('alimentoID: '+alimento_ID);
+        var finito = '';
+            $.ajax({
+                type: "POST",
+                async: false,
+                data: 'action=controllo&id='+alimento_ID,
+                url: "manager/gestore/alimentoEsaurito.php",
+                dataType: 'json',
+                cache: false,
+                success: function onAlimentoEsauritoSuccess(data, status) {
+
+                               console.log(data);
+                               finito = data.finito;
+                               console.log(finito);
+                            },
+                error: onError
+            });
+            if (finito){
+                       console.log("segnale disponibilie");
+                        $(this).toggleClass("down");
+                        $(this).html('SEGNALA COME DISPONIBILE');
+                        $(this).css('background-color', 'green');
+
+                    }else {
+                       console.log("segnale esaurito");
+                        $(this).toggleClass("down");
+                        $(this).html('SEGNALA COME ESAURITO');
+                        $(this).css('background-color', 'red');
+                    }
+            console.log('fine: '+alimento_ID);
+    });
+
+
         $('#color-picker-1').empty().addColorPicker({
             clickCallback: function(color) {
                     $('#color-picker-1').next().val(rgb2hex(color));
                     $('#color-picker-1').next().css("background", rgb2hex(color));
                     $('#color-picker-1').next().css("color", rgb2hex(color));
-                    $('#debug').append( '<br />'+rgb2hex(color) );
             }
    	});
 
@@ -109,7 +148,7 @@ $(function() {
                     $('#color-picker-dialog').next().val(rgb2hex(color));
                     $('#color-picker-dialog').next().css("background", rgb2hex(color));
                     $('#color-picker-dialog').next().css("color", rgb2hex(color));
-                    $('#debug').append( '<br />'+rgb2hex(color) );
+
             }
    	});
 
@@ -269,16 +308,6 @@ $(function() {
         tab_counter++;
         var next_id = max_id+1;
 
-        $('#debug').append('<br />Numero: '         +tab_counter+
-                           '<br />ID max: '         +max_id+
-                           '<br />ID max next: '    +next_id+
-                           '<br />Gestore ID: '     +gestore_id+
-                           '<br />numero al-sta: '  +numero_rel_stampanti+
-                           '<br />lista ID: '       +id_stampante_alimento+
-                           '<br />lista ID2: '      +id_variante_alimento+
-                           '<br />categorie_id: '   +id_categoria);
-
-
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -366,7 +395,6 @@ $(function() {
                             field.css("background", rgb2hex(color));
                             field.css("color", rgb2hex(color));
                             //$('#color-picker-dialog').next().css('backround', '#ff0');
-                            $('#debug').append( '<br />'+rgb2hex(color) );
                     }
                 });
 
@@ -454,7 +482,6 @@ $(function() {
                             field.css("background", rgb2hex(color));
                             field.css("color", rgb2hex(color));
                             //$('#color-picker-dialog').next().css('backround', '#ff0');
-                            $('#debug').append( '<br />'+rgb2hex(color) );
                     }
                 });
 
@@ -605,7 +632,6 @@ $(function() {
 
                     var selected = $tabs.tabs('option', 'selected');
                     selected+=1;
-                    $('#debug').append('<br />selected: '+selected);
                     var alimento_ID = $(this).next().val();
 //                    alert(alimento_ID);
                     var finito = '';
@@ -617,40 +643,23 @@ $(function() {
                         cache: false,
                         success: function onAlimentoEsauritoSuccess(data, status) {
 
-                                       $('#debug').append('<hr />ajax: alimento esaurito');
-                                       console.log(data);
                                        finito = data.finito;
-                                       $('#debug').append('<br />ERRORI: '+data.err);
-                                       $('#debug').append('<br />FINITO: '+finito);
-
 
                                        if (data.err=='E002'){
                                            $('#code-err').html('Sessione scaduta o login non valido.');
                                            $dialogERR.dialog("open");
-                                           $('#debug').append(' ERR: '+data.err);
-                                       } else if (data.err=='E001'){
+                                        } else if (data.err=='E001'){
                                            $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                                            $dialogERR.dialog("open");
-                                           $('#debug').append(' ERR: '+data.err);
-                                       } else if (data.err=='false'){
+                                        } else if (data.err=='false'){
                                            $('#code-err').html('Errore.');
                                            $dialogERR.dialog("open");
-                                           $('#debug').append(' ERR: '+data.err);
-                                       } else if(data.err==''){
+                                        } else if(data.err==''){
                                            $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
                                            $dialogOK.dialog( "open" );
-                                           $('#debug').append( '<br />DATA SAVED:<br />'+
-                                                               ' finito: '+data.finito+
-                                                               ' id: '+data.alimento_id+
-                                                               '<br />ERR: '+data.err+'<br />');
                                        } else{
                                            $('#code-err').html('Errore durante l\'aggiornamento.');
                                            //$dialogERR.dialog("open");
-
-                                           $('#debug').append( '<br />DATA SAVED:<br />'+
-                                                               ' finito: '+data.finito+
-                                                               ' id: '+data.alimento_id+
-                                                               '<br />ERR: '+data.err+'<br />');
                                        }
                                     },
                         error: onError
@@ -658,10 +667,13 @@ $(function() {
                     if (finito){
                         $(this).toggleClass("down");
                         $(this).html('SEGNALA COME DISPONIBILE');
+                        $(this).css('background-color', 'green');
 
                     }else {
                         $(this).toggleClass("down");
                         $(this).html('SEGNALA COME ESAURITO');
+                        $(this).css('background-color', 'red');
+
                     }
                 });
 
@@ -674,7 +686,6 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         /*
          * controllo che il form sia valido
@@ -751,8 +762,6 @@ $(function() {
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
-            $('#debug').append('<br />deleting ...');
 
             var alimentoForm = $("#alimentoForm-"+selected).serialize();
             alimentoForm = alimentoForm+'&action=del&current_tab='+selected;
@@ -800,25 +809,20 @@ $(function() {
     });
 
     function onAlimentoSuccess(data, status) {
-        $('#debug').append('<br />ajax: success');
         if (data.action=='del'){
 
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E008'){
                $('#code-err').html('Questo alimento &egrave; associato ad un menu fisso. Per poter eliminarlo cancellalo prima dal men&ugrave;.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminazione dell\'alimento.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -839,7 +843,6 @@ $(function() {
            }else{
                $('#code-err').html('Errore durante l\'eliminazione dell\'alimento.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            }
 
         }
@@ -850,55 +853,19 @@ $(function() {
          */
         if(data.action=='save'){
 
-           $('#debug').append('<br />ajax op: save');
-
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=="false"){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento dell\'alimento.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   ' ID_gestore: '    + data.gestore_id +
-                                   ' ID_alimento: '   + data.id +
-                                   ' ID 2 alimento: ' + data.alimento_id +
-                                   ' ID_categoria: '  + data.categoria_id +
-                                   ' Nome:'           + data.nome +
-                                   ' Prezzo: '        + data.prezzo +
-                                   ' IVA: '           + data.iva +
-                                   ' colore: '        + data.colore_bottone +
-                                   ' descrizione: '   + data.descrizione +
-                                   ' apeso: '         + data.apeso +
-                                   ' path img: '      + data.path_image +
-                                   ' cod prod: '      + data.codice_prodotto +
-                                   ' Quantita: '      + data.quantita +
-                                   ' Current: '       + data.current_tab +
-                                   ' Err: '           + data.err );
+
            } else if(data.err==''){
                $('#code-ok').html('Il nuovo alimento &egrave stato aggiunto.');
                $dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   ' ID_gestore: '    + data.gestore_id +
-                                   ' ID_alimento: '   + data.id +
-                                   ' ID 2 alimento: ' + data.alimento_id +
-                                   ' ID_categoria: '  + data.categoria_id +
-                                   ' Nome:'           + data.nome +
-                                   ' Prezzo: '        + data.prezzo +
-                                   ' IVA: '           + data.iva +
-                                   ' colore: '        + data.colore_bottone +
-                                   ' descrizione: '   + data.descrizione +
-                                   ' apeso: '         + data.apeso +
-                                   ' path img: '      + data.path_image +
-                                   ' cod prod: '      + data.codice_prodotto +
-                                   ' Quantita: '      + data.quantita +
-                                   ' Current: '       + data.current_tab +
-                                   ' Err: '           + data.err );
 
               //aspetto che il dialogo sia stato chiuso
                $dialogOK.bind( "dialogclose", function(event, ui) {
@@ -914,21 +881,20 @@ $(function() {
 
 
     function onAlimentiStampantiSuccess(data, status) {
-       $('#debug').append('<br />ajax stampanti: success');
        if (data.err=='E002'){
            $('#code-err').html('Sessione scaduta o login non valido.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
+
        } else if (data.err=='E001'){
            $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
+
        } else if (data.err=='false'){
            $('#code-err').html('Errore durante l\'aggiornamento delle stampanti.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
+ 
        } else if(data.err==''){
-           $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+ 
         } else{
            $('#code-err').html('Errore durante l\'aggiornamento delle stampanti.');
            $dialogERR.dialog("open");
@@ -937,34 +903,30 @@ $(function() {
     }
 
     function onAlimentiVariantiSuccess(data, status) {
-       $('#debug').append('<br />ajax varianti: success');
+ 
        if (data.err=='E002'){
            $('#code-err').html('Sessione scaduta o login non valido.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
+
        } else if (data.err=='E001'){
            $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
+
        } else if (data.err=='false'){
            $('#code-err').html('Errore durante l\'aggiornamento delle varianti.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
+
        } else if(data.err==''){
-           $('#debug').append( '<br />DATA SAVED:<br />'+data.post+'<br />ERR: '+data.err+'<br />');
+
        } else{
            $('#code-err').html('Errore durante l\'aggiornamento delle varianti.');
            $dialogERR.dialog("open");
        }
     }
 
-    /*
-     *  se si presentano errori nel file durante le chiamate ajax
-     */
-    function onError(data, status) {
-        $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
-        $dialogERR.dialog( "open" );
-        $('#debug').append(data);
+    function onError(){
+       $('#code-err').html('Errore nel file. Contattare l\'assistenza.');
+       $dialogERR.dialog("open");
     }
 
 });
@@ -1149,8 +1111,11 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
+<script type="text/javascript">
+    
+</script>
+
+
 <?php
         }//gestore
         else{

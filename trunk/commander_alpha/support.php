@@ -10,7 +10,7 @@
     * {color:#fff}
 </style>
 <div id="content">
-    <h1>SUPPORTO COMMANDER</h1>
+    <h1>SUPPORTO COMANDER</h1>
     <h2>SUPPORTO OFF-LINE</h2>
     <h5>SALA e TAVOLI</h5>
     <ul>
@@ -50,8 +50,8 @@
     
     <h2>SUPPORTO ON-LINE</h2>
     <ul>
-        <li><a href="#">www.commander.it</a></li>
-        <li><a href="mailto:#">support@commander.it</a></li>
+        <li><a href="#">www.comander.biz</a></li>
+        <li><a href="mailto:#">service@comander.biz</a></li>
     </ul>
 
     <h2>SUPPORTO TEEFONICO</h2>
@@ -60,6 +60,6 @@
         <li>Francesco: +39 340 27 39 492</li>
     </ul>
 
-    <h6>&copy; commander, some rights reserver.</h6><br />
+    <h6>&copy; Comander, some rights reserver.</h6><br />
     <a style="text-decoration: none; font-size: 12px;" href="amministrazione.php"> <- torna</a>
 </div>

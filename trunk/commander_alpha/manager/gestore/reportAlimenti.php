@@ -33,7 +33,7 @@
                 $totali = DataManager::getTotaliAlimentiConsumati($start_timestamp, $end_timestamp);
                 } else{
                     $cameriere_id = intval($cameriere_id);
-                    $totali = DataManager::getTotaliAlimentiConsumati($start_timestamp, $end_timestamp);
+                    $totali = DataManager::getTotaliAlimentiConsumatiByCameriere($start_timestamp, $end_timestamp, $cameriere_id);
                     }
 
            $var['s1'] = array();

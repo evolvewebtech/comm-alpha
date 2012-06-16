@@ -278,6 +278,10 @@ if($objSession->IsLoggedIn()){
                     }
         });
 
+        $("#print-graph").live("click", function(){
+            $("#report").slideToggle("slow");
+        });
+
         $("#cerca-ordini").live("click", function() {
 
              $('button').css('background-color','buttonface');
@@ -369,6 +373,17 @@ if($objSession->IsLoggedIn()){
                     success: onReportSuccess,
                     error: onError
                 });
+
+                $.ajax({
+                    type: "POST",
+                    data: ricercaOrdineForm,
+                    url: "manager/gestore/reportAlimenti.php",
+                    dataType: 'json',
+                    cache: false,
+                    success: onReportAlimentoSuccess,
+                    error: onError
+                });
+
             }
         });
         
@@ -413,10 +428,38 @@ function onReportAlimentoSuccess(data){
 //       $('#code-ok').html('OK.');
 //       console.log(data);
 //       $dialogOK.dialog( "open" );
-         print_graph('chart1',data.s1,data.ticks);
+
+        print_graph('chart1',data.s1,data.ticks);
+
+//         if (data.s1=='' | data.ticks==''){
+//            $('#chart1').empty();
+//         }else{
+//             print_graph('chart1',data.s1,data.ticks);
+//         }
    }else{
+
        print_graph('chart1',data.s1,data.ticks);
+
+//         if (data.s1=='' | data.ticks==''){
+//            $('#chart1').empty();
+//         }else{
+//             print_graph('chart1',data.s1,data.ticks);
+//         }
    }
+}
+
+/*
+ * Errore richiesta Ajax
+ *
+ */
+function onError(data, status) {
+    alert("Errore Ajax");
+    str = '';
+    str = str + '<section class="ui-body ui-body-b" style="margin-top: 40px">';
+    str = str + '<div style="margin:auto">';
+    str = str + 'Nessun ordine trovato per questa data</div>';
+    str = str + '</section>';
+    document.getElementById('lista-vecchi-ordini').innerHTML = str;
 }
 
 });
@@ -427,26 +470,28 @@ function onReportAlimentoSuccess(data){
     <!-- dialogs -->
     <? include_once dirname(__FILE__).'/dialogs.php'; ?>
 
-    <div class="cloud" id="">
+    <div class="cloud" id="grafico">
         <form id="data-ordini-form" style="background-color:white;">
             <label style="margin-right: 25px;" class="" for="ricerca_ordine">INSERISCI LE DATE DI INIZIO E FINE</label>
             <input type="text" name="inizio_ordini" id="inizio_ordini" value="">
             <input type="text" name="fine_ordini" id="fine_ordini" value="">
         </form>
         <button type="submit" id="cerca-ordini" class="cec-button">cerca</button>
+        <button type="submit" id="print-graph" class="cec-button">grafico</button>
     </div>
-    <div id="report" class="lista_ordini">
+    <div id="report" class="lista_ordini" style="color:#999999;">
 
         <span>Quntit&agrave; consumate dal <span id="data-da"></span> al <span id="data-al"></span></span>
 <!--        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>-->
-        <div id="chart1" style="margin-top:20px; margin-left:20px; width:300px; height:300px;"></div>
+        <div id="chart1" style="margin-top:20px; margin-left:20px; width:800px; height:400px;"></div>
         <?
 
 //        echo "<pre>";
 //        print_r($totali);
 //        echo "<pre>";
         ?>
-        <script type="text/javascript">$(document).ready(function(){
+       <!-- week graph -->
+       <script type="text/javascript">$(document).ready(function(){
                $.jqplot.config.enablePlugins = true;
 
                var s1    = new Array();
@@ -493,7 +538,6 @@ function onReportAlimentoSuccess(data){
             });
         </script>
     </div>
-
 
     <!--RICERCA -->
     <div class="cloud" id="filtro-cameriere">

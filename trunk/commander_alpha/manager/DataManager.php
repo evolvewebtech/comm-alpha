@@ -2791,6 +2791,12 @@ class DataManager {
         }
     }
 
+    /**
+     *
+     * @param <type> $start_timestamp
+     * @param <type> $end_timestamp
+     * @return <type>
+     */
     public static function getTotaliAlimentiConsumati ($start_timestamp, $end_timestamp) {
 
         $sql = " SELECT DISTINCT cmd_riga_ordine.alimento_id".
@@ -2827,6 +2833,46 @@ class DataManager {
           return array();
         }
     }
+
+
+    public static function getTotaliAlimentiConsumatiByCameriere ($start_timestamp, $end_timestamp, $cameriere_id) {
+
+        $sql = " SELECT DISTINCT cmd_riga_ordine.alimento_id".
+               " FROM cmd_riga_ordine".
+               " INNER JOIN cmd_ordine_chiuso".
+               " ON cmd_riga_ordine.ordine_id = cmd_ordine_chiuso.ordine_id".
+               " WHERE TIMESTAMP(cmd_ordine_chiuso.timestamp)>=STR_TO_DATE('$start_timestamp','%m/%d/%Y%H:%i:%s')".
+               " AND TIMESTAMP(cmd_ordine_chiuso.timestamp)<=STR_TO_DATE('$end_timestamp','%m/%d/%Y%H:%i:%s')".
+               " AND cmd_riga_ordine.cassiere_id = $cameriere_id".
+               " ORDER BY cmd_ordine_chiuso.timestamp DESC";
+
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllOrdiniDateAsObjects)");
+                return null;
+            }
+              $alimenti = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $alimento_id = intval($row['alimento_id']);
+                  $alimenti[] = $alimento_id;
+
+              }
+
+              $objs = array();
+              foreach ($alimenti as $alimento_id) {
+
+                  $totale_consumato = DataManager::getTotaleAlimentoConsumato($alimento_id, $start_timestamp, $end_timestamp);
+                  $objs[$alimento_id] = $totale_consumato;
+              }
+
+              return $objs;
+
+        } else {
+          return array();
+        }
+    }
+
 
     public static function getTotaleLastWeek () {
 

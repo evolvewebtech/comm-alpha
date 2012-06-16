@@ -3,7 +3,7 @@
 
 <div id="content" class="login">
 <header>
-    <h1>Commander</h1>
+    <h1>Comander</h1>
 </header>
 
 <?php

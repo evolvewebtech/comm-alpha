@@ -116,7 +116,7 @@ $(function() {
         $("#addNewTab").validate({
                     rules: {
                         tab_descrizione: {
-                            required: true,
+                            required: false,
                             minlength: 2,
                             maxlength: 50
                         },
@@ -373,7 +373,7 @@ $(function() {
                 $("#alimentoForm-"+ui.index).validate({
                     rules: {
                         tab_descrizione: {
-                            required: true,
+                            required: false,
                             minlength: 2,
                             maxlength: 50
                         },

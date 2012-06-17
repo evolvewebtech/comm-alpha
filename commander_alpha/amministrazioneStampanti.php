@@ -2,6 +2,8 @@
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
     $objSession->Impress();
+
+    header('Content-Type: text/html; charset=utf-8');
 ?>
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 

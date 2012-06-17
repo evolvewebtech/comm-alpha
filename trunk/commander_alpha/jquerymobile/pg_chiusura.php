@@ -306,10 +306,13 @@
         console.log("Errore invio ordine");
         console.log(data);
         
-        alert("Errore Ajax registrazione ordine: " + data['err']);
-
-        document.location.href="#chiusura";
-        $.mobile.changePage( "#chiusura", 'none', false, true);
+        if (!data['err']) onStampaError(data, status);
+        else {
+            alert("Errore Ajax registrazione ordine: " + data['err']);
+        
+            document.location.href="#chiusura";
+            $.mobile.changePage( "#chiusura", 'none', false, true);
+        }
     }
     
     function onStampaSuccess(data, status) {
@@ -321,7 +324,7 @@
     } 
     
     function onStampaError(data, status) { 
-        alert("Errore stampa ordine " + id_ord_stmp);
+        alert("Errore stampa ordine");
         
         document.location.href="#home";
         $.mobile.changePage( "#home", 'none', false, true);

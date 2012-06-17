@@ -45,6 +45,7 @@
         var livelli = new Array();
         var sconti = new Array();
         var cassa_fissa = false;
+        var sale = new Array();
     </script>
     <script type="text/javascript" src="../lib/contrast_color.js"></script>
     <script type="text/javascript" src="../lib/formato_data.js"></script>

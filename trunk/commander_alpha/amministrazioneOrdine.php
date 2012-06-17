@@ -9,6 +9,8 @@
 
     $objSession = new HTTPSession();
     $objSession->Impress();
+
+    header('Content-Type: text/html; charset=utf-8');
     $lang = 'ita';
 
     $nome_stampante = "amministrazione";

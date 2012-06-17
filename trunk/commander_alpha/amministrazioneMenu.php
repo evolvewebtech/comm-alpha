@@ -2,6 +2,8 @@
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
     $objSession = new HTTPSession();
     $objSession->Impress();
+
+    header('Content-Type: text/html; charset=utf-8');
 ?>
 <!--
 todo: 2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"

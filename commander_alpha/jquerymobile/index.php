@@ -21,6 +21,7 @@
     <script src="js/jquery.mobile-1.0.1.min.js"></script>
     <script src="js/jquery.mobile.datebox-1.0.1.min.js"></script>
     <script>
+        var idTavolo = 0;
         var numTavolo = 0;
         var numCoperti = 0;
         var totale = 0;

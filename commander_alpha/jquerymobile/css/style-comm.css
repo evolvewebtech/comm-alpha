@@ -601,6 +601,58 @@ div#id-cat.element_list .name{
     margin-top: 8%;
 }
 
+/* Pulsante scelta tavolo */
+.tab-buttons{
+    width: 88%;
+    margin: auto;
+}
+
+.tab-buttons .comm-T-btn{
+    background: #d2dfed; /* Old browsers */
+    background: -moz-linear-gradient(top,  #d2dfed 0%, #c8d7eb 26%, #bed0ea 51%, #a6c0e3 51%, #afc7e8 62%, #bad0ef 75%, #99b5db 88%, #799bc8 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d2dfed), color-stop(26%,#c8d7eb), color-stop(51%,#bed0ea), color-stop(51%,#a6c0e3), color-stop(62%,#afc7e8), color-stop(75%,#bad0ef), color-stop(88%,#99b5db), color-stop(100%,#799bc8)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* IE10+ */
+    background: linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2dfed', endColorstr='#799bc8',GradientType=0 ); /* IE6-9 */
+    height: 48px;
+    width: 90px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #5f8cc6;
+    box-shadow:
+        0px 1px 1px rgba(255,255,255,0.8) inset,
+        1px 1px 3px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    float: left;
+    margin: 3px 3px 3px 3px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.comm-T-btn-text{
+    padding-top: 10px;
+    display: block;
+    font-size: 28px;
+    line-height: 100%;
+    text-shadow: 0px -1px 1px #80ab5d;
+    color: #ffffff;
+    text-align: center;
+}
+
+.comm-T-btn:active {
+    position:relative;
+    top:1px;
+    background:#799bc8;
+    box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    border-color: #5f8cc6;
+}
+
+.comm-T-btn:hover {
+    background: #799bc8;
+}
+
 /* Pulsante conferma ordine */
 .comm-C-btn{
     background: #b4e391; /* Old browsers */

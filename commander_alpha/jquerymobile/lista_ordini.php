@@ -42,13 +42,15 @@
                         $tot = $tot + ($arOrdini[$i]->getRigaOrdine($j)->prezzo * $arOrdini[$i]->getRigaOrdine($j)->numero);
                     }
                     $totOrdini = $totOrdini + $tot;
+                    $arrTavolo = DataManager2::getTavoloData($arOrdini[$i]->tavolo_id);
+                    $numTavolo = $arrTavolo['nome'];
                     $buono = DataManager2::getCreditoBuonoUsato($arOrdini[$i]->id);
 
                     $arrTemp = array(   "id"            => $arOrdini[$i]->id,
                                         "seriale"       => $arOrdini[$i]->seriale,
                                         "timestamp"     => $arOrdini[$i]->timestamp,
                                         "n_coperti"     => $arOrdini[$i]->n_coperti,
-                                        "tavolo_id"     => $arOrdini[$i]->tavolo_id,
+                                        "tavolo"        => $numTavolo,
                                         "totale"        => $tot,
                                         "tot_buono"     => $buono );
                     

@@ -82,8 +82,6 @@
      *
      */
     function chiusuraPageShow() {
-        numTavolo = document.getElementById('text-num-t').value;
-        numCoperti = document.getElementById('slider-0').value;   
         var str = "";
         str = str + '<div style="font-size: 24px">Tavolo ' + numTavolo + '</div>';
         str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti ' + numCoperti + '</span>';           
@@ -248,7 +246,7 @@
         var data = new Array();
         data = {
             n_coperti:  numCoperti,
-            tavolo_id:  numTavolo,
+            tavolo_id:  idTavolo,
             buono_ser:  buono_ser,
             buono_cred_us:   buono_cred_us,
             sconto: sconto,

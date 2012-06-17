@@ -25,6 +25,7 @@
      */
     function homePageShow() {
         //Reset variabili
+        idTavolo = 0;
         numTavolo = 0;
         numCoperti = 0;
         totale = 0;
@@ -46,7 +47,6 @@
         refreshAlim = false;
         ann_voci = false;
 
-        document.getElementById('text-num-t').value = "";
         document.getElementById('slider-0').value = 1;
 
         //Aggiornamento livelli e sconti cassiere
@@ -151,19 +151,22 @@
         var str = '';
         for(var i=0; i<data['sale'].length; i++) {
             
+            str = str + '<div id=sala-'+data['sale'][i]['id']+'>';
+            
             var tavoli = new Array()
             for(var j=0; j<data['sale'][i]['tavoli'].length; j++) {
                 var tavolo = data['sale'][i]['tavoli'][j];              
                 tavoli.push(tavolo);
                 
-                //str = str + '<a href="#'+data['sale'][i]['tavoli'][j]['id']+'" data-role="button" class="ui-link-inherit">';
-                //str = str + '<div class="name" style="width:50px">'+data['sale'][i]['tavoli'][j]['id']+'</div>';
-                //str = str + '</a>';
+                var id = data['sale'][i]['tavoli'][j]['id'];
+                var nome = data['sale'][i]['tavoli'][j]['nome'];
                 
-                //str = str + '<a href="#" data-rel="dialog" class="comm-C-btn">';
-                //str = str + '<span class="comm-C-btn-text">'+data['sale'][i]['tavoli'][j]['id']+'</span>';
-                //str = str + '</a>';
+                str = str + '<a href="#'+id+'&'+nome+'" data-rel="dialog" class="comm-T-btn">';
+                str = str + '<span class="comm-T-btn-text">'+nome+'</span>';
+                str = str + '</a>';
             }
+            
+            str = str + '</div>';
             
             var sala = new Array();
             sala["id"] = data['sale'][i]['id'];
@@ -173,7 +176,7 @@
             sale.push(sala);
         }
         
-        //document.getElementById('scelta_tav').innerHTML = str;
+        document.getElementById('tab-buttons').innerHTML = str;
     }
     
     

@@ -18,12 +18,12 @@
             $user = $objUser[0];
             if(get_class($user) == 'Cassiere') {
                 
-                //ID gestore
-                $gestore_id = $user->getGestoreID();
+                //ID cassiere
+                $cassiere_id = $user->id;
                 
                 //Query database
-                $arCat = DataManager2::getAllCategoriesAsObjects($gestore_id);
-                $arMenu = DataManager2::getAllMenuAsObjects($gestore_id);
+                $arCat = DataManager2::getAllCategoriesAsObjects($cassiere_id);
+                $arMenu = DataManager2::getAllMenuAsObjects($cassiere_id);
                 
                 //Creazione array Categorie
                 if ($arCat){          

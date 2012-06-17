@@ -117,7 +117,7 @@
             $esc->text("SS.ANNA e GIOACCHINO");
             $esc->text("--------------------");
             $esc->font(false,true,false,true,true);
-            $esc->text("Tavolo: $numero_tavolo");
+            $esc->text("Tavolo: $nome_tavolo");
             $esc->font();
             if ($ristampa) $esc->text("RISTAMPA");
             else $esc->text("");

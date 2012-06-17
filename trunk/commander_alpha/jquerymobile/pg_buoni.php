@@ -113,12 +113,16 @@
      * 
      */
     $('#paga-con-buono').live("click", function() {        
+        
+        //Se totale scontato -> no pagamento con buono prepagato
+        if ((totale - scontato) <= 0 ) return;
+        
         usa_buono = true;
 
-        if (buono_cred <= totale) {
+        if (buono_cred <= (totale - scontato)) {
             buono_cred_us = parseFloat(buono_cred);
         }
-        else buono_cred_us = totale;
+        else buono_cred_us = (totale - scontato);
         
         buono_cred_us = Math.round(buono_cred_us*100) / 100;
 

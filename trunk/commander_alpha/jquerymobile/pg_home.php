@@ -29,6 +29,7 @@
         numCoperti = 0;
         totale = 0;
         contanti = 0;
+        sconto = 0;
         scontato = 0;
         arrAlim = new Array();
         arrMenu = new Array();

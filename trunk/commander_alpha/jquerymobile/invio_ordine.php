@@ -33,6 +33,7 @@
                 $tavolo_id = $data['tavolo_id'];
                 $buono_ser = $data['buono_ser'];
                 $buono_cred_us = $data['buono_cred_us'];
+                $sconto_perc = $data['sconto'];
 
                 //Verifica se credito buono sufficiente
                 $buono_ok = false;
@@ -81,6 +82,12 @@
                         $prezzo = $data['alimenti'][$i][2];
                         $iva = $data['alimenti'][$i][3];
                         $cassiere_id = $user->id;
+                        
+                        //Calcolo sconto
+                        if ($sconto_perc > 0) {
+                            $prezzo = $prezzo - ( (floatval($prezzo) * floatval($sconto_perc)) / 100 );
+                            $prezzo = round($prezzo, 2);
+                        }
 
                         //Inserimento "RigaOrdine nel database"
                         $ret = DataManager2::inserisciRigaOrdine('null', $ordine_id, $alimento_id, $menu_fisso_id, $numero, $prezzo, $iva, $cassiere_id);

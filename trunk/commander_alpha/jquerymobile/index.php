@@ -25,6 +25,7 @@
         var numCoperti = 0;
         var totale = 0;
         var contanti = 0;
+        var sconto = 0;
         var scontato = 0;
         var arrAlim = new Array();
         var arrMenu = new Array();

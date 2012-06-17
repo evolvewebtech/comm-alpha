@@ -140,13 +140,20 @@
      */
     $('.cl-sconto').live("click", function() {
         var param = $(this).attr('href');
-        var sconto = parseFloat(param.replace('#',''));
+        sconto = parseFloat(param.replace('#',''));
         scontato = parseFloat( (parseFloat(totale) * sconto) / 100 );
                
         str = '';
         str = str + '<h2 class="name">Sconto</h2>';
         str = str + '<h2 class="prezzo">' + formatMoney(scontato,2,true) + ' \u20ac</h2>';
         document.getElementById('chius-sconto').innerHTML = str;
+        
+        //Annullamento pagamento con buono prepagato
+        if (sconto > 0) {
+            usa_buono = false;
+            buono_ser = "";
+            buono_cred_us = 0;
+        }
         
         document.location.href="#chiusura";
         $.mobile.changePage( "#chiusura", 'none', false, true);
@@ -244,7 +251,7 @@
             tavolo_id:  numTavolo,
             buono_ser:  buono_ser,
             buono_cred_us:   buono_cred_us,
-            
+            sconto: sconto,
             alimenti:   alimenti
         }
         

@@ -8,6 +8,14 @@ $("#home").live('pageshow', function() {
 
 
 /*
+ * PAGINA "TAVOLI"
+ */
+$("#tavoli").live('pageshow', function() {
+    tavoliPageShow();
+});
+
+
+/*
  * PAGINA "INFO ORDINI"
  */
 $("#info-ordini").live('pageshow', function() {

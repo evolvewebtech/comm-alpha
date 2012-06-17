@@ -1792,7 +1792,7 @@ class DataManager2 {
     }
     
     public static function getTavoloObjectsForEntity($salaID){
-        $sql = "SELECT * FROM cmd_tavolo WHERE sala_id=$salaID";
+        $sql = "SELECT * FROM cmd_tavolo WHERE sala_id=$salaID ORDER BY numero";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
@@ -1861,9 +1861,16 @@ class DataManager2 {
         return null;
     }
     
-    public static function getAllCategoriesAsObjects($gestore_id) {
+    public static function getAllCategoriesAsObjects($cassiere_id) {
 
-        $sql = "SELECT id FROM cmd_categoria WHERE gestore_id=$gestore_id";
+        $sql = "SELECT DISTINCT cmd_categoria.id".
+               " FROM cmd_categoria".
+               " INNER JOIN cmd_livello".
+               " ON cmd_livello.nome=cmd_categoria.nome".              
+               " INNER JOIN rel_livello_cassiere".
+               " ON cmd_livello.id=rel_livello_cassiere.id_livello".
+               " WHERE rel_livello_cassiere.id_cassiere=$cassiere_id".
+               " ORDER BY cmd_categoria.id";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
@@ -1882,9 +1889,15 @@ class DataManager2 {
         }
     }
     
-    public static function getAllMenuAsObjects($gestore_id) {
+    public static function getAllMenuAsObjects($cassiere_id) {
 
-        $sql = "SELECT id FROM cmd_menu_fisso WHERE gestore_id=$gestore_id";
+        $sql = "SELECT DISTINCT cmd_menu_fisso.id".
+               " FROM cmd_menu_fisso".
+               " INNER JOIN cmd_livello".
+               " ON cmd_livello.nome=cmd_menu_fisso.nome".              
+               " INNER JOIN rel_livello_cassiere".
+               " ON cmd_livello.id=rel_livello_cassiere.id_livello".
+               " WHERE rel_livello_cassiere.id_cassiere=$cassiere_id";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);
@@ -1926,8 +1939,6 @@ class DataManager2 {
     
     public static function getAllOrdiniDateAsObjects($dataQuery, $cassiere_id) {
 
-        //$sql = "SELECT * FROM cmd_ordine WHERE date(timestamp)=date('$dataQuery') ORDER BY timestamp DESC";
-        
         $sql = "SELECT DISTINCT cmd_ordine.id, cmd_ordine.seriale, cmd_ordine.timestamp, cmd_ordine.n_coperti, cmd_ordine.tavolo_id".
                " FROM cmd_ordine".
                " INNER JOIN cmd_riga_ordine".

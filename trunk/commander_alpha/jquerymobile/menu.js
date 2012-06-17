@@ -42,7 +42,6 @@ $("#ordine").live('pageshow', function() {
     }
     
     //Visualizzazione numero tavolo e numero coperti
-    numTavolo = document.getElementById('text-num-t').value;
     numCoperti = document.getElementById('slider-0').value;   
     str = 'Tavolo ' + numTavolo + ' - Coperti ' + numCoperti;
     document.getElementById('ord01').innerHTML = str;
@@ -148,20 +147,22 @@ function onEventoInfoSuccess(data, status) {
         }
     }
     
-    textColor = contrastColor( '#000000' );
+    textColor = contrastColor( '#ffffff' );
     
     //Aggiunto pulsante categoria "Menù fissi""
-    $str = "";
-    $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-    $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi">';
-    $str = $str + '<div class="element" style="background: #000000">';
-    $str = $str + '<h2 class="el-name" style="color: '+textColor+'">Menù fissi</h2>';
-    $str = $str + '</div>';
-    $str = $str + '</a>';
-    $str = $str + '</div>';
+    if (data['menu'].length > 0) {
+        $str = "";
+        $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
+        $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi">';
+        $str = $str + '<div class="element" style="background: #ffffff">';
+        $str = $str + '<h2 class="el-name" style="color: '+textColor+'">Menù fissi</h2>';
+        $str = $str + '</div>';
+        $str = $str + '</a>';
+        $str = $str + '</div>';
 
-    //Aggiunta dei nuovi elementi a Isotope
-    $('#container').append( $str ).isotope( 'reloadItems' );
+        //Aggiunta dei nuovi elementi a Isotope
+        $('#container').append( $str ).isotope( 'reloadItems' );
+    }
     
     //Svuotamento iniziale "menu fissi" da container Isotope
     $removable = $('#container').find( ".menu_fissi" );
@@ -172,7 +173,7 @@ function onEventoInfoSuccess(data, status) {
         $str = "";
         $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
         $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
-        $str = $str + '<div class="element" style="background: #000000">';
+        $str = $str + '<div class="element" style="background: #ffffff">';
         $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['menu'][$i].nome+'</h2>';
         $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['menu'][$i].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
         $str = $str + '</div>';

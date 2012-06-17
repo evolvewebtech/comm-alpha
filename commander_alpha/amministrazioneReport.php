@@ -62,9 +62,9 @@ if($objSession->IsLoggedIn()){
        $utente_registrato_id = $gestore->utente_registrato_id;
 
        $totali = DataManager::getTotaleLastWeek();
-//       echo "<pre>";
-//       var_dump($totali);
-//       echo "</pre>";
+       echo "<pre>";
+       var_dump($totali);
+       echo "</pre>";
 
        $cassieri = $gestore->getallCassiere();
 

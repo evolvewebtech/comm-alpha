@@ -364,7 +364,7 @@ class DataManager {
      *
      * @return <type>
      */
-    public function getAllPermessi() {
+    public static function getAllPermessi() {
         $sql = "SELECT * FROM cmd_livello";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);

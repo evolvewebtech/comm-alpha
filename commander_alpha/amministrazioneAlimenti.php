@@ -2,6 +2,8 @@
     require_once dirname(__FILE__)  . '/manager/HTTPSession.php';
     $objSession = new HTTPSession();
     $objSession->Impress();
+
+    header('Content-Type: text/html; charset=utf-8'); 
 ?>
 <!--
 todo: 1. Attenzione al refresh della pagina
@@ -1009,7 +1011,7 @@ $(function() {
                         <form id="alimentoForm-<?=$count;?>" style="min-height:60px;float:left;">
                             <fieldset style="float:left" class="ui-helper-reset">
                                 <label style="margin-right: 139px;" class="tab_title" for="tab_nome">Nome: </label>
-                                <input type="text" name="tab_nome" id="tab_nome" value="<?=html_entity_decode(htmlentities($alimento['nome']))?>" class="ui-widget-content ui-corner-all" />
+                                <input type="text" name="tab_nome" id="tab_nome" value="<?=(htmlspecialchars($alimento['nome']))?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 133px;" class="tab_prezzo" for="tab_prezzo">Prezzo: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_prezzo" id="tab_prezzo" value="<?=$alimento['prezzo']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 162px;" class="tab_iva" for="tab_iva">Iva: </label>
@@ -1018,7 +1020,7 @@ $(function() {
                                 <div id="color-picker-<?=$count;?>"></div>
                                 <input style="margin-right: 9px;" type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="<?=$alimento['colore_bottone']?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 89px;" class="tab_descrizione" for="tab_descrizione">Descrizione: </label>
-                                <input style="margin-right: 9px;" type="textarea" name="tab_descrizione" id="tab_descrizione" value="<?=$alimento['descrizione']?>" class="ui-widget-content ui-corner-all" />
+                                <input style="margin-right: 9px;" type="textarea" name="tab_descrizione" id="tab_descrizione" value="<?=htmlspecialchars($alimento['descrizione'])?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 132px;" class="tab_apeso" for="tab_apeso">A peso: </label>
                                 <input style="margin-right: 9px;" type="text" name="tab_apeso" id="tab_apeso" value="<?=$alimento['apeso']?>" class="ui-widget-content ui-corner-all" />
                                 <!-- futuro -->

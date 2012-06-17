@@ -9,7 +9,9 @@ require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';
 require_once dirname(__FILE__).'/../food/Categoria.php';
 require_once dirname(__FILE__).'/../food/Ordine.php';
 require_once dirname(__FILE__).'/../food/RigaOrdine.php';
+require_once dirname(__FILE__).'/../food/Sala.php';
 require_once dirname(__FILE__).'/../food/Stampante.php';
+require_once dirname(__FILE__).'/../food/Tavolo.php';
 require_once dirname(__FILE__).'/../food/Variante.php';
 require_once dirname(__FILE__).'/../food/MenuFisso.php';
 require_once dirname(__FILE__).'/../food/CatMenu.php';
@@ -1460,8 +1462,33 @@ class DataManager2 {
     }
     
     
+    public static function getSalaData($salaID){
+        $sql = "SELECT * FROM cmd_sala WHERE id=$salaID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting entity Sala ".$salaID);
+            return null;
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    
     public static function getStampanteData($stampanteID){
         $sql = "SELECT * FROM cmd_stampante WHERE id=$stampanteID";
+        if (DataManager2::_getConnection()){
+        $res = mysql_query($sql);
+        if(($res && mysql_num_rows($res))==false) {
+            //die("Failed getting entity Stampante ".$stampanteID);
+            return null;
+        }
+            return mysql_fetch_assoc($res);
+        }
+    }
+    
+    public static function getTavoloData($tavoloID){
+        $sql = "SELECT * FROM cmd_tavolo WHERE id=$tavoloID";
         if (DataManager2::_getConnection()){
         $res = mysql_query($sql);
         if(($res && mysql_num_rows($res))==false) {
@@ -1581,6 +1608,25 @@ class DataManager2 {
         }
     }
     
+    public static function getSalaAsObject($salaID){
+        $sql = "SELECT * FROM cmd_sala WHERE id=$salaID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getStampanteAsObject)");
+                return null;
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Sala($salaID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
     public static function getStampanteAsObject($stampanteID){
         $sql = "SELECT * FROM cmd_stampante WHERE id=$stampanteID";
         
@@ -1593,6 +1639,25 @@ class DataManager2 {
               $objs = array();
               while($row = mysql_fetch_assoc($res)) {
                 $objs = new Stampante($stampanteID);
+              }
+              return $objs;
+            } else {
+              return array();
+        }
+    }
+    
+    public static function getTavoloAsObject($tavoloID){
+        $sql = "SELECT * FROM cmd_tavolo WHERE id=$tavoloID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getTavoloAsObject)");
+                return null;
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                $objs = new Tavolo($tavoloID);
               }
               return $objs;
             } else {
@@ -1719,6 +1784,28 @@ class DataManager2 {
             while($row = mysql_fetch_assoc($res)) {
                 $id = intval($row['stampante_id']);
                 $objs[] = DataManager2::getStampanteAsObject($id);
+            }
+          return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getTavoloObjectsForEntity($salaID){
+        $sql = "SELECT * FROM cmd_tavolo WHERE sala_id=$salaID";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getTavoloObjectsForEntity)");
+                //$objs[] = null;
+                //return $objs;
+                return null;
+            }
+            $objs = array();
+            while($row = mysql_fetch_assoc($res)) {
+                $id = intval($row['id']);
+                $objs[] = DataManager2::getTavoloAsObject($id);
             }
           return $objs;
         } else {
@@ -1858,6 +1945,27 @@ class DataManager2 {
               while($row = mysql_fetch_assoc($res)) {
                   $id = intval($row['id']);
                   $objs[] = new Ordine($id);                
+              }
+              return $objs;
+        } else {
+          return array();
+        }
+    }
+    
+    public static function getAllSaleAsObjects() {
+
+        $sql = "SELECT id FROM cmd_sala";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //die("Errore (getAllStampantiAsObjects)");
+                return null;
+            }
+              $objs = array();
+              while($row = mysql_fetch_assoc($res)) {
+                  $id = intval($row['id']);
+                  $objs[] = new Sala($id);                
               }
               return $objs;
         } else {

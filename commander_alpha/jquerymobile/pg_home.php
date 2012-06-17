@@ -113,6 +113,17 @@
             document.getElementById('diag-sconto-text').style.display = 'inline';
             document.getElementById('diag-sconto-bt').style.display = 'none';
         }
+        
+        //Aggiornamento sale e tavoli
+        $.ajax({
+            type : "POST",
+            data: '',
+            url: "tavoli.php",
+            dataType: 'json',
+            cache: false,
+            success: onTavoliSuccess,
+            error: onTavoliError
+        });
     }
 
 
@@ -121,7 +132,57 @@
      *
      */
     function onLivelliError(data, status) { 
-        alert("Errore Ajax");
+        alert("Errore Ajax Livelli " + data['err']);
+    }
+    
+    
+    /**
+     * Richiesta Ajax completata con successo
+     *
+     */
+    function onTavoliSuccess(data, status) { 
+        
+        //Verifica se utente loggato
+        if ( !logged(data['err']) ) return;
+        
+        //alert("Successo lettura da database con Ajax!");  
+        
+        //Creazione array sale e tavoli
+        var str = '';
+        for(var i=0; i<data['sale'].length; i++) {
+            
+            var tavoli = new Array()
+            for(var j=0; j<data['sale'][i]['tavoli'].length; j++) {
+                var tavolo = data['sale'][i]['tavoli'][j];              
+                tavoli.push(tavolo);
+                
+                //str = str + '<a href="#'+data['sale'][i]['tavoli'][j]['id']+'" data-role="button" class="ui-link-inherit">';
+                //str = str + '<div class="name" style="width:50px">'+data['sale'][i]['tavoli'][j]['id']+'</div>';
+                //str = str + '</a>';
+                
+                //str = str + '<a href="#" data-rel="dialog" class="comm-C-btn">';
+                //str = str + '<span class="comm-C-btn-text">'+data['sale'][i]['tavoli'][j]['id']+'</span>';
+                //str = str + '</a>';
+            }
+            
+            var sala = new Array();
+            sala["id"] = data['sale'][i]['id'];
+            sala["nome"] = data['sale'][i]['id'];
+            sala["tavoli"] = tavoli;
+            
+            sale.push(sala);
+        }
+        
+        //document.getElementById('scelta_tav').innerHTML = str;
+    }
+    
+    
+    /**
+     * Errore richiesta Ajax
+     *
+     */
+    function onTavoliError(data, status) { 
+        alert("Errore Ajax Tavoli " + data['err']);
     }
     
     

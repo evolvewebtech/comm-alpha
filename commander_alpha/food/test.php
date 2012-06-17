@@ -82,4 +82,20 @@ foreach($arContacts as $objEntity) {
 }
 
 
+print "<hr>\n";
+print "<hr>\n";
+print "<hr>\n";
+print "<hr>MENU:";
+
+$arContacts = DataManager2::getAllSaleAsObjects();
+foreach($arContacts as $objEntity) {
+    print "<h3>Sala - {$objEntity->__toString()}</h3>";
+    $numTav = $objEntity->getNumberOfTavoli();
+    for($i=0; $i<$numTav; $i++) {
+        $tavolo = $objEntity->getTavolo($i);
+        print "Tavolo".$tavolo->__toString()."<br>";
+    }
+}
+
+
 ?>

@@ -1,7 +1,7 @@
 
 <!-- PAGINA APERTURA TAVOLO -->
 
-<div class="scelta_tav">
+<div id="scelta_tav" class="scelta_tav">
     <h1></h1>
     <label for="text-num-t">Inserire il numero del tavolo:</label>
     <input type="text" name="name" id="text-num-t" value="" placeholder="Numero tavolo" />

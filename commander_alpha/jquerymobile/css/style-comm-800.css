@@ -592,7 +592,7 @@ div#id-cat.element_list .name{
 .ch-tot-ord {
     width: 670px;
     margin: auto;
-    margin-top: 8%;
+    margin-top: 6%;
 }
 
 .ch-tot-ord-div {
@@ -609,7 +609,7 @@ div#id-cat.element_list .name{
 .ch-tot-ord-right {
     width: 250px;
     float: left;
-    padding-top: 10px;
+    padding-top: 20px;
 }
 
 .scelta_buono {

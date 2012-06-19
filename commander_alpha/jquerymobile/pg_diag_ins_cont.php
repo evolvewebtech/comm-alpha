@@ -57,10 +57,14 @@
         if (contanti > 0) {;}
         else contanti = 0;
         
+        setContanti(contanti);
+    });
+    
+    function setContanti(cont) {
         str = "";
         str = str + '<h2 class="name">Contanti</h2>';
-        str = str + '<h2 class="prezzo">' + formatMoney(contanti,2,true) + ' \u20ac</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(cont,2,true) + ' \u20ac</h2>';
         document.getElementById('chius-contanti').innerHTML = str;
-    });
+    }
     
 </script>

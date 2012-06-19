@@ -42,7 +42,7 @@
         var buono_cred_us = 0;
         var refreshAlim = false;
         var ann_voci = false;
-        var refreshLiv = true;
+        var refreshTab = true;
         var livelli = new Array();
         var sconti = new Array();
         var cassa_fissa = false;

@@ -401,10 +401,12 @@ div#id-cat.element_list .name{
 }
 /* Fine pulsante */
 
-.scelta_tav {
-    width: 320px;
+.scelta_cop {
+    width: 23%;
     margin: auto;
-    margin-top: 5%;
+    margin-top: 2px;
+    margin-left: 15px;
+    float: left;
 }
 
 .lista-date {
@@ -619,21 +621,16 @@ div#id-cat.element_list .name{
 }
 
 /* Pulsante scelta tavolo */
-.tab-buttons{
-    width: 88%;
-    margin: auto;
-}
-
 .tab-buttons .comm-T-btn{
-    background: #d2dfed; /* Old browsers */
-    background: -moz-linear-gradient(top,  #d2dfed 0%, #c8d7eb 26%, #bed0ea 51%, #a6c0e3 51%, #afc7e8 62%, #bad0ef 75%, #99b5db 88%, #799bc8 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d2dfed), color-stop(26%,#c8d7eb), color-stop(51%,#bed0ea), color-stop(51%,#a6c0e3), color-stop(62%,#afc7e8), color-stop(75%,#bad0ef), color-stop(88%,#99b5db), color-stop(100%,#799bc8)); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* IE10+ */
-    background: linear-gradient(top,  #d2dfed 0%,#c8d7eb 26%,#bed0ea 51%,#a6c0e3 51%,#afc7e8 62%,#bad0ef 75%,#99b5db 88%,#799bc8 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d2dfed', endColorstr='#799bc8',GradientType=0 ); /* IE6-9 */
-    height: 48px;
+    background: #cfe7fa; /* Old browsers */
+    background: -moz-linear-gradient(top,  #cfe7fa 0%, #6393c1 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#cfe7fa), color-stop(100%,#6393c1)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* IE10+ */
+    background: linear-gradient(top,  #cfe7fa 0%,#6393c1 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cfe7fa', endColorstr='#6393c1',GradientType=0 ); /* IE6-9 */
+    height: 30px;
     width: 90px;
     display: inline-block;
     position: relative;
@@ -649,16 +646,17 @@ div#id-cat.element_list .name{
 }
 
 .comm-T-btn-text{
-    padding-top: 10px;
+    padding-top: 3px;
     display: block;
-    font-size: 28px;
+    font-size: 26px;
     line-height: 100%;
-    text-shadow: 0px -1px 1px #80ab5d;
+    text-shadow: 0px -1px 1px #87a4af;
     color: #ffffff;
     text-align: center;
 }
 
-.comm-T-btn:active {
+.comm-T-btn:active,
+.comm-T-btn.selected {
     position:relative;
     top:1px;
     background:#799bc8;
@@ -668,6 +666,54 @@ div#id-cat.element_list .name{
 
 .comm-T-btn:hover {
     background: #799bc8;
+}
+
+/* Pulsanti scelta sala */
+.sale-buttons .comm-S-btn{
+    background: #f6e6b4; /* Old browsers */
+    background: -moz-linear-gradient(top,  #f6e6b4 0%, #ed9017 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f6e6b4), color-stop(100%,#ed9017)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #f6e6b4 0%,#ed9017 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #f6e6b4 0%,#ed9017 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #f6e6b4 0%,#ed9017 100%); /* IE10+ */
+    background: linear-gradient(top,  #f6e6b4 0%,#ed9017 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6e6b4', endColorstr='#ed9017',GradientType=0 ); /* IE6-9 */
+    height: 30px;
+    width: 188px;
+    display: inline-block;
+    position: relative;
+    border: 1px solid #d67a2a;
+    box-shadow:
+        0px 1px 1px rgba(255,255,255,0.8) inset,
+        1px 1px 3px rgba(0,0,0,0.2);
+    border-radius: 4px;
+    float: left;
+    margin: 3px 3px 3px 3px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.comm-S-btn-text{
+    padding-top: 4px;
+    display: block;
+    font-size: 22px;
+    line-height: 100%;
+    text-shadow: 0px -1px 1px #aaa585;
+    color: #ffffff;
+    text-align: center;
+}
+
+.comm-S-btn:active,
+.comm-S-btn.selected {
+    position:relative;
+    top:1px;
+    background:#d67a2a;
+    box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
+    border-color: #ea8407;
+}
+
+.comm-S-btn:hover {
+    background: #ea8407;
 }
 
 /* Pulsante conferma ordine */

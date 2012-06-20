@@ -125,10 +125,7 @@
         str = str + '<h2 class="prezzo" style="color: ' + strColor + '">' + formatMoney(soldi,2,true) + ' \u20ac</h2>';
         document.getElementById('chius-resto').innerHTML = str;
 
-        str = "";
-        str = str + '<h2 class="name">Buono prepagato</h2>';
-        str = str + '<h2 class="prezzo">' + formatMoney(buono_cred_us,2,true) + ' \u20ac</h2>';
-        document.getElementById('chius-buoni').innerHTML = str;
+        setBuono(buono_cred_us);
     }
     
     
@@ -141,10 +138,7 @@
         sconto = parseFloat(param.replace('#',''));
         scontato = parseFloat( (parseFloat(totale) * sconto) / 100 );
                
-        str = '';
-        str = str + '<h2 class="name">Sconto</h2>';
-        str = str + '<h2 class="prezzo">' + formatMoney(scontato,2,true) + ' \u20ac</h2>';
-        document.getElementById('chius-sconto').innerHTML = str;
+        setSconto(scontato);
         
         //Annullamento pagamento con buono prepagato
         if (sconto > 0) {
@@ -156,6 +150,42 @@
         document.location.href="#chiusura";
         $.mobile.changePage( "#chiusura", 'none', false, true);
     });
+    
+    
+    /**
+     * Funziona aggiornamento visualizzazione credito buono usato
+     *
+     */
+    function setBuono(cont) {
+        str = "";
+        str = str + '<h2 class="name">Buono prepagato</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(cont,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-buoni').innerHTML = str;
+    }
+    
+    
+    /**
+     * Funziona aggiornamento visualizzazione sconto applicato
+     *
+     */
+    function setSconto(cont) {
+        str = '';
+        str = str + '<h2 class="name">Sconto</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(cont,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-sconto').innerHTML = str;
+    }
+    
+    
+    /**
+     * Funziona aggiornamento visualizzazione contanti ricevuti
+     *
+     */
+    function setContanti(cont) {
+        str = "";
+        str = str + '<h2 class="name">Contanti</h2>';
+        str = str + '<h2 class="prezzo">' + formatMoney(cont,2,true) + ' \u20ac</h2>';
+        document.getElementById('chius-contanti').innerHTML = str;
+    }
     
     
     /**

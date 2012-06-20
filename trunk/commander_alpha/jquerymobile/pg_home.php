@@ -48,6 +48,8 @@
         ann_voci = false;
         
         //Reset visualizzazione contanti ricevuti
+        setBuono('0');
+        setSconto('0');
         setContanti('0');
     }
 

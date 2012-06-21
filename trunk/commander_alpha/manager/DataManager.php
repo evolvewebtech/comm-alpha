@@ -21,7 +21,6 @@ require_once dirname(__FILE__).'/../food/MenuFisso.php';
 require_once dirname(__FILE__).'/../food/CatMenu.php';
 
 
-
 class DataManager {
 
     private static function _getConnection() {
@@ -687,7 +686,7 @@ class DataManager {
          * inserisco un profilo utente (tabella_ cmd_utente registrato)
          */
         $ret = $db->insert('cmd_utente_registrato', array($utente_registrato_id, $username,
-                                                          $password, $nome, $cognome, $tipo));
+                                                          md5($password), $nome, $cognome, $tipo));
 
         /*
          * prelevo l'id appena assegnato (AI) dalla tabella cmd_utente_registrato
@@ -706,14 +705,6 @@ class DataManager {
         else
             $ret2 = false;
 
-        /* -- debug
-        echo "<br />ins 1: ";
-        var_dump($ret);
-        echo "<br />ins 2: ";
-        var_dump($ret2);
-        echo "<br />";
-         *
-         */
         if ($ret && $ret2)
             return true;
         else {

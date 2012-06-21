@@ -14,7 +14,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -88,9 +87,6 @@ $(function() {
 
     tab_counter++;
 
-    $('#debug').append('<br />Numero: '         +tab_counter+
-                       '<br />Gestore ID: '     +gestore_id);
-
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -106,8 +102,6 @@ $(function() {
             select: function( event, ui ) {
 
                 ui.index+=1;
-
-                $('#debug').append('<br />selected: '+ui.index);
 
             }
 
@@ -154,7 +148,6 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         /*
          * prelevo tutti i valori delle checkbox Categorie e ritorno una stringa
@@ -168,7 +161,6 @@ $(function() {
            return { name: this.id, value: !!this.checked };
         }));
         params_v = 'id='+<?=$menu_fisso_id?>+'&'+params_v;
-        $('#debug').append('<br />PARAM cat-Menu: '+params_v);
         $.ajax({
             type: "POST",
             data: params_v,
@@ -220,22 +212,14 @@ $(function() {
        if (data.err=='E002'){
            $('#code-err').html('Sessione scaduta o login non valido.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
        } else if (data.err=='E001'){
            $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
        } else if (data.err=='false'){
            $('#code-err').html('Errore durante l\'inserimento o aggioramento del men&ugrave;.');
            $dialogERR.dialog("open");
-           $('#debug').append(' ERR: '+data.err);
        } else if(data.err==''){
            $('#code-ok').html('Il men&ugrave; &egrave stato aggiornato.');
-           $('#debug').append( '<br />DATA SAVED:<br />'+
-                               ' ID_gestore: '    + data.gestore_id+
-                               ' ID_menu: '       + data.menu_id+
-                               ' <br />err'       + data.err
-                                );
            $dialogOK.dialog( "open" );
            //aspetto che il dialogo sia stato chiuso
            $dialogOK.bind( "dialogclose", function(event, ui) {
@@ -244,14 +228,13 @@ $(function() {
            });
 
        }else{
-           $('#debug').append( '<br /><br />ERR:'+ data.err);      
+
        }
     }
 
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
     }
 
 });
@@ -318,8 +301,6 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
             }//gestore
         else{

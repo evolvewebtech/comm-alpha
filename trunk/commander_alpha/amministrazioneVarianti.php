@@ -7,8 +7,7 @@
 ?>
 <!--
 todo: 1. Creare tutti i controlli del form
-      2. Tgliere debug
-      3. Sistemare title tab
+      2. Sistemare title tab
 -->
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 
@@ -19,7 +18,6 @@ todo: 1. Creare tutti i controlli del form
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -103,11 +101,6 @@ $(function() {
     tab_counter++;
     var next_id = max_id+1;
 
-    $('#debug').append('<br />Numero: '         +tab_counter+
-                       '<br />ID max: '         +max_id+
-                       '<br />ID max next: '    +next_id+
-                       '<br />Gestore ID: '     +gestore_id);
-
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -150,8 +143,6 @@ $(function() {
             select: function( event, ui ) {
 
                 ui.index+=1;
-
-                $('#debug').append('<br />selected: '+ui.index);
 
                 var formSel = $("#varianteForm-"+ui.index);
 
@@ -259,7 +250,6 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         if($("#varianteForm-"+selected).valid()){
 
@@ -291,7 +281,6 @@ $(function() {
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
 
             var varianteForm = $("#varianteForm-"+selected).serialize();
             varianteForm = varianteForm+'&action=del&current_tab='+selected;
@@ -345,15 +334,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminazione della variante.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -383,26 +369,14 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento della variante.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                $('#code-ok').html('La nuova variante &egrave stata aggiunta.');
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   ' ID_gestore: '    + data.gestore_id+
-                                   ' ID_variante: '   + data.variante_id+
-                                   ' Nome:'           + data.nome +
-                                   ' Prezzo: '        + data.prezzo +
-                                   ' IVA: '           + data.iva +
-                                   ' descrizione: '   + data.descrizione +                                   
-                                   ' Current: '       + data.current_tab+
-                                   ' Err: '           + data.err );
                $dialogOK.dialog( "open" );
                //aspetto che il dialogo sia stato chiuso
                $dialogOK.bind( "dialogclose", function(event, ui) {
@@ -415,7 +389,6 @@ $(function() {
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
 
     }
 
@@ -497,8 +470,6 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
             }//gestore
         else{

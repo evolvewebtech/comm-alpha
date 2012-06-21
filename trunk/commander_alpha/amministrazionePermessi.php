@@ -14,7 +14,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -46,15 +45,15 @@
            $permessi = DataManager::getAllPermessi();
 
 
-           echo '<div style="background-color:white">';
-               echo "<pre>";
+//           echo '<div style="background-color:white">';
+//               echo "<pre>";
 //               print_r($cassiere);
-               echo "</pre>";
-
-               echo "<pre>";
+//               echo "</pre>";
+//
+//               echo "<pre>";
 //               print_r($livelli);
-               echo "</pre>";
-           echo '</div>';
+//               echo "</pre>";
+//           echo '</div>';
     ?>
     <h1>Gestisci i permessi
         <small class="breadcrumb">Sei qui:

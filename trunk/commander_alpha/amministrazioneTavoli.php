@@ -1,5 +1,6 @@
 <?php
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
+    require_once dirname(__FILE__).'/manager/Utility.php';
     $objSession = new HTTPSession();
     $objSession->Impress();
 
@@ -16,7 +17,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -35,8 +35,14 @@
            }
 
            $data_tavolo = DataManager::getAllTavoloBySalaID($sala_id);
+           $data_tavolo = Utility::subval_sort($data_tavolo, 'numero');
+
            $numero_tavolo = count($data_tavolo);
            $max_id = DataManager::getMAXID('cmd_tavolo');
+           if (!$max_id){
+               $max_id = 0;
+           }
+
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci i tavoli di <?=$data_sala['nome']?>
@@ -99,8 +105,6 @@ $(function() {
 
     tab_counter++;
     var next_id = max_id+1;
-    $('#debug').append('<br />Numero: '+tab_counter);
-    $('#debug').append('<br />ID max: '+max_id);
 
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
@@ -136,7 +140,6 @@ $(function() {
             select: function( event, ui ) {
 
                 ui.index+=1;
-                $('#debug').append('<br />selected: '+ui.index);
                 var formSel = $("#tavoloForm-"+ui.index);
 
                 $("#tavoloForm-"+ui.index).validate({
@@ -242,11 +245,8 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         if($("#tavoloForm-"+selected).validate()){
-
-            $('#debug').append('<br />valid!!!??');
 
             var formTavolo = $("#tavoloForm-"+selected).serialize();
             formTavolo = formTavolo+'&action=save&current_tab='+selected;
@@ -275,7 +275,6 @@ $(function() {
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
 
             var formTavolo = $("#tavoloForm-"+selected).serialize();
             formTavolo = formTavolo+'&action=del&current_tab='+selected;
@@ -324,21 +323,17 @@ $(function() {
     function onTavoloSuccess(data, status) {
 
         console.log(data);
-        $('#debug').append(data.nome);
         if (data.action=='del'){
 
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminaziono del Tavolo.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -363,15 +358,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento della Sala.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+ data.err);
            } else if(data.err==''){
                $('#code-ok').html('La nuova sala &egrave stata aggiunta.');
                $dialogOK.dialog( "open" );
@@ -387,7 +379,6 @@ $(function() {
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
     }
 
 
@@ -425,14 +416,17 @@ $(function() {
                     <?php
                         $count = 1;
                         foreach ($data_tavolo as $tavolo) {
+
                           echo '<li><a href="ui-tabs-'.$count.'">'.$tavolo['numero'].'</a></li>';
                           $count++;
                         }
+
                     ?>
                 </ul>
                 <?php
                     $count = 1;
                     foreach ($data_tavolo as $tavolo) {
+
                         echo '<div id="ui-tabs-'.$count.'" class="ui-tabs-panel ui-widget-content ui-corner-bottom">';
                     ?>
                     <div style="min-height:120px;">
@@ -468,8 +462,6 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

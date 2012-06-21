@@ -14,7 +14,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -30,6 +29,9 @@
            $data_sala = DataManager::getAllSala();
            $numero_sale = count($data_sala);
            $max_id = DataManager::getMAXID('cmd_sala');
+           if (!$max_id){
+               $max_id = 0;
+           }
            /*echo '<p style="background-color:white">'.$diff.'</p>';*/
     ?>
     <h1>Gestisci le Sale
@@ -85,8 +87,6 @@ $(function() {
 
     tab_counter++;
     var next_id = max_id+1;
-    $('#debug').append('<br />Numero: '+tab_counter);
-    $('#debug').append('<br />ID max: '+max_id);
 
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
@@ -122,7 +122,6 @@ $(function() {
             select: function( event, ui ) {
 
                 ui.index+=1;
-                $('#debug').append('<br />selected: '+ui.index);
                 var formSel = $("#salaForm-"+ui.index);
 
                 $("#salaForm-"+ui.index).validate({
@@ -150,7 +149,9 @@ $(function() {
                             maxlength: "massimo 10 caratteri"
                         }
                     }
+
                 });
+
             }
 
     });
@@ -218,12 +219,9 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         var formSala = $("#salaForm-"+selected).serialize();
         formSala = formSala+'&action=save&current_tab='+selected;
-
-        $('#debug').append('<br />formSala: '+formSala);
 
         $.ajax({
             type: "POST",
@@ -249,7 +247,6 @@ $(function() {
 
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
 
             var formSala = $("#salaForm-"+selected).serialize();
             formSala = formSala+'&action=del&current_tab='+selected;
@@ -300,15 +297,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminaziono della Sala.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -333,15 +327,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento della Sala.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+ data.err);
            } else if(data.err==''){
                $('#code-ok').html('La nuova sala &egrave stata aggiunta.');
                $dialogOK.dialog( "open" );
@@ -357,7 +348,6 @@ $(function() {
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
     }
 
 });
@@ -433,8 +423,6 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

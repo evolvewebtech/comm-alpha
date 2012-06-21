@@ -26,7 +26,6 @@ todo: 1. Attenzione al refresh della pagina
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 <script src="media/js/color-picker.js"></script>
 <script type='text/javascript'>
     /*

@@ -15,7 +15,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 <script src="media/js/color-picker.js"></script>
 <script type='text/javascript'>
     /*
@@ -68,7 +67,6 @@ $(function() {
                     $('#color-picker-1').next().val(rgb2hex(color));
                     $('#color-picker-1').next().css("background", rgb2hex(color));
                     $('#color-picker-1').next().css("color", rgb2hex(color));
-                    $('#debug').append( '<br />'+rgb2hex(color) );
             }
    	});
 
@@ -78,7 +76,6 @@ $(function() {
                     $('#color-picker-dialog').next().val(rgb2hex(color));
                     $('#color-picker-dialog').next().css("background", rgb2hex(color));
                     $('#color-picker-dialog').next().css("color", rgb2hex(color));
-                    $('#debug').append( '<br />'+rgb2hex(color) );
             }
    	});
 
@@ -121,11 +118,6 @@ $(function() {
     tab_counter++;
     var next_id = max_id+1;
 
-    $('#debug').append('<br />Numero: '         +tab_counter+
-                       '<br />ID max: '         +max_id+
-                       '<br />ID max next: '    +next_id+
-                       '<br />Gestore ID: '     +gestore_id);
-
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -165,8 +157,6 @@ $(function() {
 
                 ui.index+=1;
 
-                $('#debug').append('<br />selected: '+ui.index);
-
                 var formSel = $("#categoriaForm-"+ui.index);
 
                 $('#color-picker-'+ui.index).empty().addColorPicker({
@@ -175,7 +165,6 @@ $(function() {
                         $('#color-picker-'+ui.index).next().css("background", rgb2hex(color));
                         $('#color-picker-'+ui.index).next().css("color", rgb2hex(color));
 
-                        $('#debug').append( '<br />'+rgb2hex(color) );
                     }
                 });
 
@@ -276,7 +265,6 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         if($("#categoriaForm-"+selected).valid()){
 
@@ -308,7 +296,6 @@ $(function() {
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
 
             var categoriaForm = $("#categoriaForm-"+selected).serialize();
             categoriaForm = categoriaForm+'&action=del&current_tab='+selected;
@@ -362,15 +349,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminazione della categoria.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -400,25 +384,15 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento della categoria.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                $('#code-ok').html('La nuova categoria &egrave stata aggiunta.');
                $dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   ' ID_gestore: '    + data.gestore_id+
-                                   ' ID_categoria: '  + data.categoria_id+
-                                   ' Nome:'           + data.nome +
-                                   ' Colore: '        + data.colore_bottone+
-                                   ' Current: '       + data.current_tab+
-                                   ' Err: '           + data.err );
                //aspetto che il dialogo sia stato chiuso
                $dialogOK.bind( "dialogclose", function(event, ui) {
                   // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
@@ -430,8 +404,6 @@ $(function() {
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
-
     }
 
 
@@ -505,8 +477,6 @@ $(function() {
         <? include_once dirname(__FILE__).'/footer.php'; ?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

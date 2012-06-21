@@ -14,7 +14,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -92,11 +91,6 @@ $(function() {
     tab_counter++;
     var next_id = max_id+1;
 
-    $('#debug').append('<br />Numero: '         +tab_counter+
-                       '<br />ID max: '         +max_id+
-                       '<br />ID max next: '    +next_id+
-                       '<br />Gestore ID: '     +gestore_id);
-
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -134,8 +128,6 @@ $(function() {
             select: function( event, ui ) {
 
                 ui.index+=1;
-
-                $('#debug').append('<br />selected: '+ui.index);
 
                 var formSel = $("#stampanteForm-"+ui.index);
 
@@ -236,11 +228,9 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         if($("#stampanteForm-"+selected).valid()){
 
-            $('#debug').append('<br />form valid');
             var stampanteForm = $("#stampanteForm-"+selected).serialize();
             stampanteForm = stampanteForm+'&action=save&current_tab='+selected;
 
@@ -269,8 +259,6 @@ $(function() {
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
-            $('#debug').append('<br />deleting ...');
 
             var stampanteForm = $("#stampanteForm-"+selected).serialize();
             stampanteForm = stampanteForm+'&action=del&current_tab='+selected;
@@ -319,22 +307,15 @@ $(function() {
 
     function onStampanteSuccess(data, status) {
 
-        $('#debug').append('<br />ajax: success');
-
         if (data.action=='del'){
 
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminazione della stampante.');
-               $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -343,7 +324,6 @@ $(function() {
                $tabs.tabs( "option", "disabled",[ current_tab ] );
                $tabs.tabs( "remove", data.current_tab );
 
-               $('#code-ok').html('La stampante &egrave stata eliminata.');
                $dialogOK.dialog( "open" );
 
                //aspetto che il dialogo sia stato chiuso
@@ -361,20 +341,15 @@ $(function() {
          */
         if(data.action=='save'){
 
-           $('#debug').append('<br />ajax op: save');
-
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento della stampante.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                $('#code-ok').html('La nuova stampante &egrave stata aggiunta.');
                $dialogOK.dialog( "open" );
@@ -385,21 +360,12 @@ $(function() {
                   location.reload();
                });
 
-//               $('#debug').append( '<br />DATA SAVED:<br />'+
-//                                   ' ID_gestore: '    + data.gestore_id+
-//                                   ' ID_stampante: '  + data.stampante_id+
-//                                   ' Nome:'           + data.nome +
-//                                   ' Indirizzo: '     + data.indirizzo+
-//                                   ' Current: '       + data.current_tab+
-//                                   ' Err: '           + data.err );
            }
         }
     }
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
-
     }
 
 
@@ -470,8 +436,6 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

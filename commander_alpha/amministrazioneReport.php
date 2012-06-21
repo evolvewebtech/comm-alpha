@@ -170,12 +170,9 @@ if($objSession->IsLoggedIn()){
                     if (data.err=='E002'){
                         $('#code-err').html('Sessione scaduta o login non valido.');
                         $dialogERR.dialog("open");
-                        $('#debug').append(' ERR: '+data.err);
                     } else if (data.err=='E001'){
                         $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                         $dialogERR.dialog("open");
-                        $('#debug').append(' ERR: '+data.err);
-
                     } else {
                         showResults(data,'div#results');
                         runningRequest=false;
@@ -211,11 +208,9 @@ if($objSession->IsLoggedIn()){
                     if (data.err=='E002'){
                         $('#code-err').html('Sessione scaduta o login non valido.');
                         $dialogERR.dialog("open");
-                        $('#debug').append(' ERR: '+data.err);
                     } else if (data.err=='E001'){
                         $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                         $dialogERR.dialog("open");
-                        $('#debug').append(' ERR: '+data.err);
                     }else{
                         showResults(data,'div#results');
                         runningRequest=false;
@@ -398,15 +393,12 @@ function onReportSuccess(data) {
    if (data.err=='E002'){
        $('#code-err').html('Sessione scaduta o login non valido.');
        $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
    } else if (data.err=='E001'){
        $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
        $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
    } else if (data.err=='false'){
        $('#code-err').html('Errore durante la richiesta.');
        $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+ data.err);
    } else if(data.err==''){
 //       $('#code-ok').html('OK.');
 //       $dialogOK.dialog( "open" );
@@ -422,15 +414,12 @@ function onReportAlimentoSuccess(data){
    if (data.err=='E002'){
        $('#code-err').html('Sessione scaduta o login non valido.');
        $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
    } else if (data.err=='E001'){
        $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
        $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+data.err);
    } else if (data.err=='false'){
        $('#code-err').html('Errore durante la richiesta.');
        $dialogERR.dialog("open");
-       $('#debug').append(' ERR: '+ data.err);
    } else if(data.err==''){
 //       $('#code-ok').html('OK.');
 //       console.log(data);
@@ -574,9 +563,6 @@ function onError(data, status) {
         <!-- footer -->
         <? include_once dirname(__FILE__).'/footer.php'; ?>
 </div><!-- end content -->
-
-<!-- DEBUG -->
-<div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

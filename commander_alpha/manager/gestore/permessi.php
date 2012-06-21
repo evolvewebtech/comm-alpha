@@ -11,7 +11,7 @@
         $post = json_encode($_POST);
 
         $cassiere_id = intval(mysql_real_escape_string($_POST['cassiere_id']));
-        $permessi = array();
+        $permessi    = array();
         $permessi    = json_decode((($_POST['permessi'])));
         $action      = (mysql_real_escape_string($_POST['action']));
 
@@ -23,7 +23,6 @@
                      "err"        => '');
 
         $var['gestore_id'] = $gestore->id;
-        //$var['err'] = '<br />'.$post.'<br />';
 
     /*
      * controllo se il login sia valido

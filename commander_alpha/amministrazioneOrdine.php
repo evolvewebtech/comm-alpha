@@ -378,8 +378,6 @@ for ($i=0; $i<count($arr); $i++) {
         <? include_once dirname(__FILE__).'/footer.php'; ?>
 </div><!-- end content -->
 
-<!-- DEBUG -->
-<div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

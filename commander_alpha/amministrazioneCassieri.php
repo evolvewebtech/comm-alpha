@@ -21,7 +21,6 @@
 <script src="media/js/ui/jquery.ui.button.js"></script>
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
-<script src="media/js/ui/jquery.ui.draggable.js"></script>
 
 <script src="media/js/jquery.validate.min.js"></script>
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
@@ -129,12 +128,6 @@ $(function() {
     var next_id = max_id+1,
         next_ur_id = max_id_ur+1;
         
-    $('#debug').append('<br />Numero: '         +tab_counter+
-                       '<br />ID max: '         +max_id+
-                       '<br />ID ur max: '      +max_id_ur+
-                       '<br />ID max next: '    +next_id+
-                       '<br />ID ur max next: ' +next_ur_id);
-
     // tabs init with a custom tab template and an "add" callback filling in the content
     var $tabs = $( "#tabs").tabs({
             tabTemplate: "<li><a href='#{href}'>#{label}</a></li>",
@@ -179,8 +172,6 @@ $(function() {
             select: function( event, ui ) {
 
                 ui.index+=1;
-
-                $('#debug').append('<br />selected: '+ui.index);
 
                 var formSel = $("#cassiereForm-"+ui.index);
 
@@ -301,7 +292,6 @@ $(function() {
 
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
 
         if($("#cassiereForm-"+selected).valid()){
 
@@ -329,10 +319,8 @@ $(function() {
      */
     $("#logout_cassiere").live("click", function() {
 
-        $("#debug").append('Disconnetto il cassiere');
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
-        $('#debug').append('<br />selected: '+selected);
         var cassiere = $("#cassiereForm-"+selected).serialize();
         cassiere = cassiere+'&action=log&current_tab='+selected;
 
@@ -355,7 +343,6 @@ $(function() {
      */
     $("#saldo_cassiere").live("click", function() {
 
-        $("#debug").append('VISUALIZZO CASSA<br />');
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
 
@@ -381,7 +368,6 @@ $(function() {
      */
     $("#azzera_saldo_cassiere").live("click", function() {
 
-        $("#debug").append('AZZERO CASSA<br />');
         var selected = $tabs.tabs('option', 'selected');
         selected+=1;
 
@@ -413,7 +399,6 @@ $(function() {
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
             selected+=1;
-            $('#debug').append('<br />selected: '+selected);
 
             var cassiereTavolo = $("#cassiereForm-"+selected).serialize();
             cassiereTavolo = cassiereTavolo+'&action=del&current_tab='+selected;
@@ -467,15 +452,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'eliminazione del cassiere.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
 
                var current_tab = parseInt(data.current_tab,10);
@@ -500,16 +482,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante la disconnesione del cassiere.');
                $dialogERR.dialog("open");
-               console.log(data);
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                $('#code-ok').html('Il cassiere &egrave; stato disattivato.');
                $dialogOK.dialog( "open" );
@@ -520,28 +498,22 @@ $(function() {
            } else{
                $('#code-err').html('Errore durante la disconnesione del cassiere.');
                $dialogERR.dialog("open");
-               console.log(data);
            }
         }
         if (data.action=='visualizza_cassa'){
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante la visualizzazione della cassa del cassiere.');
                $dialogERR.dialog("open");
-               console.log(data);
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                if(data.cassa==0){
                    $('#code-ok').html('Quantit&agrave; in cassa: 0 &#8364;');
                }else{
-                   console.log(data.cassa);
                    if (data.cassa.consegnato=="1"){
                        $('#code-ok').html('Quantit&agrave; in cassa gi&agrave; consegnata. Saldo: 0 &#8364;');
                    }else{
@@ -549,11 +521,9 @@ $(function() {
                     }
                 }
                $dialogOK.dialog( "open" );
-               console.log(data.cassa);
            } else{
                $('#code-err').html('Errore durante la visualizzazione della cassa del cassiere.');
                $dialogERR.dialog("open");
-               console.log(data);
            }
 
         }
@@ -562,16 +532,12 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante la visualizzazione della cassa del cassiere.');
                $dialogERR.dialog("open");
-               console.log(data);
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                if(data.cassa==0){
                    $('#code-ok').html('Cassa gi&agrave; azzerata. Saldo: 0 &#8364;');
@@ -579,11 +545,9 @@ $(function() {
                 $('#code-ok').html('Cassa azzerata con successo. Ultimo saldo: '+data.cassa.saldo+ ' &#8364;');
                 }
                $dialogOK.dialog( "open" );
-               console.log(data.cassa);
            } else{
                $('#code-err').html('Errore durante l\'azzeramento della cassa del cassiere.');
                $dialogERR.dialog("open");
-               console.log(data);
            }
 
         }
@@ -596,28 +560,15 @@ $(function() {
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='E001'){
                $('#code-err').html('Non hai i permessi necessari per eseguire questa operazione. Contatta il gestore.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if (data.err=='false'){
                $('#code-err').html('Errore durante l\'inserimento o aggioramento del cassiere.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            } else if(data.err==''){
                $('#code-ok').html('Il nuovo cassiere &egrave stato aggiunto.');
                $dialogOK.dialog( "open" );
-               $('#debug').append( '<br />DATA SAVED:<br />'+
-                                   'ID_cassiere: ' + data.cassiere_id+
-                                   ' ID_gestore: ' + data.gestore_id+
-                                   ' ID_ut_reg: '  + data.gestore_id+
-                                   ' Nome:'        + data.nome +
-                                   ' Cognome: '    + data.cognome+
-                                   ' Username: '   + data.username+
-                                   ' Password: '   + data.password+
-                                   ' Current: '    + data.current_tab+
-                                   ' Err: '        + data.err );
                $dialogOK.bind( "dialogclose", function(event, ui) {
                   // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
                   location.reload();
@@ -625,7 +576,6 @@ $(function() {
            } else{
                $('#code-err').html('Errore durante l\'inserimento o aggioramento del cassiere.');
                $dialogERR.dialog("open");
-               $('#debug').append(' ERR: '+data.err);
            }
         }
     }
@@ -633,8 +583,6 @@ $(function() {
     function onError(data, status) {
         $('#code-err').html('Errore nel file. Contatta l\'amministratore. ');
         $dialogERR.dialog( "open" );
-        $('#debug').append(data);
-
     }
 
 
@@ -720,8 +668,6 @@ $(function() {
         <?php include_once 'footer.php';?>
 </div><!-- end content -->
 
-        <!-- DEBUG -->
-        <div id="debug" style="width: 920px;float:left; margin-top: 30px;color:white; font-size: 10px;">DEBUG:</div>
 <?php
         }//gestore
         else{

@@ -86,10 +86,10 @@
                     */
                 }else if($action=='controllo'){
                     $finito = Datamanager::controlloAlimentoEsaurito($alimento_id);
-                    if ($finito==FALSE || $finito['record_attivo']==0){
-                        $var['finito'] = false;
+                    if ($finito){
+                        $var['finito'] = true;
                         }else{
-                            $var['finito'] = true;
+                            $var['finito'] = false;
                             }
                     }
 

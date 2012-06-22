@@ -644,6 +644,7 @@ $(function() {
                         cache: false,
                         success: function onAlimentoEsauritoSuccess(data, status) {
 
+                                       ocnsole.log(finito);
                                        finito = data.finito;
 
                                        if (data.err=='E002'){
@@ -658,6 +659,10 @@ $(function() {
                                         } else if(data.err==''){
                                            $('#code-ok').html('Alimento esaurito aggiornato correttamente.');
                                            $dialogOK.dialog( "open" );
+                                           //aspetto che il dialogo sia stato chiuso
+//                                           $dialogOK.bind( "dialogclose", function(event, ui) {
+//                                               location.reload();
+//                                           });
                                        } else{
                                            $('#code-err').html('Errore durante l\'aggiornamento.');
                                            //$dialogERR.dialog("open");

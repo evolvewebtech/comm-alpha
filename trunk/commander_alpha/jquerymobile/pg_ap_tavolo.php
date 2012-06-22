@@ -1,7 +1,7 @@
 
 <!-- PAGINA APERTURA TAVOLO -->
 
-<section class="ui-body ui-body-b" style="width: 70%; float: left; box-shadow: 3px 3px 10px #aaaaaa">  
+<section id="section-tab" class="ui-body ui-body-b">  
     <div style="font-size: 1.2em">Selezionare la sala:</div>
     <div id="sale-buttons" class="sale-buttons"></div>
     <div style="clear: both; margin-bottom: 5px"></div>

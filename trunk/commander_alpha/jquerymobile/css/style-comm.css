@@ -32,7 +32,7 @@
 }
 
 .list-ord_nav {
-    height: 8%;
+/*    height: 8%;*/
     min-height: 50px;
 }
 
@@ -391,6 +391,12 @@ div#id-cat.element_list .name{
 }
 /* Fine pulsante */
 
+#section-tab {
+    width: 70%;
+    float: left;
+    box-shadow: 3px 3px 10px #aaaaaa;
+}
+
 .scelta_cop {
     width: 23%;
     margin: auto;
@@ -577,7 +583,7 @@ div#id-cat.element_list .name{
 .ch-tot-ord {
     width: 730px;
     margin: auto;
-    margin-top: 6%;
+    margin-top: 8%;
 }
 
 .ch-tot-ord-div {
@@ -600,7 +606,7 @@ div#id-cat.element_list .name{
 .scelta_buono {
     width: 450px;
     margin: auto;
-    margin-top: 8%;
+    margin-top: 5%;
 }
 
 /* Pulsante scelta tavolo */
@@ -638,17 +644,17 @@ div#id-cat.element_list .name{
     text-align: center;
 }
 
+.comm-T-btn:hover {
+    background: #799bc8;
+}
+
 .comm-T-btn:active,
 .comm-T-btn.selected {
     position:relative;
     top:1px;
-    background:#799bc8;
+    background:#efd217;
     box-shadow:1px 1px 2px rgba(0,0,0,0.4) inset;
-    border-color: #5f8cc6;
-}
-
-.comm-T-btn:hover {
-    background: #799bc8;
+    border-color: #dba615;
 }
 
 /* Pulsanti scelta sala */

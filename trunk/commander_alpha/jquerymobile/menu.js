@@ -1,4 +1,6 @@
 
+var firstCat = '';
+
 /*
  * Evento "pageshow" pagina "Ordine"
  *
@@ -86,6 +88,9 @@ function onEventoInfoSuccess(data, status) {
             //Aggiunta dei nuovi elementi a Isotope
             $('#container').append( $str ).isotope( 'reloadItems' );
         }
+        
+        if (data['cat'].length == 1) firstCat = data['cat'][$i].nome;
+        else firstCat = '';
         
         //Svuotamento iniziale "alimenti" da container Isotope
         $removable = $('#container').find( "." + data['cat'][$i].nome );
@@ -310,6 +315,19 @@ function layoutMansory() {
  */
 function layoutFitRows() {
   $('#container').isotope({ layoutMode : 'fitRows' });
+  $('#container').isotope( 'reLayout' );
+  if (firstCat != '') {
+    filterIsotope('.' + firstCat);
+  }
+}
+
+
+/*
+ * Funzione modifica filtro Isotope
+ *
+ */
+function filterIsotope(filterStr) {
+  $('#container').isotope({ filter : filterStr });
   $('#container').isotope( 'reLayout' );
 }
 

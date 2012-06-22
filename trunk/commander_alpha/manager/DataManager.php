@@ -158,7 +158,7 @@ class DataManager {
      * @return boolean
      */
     public static function controlloAlimentoEsaurito($alimento_id) {
-        $sql = "SELECT * FROM cmd_alimento_esaurito WHERE alimento_id=$alimento_id";
+        $sql = "SELECT * FROM cmd_alimento_esaurito WHERE alimento_id=$alimento_id AND record_attivo=1";
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
             if(($res && mysql_num_rows($res))==false) {

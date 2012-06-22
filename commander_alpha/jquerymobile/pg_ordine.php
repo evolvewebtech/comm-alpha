@@ -9,7 +9,7 @@
             <div class="option-combo">
                 <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
                     <li><a href="#categorie" id="sortby-cat" data-option-value="cat" class="selected">Categorie</a></li>
-                    <li><a href="#alphabetical" data-option-value="nome">Alfabetico</a></li>
+                    <li><a href="#alphabetical" id="sortby-name" data-option-value="nome">Alfabetico</a></li>
                     <li><a href="#" id="ann-voci" data-option-value="annulla-voci">Annulla voci</a></li>
                 </ul>
             </div>
@@ -78,6 +78,7 @@
                         <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">Menù</a></li>
                 </ul>
             </div>
+            <div class="isotope-sort">
             <div class="option-combo">
             <!-- <h2>Sort:</h2> -->
             <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
@@ -85,6 +86,7 @@
                 <li><a id="catSort" href="#categorie" data-option-value="original-order" class="selected">Ord. Cat.</a></li>
                 <li><a href="#alphabetical" data-option-value="alphabetical">Ord. Alfab.</a></li>
             </ul>
+            </div>
             </div>
             <div class="option-combo">
             <!-- <h2>Layout: </h2> -->

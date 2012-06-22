@@ -17,7 +17,8 @@ class PosPrint {
 
         $fp = fsockopen($ip_address, 9100, $errno, $errstr, 10);
         if (!$fp) {
-            return "$errstr ($errno)";
+            //return "$errstr ($errno)";
+            return false;
         } else {
             fwrite($fp, $out);
             fclose($fp);

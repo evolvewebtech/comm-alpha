@@ -22,7 +22,6 @@ $('#ord-datepicker').live('datebox', function(event, payload) {
  *
  */
 $('#ord-non-vis').live("click", function() {
-    dataSel = memPayload;
     //0 => visualizzazione di tutti i risultati
     viewResult(0);
 });
@@ -57,7 +56,7 @@ function onListaOrdiniSuccess(data, status) {
     str = '';
     
     //eliminazione carattere '"'
-    dataSel = dataSel.replace('"','');
+    dataSel = memPayload.replace('"','');
     dataSel = dataSel.replace('"','');
     dataSel = formato_data_ora(dataSel, '-');
     

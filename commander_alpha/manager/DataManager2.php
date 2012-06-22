@@ -1704,7 +1704,7 @@ class DataManager2 {
     }
     
     public static function getAlimentoObjectsForEntity($categoriaID, $gestoreID){
-        $sql = "SELECT * FROM cmd_alimento WHERE categoria_id=$categoriaID AND gestore_id=$gestoreID";
+        $sql = "SELECT * FROM cmd_alimento WHERE categoria_id=$categoriaID AND gestore_id=$gestoreID ORDER BY nome";
         
         if (DataManager2::_getConnection()){
             $res = mysql_query($sql);

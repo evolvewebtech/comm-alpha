@@ -130,8 +130,10 @@
                 //Fine Transaction
             
                 
-            //******************************************************************
-                //Stampa ordine
+                /**
+                 * Stampa ordine
+                 *  
+                 */
                 include dirname(__FILE__).'/stampa_ordine.php';
                 $ret = stampaOrdine($next_id, false); //ordine_id, ristampa
                 
@@ -140,7 +142,7 @@
                 if (!$ret) {
                     $arr['err'] = 'E200';
                 }
-            //******************************************************************
+                
                 
             echo json_encode($arr);    
                 

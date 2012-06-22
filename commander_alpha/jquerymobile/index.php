@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>jQueryMobile</title>
+    <title>Comander</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
@@ -9,10 +9,9 @@
     <link rel="stylesheet" href="css/jquery.mobile.datebox-1.0.1.min.css"/>
     <script src="js/jquery.js"></script>
     <script>
-        //Inizializzazione jquerymobile
+        //Initialization jquerymobile
         $(document).bind("mobileinit", function(){
             $.extend(  $.mobile , {
-                //Inizializzazione tipo transazione pagine
                 defaultPageTransition: 'none',
                 defaultDialogTransition: 'none'
             }); 
@@ -58,6 +57,34 @@
     <link rel="stylesheet" href="css/style-isotope.css"/>
     <link rel="stylesheet" href="css/comm_checkbox.css" />
     <script type="text/javascript">
+        //Altezza div list-ord
+        $("#ordine").live('pageshow', function() {
+            var h = $(window).height() - $('#list-ord_foo').height();
+            h = h - $('#list-ord_nav').height() - 35;
+            resizeDiv('#list-ord', h);
+            if ($(window).width() <= 980) {
+                document.getElementById('sortby-cat').innerHTML = 'Cat';
+                document.getElementById('sortby-name').innerHTML = 'Alf';
+            }
+        });
+        
+        $(function(){      
+            //document.location.href="#home";
+            //$.mobile.changePage( "#home", 'none', false, true);
+            
+            $(window).resize(function(){
+                if ($(window).width() <= 980) {
+                    var h = $(window).height() - $('#list-ord_foo').height();
+                    h = h - $('#list-ord_nav').height() - 70;
+                    resizeDiv('#list-ord', h);
+                }
+            });
+        }); 
+        
+        function resizeDiv(name, size) {
+            $(name).css('height', size);
+        }
+         
         // Edit to suit your needs.
         var ADAPT_CONFIG = {
         // Where is your CSS?
@@ -74,10 +101,11 @@
         // Last range entry is the maximum.
         // Separate ranges by "to" keyword.
         range: [
-            '0px    to 980px  = style-comm-800.css',
+            '0px    to 600px  = style-comm-600.css',
+            '600px  to 980px  = style-comm-800.css',
             '980px  to 1600px = style-comm.css'
         ]
-        };
+        };        
     </script>
     <script type="text/javascript" src="../lib/adapt.min.js"></script>
     
@@ -92,6 +120,12 @@
         window.addEventListener("orientationchange",function(){hideAddressBar();});
     </script>
     <meta name="apple-mobile-web-app-capable" content="yes" />
+    
+    <!-- DA TESTARE -->
+    <meta content='True' name='HandheldFriendly' />
+    <meta content='width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;' name='viewport' />
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+
     <script type="text/javascript">
         function logged(err) {
             //Verifica se utente loggato

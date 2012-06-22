@@ -22,7 +22,6 @@ sisstemare metodo getTotaleAlimentoLastWeek
 <!-- jq plot css -->
 <link rel="stylesheet" type="text/css" href="media/css/jquery.jqplot.min.css" />
 
-
 <!-- timepicker -->
 <script type="text/javascript" src="media/js/timepicker.js"></script>
 
@@ -69,9 +68,12 @@ if($objSession->IsLoggedIn()){
        $utente_registrato_id = $gestore->utente_registrato_id;
 
        $totali = DataManager::getTotaleLastWeek();
-       echo "<pre>";
-       var_dump($totali);
-       echo "</pre>";
+       if (!$totali){
+           $totali = array();
+       }
+//       echo "<pre>";
+//       var_dump($totali);
+//       echo "</pre>";
 
        $cassieri = $gestore->getallCassiere();
 
@@ -422,7 +424,6 @@ function onReportAlimentoSuccess(data){
        $dialogERR.dialog("open");
    } else if(data.err==''){
 //       $('#code-ok').html('OK.');
-//       console.log(data);
 //       $dialogOK.dialog( "open" );
 
         print_graph('chart1',data.s1,data.ticks);

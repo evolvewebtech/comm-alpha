@@ -2772,9 +2772,7 @@ class DataManager {
                   $totale['prezzo'] = $row['prezzo'];
                   $totale['quantita'] = $row['quantita'];
               }
-//              echo "<pre>";
-//              print_r($totale);
-//              echo "</pre>";
+
               return $totale;
               
         } else {

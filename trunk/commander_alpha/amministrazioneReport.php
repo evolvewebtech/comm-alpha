@@ -67,14 +67,21 @@ if($objSession->IsLoggedIn()){
        $gestore_id = $gestore->id;
        $utente_registrato_id = $gestore->utente_registrato_id;
 
-       $totali = DataManager::getTotaleLastWeek();
+       //$totali = DataManager::getTotaleLastWeek();
+       //06/03/2012 00:00
+       $start_timestamp = date ("m/d/Y H:i");
+       $data=explode("-",$start_timestamp);
+       $data_new = explode(" ",$data[2]);
+       $end_timestamp = date("m/d/Y H:i", mktime(0, 0, 0,date("d")-7,date("m"),date("Y")));
+//     var_dump($start_timestamp);
+//     var_dump($end_timestamp);
+       $totali = DataManager::getTotaliAlimentiConsumati($start_timestamp, $end_timestamp);
        if (!$totali){
            $totali = array();
        }
 //       echo "<pre>";
 //       var_dump($totali);
 //       echo "</pre>";
-
        $cassieri = $gestore->getallCassiere();
 
 ?>
@@ -478,15 +485,9 @@ function onError(data, status) {
     </div>
     <div id="report" class="lista_ordini" style="color:#999999;">
 
-        <span>Quntit&agrave; consumate dal <span id="data-da"></span> al <span id="data-al"></span></span>
+        <span>Quntit&agrave; consumate dal <span id="data-da"><?=$start_timestamp?></span> al <span id="data-al"><?=$end_timestamp?></span></span>
 <!--        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>-->
-        <div id="chart1" style="margin-top:20px; margin-left:20px; width:800px; height:400px;"></div>
-        <?
-
-//        echo "<pre>";
-//        print_r($totali);
-//        echo "<pre>";
-        ?>
+        <div id="chart1" style="margin-top:20px; margin-left:20px; width:800px; height:400px;"></div>     
        <!-- week graph -->
        <script type="text/javascript">$(document).ready(function(){
                $.jqplot.config.enablePlugins = true;
@@ -496,7 +497,7 @@ function onError(data, status) {
                <? if ($totali){
                     foreach ($totali as $totale) { ?>
                         ticks.push("<?=$totale['nome']?>");
-                        s1.push("<?=$totale['quantita_consumata']?>");
+                        s1.push("<?=intval($totale['quantita_consumata'])?>");
                <?   }} ?>
                console.log(s1);
                console.log(ticks);
@@ -527,6 +528,9 @@ function onError(data, status) {
                     highlighter: { show: false }
                 });
 
+                /*
+                 * visualizza le coordinate al click
+                 */
 //                $('#chart1').bind('jqplotDataClick',
 //                    function (ev, seriesIndex, pointIndex, data) {
 //                        $('#info1').html('series: '+seriesIndex+', point: '+pointIndex+', data: '+data);

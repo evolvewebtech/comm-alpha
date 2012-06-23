@@ -73,13 +73,7 @@ todo: 1. Attenzione al refresh della pagina
 
            $data_alimento_variante = DataManager::getAllAlimentoVariante();
            $data_categoria         = DataManager::getAllCategoriaByGestoreID($gestore_id);
-           /*
-           foreach ($data_alimento_variante as $data_alID_stamp_ID) {
-               echo '<pre style="background-color:white;">';
-               print_r($data_alID_stamp_ID);
-               echo "</pre>";
-           }
-           */
+
            $numero_alimento_stampante = count($data_alimento_tampante);
 
     ?>

@@ -69,9 +69,8 @@ if($objSession->IsLoggedIn()){
 
        //$totali = DataManager::getTotaleLastWeek();
        //06/03/2012 00:00
-       $start_timestamp = date ("m/d/Y H:i");
-       $data=explode("-",$start_timestamp);
-       $end_timestamp = date("m/d/Y H:i", mktime(0, 0, 0,date("d")-7,date("m"),date("Y")));
+       $end_timestamp = date ("m/d/Y H:i");
+       $start_timestamp = date("m/d/Y H:i", mktime(0, 0, 0,date("m"),date("d")-7,date("Y")));
 //     var_dump($start_timestamp);
 //     var_dump($end_timestamp);
        $totali = DataManager::getTotaliAlimentiConsumati($start_timestamp, $end_timestamp);

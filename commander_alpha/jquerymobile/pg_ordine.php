@@ -53,6 +53,7 @@
         </fieldset>
         </div>
         </div>
+        <div id="view-menu" style="position: fixed; right: 120px; top: 180px"><a class="ui-btn-left" data-role="button" data-icon="arrow-l" data-inline="true">Menù</a></div>
     </div>
 
     <script type="text/javascript">
@@ -96,51 +97,11 @@
                 <li><a href="#straightDown" data-option-value="straightDown">Vista 3</a></li>
             </ul>
             </div>
+            <div id="view-list"><a class="ui-btn-left" data-role="button" data-icon="arrow-r" data-inline="true">Lista</a></div>
         </section>
 
         <div id="container" class="super-list variable-sizes clearfix">
-
-        <?php        
-            /*require_once dirname(__FILE__).'/../manager/DataManager2.php';
-
-            $arCat = DataManager2::getAllCategoriesAsObjects();
-
-            $echostr = "";
-            $num = 0;
-
-            foreach($arCat as $objEntity) {
-                $numAlmt = $objEntity->getNumberOfAlimenti();
-
-                $echostr .= '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-                $echostr .= '<a class="options-set2" href="#'.$objEntity->nome.'" data-option-value=".'.$objEntity->nome.'">';
-                $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
-                $echostr .= '<h2 class="el-name">'.$objEntity->nome.'</h2>';
-                $echostr .= '</div>';
-                $echostr .= '</a>';
-                $echostr .= '</div>';
-                $num += 1;
-
-                for($j=0; $j<$numAlmt; $j++) {
-                    $Almnt = $objEntity->getAlimento($j);
-
-                    $echostr .= '<div class="element '.$objEntity->nome.'" data-symbol="Sc" data-category="'.$objEntity->nome.'">';
-                    $echostr .= '<a class="options-set3" href="'.$Almnt->id.'&'.$objEntity->nome.'&'.$Almnt->nome.'&'.$Almnt->prezzo.'" data-option-value=".'.$Almnt->nome.'">';
-                    if ($Almnt->colore_bottone == ""){
-                        $echostr .= '<div class="element" style="background: #'.$objEntity->colore_bottone_predef.'">';
-                    }
-                    else $echostr .= '<div class="element" style="background: #'.$Almnt->colore_bottone.'">';
-                    $echostr .= '<h2 class="el-name">'.$Almnt->nome.'</h2>';
-                    $echostr .= '<h2 class="el-prezzo">'.$Almnt->prezzo.' €</h2>';
-                    $echostr .= '<h3 class="el-cat">'.$objEntity->nome.'</h3>';
-                    $echostr .= '</div>';
-                    $echostr .= '</a>';
-                    $echostr .= '</div>';
-                }
-            }
-
-            echo $echostr;*/
-
-        ?>
+        <?php        ?>
         </div>
     </section>
 

@@ -59,18 +59,32 @@
     <script type="text/javascript">
         //Altezza div list-ord
         $("#ordine").live('pageshow', function() {
-            var h = $(window).height() - $('#list-ord_foo').height();
-            h = h - $('#list-ord_nav').height() - 35;
-            resizeDiv('#list-ord', h);
+            if ($(window).width() > 800) {
+                var h = $(window).height() - $('#list-ord_foo').height();
+                h = h - $('#list-ord_nav').height() - 80;
+                resizeDiv('#list-ord', h);
+            }
             if ($(window).width() <= 980) {
                 document.getElementById('sortby-cat').innerHTML = 'Cat';
                 document.getElementById('sortby-name').innerHTML = 'Alf';
             }
+            if ($(window).width() <= 800) {
+                $('#view-menu').hide('fast');
+                $('#view-list').show('fast');
+                $('.comm-a').hide('fast');
+                $('.comm-b').show('fast');
+            }
+            else {
+                $('#view-menu').hide('fast');
+                $('#view-list').hide('fast');
+                $('.comm-a').show('fast');
+                $('.comm-b').show('fast');
+            }
         });
         
         $(function(){      
-            //document.location.href="#home";
-            //$.mobile.changePage( "#home", 'none', false, true);
+            document.location.href="#home";
+            $.mobile.changePage( "#home", 'none', false, true);
             
             $(window).resize(function(){
                 if ($(window).width() <= 980) {
@@ -101,8 +115,8 @@
         // Last range entry is the maximum.
         // Separate ranges by "to" keyword.
         range: [
-            '0px    to 600px  = style-comm-600.css',
-            '600px  to 980px  = style-comm-800.css',
+            '0px    to 800px  = style-comm-600.css',
+            '800px  to 980px  = style-comm-800.css',
             '980px  to 1600px = style-comm.css'
         ]
         };        

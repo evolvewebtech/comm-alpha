@@ -23,25 +23,24 @@
 }
     
 .comm-a {
-    width: 100%;
-    margin: auto;
+    width: 32%;
     min-width: 160px;
+    float: left;
     position: relative;
 }
 
 .comm-b {
-    width: 100%;
+    width: 68%;
     min-width: 350px;
     min-height: 400px;
+    float: left;
     position: relative;
 }
 
 .list-ord {
     /*margin-bottom: 110px;*/
-    width: 45%;
-    min-height: 400px;
-    margin-left: 10px;
-    margin-bottom: 20px;
+    overflow: auto;
+/*    height: 330px;*/
 }
 
 .list-ord_nav {
@@ -50,11 +49,10 @@
 }
 
 .list-ord_foo {
-    position: fixed;
-    top: 50px;
-    right: 10px;
+    position:relative;
+    bottom: 0px;
     height: 100px;
-    width: 40%
+    width: 100%
 }
 
 .list-ord_foo .list-ord_foo-cont {
@@ -69,10 +67,8 @@
 .isotope-sort { display: none;}
 
 .element {
-  width: 180px;
-  height: 60px;
-  border: 10px 10px 10px 10px;
-  border-color: #FF0;
+  width: 160px;
+  height: 50px;
 }
 
 .element .el-name{
@@ -80,7 +76,7 @@
   margin-top: -7px;
   width: 140px;
   float: left;
-  font-size: 1.2em;
+  font-size: 1.1em;
   position:relative;
   top: 25%;
 }
@@ -89,10 +85,10 @@
   margin-top: 12px;
   margin-left: 10px;
   float: left;
-  font-size: 1.0em;
+  font-size: 0.9em;
   font-style: italic;
   position:absolute;
-  top: 35%;
+  top: 25%;
 }
 
 .element .el-prezzo {
@@ -100,9 +96,9 @@
   margin-right: 10px;
   margin-top: 6px;
   float: right;
-  font-size: 1.3em;
+  font-size: 1.1em;
   position:relative;
-  top: 30%;
+  top: 25%;
 }
 
 
@@ -205,8 +201,8 @@
 
 .comm-li-alim {
   margin: 0px; 
-  height: 35px;
-  font-size: 1.3em;
+  height: 30px;
+  font-size: 1.00em;
 }
 
 .comm-li-link {
@@ -250,6 +246,7 @@
   position:relative;
   height: 100%;
   vertical-align: middle;
+  font-size: 0.95em;
 }
 
 .comm-li-alim .cat {
@@ -300,7 +297,6 @@
     height: 8px;
     font-family: Helvetica,Arial,sans-serif;
     font-weight: bold;
-    font-size: 1.3em;
 }
 
 .comm-li-tot .name{

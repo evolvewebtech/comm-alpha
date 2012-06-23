@@ -28,7 +28,7 @@ function onLivelliSuccess(data, status) {
 
     //alert("Successo lettura Livelli da database con Ajax!");  
 
-    document.getElementById('user01').innerHTML = 'Cameriere: ' + data['cassiere'];
+    document.getElementById('user01').innerHTML = data['cassiere'];
 
     for(var i=0; i<data['livelli'].length; i++) {
         livelli.push(data['livelli'][i]);

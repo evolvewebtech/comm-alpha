@@ -1065,6 +1065,20 @@ $('#canc-ord').live("click", function() {
 });
 
 
+$('#view-menu').live("click", function() {
+    $('#view-menu').hide('fast');
+    $('#view-list').show('fast');
+    $('.comm-a').hide('fast');
+    $('.comm-b').show('fast');
+});
+$('#view-list').live("click", function() {
+    $('#view-menu').show('fast');
+    $('#view-list').hide('fast');
+    $('.comm-b').hide('fast');
+    $('.comm-a').show('fast');
+});
+
+
 /*
  *  Funzione per crazione oggetti "alimento"
  *  

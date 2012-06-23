@@ -47,6 +47,9 @@
            $data_categoria = DataManager::getAllCategoriaByGestoreID($gestore_id);//($gestore_id);
            $numero_categoria = count($data_categoria);
            $max_id = DataManager::getMAXID('cmd_categoria');
+           if (!$max_id){
+               $max_id=0;
+           }
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci le categorie<small class="breadcrumb">Sei qui:

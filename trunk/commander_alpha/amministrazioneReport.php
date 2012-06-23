@@ -71,7 +71,6 @@ if($objSession->IsLoggedIn()){
        //06/03/2012 00:00
        $start_timestamp = date ("m/d/Y H:i");
        $data=explode("-",$start_timestamp);
-       $data_new = explode(" ",$data[2]);
        $end_timestamp = date("m/d/Y H:i", mktime(0, 0, 0,date("d")-7,date("m"),date("Y")));
 //     var_dump($start_timestamp);
 //     var_dump($end_timestamp);

@@ -977,7 +977,7 @@ class DataManager {
      * @return <array>
      */
     public static function getAllTavoloBySalaID($sala_id){
-        $sql = "SELECT * FROM cmd_tavolo WHERE sala_id=$sala_id";
+        $sql = "SELECT * FROM cmd_tavolo WHERE sala_id=$sala_id ORDER BY nome, numero";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {
@@ -1201,7 +1201,7 @@ class DataManager {
      * @return <array>
      */
     public static function getAllAlimentoByGestoreID($gestore_id){
-        $sql = "SELECT * FROM cmd_alimento WHERE gestore_id=$gestore_id";
+        $sql = "SELECT * FROM cmd_alimento WHERE gestore_id=$gestore_id ORDER BY nome";
         
         $db = DataManager::_getConnection();
         if ($db){

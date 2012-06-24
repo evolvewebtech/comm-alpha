@@ -35,12 +35,6 @@ sisstemare metodo getTotaleAlimentoLastWeek
 <!-- lib -->
 <link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
-<style type="text/css">
-    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
-        margin-top:0px;
-    }
-</style>
-
 <!-- jq plot-->
 <script type="text/javascript" src="media/js/jquery.jqplot.min.js"></script>
 <!--<script type="text/javascript" src="media/js/syntaxhighlighter/shCore.min.js"></script>
@@ -481,11 +475,11 @@ function onError(data, status) {
         <button type="submit" id="cerca-ordini" class="cec-button">cerca</button>
         <button type="submit" id="print-graph" class="cec-button">grafico</button>
     </div>
-    <div id="report" class="lista_ordini" style="color:#999999;">
+    <div id="report" class="lista_ordini" style="color:#fff;">
 
         <span>Quntit&agrave; consumate dal <span id="data-da"><?=$start_timestamp?></span> al <span id="data-al"><?=$end_timestamp?></span></span>
 <!--        <div><span>Hai premuto su: </span><span id="info1">ancora niente...</span></div>-->
-        <div id="chart1" style="margin-top:20px; margin-left:20px; width:800px; height:400px;"></div>     
+        <div id="chart1" style="background-color: white; margin-top:20px; margin-left:20px; width:850px; height:400px;"></div>
        <!-- week graph -->
        <script type="text/javascript">$(document).ready(function(){
                $.jqplot.config.enablePlugins = true;
@@ -501,7 +495,7 @@ function onError(data, status) {
                console.log(ticks);
                 //var s1 = [2, 6, 7, 10];
                 //var ticks = ['a', 'b', 'c', 'd'];
-
+                    this.tectcolor = '#fff';
                 plot1 = $.jqplot('chart1', [s1], {
                     // Only animate if we're not using excanvas (not in IE 7 or IE 8)..
                     animate: !$.jqplot.use_excanvas,
@@ -514,16 +508,22 @@ function onError(data, status) {
                         tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
                         tickOptions: {
                           angle: -30,
-                          fontSize: '10pt'
-                        }
+                          textColor: '#000000',
+                          fontSize: '10pt'                          
+                        }                        
                     },
                     axes: {
                         xaxis: {
                             renderer: $.jqplot.CategoryAxisRenderer,
                             ticks: ticks                            
+                        }                       
+                    },                    
+                    highlighter: { show: false },
+                    seriesDefaults:{
+                        trendline: {
+                            color: '#fff'
                         }
-                    },
-                    highlighter: { show: false }
+                    }
                 });
 
                 /*
@@ -580,3 +580,11 @@ function onError(data, status) {
     }
 ?>
 <script type="text/javascript" src="media/js/example.js"></script>
+<style type="text/css">
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+        margin-top:0px;
+    }
+    .jqplot-image-container-close{
+        color: white;
+    }
+</style>

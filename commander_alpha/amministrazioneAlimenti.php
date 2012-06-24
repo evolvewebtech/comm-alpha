@@ -78,7 +78,7 @@ todo: 1. Attenzione al refresh della pagina
 
     ?>
     <h1>Gestisci gli Alimenti<small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneAlimenti.php"><b>Alimenti</b></a>
         </small>
     </h1>

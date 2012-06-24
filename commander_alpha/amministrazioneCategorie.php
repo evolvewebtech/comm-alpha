@@ -53,7 +53,7 @@
 //           echo '<p style="background-color:white">'.$numero_tavolo.'</p>';
     ?>
     <h1>Gestisci le categorie<small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneCategorie.php"><b>Categorie</b></a>
         </small>
     </h1>

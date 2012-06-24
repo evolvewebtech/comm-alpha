@@ -55,9 +55,9 @@
 //               echo "</pre>";
 //           echo '</div>';
     ?>
-    <h1>Gestisci i permessi
+    <h1>Gestisci i permessi di <?=$cassiere->username?>
         <small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 12px;" href="amministrazioneCassieri.php"><b>Cassieri</b></a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazionePermessi.php"><b>Permessi</b></a>
         </small>

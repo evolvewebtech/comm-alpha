@@ -36,7 +36,7 @@
     ?>
     <h1>Gestisci le Sale
         <small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneSale.php">Sale</a></small>
     </h1>
 

@@ -61,11 +61,9 @@
     $('#new-ord-bt').live("click", function() {
         if (cassa_fissa) {
             document.location.href="#ordine";
-            $.mobile.changePage( "#ordine", 'none', false, true);
         }
         else {
-            document.location.href="#tavoli";
-            $.mobile.changePage( "#tavoli", 'none', false, true);     
+            document.location.href="#tavoli";   
         }
     });
     

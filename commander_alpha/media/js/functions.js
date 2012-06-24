@@ -135,6 +135,7 @@ function print_graph(selettore, s1, ticks){
             tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
             tickOptions: {
               angle: -30,
+              textColor: '#ffffff',
               fontSize: '10pt'
             }
         },

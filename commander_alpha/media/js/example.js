@@ -71,11 +71,13 @@ $(document).ready(function(){
             header.addClass('jqplot-image-container-header');
             div.addClass('jqplot-image-container-content');
 
-            header.html('Right Click to Save Image As...');
+            header.html('Tasto destro -> Salva immagine come...');
 
             var close = $(document.createElement('a'));
             close.addClass('jqplot-image-container-close');
-            close.html('Close');
+            close.html('X - CHIUDI');
+            close.css('float','right');
+            close.css('cursor','pointer');
             close.attr('href', '#');
             close.click(function() {
                 $(this).parents('div.jqplot-image-container').hide(500);

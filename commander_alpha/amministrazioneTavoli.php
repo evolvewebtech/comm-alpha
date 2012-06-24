@@ -34,9 +34,7 @@
                die('<p style="background-color:white;color:black;">Err</p>');
            }
 
-           $data_tavolo = DataManager::getAllTavoloBySalaID($sala_id);
-           $data_tavolo = Utility::subval_sort($data_tavolo, 'numero');
-
+           $data_tavolo = DataManager::getAllTavoloBySalaID($sala_id);           
            $numero_tavolo = count($data_tavolo);
            $max_id = DataManager::getMAXID('cmd_tavolo');
            if (!$max_id){
@@ -417,7 +415,7 @@ $(function() {
                         $count = 1;
                         foreach ($data_tavolo as $tavolo) {
 
-                          echo '<li><a href="ui-tabs-'.$count.'">'.$tavolo['numero'].'</a></li>';
+                          echo '<li><a href="ui-tabs-'.$count.'">'.$tavolo['nome'].'</a></li>';
                           $count++;
                         }
 

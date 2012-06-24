@@ -2035,5 +2035,73 @@ class DataManager2 {
         }
     }
     
+    
+    public static function getMenuAggiornato($cassiere_id) {
+        $sql = "SELECT * FROM cmd_menu_aggiornato WHERE cassiere_id=$cassiere_id";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                return false;
+            }
+            if(mysql_num_rows($res)) {
+                  $ret = false;
+                  while($rec = mysql_fetch_assoc($res)) {
+                    if ($rec['aggiornato'] == 1) $ret = true;
+                    else $ret = false;
+                    }
+                  return $ret;
+            } else {
+                return array();
+            }
+        }
+    }
+    
+    
+    public static function insertMenuAggiornato($cassiere_id) {
+        
+        $sql = "SELECT * FROM cmd_menu_aggiornato WHERE cassiere_id=$cassiere_id";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if(($res && mysql_num_rows($res))==false) {
+                //Se non esiste, creo la riga
+                require_once 'Database.php';
+                $db = new Database();
+                $db->connect();
+
+                $ret = $db->insert('cmd_menu_aggiornato', array($cassiere_id, 1));
+
+                if ($ret) return true;
+                else return false;
+            }
+            //Se esiste l'id cassiere -> esco
+            else {
+                return true;
+            }
+        } else {
+          return false;
+        }
+    }
+    
+    
+    static function aggiornaMenuAggiornato($cassiere_id, $aggiornato){
+        
+        $new = $aggiornato ? 1 : 0;
+        
+        $sql = "UPDATE cmd_menu_aggiornato SET cassiere_id=$cassiere_id, aggiornato=$new WHERE cassiere_id=$cassiere_id";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if($res) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }//end aggiornaMenuAggiornato
+    
+    
    } 
 ?>

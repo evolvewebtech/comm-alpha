@@ -11,8 +11,12 @@ $("#ordine").live('pageshow', function() {
     if (!refreshAlim) {
         refreshAlim = true;
         
+        data = 'firstUpdate=' + firstUpdate;
+        firstUpdate = false;
+        
         $.ajax({
-            type : "GET",
+            type : "POST",
+            data: data,
             url: "menu.php",
             dataType: 'json',
             cache: false,
@@ -62,25 +66,107 @@ function onEventoInfoSuccess(data, status) {
     
     //Verifica se utente loggato
     if ( !logged(data['err']) ) return;
-        
-    //Svuotamento iniziale "categorie" da container Isotope
-    var $removable = $('#container').find( ".categorie" );
-    $('#container').isotope( 'remove', $removable );
-        
-    //Aggiunta Categorie e Alimenti al container Isotope    
-    var $str = '';
-    var textColor = '';
-    for($i=0; $i<data['cat'].length; $i++) {
-        //colore testo
-        textColor = contrastColor( data['cat'][$i].colore_bottone_predef );
-        
-        //Visualizzate solo categoria non vuote
-        if (data['cat'][$i].alimenti.length > 0) {
+    
+    //Verifica se alimenti già aggiornati
+    if (!data['aggiornato']) {   
+        //Svuotamento iniziale "categorie" da container Isotope
+        var $removable = $('#container').find( ".categorie" );
+        $('#container').isotope( 'remove', $removable );
+
+        //Aggiunta Categorie e Alimenti al container Isotope    
+        var $str = '';
+        var textColor = '';
+        for($i=0; $i<data['cat'].length; $i++) {
+            //colore testo
+            textColor = contrastColor( data['cat'][$i].colore_bottone_predef );
+
+            //Visualizzate solo categoria non vuote
+            if (data['cat'][$i].alimenti.length > 0) {
+                $str = "";
+                $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
+                $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+'">';
+                $str = $str + '<div class="element" style="background: '+data['cat'][$i].colore_bottone_predef+'">';
+                $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h2>';
+                $str = $str + '</div>';
+                $str = $str + '</a>';
+                $str = $str + '</div>';
+
+                //Aggiunta dei nuovi elementi a Isotope
+                $('#container').append( $str ).isotope( 'reloadItems' );
+            }
+
+            if (data['cat'].length == 1) firstCat = data['cat'][$i].nome;
+            else firstCat = '';
+
+            //Svuotamento iniziale "alimenti" da container Isotope
+            $removable = $('#container').find( "." + data['cat'][$i].nome );
+            $('#container').isotope( 'remove', $removable );
+
+            for($j=0; $j<data['cat'][$i].alimenti.length; $j++) {
+                //Verifica se alimento esaurito
+                if (data['cat'][$i].alimenti[$j].esaurito == 0) {
+                    //Colore pulsante alimento
+                    var $strColorCat = data['cat'][$i].colore_bottone_predef;
+                    var $strColorAlim = data['cat'][$i].alimenti[$j].colore_bottone;
+                    var $strColor = '';
+                    if ($strColorAlim == '') $strColor = $strColorCat;
+                    else $strColor = $strColorAlim;
+                    //colore testo
+                    textColor = contrastColor( $strColor );
+
+                    var elName = data['cat'][$i].alimenti[$j].nome;
+                    if (elName.length > 17) elName = elName.substring(0,15) + '...';
+
+                    $str = "";
+                    $str = $str + '<div class="element '+data['cat'][$i].nome+'" data-symbol="Sc" data-category='+data['cat'][$i].nome+'>';
+                    $str = $str + '<a class="options-set3" href="#'+data['cat'][$i].alimenti[$j].id+'" data-option-value=".'+data['cat'][$i].alimenti[$j].nome+'">';
+                    $str = $str + '<div class="element" style="background: '+$strColor+'">';
+                    $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+elName+'</h2>';
+                    $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['cat'][$i].alimenti[$j].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+                    $str = $str + '<h3 class="el-cat" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h3>';
+                    $str = $str + '</div>';
+                    $str = $str + '</a>';
+                    $str = $str + '</div>';
+
+                    //Aggiunta dei nuovi elementi a Isotope
+                    $('#container').append( $str ).isotope( 'reloadItems' );
+
+                    //Creazione oggetti Variante
+                    var arrTempVar = new Array();
+                    for($t=0; $t<data['cat'][$i].alimenti[$j].varianti.length; $t++) {
+                        //Creazione oggetto Variante
+                        var variante = new Variante(data['cat'][$i].alimenti[$j].varianti[$t].id,
+                                                    data['cat'][$i].alimenti[$j].varianti[$t].descrizione,
+                                                    data['cat'][$i].alimenti[$j].varianti[$t].prezzo);
+
+                        //Aggiunta elementi all'array delle Varianti
+                        arrTempVar.push(variante);
+                    }
+
+                    //Creazione oggetto Alimento
+                    var alimento = new Alim(data['cat'][$i].alimenti[$j].id,
+                                            data['cat'][$i].nome,
+                                            data['cat'][$i].alimenti[$j].nome,
+                                            data['cat'][$i].alimenti[$j].prezzo,
+                                            data['cat'][$i].alimenti[$j].descrizione,
+                                            0,
+                                            arrTempVar);
+
+                    //Aggiunta elementi all'array degli Alimenti
+                    arrAlim[data['cat'][$i].alimenti[$j].id] = alimento;
+                }
+            }
+        }
+
+        textColor = contrastColor( '#ffffff' );
+
+        //Aggiunto pulsante categoria "Menù fissi""
+        if (data['menu'].length > 0) {
             $str = "";
             $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-            $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+'">';
-            $str = $str + '<div class="element" style="background: '+data['cat'][$i].colore_bottone_predef+'">';
-            $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h2>';
+            $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi">';
+            $str = $str + '<div class="element" style="background: #ffffff">';
+            $str = $str + '<h2 class="el-name" style="color: '+textColor+'">Menù fissi</h2>';
             $str = $str + '</div>';
             $str = $str + '</a>';
             $str = $str + '</div>';
@@ -88,183 +174,104 @@ function onEventoInfoSuccess(data, status) {
             //Aggiunta dei nuovi elementi a Isotope
             $('#container').append( $str ).isotope( 'reloadItems' );
         }
-        
-        if (data['cat'].length == 1) firstCat = data['cat'][$i].nome;
-        else firstCat = '';
-        
-        //Svuotamento iniziale "alimenti" da container Isotope
-        $removable = $('#container').find( "." + data['cat'][$i].nome );
+
+        //Svuotamento iniziale "menu fissi" da container Isotope
+        $removable = $('#container').find( ".menu_fissi" );
         $('#container').isotope( 'remove', $removable );
-        
-        for($j=0; $j<data['cat'][$i].alimenti.length; $j++) {
-            //Verifica se alimento esaurito
-            if (data['cat'][$i].alimenti[$j].esaurito == 0) {
-                //Colore pulsante alimento
-                var $strColorCat = data['cat'][$i].colore_bottone_predef;
-                var $strColorAlim = data['cat'][$i].alimenti[$j].colore_bottone;
-                var $strColor = '';
-                if ($strColorAlim == '') $strColor = $strColorCat;
-                else $strColor = $strColorAlim;
-                //colore testo
-                textColor = contrastColor( $strColor );
 
-                var elName = data['cat'][$i].alimenti[$j].nome;
-                if (elName.length > 17) elName = elName.substring(0,15) + '...';
-                
-                $str = "";
-                $str = $str + '<div class="element '+data['cat'][$i].nome+'" data-symbol="Sc" data-category='+data['cat'][$i].nome+'>';
-                $str = $str + '<a class="options-set3" href="#'+data['cat'][$i].alimenti[$j].id+'" data-option-value=".'+data['cat'][$i].alimenti[$j].nome+'">';
-                $str = $str + '<div class="element" style="background: '+$strColor+'">';
-                $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+elName+'</h2>';
-                $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['cat'][$i].alimenti[$j].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
-                $str = $str + '<h3 class="el-cat" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h3>';
-                $str = $str + '</div>';
-                $str = $str + '</a>';
-                $str = $str + '</div>';
+        //Aggiunta Menu Fissi al container Isotope   
+        for($i=0; $i<data['menu'].length; $i++) {
+            $str = "";
+            $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
+            $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
+            $str = $str + '<div class="element" style="background: #ffffff">';
+            $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['menu'][$i].nome+'</h2>';
+            $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['menu'][$i].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+            $str = $str + '</div>';
+            $str = $str + '</a>';
+            $str = $str + '</div>';
 
-                //Aggiunta dei nuovi elementi a Isotope
-                $('#container').append( $str ).isotope( 'reloadItems' );
+            //Aggiunta dei nuovi elementi a Isotope
+            $('#container').append( $str ).isotope( 'reloadItems' );
 
-                //Creazione oggetti Variante
-                var arrTempVar = new Array();
-                for($t=0; $t<data['cat'][$i].alimenti[$j].varianti.length; $t++) {
-                    //Creazione oggetto Variante
-                    var variante = new Variante(data['cat'][$i].alimenti[$j].varianti[$t].id,
-                                                data['cat'][$i].alimenti[$j].varianti[$t].descrizione,
-                                                data['cat'][$i].alimenti[$j].varianti[$t].prezzo);
+            var arrTempCat = new Array();
+            for($j=0; $j<data['menu'][$i].categorie.length; $j++) {
+
+                //Creazione oggetti Alimenti
+                var arrTempAlim = new Array();
+                for($t=0; $t<data['menu'][$i].categorie[$j].alimenti.length; $t++) {
+
+                    var arrTempVar = new Array();
+                    for($s=0; $s<data['menu'][$i].categorie[$j].alimenti[$t].varianti.length; $s++) {
+                        //Creazione oggetto Variante
+                        var variante = new Variante(data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].id,
+                                                    data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].descrizione,
+                                                    data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].prezzo);
+
+                        //Aggiunta elementi all'array delle Varianti
+                        arrTempVar.push(variante);
+                    }   
+
+                    //Creazione oggetto Alimento
+                    var alimento = new AlimMenu(data['menu'][$i].categorie[$j].alimenti[$t].id,
+                                                data['menu'][$i].categorie[$j].alimenti[$t].nome,
+                                                arrTempVar);
 
                     //Aggiunta elementi all'array delle Varianti
-                    arrTempVar.push(variante);
+                    arrTempAlim.push(alimento);
                 }
 
-                //Creazione oggetto Alimento
-                var alimento = new Alim(data['cat'][$i].alimenti[$j].id,
-                                        data['cat'][$i].nome,
-                                        data['cat'][$i].alimenti[$j].nome,
-                                        data['cat'][$i].alimenti[$j].prezzo,
-                                        data['cat'][$i].alimenti[$j].descrizione,
-                                        0,
-                                        arrTempVar);
+                //Creazione oggetto CatManu contente i parametri
+                var categoria = new CatMenu(data['menu'][$i].categorie[$j].id,
+                                            data['menu'][$i].categorie[$j].nome_cat,
+                                            arrTempAlim);
 
-                //Aggiunta elementi all'array degli Alimenti
-                arrAlim[data['cat'][$i].alimenti[$j].id] = alimento;
-            }
-        }
-    }
-    
-    textColor = contrastColor( '#ffffff' );
-    
-    //Aggiunto pulsante categoria "Menù fissi""
-    if (data['menu'].length > 0) {
-        $str = "";
-        $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-        $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi">';
-        $str = $str + '<div class="element" style="background: #ffffff">';
-        $str = $str + '<h2 class="el-name" style="color: '+textColor+'">Menù fissi</h2>';
-        $str = $str + '</div>';
-        $str = $str + '</a>';
-        $str = $str + '</div>';
-
-        //Aggiunta dei nuovi elementi a Isotope
-        $('#container').append( $str ).isotope( 'reloadItems' );
-    }
-    
-    //Svuotamento iniziale "menu fissi" da container Isotope
-    $removable = $('#container').find( ".menu_fissi" );
-    $('#container').isotope( 'remove', $removable );
-    
-    //Aggiunta Menu Fissi al container Isotope   
-    for($i=0; $i<data['menu'].length; $i++) {
-        $str = "";
-        $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
-        $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
-        $str = $str + '<div class="element" style="background: #ffffff">';
-        $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['menu'][$i].nome+'</h2>';
-        $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['menu'][$i].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
-        $str = $str + '</div>';
-        $str = $str + '</a>';
-        $str = $str + '</div>';
-        
-        //Aggiunta dei nuovi elementi a Isotope
-        $('#container').append( $str ).isotope( 'reloadItems' );
-        
-        var arrTempCat = new Array();
-        for($j=0; $j<data['menu'][$i].categorie.length; $j++) {
-            
-            //Creazione oggetti Alimenti
-            var arrTempAlim = new Array();
-            for($t=0; $t<data['menu'][$i].categorie[$j].alimenti.length; $t++) {
-                
-                var arrTempVar = new Array();
-                for($s=0; $s<data['menu'][$i].categorie[$j].alimenti[$t].varianti.length; $s++) {
-                    //Creazione oggetto Variante
-                    var variante = new Variante(data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].id,
-                                                data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].descrizione,
-                                                data['menu'][$i].categorie[$j].alimenti[$t].varianti[$s].prezzo);
-                    
-                    //Aggiunta elementi all'array delle Varianti
-                    arrTempVar.push(variante);
-                }   
-                
-                //Creazione oggetto Alimento
-                var alimento = new AlimMenu(data['menu'][$i].categorie[$j].alimenti[$t].id,
-                                            data['menu'][$i].categorie[$j].alimenti[$t].nome,
-                                            arrTempVar);
-                
-                //Aggiunta elementi all'array delle Varianti
-                arrTempAlim.push(alimento);
+                //Aggiunta elementi all'array delle categorie
+                arrTempCat.push(categoria);
             }
 
-            //Creazione oggetto CatManu contente i parametri
-            var categoria = new CatMenu(data['menu'][$i].categorie[$j].id,
-                                        data['menu'][$i].categorie[$j].nome_cat,
-                                        arrTempAlim);
-            
-            //Aggiunta elementi all'array delle categorie
-            arrTempCat.push(categoria);
+            //Creazione oggetto Menu
+            var menu = new Menu(data['menu'][$i].id,
+                                data['menu'][$i].nome,
+                                data['menu'][$i].prezzo,
+                                data['menu'][$i].descrizione,
+                                arrTempCat);
+
+            //Aggiunta Menu all'array
+            arrMenu[menu._id] = menu;
         }
-        
-        //Creazione oggetto Menu
-        var menu = new Menu(data['menu'][$i].id,
-                            data['menu'][$i].nome,
-                            data['menu'][$i].prezzo,
-                            data['menu'][$i].descrizione,
-                            arrTempCat);
-        
-        //Aggiunta Menu all'array
-        arrMenu[menu._id] = menu;
-    }
-    
-       
-    /*
-     * Inizializzazione Isotope
-     *
-     */
-    var $container = $('#container');  
-    $container.isotope({
-        masonry: {
-          columnWidth: 120
-        },
-        sortBy: 'categorie',
-        getSortData: {
-          number: function( $elem ) {
-            var number = $elem.hasClass('element') ? 
-              $elem.find('.number').text() :
-              $elem.attr('data-number');
-            return parseInt( number, 10 );
-          },
-          alphabetical: function( $elem ) {
-            var name = $elem.find('.name'),
-                itemText = name.length ? name : $elem;
-            return itemText.text();
-          }
-        },
-        //Aggiunto per visualizzare solo le categorie
-        //al caricamento della pagina
-        filter: '.categorie',
-        layoutMode: 'fitRows'
-    });
-    
+
+
+        /*
+        * Inizializzazione Isotope
+        *
+        */
+        var $container = $('#container');  
+        $container.isotope({
+            masonry: {
+            columnWidth: 120
+            },
+            sortBy: 'categorie',
+            getSortData: {
+            number: function( $elem ) {
+                var number = $elem.hasClass('element') ? 
+                $elem.find('.number').text() :
+                $elem.attr('data-number');
+                return parseInt( number, 10 );
+            },
+            alphabetical: function( $elem ) {
+                var name = $elem.find('.name'),
+                    itemText = name.length ? name : $elem;
+                return itemText.text();
+            }
+            },
+            //Aggiunto per visualizzare solo le categorie
+            //al caricamento della pagina
+            filter: '.categorie',
+            layoutMode: 'fitRows'
+        });
+    } //if (!data['aggiornato'])
+    else filterIsotope('.categorie');
     
     //Selezionato pulsante "Categorie" in pagina ordini
     var $this = $('#categorie');

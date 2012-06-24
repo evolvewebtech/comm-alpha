@@ -46,6 +46,7 @@
         var sconti = new Array();
         var cassa_fissa = false;
         var sale = new Array();
+        var firstUpdate = true;
     </script>
     <script type="text/javascript" src="../lib/contrast_color.js"></script>
     <script type="text/javascript" src="../lib/formato_data.js"></script>
@@ -84,7 +85,6 @@
         
         $(function(){      
             document.location.href="#home";
-            $.mobile.changePage( "#home", 'none', false, true);
             
             $(window).resize(function(){
                 if ($(window).width() <= 980) {
@@ -152,7 +152,6 @@
                 document.getElementById('log-err-text').innerHTML = str;
                 //apertura pagina avviso
                 document.location.href="#diag-log-err";
-                $.mobile.changePage( "#diag-log-err", 'none', false, true);
                 return false;
             }
             else return true;
@@ -342,7 +341,6 @@
         
         function logout() {
             document.location.href="../logout.php";
-            $.mobile.changePage( "../logout.php", 'none', false, true);
         }
     </script>  
 </body>

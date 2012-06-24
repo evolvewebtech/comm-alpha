@@ -148,7 +148,6 @@
         }
         
         document.location.href="#chiusura";
-        $.mobile.changePage( "#chiusura", 'none', false, true);
     });
     
     
@@ -339,7 +338,6 @@
             alert("Errore Ajax registrazione ordine: " + data['err']);
         
             document.location.href="#chiusura";
-            $.mobile.changePage( "#chiusura", 'none', false, true);
         }
     }
     
@@ -348,14 +346,12 @@
         else alert("Ordine inviato con successo!");
         
         document.location.href="#home";
-        $.mobile.changePage( "#home", 'none', false, true);
     } 
     
     function onStampaError(data, status) { 
         alert("Errore stampa ordine");
         
         document.location.href="#home";
-        $.mobile.changePage( "#home", 'none', false, true);
     }
 </script>
 

@@ -150,7 +150,7 @@ if($objSession->IsLoggedIn()){
 
 ?>
 <h1 style="margin-bottom: 20px;">Stampa ordine<small style="color:#fff;text-align: right; font-size: 12px; float: right;">Sei qui:
-    <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+    <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
     <a style="color:#fff; font-size: 12px;" href="amministrazioneReport.php">Statistiche</a> >
     <a style="color:#fff; font-size: 14px;" href="amministrazioneOrdine.php?id=<?=$id?>">
     <b>Stampa ordine</b></a></small>

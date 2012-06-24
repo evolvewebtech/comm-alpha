@@ -44,7 +44,7 @@ todo: 2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fis
 
     ?>
     <h1>Gestisci i men&ugrave;<small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneMenu.php"><b>Men&ugrave;</b></a>
         </small>
     </h1>

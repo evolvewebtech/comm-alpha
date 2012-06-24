@@ -45,7 +45,7 @@
     ?>
     <h1>Gestisci i tavoli di <?=$data_sala['nome']?>
         <small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 12px;" href="amministrazioneSale.php">Sale</a> >
             <a style="color:#fff; font-size: 14px;" href="#">Tavoli</a></small>
     </h1>

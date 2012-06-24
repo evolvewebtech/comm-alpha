@@ -42,7 +42,7 @@ todo: 1. Creare tutti i controlli del form
     
     ?>
     <h1>Gestisci le varianti<small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneVarianti.php"><b>Varianti</b></a>
         </small>
     </h1>

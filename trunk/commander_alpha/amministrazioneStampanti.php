@@ -38,7 +38,7 @@
     ?>
     <h1>Gestisci le stampanti
         <small  class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneStampanti.php"><b>Stampanti</b></a>
         </small>
     </h1>

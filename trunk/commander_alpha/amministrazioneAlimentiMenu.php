@@ -51,7 +51,7 @@
 
     ?>
     <h1 style="margin-bottom: 20px;">Menu: <?=$menu_fisso['nome']?><small class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 12px;" href="amministrazioneMenu.php">Men&ugrave;</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneAlimentiMenu.php?id=<?=$menu_fisso_id?>"><b>Alimenti</b></a>
         </small>

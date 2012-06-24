@@ -42,7 +42,7 @@ todo: 1. Sistemare title tab
 
     ?>
     <h1>Gestisci i buoni pasto<small  class="breadcrumb">Sei qui:
-            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">menu principale</a> >
+            <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 14px;" href="amministrazioneTicket.php"><b>Buoni pasto</b></a>
         </small>
     </h1>

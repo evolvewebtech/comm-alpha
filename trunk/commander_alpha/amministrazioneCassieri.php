@@ -633,7 +633,7 @@ $(function() {
                                 <label style="margin-right: 45px;" class="tab_title" for="tab_username">Username: </label>
                                 <input type="text" name="tab_username" id="tab_username" value="<?=$cassiere->username?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 52px;" for="tab_password">Password: </label>
-                                <input type="text" name="tab_password" id="tab_password" value="<?=$cassiere->md5_pw?>" class="ui-widget-content ui-corner-all" />
+                                <input type="password" name="tab_password" id="tab_password" value="<?=$cassiere->username?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 84px;" class="tab_nome" for="tab_nome">Nome: </label>
                                 <input type="text" name="tab_nome" id="tab_nome" value="<?=$cassiere->first_name?>" class="ui-widget-content ui-corner-all" />
                                 <br /><label style="margin-right: 51px;" class="tab_cognome" for="tab_cognome">Cognome: </label>

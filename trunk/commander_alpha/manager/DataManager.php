@@ -312,6 +312,17 @@ class DataManager {
         else return false;
     }
 
+    /*
+     * elimina un permesso dalla tabella
+     */
+    public function eliminaPermessoTabella($nome_tabella,$livello_id, $cassiere_id) {
+        $sql = "DELETE FROM $nome_tabella WHERE id_cassiere=$cassiere_id AND id_livello=$livello_id";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            return $sql;
+        }else return false;
+    }
+
 
     /**
      *
@@ -785,9 +796,12 @@ class DataManager {
         require_once 'Database.php';
         $db = new Database();
         $db->connect();
+
         $ret1 = $db->delete('cmd_utente_registrato', "id = ".$id);
         $ret2 = $db->delete('cmd_cassiere', "utente_registrato_id = ".$id);
 
+//        $ret1 = true;
+//        $ret2 = true;
         if ($ret1 && $ret2) return true;
         else return false;
     }

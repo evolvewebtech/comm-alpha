@@ -300,6 +300,7 @@ $(function() {
 
             $.ajax({
                 type: "POST",
+                async: false,
                 data: cassiereForm,
                 url: "manager/gestore/cassiere.php",
                 dataType: 'json',
@@ -326,6 +327,7 @@ $(function() {
 
         $.ajax({
             type: "POST",
+            async: false,
             data: cassiere,
             url: "manager/gestore/cassiere.php",
             dataType: 'json',
@@ -352,6 +354,7 @@ $(function() {
         $.ajax({
             type: "POST",
             data: cassiere,
+            async: false,
             url: "manager/gestore/cassiere.php",
             dataType: 'json',
             cache: false,
@@ -376,6 +379,7 @@ $(function() {
 
         $.ajax({
             type: "POST",
+            async: false,
             data: cassiere,
             url: "manager/gestore/cassiere.php",
             dataType: 'json',
@@ -404,6 +408,7 @@ $(function() {
             cassiereTavolo = cassiereTavolo+'&action=del&current_tab='+selected;
 
             $.ajax({
+                async: false,
                 type: "POST",
                 data: cassiereTavolo,
                 url: "manager/gestore/cassiere.php",
@@ -447,6 +452,8 @@ $(function() {
 
     function onCassiereSuccess(data, status) {
         
+        console.log(data);
+
         if (data.action=='del'){
 
            if (data.err=='E002'){
@@ -475,6 +482,15 @@ $(function() {
                   location.reload();
                });
               
+           }else{
+                $('#code-ok').html('Il cassiere &egrave stato eliminato.');
+                    $dialogOK.dialog( "open" );
+
+                   //aspetto che il dialogo sia stato chiuso
+                   $dialogOK.bind( "dialogclose", function(event, ui) {
+                      // rinfresco la pagina per rendere effettiva l'eliminazione del cassiere
+                      location.reload();
+                   });
            }
 
         }

@@ -39,6 +39,12 @@
            $livelli = $cassiere->getLivelli();
            if ($livelli==0) $livelli=array();
 
+//            foreach ($livelli as $livello) {
+//                    $livello_id = intval($livello);
+//                    var_dump($livello_id);
+//                    $ret = DataManager::eliminaPermessoTabella('rel_livello_cassiere', $livello_id, 17);
+//                }
+
            /*
             * prelevo tutti i permessi disponibili
             */
@@ -59,7 +65,7 @@
         <small class="breadcrumb">Sei qui:
             <a style="color:#fff; font-size: 12px;" href="amministrazione.php">home</a> >
             <a style="color:#fff; font-size: 12px;" href="amministrazioneCassieri.php"><b>Cassieri</b></a> >
-            <a style="color:#fff; font-size: 14px;" href="amministrazionePermessi.php"><b>Permessi</b></a>
+            <a style="color:#fff; font-size: 14px;" href="amministrazionePermessi.php?id=<?=$cassiere->utente_registrato_id?>"><b>Permessi</b></a>
         </small>
     </h1>
 

@@ -12,6 +12,7 @@
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));
         $current_tab            = intval(mysql_real_escape_string($_POST['current_tab']));
         $action                 = mysql_real_escape_string($_POST['action']);
+        $id_livello             = intval(mysql_real_escape_string($_POST['id_livello']));
 
         $var = array("nome"                 => $nome,
                      "colore_bottone"       => $colore_bottone,
@@ -34,6 +35,26 @@
             if(get_class($gestore) == 'Gestore') {
 
             if ($action == 'del'){
+
+                $cassieri = $gestore->getAllCassiere();
+                //print_r($data_menu);
+                foreach ($cassieri as $cassiere) {
+                    $livelli = $cassiere->getLivelli();
+                    $cassiere_id = $cassiere->id;
+                    if ($livelli==0)
+                        $livelli = array();
+                    //print_r($livelli);
+                    foreach ($livelli as $livello) {
+                        if ($livello == $id_livello){
+                            //elimino qusto permesso al cassiere
+                            $ret = DataManager::eliminaPermessoCassiere('rel_livello_cassiere', $livello, $cassiere_id);
+                            //elimino il permesso dalla tabella cmd_lvello
+                            $ret = DataManager::eliminaPermessoById($id_livello);
+                        }
+                    }
+                }
+
+                $ret = DataManager::eliminaPermessoCategoria('rel_livello_categoria',$categoria_id);
 
                 $ret = $gestore->delCategoria($categoria_id);
                 if(!$ret){

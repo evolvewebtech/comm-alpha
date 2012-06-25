@@ -335,6 +335,17 @@ class DataManager {
     }
 
     /*
+     * elimina un permesso dalla tabella
+     */
+    public function eliminaPermessoCategoria($nome_tabella,$id_categoria) {
+        $sql = "DELETE FROM $nome_tabella WHERE id_categoria=$id_categoria";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            return $res;
+        }else return false;
+    }
+
+    /*
      * elimina un permesso dalla tabella cmd_livello
      */
     public function eliminaPermessoById($id_livello) {
@@ -1679,7 +1690,7 @@ class DataManager {
     }
 
     public static function getAllCategoriaByGestoreID($gestore_id){
-        $sql = "SELECT * FROM cmd_categoria WHERE gestore_id=$gestore_id";
+        $sql = "SELECT * FROM cmd_categoria INNER JOIN rel_livello_categoria ON cmd_categoria.id = rel_livello_categoria.id_categoria WHERE gestore_id=$gestore_id";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {

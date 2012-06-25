@@ -465,11 +465,11 @@ function aggiornaLista(type) {
     //pulsante "conferma"
     if (arrList.length >= 1) {
         $('#conf-ord-btt').removeClass('ui-disabled');
-        $('#conf-ord-btt2').removeClass('ui-disabled');
+        //$('#conf-ord-btt2').removeClass('ui-disabled');
     }
     else {
         $('#conf-ord-btt').addClass('ui-disabled');
-        $('#conf-ord-btt2').addClass('ui-disabled');
+        //$('#conf-ord-btt2').addClass('ui-disabled');
     }
 }
 
@@ -519,7 +519,8 @@ function visualizzaOpzioni($obj, $index) {
     if (!show_opt || $index!=mem_index) { 
         $('#cont-comm-ord').hide('fast');
         $('#cont-comm-opt').show('fast');
-        $('#cont-comm-opt-menu').hide('fast');
+        $('#cont-comm-opt-menu').hide('fast');       
+        viewOptions800();
         show_opt = true;
         //Visualizzazione nome alimento in finestra opzioni
         document.getElementById('opt-alim-name').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
@@ -567,7 +568,9 @@ function visualizzaOpzioni($obj, $index) {
     }
     else {
         $('#cont-comm-ord').show('fast');
-        $('.cl-comm-opt').hide('fast');
+        $('.cl-comm-opt').hide('fast');       
+        hideOptions800();
+        
         show_opt = false;
         
         //cancellazione classe "selected"
@@ -583,6 +586,7 @@ function visualizzaOpzioniMenu($obj, $index) {
         $('#cont-comm-ord').hide('fast');
         $('#cont-comm-opt').hide('fast');
         $('#cont-comm-opt-menu').show('fast');
+        viewOptions800();
         show_opt = true;
         //Visualizzazione nome alimento in finestra opzioni
         document.getElementById('opt-alim-name-menu').innerHTML = "<h2>" + arrList[$index]._nome + "</h2>";
@@ -643,6 +647,7 @@ function visualizzaOpzioniMenu($obj, $index) {
     else {
         $('#cont-comm-ord').show('fast');
         $('.cl-comm-opt').hide('fast');
+        hideOptions800();
         show_opt = false;
         
         //cancellazione classe "selected"
@@ -660,6 +665,7 @@ function visualizzaOpzioniMenu($obj, $index) {
 $('.close-opt').bind("click", function() {
     $('#cont-comm-ord').show('fast');
     $('.cl-comm-opt').hide('fast');
+    hideOptions800();
     show_opt = false;
 
     //cancellazione classe "selected"
@@ -745,6 +751,7 @@ $('.alim-min').bind("click", function() {
                 //finestra "opzioni" nascosta
                 $('#cont-comm-ord').show('fast');
                 $('.cl-comm-opt').hide('fast');
+                hideOptions800();
                 show_opt = false;
             }
             
@@ -797,6 +804,7 @@ $('.canc-all-conf').live("click", function() {
             //finestra "opzioni" nascosta
             $('#cont-comm-ord').show('fast');
             $('.cl-comm-opt').hide('fast');
+            hideOptions800();
             show_opt = false;
             break;
         }
@@ -1065,18 +1073,51 @@ $('#canc-ord').live("click", function() {
 });
 
 
+/*
+ * Evento click pulsante visualizza menù (width <= 800)
+ *
+ */
 $('#view-menu').live("click", function() {
     $('#view-menu').hide('fast');
     $('#view-list').show('fast');
     $('.comm-a').hide('fast');
     $('.comm-b').show('fast');
+    $('#container').show('fast');
 });
+
+
+/*
+ * Evento click pulsante visualizza lista (width <= 800)
+ *
+ */
 $('#view-list').live("click", function() {
     $('#view-menu').show('fast');
     $('#view-list').hide('fast');
     $('.comm-b').hide('fast');
     $('.comm-a').show('fast');
 });
+
+
+function viewOptions800() {
+    if ($(window).width() <= 980) {
+        $('#view-menu').hide('fast');
+        $('#view-list').show('fast');
+        $('.comm-a').hide('fast');
+        $('.comm-b').show('fast');
+        $('#container').hide('fast');
+    }
+}
+
+
+function hideOptions800() {
+    if ($(window).width() <= 980) {
+        $('#view-menu').show('fast');
+        $('#view-list').hide('fast');
+        $('.comm-b').hide('fast');
+        $('.comm-a').show('fast');
+        $('#container').show('fast');
+    }
+}
 
 
 /*

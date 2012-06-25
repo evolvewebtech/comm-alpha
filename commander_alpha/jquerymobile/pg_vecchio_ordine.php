@@ -19,7 +19,7 @@
         <div style="padding-top: 10px; padding-bottom: 10px">
             <ul class="ui-listview" data-role="listview" style="margin: 0px">
             <li class="ui-li ui-li-static ui-body-c comm-li-tot">
-                <div id="old-ord-tot" style="margin-right: -20px">
+                <div id="old-ord-tot">
                 <h2 class="name">Totale</h2>
                 <h2 class="prezzo">0 €</h2>
                 </div>

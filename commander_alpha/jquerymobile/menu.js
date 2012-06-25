@@ -10,6 +10,8 @@ $("#ordine").live('pageshow', function() {
     //Aggiornamento alimenti abilitato solo all'apertura della pagina "Home"
     if (!refreshAlim) {
         refreshAlim = true;
+        arrAlim = new Array();
+        arrMenu = new Array();
         
         data = 'firstUpdate=' + firstUpdate;
         firstUpdate = false;

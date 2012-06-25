@@ -3,23 +3,26 @@
 
 <div class="comm-a">
 <section id="contentList">
-    <div id="list">
-    <div id="list-ord_nav" class="list-ord_nav">
-        <section id="options" class="clearfix">
-            <div class="option-combo">
-                <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
-                    <li><a href="#categorie" id="sortby-cat" data-option-value="cat" class="selected">Categorie</a></li>
-                    <li><a href="#alphabetical" id="sortby-name" data-option-value="nome">Alfabetico</a></li>
-                    <li><a href="#" id="ann-voci" data-option-value="annulla-voci">Annulla voci</a></li>
-                </ul>
-            </div>
-        </section>
-    </div>
-    </div>
+    <div class="comm-a-list">
+        <div id="list">
+        <div id="list-ord_nav" class="list-ord_nav">
+            <section id="options" class="clearfix">
+                <div class="option-combo">
+                    <div id="view-menu"><a class="ui-btn-left" data-role="button" data-icon="arrow-l" data-inline="true">Menù</a></div>
+                    <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
+                        <li><a href="#categorie" id="sortby-cat" data-option-value="cat" class="selected">Categorie</a></li>
+                        <li><a href="#alphabetical" id="sortby-name" data-option-value="nome">Alfabetico</a></li>
+                        <li><a href="#" id="ann-voci" data-option-value="annulla-voci">Annulla voci</a></li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+        </div>
 
-    <div id="list-ord" class="list-ord">
-        <div id="container2"></div>
-        <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul>
+        <div id="list-ord" class="list-ord">
+            <div id="container2"></div>
+            <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul>
+        </div>
     </div>
 
     <div id="list-ord_foo" class="list-ord_foo">
@@ -38,30 +41,22 @@
                 <div class="list-foo-bt-1">
                 <a href="#chiusura" id="conf-ord-btt" data-role="button" data-icon="check" class="ui-btn-right ui-disabled">Conferma</a>
                 </div>
-                <div class="list-foo-bt-2">
+<!--                <div class="list-foo-bt-2">
                 <a href="#chiusura" id="conf-ord-btt2" data-role="button" data-mini="true" data-icon="check" data-iconpos="bottom" class="ui-btn-right ui-disabled"></a>
-                </div>
+                </div>-->
             </div>
             <div class="ui-block-b">
                 <div class="list-foo-bt-1">
                 <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
                 </div>
-                <div class="list-foo-bt-2">
+<!--                <div class="list-foo-bt-2">
                 <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-mini="true" data-icon="delete" data-iconpos="bottom" class="ui-btn-right"></a>
-                </div>
+                </div>-->
             </div>
         </fieldset>
         </div>
         </div>
-        <div id="view-menu" style="position: fixed; right: 120px; top: 180px"><a class="ui-btn-left" data-role="button" data-icon="arrow-l" data-inline="true">Menù</a></div>
     </div>
-
-    <script type="text/javascript">
-        //var h_nav = document.getElementById("list-ord_nav").style.height;
-        //var h_foo = document.getElementById("list-ord_footer").style.height;
-        //document.getElementById("list-ord").style.height = (window.innerHeight-250) - h_nav - h_foo + "px";
-    </script>
-
 </section> <!-- #contentList -->        
 </div>
 

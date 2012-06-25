@@ -297,9 +297,9 @@
   vertical-align: middle;
 }
 
-.list-foo-bt-2 {
+/*.list-foo-bt-2 {
   display: none;  
-}
+}*/
 
 
 
@@ -504,6 +504,10 @@ div#id-cat.element_list .name{
   vertical-align: middle;
   /*color: #2F3E46;*/
   color: #888;
+}
+
+.old-ord-tot {
+  margin-right: -20px;
 }
 
 
@@ -794,7 +798,6 @@ div#id-cat.element_list .name{
 
 
 #cont-comm-opt {
-  height: 400px;
   padding: 20px;
   background-color: #999999;
   box-shadow: 3px 3px 10px #aaaaaa;

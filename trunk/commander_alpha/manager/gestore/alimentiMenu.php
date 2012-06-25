@@ -36,6 +36,12 @@
 
             $var['gestore_id'] = $gestore->id;
 
+            $cassieri = $gestore->getAllCassiere();
+            foreach ($cassieri as $cassiere) {
+                $cassiere_id = $cassiere->id;
+                $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
+                }
+
             $alimenti_menu = explode('&', $post);
             $menu = array_shift($alimenti_menu);//il primo elemento è l'id del menu
 

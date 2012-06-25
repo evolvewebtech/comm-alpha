@@ -28,7 +28,11 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-            //$var['err'] .= '<hr />';
+            $cassieri = $gestore->getAllCassiere();
+            foreach ($cassieri as $cassiere) {
+                    $cassiere_id = $cassiere->id;
+                    $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
+                    }
 
                 //$action = 'finito';
                 if ($action=='finito'){

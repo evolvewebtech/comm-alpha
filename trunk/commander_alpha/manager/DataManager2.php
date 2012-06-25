@@ -2088,7 +2088,6 @@ class DataManager2 {
     static function aggiornaMenuAggiornato($cassiere_id, $aggiornato){
         
         $new = $aggiornato ? 1 : 0;
-        
         $sql = "UPDATE cmd_menu_aggiornato SET cassiere_id=$cassiere_id, aggiornato=$new WHERE cassiere_id=$cassiere_id";
         
         if (DataManager2::_getConnection()){

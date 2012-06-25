@@ -53,11 +53,6 @@
             $cassiere = DataManager::getUserAsObject($utente_registrato_id);
             $cassiere = $cassiere[0];
 
-
-//            $var['debug'] = '';
-//            $var['debug2'] = '';
-//            $var['livelli'] = '';
-//            $var['livello'] = '';
             /*
              * prelevo i livelli già assegnati al cassiere
              */
@@ -68,12 +63,8 @@
                 $livelli=array();
             else {
                 foreach ($livelli as $livello) {
-//                    $var['livello'] .= "$livello - ";
-//                    $var['debug2'] .= $cassiere_id.''.$livello;
                     $ret = DataManager::eliminaPermessoCassiere('rel_livello_cassiere',intval($livello), intval($cassiere_id));
-//                    $var['debug'] .= $ret;
                     if(!$ret){
-//                        $var['debug'] .= "merda".$ret;
                         $var['err'] = $ret;
                         echo json_encode($var);
                     }
@@ -98,6 +89,12 @@
                      * cassiere non presente, devo aggiungerlo
                      */
                     $ret = $gestore->addCassiere($cassiere_id, 'NULL', $username, $password, $nome, $cognome, 'C');
+                    if(!$ret){
+                        $var['err'] = $ret;
+                    }
+
+                    //chiedi ad ALE
+                    $ret = DataManager2::insertMenuAggiornato($cassiere_id);
                     if(!$ret){
                         $var['err'] = $ret;
                     }

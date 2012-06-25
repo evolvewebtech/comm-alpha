@@ -29,6 +29,12 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
+            $cassieri = $gestore->getAllCassiere();
+            foreach ($cassieri as $cassiere) {
+                $cassiere_id = $cassiere->id;
+                $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
+                }
+
             $alimenti_varianti = explode('&', $post);
 
             foreach ($alimenti_varianti as $alimento_variante){
@@ -41,6 +47,7 @@
                 $variante = explode('=', $alimento[1]);
                 $varianteID = $variante[0];
                 $varianteSelezionata = $variante[1];
+
 
                 /*
                  * se la relazione esiste già non faccio controllo se devo eliminarla (false) oppure non far nulla,

@@ -38,13 +38,14 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-//        $action = 'del';
-//        $menu_id = 2;
+        $cassieri = $gestore->getAllCassiere();
+        foreach ($cassieri as $cassiere) {
+                    $cassiere_id = $cassiere->id;
+                    $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
+                    }
 
         if ($action == 'del'){
 
-            $cassieri = $gestore->getAllCassiere();
-            //print_r($data_menu);
             foreach ($cassieri as $cassiere) {
                 $livelli = $cassiere->getLivelli();
                 $cassiere_id = $cassiere->id;

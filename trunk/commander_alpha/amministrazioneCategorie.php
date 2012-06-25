@@ -4,6 +4,12 @@
     $objSession->Impress();
 
     header('Content-Type: text/html; charset=utf-8');
+
+    /* todo
+     *
+     * - attenzione alle eliminazione di categorie a cui sono associati alimenti
+     *
+     */
 ?>
 <link rel="stylesheet" href="media/css/color-picker.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
@@ -458,6 +464,7 @@ $(function() {
                                 <input style="float:right; margin-right: 9px;" type="text" name="tab_colore_bottone" id="tab_colore_bottone" value="<?=$categoria['colore_bottone_predef']?>" class="ui-widget-content ui-corner-all" />
                                 <input type="hidden" name="categoria_id" id="categoria_id" value="<?=$categoria['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$categoria['gestore_id']?>" />
+                                <input type="hidden" name="id_livello" id="id_livello" value="<?=$categoria['id_livello']?>" />
                            </fieldset>
                         </form>
                         <fieldset style="float:right" class="ui-helper-reset">

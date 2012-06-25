@@ -70,7 +70,7 @@
                 foreach ($livelli as $livello) {
 //                    $var['livello'] .= "$livello - ";
 //                    $var['debug2'] .= $cassiere_id.''.$livello;
-                    $ret = DataManager::eliminaPermessoTabella('rel_livello_cassiere',intval($livello), intval($cassiere_id));
+                    $ret = DataManager::eliminaPermessoCassiere('rel_livello_cassiere',intval($livello), intval($cassiere_id));
 //                    $var['debug'] .= $ret;
                     if(!$ret){
 //                        $var['debug'] .= "merda".$ret;

@@ -5,6 +5,7 @@
 
     header('Content-Type: text/html; charset=utf-8');
 ?>
+
 <!--
 todo: 2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fissi"
       3. eliminazione: tabella cmd_alimento_menu, cancellare le relazioni
@@ -32,7 +33,7 @@ todo: 2. gestisci relazioni fra alimento menu e menu e attento ai menu "semi fis
            $gestore_id = $gestore->id;
            $utente_registrato_id = $gestore->utente_registrato_id;
 
-           $data_menu = DataManager::getAllMenuByGestoreID($gestore_id);//($gestore_id);
+           $data_menu = DataManager::getAllMenuByGestoreID($gestore_id);
            $numero_menu = count($data_menu);
            $max_id = DataManager::getMAXID('cmd_menu_fisso');
            if (!$max_id){
@@ -351,7 +352,7 @@ $(function() {
      */
     $("#delete_menu").live("click", function() {
 
-        var answer = confirm("Sei sicuro di voler eliminare questo Men&ugrave;?");
+        var answer = confirm("Sei sicuro di voler eliminare questo Menù?");
 
         if (answer){
             var selected = $tabs.tabs('option', 'selected');
@@ -368,9 +369,9 @@ $(function() {
                 cache: false,
                 success: onMenuSuccess,
                 error: onError
-            });
-        }
-    });
+                });
+            }
+        });
 
     var $dialogOK = $( "#dialogOK" ).dialog({
             position: 'center',
@@ -406,6 +407,7 @@ $(function() {
 
         if (data.action=='del'){
 
+           console.log(data);
            if (data.err=='E002'){
                $('#code-err').html('Sessione scaduta o login non valido.');
                $dialogERR.dialog("open");
@@ -423,7 +425,7 @@ $(function() {
                $tabs.tabs( "option", "disabled",[ current_tab ] );
                $tabs.tabs( "remove", data.current_tab );
 
-               $('#code-ok').html('Il men&ugrave; &egrave stata eliminata.');
+               $('#code-ok').html('Il men&ugrave; &egrave stato eliminato.');
                $dialogOK.dialog( "open" );
 
                //aspetto che il dialogo sia stato chiuso
@@ -432,7 +434,14 @@ $(function() {
                   location.reload();
                });
 
+           }else{
+               //aspetto che il dialogo sia stato chiuso
+               $dialogOK.bind( "dialogclose", function(event, ui) {
+                  // rinfresco la pagina per rendere effettiva l'eliminazione
+                  location.reload();
+               });               
            }
+
 
         }
 
@@ -542,6 +551,7 @@ $(function() {
                                 <input style="margin-right: 9px;" type="text" name="tab_iva" id="tab_iva" value="<?=$menu['iva']?>" class="ui-widget-content ui-corner-all" />
                                 <input type="hidden" name="menu_id" id="menu_id" value="<?=$menu['id']?>" />
                                 <input type="hidden" name="gestore_id" id="gestore_id" value="<?=$menu['gestore_id']?>" />
+                                <input type="hidden" name="id_livello" id="id_livello" value="<?=$menu['id_livello']?>" />
                                 
                                 <fieldset style="margin-top:10px; width:300px;">
                                 <a href="amministrazioneAlimentiMenu.php?id=<?=$menu['id']?>">Inserisci gli alimenti al menu.</a>

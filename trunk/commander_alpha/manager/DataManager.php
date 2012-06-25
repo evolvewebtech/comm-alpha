@@ -315,11 +315,33 @@ class DataManager {
     /*
      * elimina un permesso dalla tabella
      */
-    public function eliminaPermessoTabella($nome_tabella,$livello_id, $cassiere_id) {
+    public function eliminaPermessoCassiere($nome_tabella,$livello_id, $cassiere_id) {
         $sql = "DELETE FROM $nome_tabella WHERE id_cassiere=$cassiere_id AND id_livello=$livello_id";
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);
-            return $sql;
+            return $res;
+        }else return false;
+    }
+
+    /*
+     * elimina un permesso dalla tabella
+     */
+    public function eliminaPermessoMenu($nome_tabella,$id_menu_fisso) {
+        $sql = "DELETE FROM $nome_tabella WHERE id_menufisso=$id_menu_fisso";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            return $res;
+        }else return false;
+    }
+
+    /*
+     * elimina un permesso dalla tabella cmd_livello
+     */
+    public function eliminaPermessoById($id_livello) {
+        $sql = "DELETE FROM cmd_livello WHERE id=$id_livello";
+        if (DataManager::_getConnection()){
+            $res = mysql_query($sql);
+            return $res;
         }else return false;
     }
 
@@ -1836,7 +1858,7 @@ class DataManager {
      * @return <array>
      */
     public static function getAllMenuByGestoreID($gestore_id){
-        $sql = "SELECT * FROM cmd_menu_fisso WHERE gestore_id=$gestore_id";
+        $sql = "SELECT * FROM cmd_menu_fisso INNER JOIN rel_livello_menufisso ON cmd_menu_fisso.id = rel_livello_menufisso.id_menufisso WHERE gestore_id=$gestore_id";
         if (DataManager::_getConnection()){
         $res = mysql_query($sql);
             if(! ($res && mysql_num_rows($res))) {

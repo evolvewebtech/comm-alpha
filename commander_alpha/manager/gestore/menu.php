@@ -12,6 +12,7 @@
         $iva                    = intval(mysql_real_escape_string($_POST['tab_iva']));
         $menu_id                = intval(mysql_real_escape_string($_POST['menu_id']));
         $gestore_id             = intval(mysql_real_escape_string($_POST['gestore_id']));
+        $id_livello             = intval(mysql_real_escape_string($_POST['id_livello']));
         $current_tab            = intval(mysql_real_escape_string($_POST['current_tab']));
         $action                 = mysql_real_escape_string($_POST['action']);
 
@@ -42,6 +43,26 @@
 
         if ($action == 'del'){
 
+            $cassieri = $gestore->getAllCassiere();
+            //print_r($data_menu);
+            foreach ($cassieri as $cassiere) {
+                $livelli = $cassiere->getLivelli();
+                $cassiere_id = $cassiere->id;
+                if ($livelli==0)
+                    $livelli = array();
+                //print_r($livelli);
+                foreach ($livelli as $livello) {
+                    if ($livello == $id_livello){
+                        //elimino qusto permesso al cassiere
+                        $ret = DataManager::eliminaPermessoCassiere('rel_livello_cassiere', $livello, $cassiere_id);
+                        //elimino il permesso dalla tabella cmd_lvello
+                        $ret = DataManager::eliminaPermessoById($id_livello);
+                    }
+                }
+            }
+
+            $ret = DataManager::eliminaPermessoMenu('rel_livello_menufisso',$menu_id);
+
             $menu = new MenuFisso($menu_id);
             $num_cat = $menu->getNumberOfCategorie();
 
@@ -58,7 +79,7 @@
 
 
             //elimino il menu
-            //$ret = $gestore->delMenufisso($menu_id);
+            $ret = $gestore->delMenufisso($menu_id);
             if(!$ret){
                 $var['err'] = $ret;
             }

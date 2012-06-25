@@ -44,7 +44,6 @@
             $ret = $gestore->editBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id, 0);
             if(!$ret){
                 $var['err'] = $ret;
-                echo json_encode($var);
             }
 
 	}elseif($action == 'save'){
@@ -56,19 +55,17 @@
 
 
                     $ret = $gestore->addBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id, 1);
-                    if(!$ret){
-                        $var['err'] = $ret;
-                        echo json_encode($var);
-                    }
+//                    if(!$ret){
+//                      $var['err'] = $ret;
+//                    }
 
 
                 }else{
 
                     $ret = $gestore->editBuonoPrepagato($buono_prepagato_id, $seriale, $credito, $nominativo, $gestore_id, 1);
-                    if(!$ret){
-                        $var['err'] = $ret;
-                        echo json_encode($var);
-                    }
+//                    if(!$ret){
+//                        $var['err'] = $ret;
+//                    }
                 }
 
             }//end save

@@ -66,10 +66,6 @@
                 resizeDiv('#list-ord', h);
             }
             if ($(window).width() <= 980) {
-                document.getElementById('sortby-cat').innerHTML = 'Cat';
-                document.getElementById('sortby-name').innerHTML = 'Alf';
-            }
-            if ($(window).width() <= 800) {
                 $('#view-menu').hide('fast');
                 $('#view-list').show('fast');
                 $('.comm-a').hide('fast');
@@ -80,17 +76,29 @@
                 $('#view-list').hide('fast');
                 $('.comm-a').show('fast');
                 $('.comm-b').show('fast');
+                $('#container').show('fast');
             }
         });
         
         $(function(){      
-            document.location.href="#home";
+            //document.location.href="#home";
             
             $(window).resize(function(){
                 if ($(window).width() <= 980) {
                     var h = $(window).height() - $('#list-ord_foo').height();
                     h = h - $('#list-ord_nav').height() - 70;
                     resizeDiv('#list-ord', h);
+                    $('#view-menu').hide('fast');
+                    $('#view-list').show('fast');
+                    $('.comm-a').hide('fast');
+                    $('.comm-b').show('fast');
+                }
+                else {
+                    $('#view-menu').hide('fast');
+                    $('#view-list').hide('fast');
+                    $('.comm-a').show('fast');
+                    $('.comm-b').show('fast');
+                    $('#container').show('fast');
                 }
             });
         }); 
@@ -115,8 +123,7 @@
         // Last range entry is the maximum.
         // Separate ranges by "to" keyword.
         range: [
-            '0px    to 800px  = style-comm-600.css',
-            '800px  to 980px  = style-comm-800.css',
+            '0px  to 980px  = style-comm-800.css',
             '980px  to 1600px = style-comm.css'
         ]
         };        

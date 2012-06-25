@@ -32,8 +32,8 @@
         contanti = 0;
         sconto = 0;
         scontato = 0;
-        arrAlim = new Array();
-        arrMenu = new Array();
+//        arrAlim = new Array();
+//        arrMenu = new Array();
         arrMenuSel = new Array();
         arrList = new Array();
         show_opt = false;

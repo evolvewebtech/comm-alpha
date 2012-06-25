@@ -1,6 +1,6 @@
 /* 
-    Document   : style-comm-600
-    Created on : 22-giu-2012, 18.35.01
+    Document   : style-comm-800
+    Created on : 17-apr-2012, 21.01.01
     Author     : Alessandro
     Description:
         Purpose of the stylesheet follows.
@@ -23,16 +23,15 @@
 }
     
 .comm-a {
-    width: 32%;
-    min-width: 160px;
+    width: 30%;
+    min-width: 200px;
     float: left;
     position: relative;
 }
 
 .comm-b {
-    width: 68%;
-    min-width: 350px;
-    min-height: 400px;
+    width: 70%;
+    min-width: 400px;
     float: left;
     position: relative;
 }
@@ -344,9 +343,8 @@ div#id-cat.element_list .name{
 
 .scelta_op {
     width:465px;
-    height: 300px;
     margin:auto;
-    margin-top: 80px;
+    margin-top: 100px;
 }
 
 .button_opz {
@@ -417,13 +415,13 @@ div#id-cat.element_list .name{
 /* Fine pulsante */
 
 #section-tab {
-    width: 60%;
+    width: 70%;
     float: left;
     box-shadow: 3px 3px 10px #aaaaaa;
 }
 
 .scelta_cop {
-    width: 30%;
+    width: 23%;
     margin: auto;
     margin-top: 2px;
     margin-left: 15px;
@@ -616,7 +614,6 @@ div#id-cat.element_list .name{
     width: 670px;
     margin: auto;
     margin-top: 1%;
-    margin-bottom: 100px;
 }
 
 .ch-tot-ord-div {
@@ -628,7 +625,6 @@ div#id-cat.element_list .name{
     width: 380px;
     float: left;
     margin-right: 20px;
-    padding-bottom: 40px;
 }
 
 .ch-tot-ord-right {

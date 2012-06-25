@@ -1,6 +1,6 @@
 /* 
-    Document   : style-comm-800
-    Created on : 17-apr-2012, 21.01.01
+    Document   : style-comm-600
+    Created on : 22-giu-2012, 18.35.01
     Author     : Alessandro
     Description:
         Purpose of the stylesheet follows.
@@ -23,40 +23,64 @@
 }
     
 .comm-a {
-    width: 30%;
-    min-width: 200px;
-    float: left;
+    width: 100%;
+    margin: auto;
+    min-width: 160px;
+    position: relative;
+}
+
+.comm-a-list {
+    width: 100%;
+    margin: auto;
+    min-width: 160px;
     position: relative;
 }
 
 .comm-b {
-    width: 70%;
-    min-width: 400px;
-    float: left;
+    width: 100%;
+    min-width: 350px;
+    min-height: 400px;
     position: relative;
 }
 
 .list-ord {
-    /*margin-bottom: 110px;*/
-    overflow: auto;
-/*    height: 330px;*/
+    width: 50%;
+    min-height: 400px;
+    margin-bottom: 20px;
 }
 
 .list-ord_nav {
-/*    height: 8%;*/
     min-height: 41px;
 }
 
 .list-ord_foo {
-    position:relative;
-    bottom: 0px;
+    position: absolute;
+    top: -10px;
+    right: 10px;
     height: 100px;
-    width: 100%
+    width: 45%;
 }
 
 .list-ord_foo .list-ord_foo-cont {
     padding-top: 10px;
     margin-top: 5px;
+}
+
+#sort {
+    float: left;
+}
+
+#view-list {
+    float: right;
+    margin-top: -10px;
+    margin-right: -5px;
+}
+
+#view-menu {
+    float: left;
+    margin-top: -10px;
+    margin-left: -2px;
+    margin-right: 15px;
 }
 
 .menu {
@@ -66,8 +90,10 @@
 .isotope-sort { display: none;}
 
 .element {
-  width: 160px;
-  height: 50px;
+  width: 180px;
+  height: 60px;
+  border: 10px 10px 10px 10px;
+  border-color: #FF0;
 }
 
 .element .el-name{
@@ -75,7 +101,7 @@
   margin-top: -7px;
   width: 140px;
   float: left;
-  font-size: 1.1em;
+  font-size: 1.2em;
   position:relative;
   top: 25%;
 }
@@ -84,10 +110,10 @@
   margin-top: 12px;
   margin-left: 10px;
   float: left;
-  font-size: 0.9em;
+  font-size: 1.0em;
   font-style: italic;
   position:absolute;
-  top: 25%;
+  top: 35%;
 }
 
 .element .el-prezzo {
@@ -95,9 +121,9 @@
   margin-right: 10px;
   margin-top: 6px;
   float: right;
-  font-size: 1.1em;
+  font-size: 1.3em;
   position:relative;
-  top: 25%;
+  top: 30%;
 }
 
 
@@ -200,8 +226,8 @@
 
 .comm-li-alim {
   margin: 0px; 
-  height: 30px;
-  font-size: 1.00em;
+  height: 35px;
+  font-size: 1.3em;
 }
 
 .comm-li-link {
@@ -245,7 +271,6 @@
   position:relative;
   height: 100%;
   vertical-align: middle;
-  font-size: 0.95em;
 }
 
 .comm-li-alim .cat {
@@ -296,6 +321,7 @@
     height: 8px;
     font-family: Helvetica,Arial,sans-serif;
     font-weight: bold;
+    font-size: 1.3em;
 }
 
 .comm-li-tot .name{
@@ -320,9 +346,9 @@
   vertical-align: middle;
 }
 
-.list-foo-bt-1 {
+/*.list-foo-bt-1 {
   display: none;  
-}
+}*/
 
 
 
@@ -343,8 +369,9 @@ div#id-cat.element_list .name{
 
 .scelta_op {
     width:465px;
+    height: 300px;
     margin:auto;
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
 .button_opz {
@@ -415,13 +442,13 @@ div#id-cat.element_list .name{
 /* Fine pulsante */
 
 #section-tab {
-    width: 70%;
+    width: 60%;
     float: left;
     box-shadow: 3px 3px 10px #aaaaaa;
 }
 
 .scelta_cop {
-    width: 23%;
+    width: 30%;
     margin: auto;
     margin-top: 2px;
     margin-left: 15px;
@@ -438,13 +465,13 @@ div#id-cat.element_list .name{
     width: 80%;
     text-align: center;
     margin: auto;
-    font-size: 95%;
+    font-size: 100%;
 }
 
 .lista_ordini .ord-num-d {
   width: 150px;
   height: 15px;
-  margin-top: -3px;
+  margin-top: -8px;
   float: left;
   position:relative;
 }
@@ -452,7 +479,7 @@ div#id-cat.element_list .name{
 .lista_ordini .ord-num-t {
   width: 90px;
   height: 15px;
-  margin-top: -3px;
+  margin-top: -8px;
   float: left;
   position:relative;
 }
@@ -460,7 +487,7 @@ div#id-cat.element_list .name{
 .lista_ordini .ord-num-c {
   /*width: 90px;*/
   height: 15px;
-  margin-top: -3px;
+  margin-top: -8px;
   float: left;
   position:relative;
 }
@@ -534,6 +561,10 @@ div#id-cat.element_list .name{
   vertical-align: middle;
   /*color: #2F3E46;*/
   color: #888;
+}
+
+.old-ord-tot {
+  margin-right: 5px;
 }
 
 
@@ -614,6 +645,7 @@ div#id-cat.element_list .name{
     width: 670px;
     margin: auto;
     margin-top: 1%;
+    margin-bottom: 100px;
 }
 
 .ch-tot-ord-div {
@@ -625,6 +657,7 @@ div#id-cat.element_list .name{
     width: 380px;
     float: left;
     margin-right: 20px;
+    padding-bottom: 40px;
 }
 
 .ch-tot-ord-right {
@@ -826,7 +859,6 @@ div#id-cat.element_list .name{
 
 
 #cont-comm-opt {
-  height: 400px;
   padding: 20px;
   background-color: #999999;
   box-shadow: 3px 3px 10px #aaaaaa;

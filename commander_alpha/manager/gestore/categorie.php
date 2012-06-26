@@ -35,9 +35,10 @@
             if(get_class($gestore) == 'Gestore') {
                 
                 $cassieri = $gestore->getAllCassiere();
-                foreach ($cassieri as $cassiere) {
-                    $cassiere_id = $cassiere->id;
-                    $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
+                $ret = DataManager2::aggiornaAllMenuAggiornato(0);
+
+                if(!$ret){
+                        $var['err'] = $ret;
                     }
 
                 if ($action == 'del'){
@@ -45,20 +46,24 @@
                     foreach ($cassieri as $cassiere) {
                         $livelli = $cassiere->getLivelli();
                         $cassiere_id = $cassiere->id;
-                        if ($livelli==0)
+                        if ($livelli==0){
                             $livelli = array();
-                        //print_r($livelli);
+                            }
                         foreach ($livelli as $livello) {
                             if ($livello == $id_livello){
                                 //elimino qusto permesso al cassiere
                                 $ret = DataManager::eliminaPermessoCassiere('rel_livello_cassiere', $livello, $cassiere_id);
-                                //elimino il permesso dalla tabella cmd_lvello
-                                $ret = DataManager::eliminaPermessoById($id_livello);
                                 }
                             }
                         }
 
+                    //elimino il permesso dalla tabella cmd_lvello
+                    $ret = DataManager::eliminaPermessoById($id_livello);
+
                     $ret = DataManager::eliminaPermessoCategoria('rel_livello_categoria',$categoria_id);
+                    if(!$ret){
+                        $var['err'] = $ret;
+                    }
 
                     $ret = $gestore->delCategoria($categoria_id);
                     if(!$ret){

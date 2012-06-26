@@ -2102,5 +2102,22 @@ class DataManager2 {
     }//end aggiornaMenuAggiornato
     
     
+    static function aggiornaAllMenuAggiornato($aggiornato){
+        
+        $new = $aggiornato ? 1 : 0;
+        $sql = "UPDATE cmd_menu_aggiornato SET aggiornato=$new";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if($res) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }//end aggiornaAllMenuAggiornato
+    
+    
    } 
 ?>

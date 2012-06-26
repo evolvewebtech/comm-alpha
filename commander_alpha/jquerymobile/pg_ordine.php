@@ -3,26 +3,24 @@
 
 <div class="comm-a">
 <section id="contentList">
-    <div class="comm-a-list">
-        <div id="list">
-        <div id="list-ord_nav" class="list-ord_nav">
-            <section id="options" class="clearfix">
-                <div class="option-combo">
-                    <div id="view-menu"><a class="ui-btn-left" data-role="button" data-icon="arrow-l" data-inline="true">Menù</a></div>
-                    <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
-                        <li><a href="#categorie" id="sortby-cat" data-option-value="cat" class="selected">Categorie</a></li>
-                        <li><a href="#alphabetical" id="sortby-name" data-option-value="nome">Alfabetico</a></li>
-                        <li><a href="#" id="ann-voci" data-option-value="annulla-voci">Annulla voci</a></li>
-                    </ul>
-                </div>
-            </section>
-        </div>
-        </div>
+    <div id="list">
+    <div id="list-ord_nav" class="list-ord_nav">
+        <section id="options" class="clearfix">
+            <div class="option-combo">
+                <ul id="sort" class="option-set_list clearfix" data-option-key="sortBy">
+                    <li><a href="#categorie" id="sortby-cat" data-option-value="cat" class="selected">Categorie</a></li>
+                    <li><a href="#alphabetical" id="sortby-name" data-option-value="nome">Alfabetico</a></li>
+                    <li><a href="#" id="ann-voci" data-option-value="annulla-voci">Annulla voci</a></li>
+                </ul>
+                <div id="view-menu"><a class="ui-btn-left" data-role="button" data-icon="arrow-l" data-inline="true">Torna al Menù</a></div>
+            </div>
+        </section>
+    </div>
+    </div>
 
-        <div id="list-ord" class="list-ord">
-            <div id="container2"></div>
-            <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul>
-        </div>
+    <div id="list-ord" class="list-ord">
+        <div id="container2"></div>
+        <!-- <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul> -->
     </div>
 
     <div id="list-ord_foo" class="list-ord_foo">
@@ -92,7 +90,7 @@
                 <li><a href="#straightDown" data-option-value="straightDown">Vista 3</a></li>
             </ul>
             </div>
-            <div id="view-list"><a class="ui-btn-left" data-role="button" data-icon="arrow-r" data-inline="true">Lista</a></div>
+            <div id="view-list"><a class="ui-btn-left" data-role="button" data-icon="arrow-r" data-inline="true">Vedi stato ordine</a></div>
         </section>
 
         <div id="container" class="super-list variable-sizes clearfix">

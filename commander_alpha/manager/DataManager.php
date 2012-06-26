@@ -433,7 +433,7 @@ class DataManager {
      * @param <int> $gestore_id
      * @return <type>
      */
-    public function aggiornaCassa($cassiere_id, $gestore_id, $saldo) {
+    public static function aggiornaCassa($cassiere_id, $gestore_id, $saldo) {
         $sql = "SELECT * FROM cmd_cassa WHERE cassiere_id='$cassiere_id' AND record_attivo=1";
         if (DataManager::_getConnection()){
             $res = mysql_query($sql);

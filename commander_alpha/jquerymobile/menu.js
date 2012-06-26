@@ -10,8 +10,6 @@ $("#ordine").live('pageshow', function() {
     //Aggiornamento alimenti abilitato solo all'apertura della pagina "Home"
     if (!refreshAlim) {
         refreshAlim = true;
-        arrAlim = new Array();
-        arrMenu = new Array();
         
         data = 'firstUpdate=' + firstUpdate;
         firstUpdate = false;
@@ -70,7 +68,10 @@ function onEventoInfoSuccess(data, status) {
     if ( !logged(data['err']) ) return;
     
     //Verifica se alimenti già aggiornati
-    if (!data['aggiornato']) {   
+    if (!data['aggiornato']) { 
+        //Svuotamento array
+        arrAlim = new Array();
+        arrMenu = new Array();
         //Svuotamento iniziale "categorie" da container Isotope
         var $removable = $('#container').find( ".categorie" );
         $('#container').isotope( 'remove', $removable );
@@ -123,9 +124,11 @@ function onEventoInfoSuccess(data, status) {
                     $str = $str + '<div class="element '+data['cat'][$i].nome+'" data-symbol="Sc" data-category='+data['cat'][$i].nome+'>';
                     $str = $str + '<a class="options-set3" href="#'+data['cat'][$i].alimenti[$j].id+'" data-option-value=".'+data['cat'][$i].alimenti[$j].nome+'">';
                     $str = $str + '<div class="element" style="background: '+$strColor+'">';
+                    $str = $str + '<div class="element-ac">';
                     $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+elName+'</h2>';
                     $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['cat'][$i].alimenti[$j].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
                     $str = $str + '<h3 class="el-cat" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h3>';
+                    $str = $str + '</div>';
                     $str = $str + '</div>';
                     $str = $str + '</a>';
                     $str = $str + '</div>';
@@ -187,8 +190,10 @@ function onEventoInfoSuccess(data, status) {
             $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
             $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
             $str = $str + '<div class="element" style="background: #ffffff">';
+            $str = $str + '<div class="element-ac">';
             $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['menu'][$i].nome+'</h2>';
             $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['menu'][$i].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"
+            $str = $str + '</div>';
             $str = $str + '</div>';
             $str = $str + '</a>';
             $str = $str + '</div>';

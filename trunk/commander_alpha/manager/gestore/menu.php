@@ -38,11 +38,8 @@
         $gestore = $objUser[0];
         if(get_class($gestore) == 'Gestore') {
 
-        $cassieri = $gestore->getAllCassiere();
-        foreach ($cassieri as $cassiere) {
-                    $cassiere_id = $cassiere->id;
-                    $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
-                    }
+                $cassieri = $gestore->getAllCassiere();
+                $ret = DataManager2::aggiornaAllMenuAggiornato(0);
 
         if ($action == 'del'){
 
@@ -56,11 +53,11 @@
                     if ($livello == $id_livello){
                         //elimino qusto permesso al cassiere
                         $ret = DataManager::eliminaPermessoCassiere('rel_livello_cassiere', $livello, $cassiere_id);
-                        //elimino il permesso dalla tabella cmd_lvello
-                        $ret = DataManager::eliminaPermessoById($id_livello);
                     }
-                }
+                }               
             }
+            //elimino il permesso dalla tabella cmd_lvello
+            $ret = DataManager::eliminaPermessoById($id_livello);
 
             $ret = DataManager::eliminaPermessoMenu('rel_livello_menufisso',$menu_id);
 

@@ -30,11 +30,8 @@
         if(get_class($gestore) == 'Gestore') {
 
 
-            $cassieri = $gestore->getAllCassiere();
-            foreach ($cassieri as $cassiere) {
-                    $cassiere_id = $cassiere->id;
-                    $ret = DataManager2::aggiornaMenuAggiornato($cassiere_id, 0);
-                    }
+                $cassieri = $gestore->getAllCassiere();
+                $ret = DataManager2::aggiornaAllMenuAggiornato(0);
                     
             $alimenti_stampanti = explode('&', $post);
 

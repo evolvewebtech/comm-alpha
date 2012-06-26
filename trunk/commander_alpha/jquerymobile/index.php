@@ -60,11 +60,6 @@
     <script type="text/javascript">
         //Altezza div list-ord
         $("#ordine").live('pageshow', function() {
-            if ($(window).width() > 800) {
-                var h = $(window).height() - $('#list-ord_foo').height();
-                h = h - $('#list-ord_nav').height() - 80;
-                resizeDiv('#list-ord', h);
-            }
             if ($(window).width() <= 980) {
                 $('#view-menu').hide('fast');
                 $('#view-list').show('fast');
@@ -80,6 +75,8 @@
             }
         });
         
+        var prevWidth = 0;
+        
         $(function(){      
             //document.location.href="#home";
             
@@ -88,17 +85,23 @@
                     var h = $(window).height() - $('#list-ord_foo').height();
                     h = h - $('#list-ord_nav').height() - 70;
                     resizeDiv('#list-ord', h);
-                    $('#view-menu').hide('fast');
-                    $('#view-list').show('fast');
-                    $('.comm-a').hide('fast');
-                    $('.comm-b').show('fast');
+                    if (prevWidth != $(window).width() ) {
+                        prevWidth = $(window).width();
+                        $('#view-menu').hide('fast');
+                        $('#view-list').show('fast');
+                        $('.comm-a').hide('fast');
+                        $('.comm-b').show('fast');
+                    }
                 }
                 else {
-                    $('#view-menu').hide('fast');
-                    $('#view-list').hide('fast');
-                    $('.comm-a').show('fast');
-                    $('.comm-b').show('fast');
-                    $('#container').show('fast');
+                    if (prevWidth != $(window).width() ) {
+                        prevWidth = $(window).width();
+                        $('#view-menu').hide('fast');
+                        $('#view-list').hide('fast');
+                        $('.comm-a').show('fast');
+                        $('.comm-b').show('fast');
+                        $('#container').show('fast');
+                    }
                 }
             });
         }); 

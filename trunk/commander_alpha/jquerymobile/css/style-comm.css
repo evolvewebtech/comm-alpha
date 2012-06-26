@@ -86,6 +86,14 @@
   top: 25%;
 }
 
+.element-ac {
+  height: 100%;
+  width: 100%;
+}
+
+.element-ac:active {
+  background: #FF0;
+}
 
 .element_list {
   height: 50px;

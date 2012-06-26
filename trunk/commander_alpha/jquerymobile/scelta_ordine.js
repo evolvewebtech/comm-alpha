@@ -1083,6 +1083,9 @@ $('#view-menu').live("click", function() {
     $('.comm-a').hide('fast');
     $('.comm-b').show('fast');
     $('#container').show('fast');
+//    $('#cont-comm-opt').hide('fast');
+//    $('#cont-comm-opt-menu').hide('fast'); 
+//    if ($('#container').width() > $(window).width() ) setTimeout("layoutMansory()",400);
 });
 
 

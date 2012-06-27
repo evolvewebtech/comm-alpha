@@ -2,8 +2,7 @@
     require_once dirname(__FILE__)  . '/manager/HTTPSession.php';
     $objSession = new HTTPSession();
     $objSession->Impress();
-
-    header('Content-Type: text/html; charset=utf-8'); 
+    header('Content-Type: text/html; charset=utf-8');
 ?>
 <!--
 todo: 1. Attenzione al refresh della pagina
@@ -16,8 +15,10 @@ todo: 1. Attenzione al refresh della pagina
             - rel_alimentomenu_alimento
             -
 -->
+<head>
 <link rel="stylesheet" href="media/css/smoothness/jquery-ui-1.8.17.custom.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="media/css/color-picker.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
 
 <script type="text/javascript" src="media/js/jquery-1.7.1.min.js"></script>
 <script src="media/js/ui/jquery.ui.core.js"></script>
@@ -27,6 +28,9 @@ todo: 1. Attenzione al refresh della pagina
 <script src="media/js/ui/jquery.ui.dialog.js"></script>
 <script src="media/js/ui/jquery.ui.position.js"></script>
 <script src="media/js/color-picker.js"></script>
+<script src="media/js/jquery.validate.min.js"></script>
+</head>
+<body>
 <script type='text/javascript'>
     /*
      *  rgb2hex.
@@ -48,10 +52,9 @@ todo: 1. Attenzione al refresh della pagina
     }
 </script>
 
-<script src="media/js/jquery.validate.min.js"></script>
-<link rel="stylesheet" href="media/css/main.css" type="text/css" media="screen" />
+<div id="canvasloader-container" class="wrapper"></div>
 
-<div id="content">
+<div id="content" style="display:none">
     <?php
     if($objSession->IsLoggedIn()){
         $objUser = $objSession->GetUserObject();
@@ -89,8 +92,7 @@ todo: 1. Attenzione al refresh della pagina
  *
  */
 $(function() {
-
-
+    $('#content').css("display","");
     /*
      * al caricamento della pagina controllo se l'alimento è esaurito
      *
@@ -1129,3 +1131,4 @@ $(function() {
             </h4>';
     }
 ?>
+</body>

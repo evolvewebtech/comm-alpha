@@ -52,8 +52,6 @@ todo: 1. Attenzione al refresh della pagina
     }
 </script>
 
-<div id="canvasloader-container" class="wrapper"></div>
-
 <div id="content" style="display:none">
     <?php
     if($objSession->IsLoggedIn()){

@@ -120,8 +120,8 @@
             $esc->text("Tavolo: $nome_tavolo");
             $esc->font();
             if ($ristampa) $esc->text("RISTAMPA");
-            else $esc->text("");
-            $esc->text("  Ordine: $seriale, coperti: $n_coperti");
+            //else $esc->text("");
+            $esc->text("Ordine: $seriale, coperti: $n_coperti");
             $esc->align();
             $esc->font();
             $esc->text("-----------------------------------------");

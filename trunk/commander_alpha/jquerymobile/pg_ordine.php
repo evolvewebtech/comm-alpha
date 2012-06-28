@@ -19,7 +19,9 @@
     </div>
 
     <div id="list-ord" class="list-ord">
+        <section id="sec-cont2" class="ui-body ui-body-b" style="min-height: 220px">   
         <div id="container2"></div>
+        </section>
         <!-- <ul class="ui-listview ui-listview-inset ui-corner-all ui-shadow" data-dividertheme="b" data-theme="c" data-inset="true" data-role="listview"></ul> -->
     </div>
 

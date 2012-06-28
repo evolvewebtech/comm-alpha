@@ -285,7 +285,7 @@
         //Creazione stringa Json
         data = JSON.stringify(data);
         
-        
+        showModal();
         $.ajax({
             type : "POST",
             data: data,
@@ -304,6 +304,7 @@
      *
      */
     function onInvioOrdineSuccess(data, status) {
+        hideModal();
         console.log("Ordine inviato al server");
         console.log(data);
         
@@ -330,6 +331,7 @@
      *
      */
     function onInvioOrdineError(data, status) {
+        hideModal();
         console.log("Errore invio ordine");
         console.log(data);
         

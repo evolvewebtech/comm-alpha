@@ -7,6 +7,19 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.0.1.min.css"/>
     <style>.ui-mobile body{height:0%}</style> <!-- Per rimuovere la barra nera in basso -->
     <link rel="stylesheet" href="css/jquery.mobile.datebox-1.0.1.min.css"/>
+    <style>
+        .modalWindow{
+            width: 96%;
+            height: 95%;
+            position: absolute;
+            z-index: 1500;
+            background: white;
+            opacity: 0.7;
+        }
+        .ui-loader{
+            z-index: 1501;
+        }
+    </style>
     <script src="js/jquery.js"></script>
     <script>
         //Initialization jquerymobile
@@ -167,6 +180,19 @@
             else return true;
         }
     </script>
+    
+    <script>
+        function showModal(){
+            $("body").append('<div class="modalWindow"/>');
+            //$.mobile.showPageLoadingMsg();
+        }
+
+        function hideModal(){
+            $(".modalWindow").remove();
+            //$.mobile.hidePageLoadingMsg();
+        }
+    </script>
+
     
 </head>
 <body>

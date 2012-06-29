@@ -507,7 +507,7 @@ function onError(data, status) {
                     axesDefaults: {
                         tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
                         tickOptions: {
-                          angle: -30,
+                          angle: -50,
                           textColor: '#000000',
                           fontSize: '10pt'                          
                         }                        
@@ -521,7 +521,7 @@ function onError(data, status) {
                     highlighter: { show: false },
                     seriesDefaults:{
                         trendline: {
-                            color: '#fff'
+                            /*color: '#fff'*/
                         }
                     }
                 });

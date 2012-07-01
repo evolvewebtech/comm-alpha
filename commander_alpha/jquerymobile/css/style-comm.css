@@ -6,6 +6,11 @@
         Purpose of the stylesheet follows.
 */
 
+.ui-btn-inner-com {
+    height: 80px;
+    font-size: 150%;
+}
+
 #sec-cont2 {
     margin-bottom: 20px;
 }

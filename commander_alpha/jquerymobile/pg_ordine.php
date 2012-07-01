@@ -1,7 +1,7 @@
 
 <!-- PAGINA ORDINE -->
 
-<div class="comm-a">
+<div id="comm-a" class="comm-a">
 <section id="contentList">
     <div id="list">
     <div id="list-ord_nav" class="list-ord_nav">
@@ -41,17 +41,11 @@
                 <div class="list-foo-bt-1">
                 <a href="#chiusura" id="conf-ord-btt" data-role="button" data-icon="check" class="ui-btn-right ui-disabled">Conferma</a>
                 </div>
-<!--                <div class="list-foo-bt-2">
-                <a href="#chiusura" id="conf-ord-btt2" data-role="button" data-mini="true" data-icon="check" data-iconpos="bottom" class="ui-btn-right ui-disabled"></a>
-                </div>-->
             </div>
             <div class="ui-block-b">
                 <div class="list-foo-bt-1">
                 <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-icon="delete" class="ui-btn-right">Annulla</a>
                 </div>
-<!--                <div class="list-foo-bt-2">
-                <a href="#diag-conf-canc-ord" data-rel="dialog" data-role="button" data-mini="true" data-icon="delete" data-iconpos="bottom" class="ui-btn-right"></a>
-                </div>-->
             </div>
         </fieldset>
         </div>
@@ -62,7 +56,7 @@
 
 
 
-<div class="comm-b">
+<div id="comm-b" class="comm-b">
 <section id="content">
     <section id="cont-comm-ord">
         <section id="options" class="clearfix">
@@ -100,6 +94,8 @@
         </div>
     </section>
 
+    <section id="com-options">
+        
     <!-- SEZIONE "OPZIONI" ALIMENTO -->
     <section id="cont-comm-opt" class="ui-body ui-body-e cl-comm-opt">       
         <div data-role="collapsible-set" data-collapsed="false" data-theme="a">
@@ -150,9 +146,11 @@
         <h3>Selezionare le voci per comporre il menù:</h3>
         <div id="menu-sc-cat"></div>    
     </section>
+    
+    </section>
 
 
-<script src="../isotope/js/jquery-1.7.1.min.js"></script>
+<!--<script src="../isotope/js/jquery-1.7.1.min.js"></script>-->
 <script src="../isotope/jquery.isotope.min.js"></script>
 <script src="scelta_ordine.js"></script>
 

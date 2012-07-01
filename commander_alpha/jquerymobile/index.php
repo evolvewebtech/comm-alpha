@@ -20,7 +20,8 @@
             z-index: 1501;
         }
     </style>
-    <script src="js/jquery.js"></script>
+<!--    <script src="js/jquery.js"></script>-->
+    <script src="../isotope/js/jquery-1.7.1.min.js"></script>
     <script>
         //Initialization jquerymobile
         $(document).bind("mobileinit", function(){
@@ -249,8 +250,8 @@
     <div data-role="page" id="ordine">
         <div data-role="header">
             <h1 style="margin-top: 17px">Ordinazione</h1>
+            <a id="pg-ord-back" href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Torna a tavoli</a>
             <div id="ord01" style="float: right; margin-top: -34px; margin-right: 20px"></div>
-            <a id="pg-ord-back" href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
         </div>
         <div data-role="content">          
             <?php include dirname(__FILE__).'/pg_ordine.php';  ?>
@@ -261,7 +262,7 @@
     <div data-role="page" id="chiusura">
         <div data-role="header">
             <h1 style="margin-top: 17px">Chisura ordine</h1>
-            <a href="#ordine" data-icon="arrow-l" class="ui-btn-left">Indietro</a>
+            <a href="#ordine" data-icon="arrow-l" class="ui-btn-left">Torna a ordinazione</a>
             <a href="#diag-conf-canc-ord2" data-icon="delete" data-rel="dialog" class="ui-btn-right">Annulla ordine</a>
         </div>
         <div data-role="content"> 

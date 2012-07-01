@@ -633,7 +633,7 @@ function visualizzaOpzioniMenu($obj, $index) {
  * Chiusura finestra opzioni
  * 
  */
-$('#cont-comm-opt .close-opt').bind("click", function() {
+$('#com-options .close-opt').bind("click", function() {
     $('#cont-comm-ord').show();
     $('#com-options .cl-comm-opt').hide();
     hideOptions800();

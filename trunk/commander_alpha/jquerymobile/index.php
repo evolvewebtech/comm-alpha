@@ -96,9 +96,6 @@
             
             $(window).resize(function(){
                 if ($(window).width() <= 980) {
-                    var h = $(window).height() - $('#list-ord_foo').height();
-                    h = h - $('#list-ord_nav').height() - 70;
-                    resizeDiv('#list-ord', h);
                     if (prevWidth != $(window).width() ) {
                         prevWidth = $(window).width();
                         $('#view-menu').hide();
@@ -106,10 +103,6 @@
                         $('#comm-a').hide();
                         $('#comm-b').show();
                     }
-                    
-                    
-
-
                 }
                 else {
                     if (prevWidth != $(window).width() ) {
@@ -123,11 +116,7 @@
                 }
             });
         }); 
-        
-        function resizeDiv(name, size) {
-            $(name).css('height', size);
-        }
-         
+                 
         // Edit to suit your needs.
         var ADAPT_CONFIG = {
         // Where is your CSS?

@@ -75,17 +75,17 @@
         //Altezza div list-ord
         $("#ordine").live('pageshow', function() {
             if ($(window).width() <= 980) {
-                $('#view-menu').hide('fast');
-                $('#view-list').show('fast');
-                $('.comm-a').hide('fast');
-                $('.comm-b').show('fast');
+                $('#view-menu').hide();
+                $('#view-list').show();
+                $('#comm-a').hide();
+                $('#comm-b').show();
             }
             else {
-                $('#view-menu').hide('fast');
-                $('#view-list').hide('fast');
-                $('.comm-a').show('fast');
-                $('.comm-b').show('fast');
-                $('#container').show('fast');
+                $('#view-menu').hide();
+                $('#view-list').hide();
+                $('#comm-a').show();
+                $('#comm-b').show();
+                $('#container').show();
             }
         });
         
@@ -101,20 +101,20 @@
                     resizeDiv('#list-ord', h);
                     if (prevWidth != $(window).width() ) {
                         prevWidth = $(window).width();
-                        $('#view-menu').hide('fast');
-                        $('#view-list').show('fast');
-                        $('.comm-a').hide('fast');
-                        $('.comm-b').show('fast');
+                        $('#view-menu').hide();
+                        $('#view-list').show();
+                        $('.comm-a').hide();
+                        $('.comm-b').show();
                     }
                 }
                 else {
                     if (prevWidth != $(window).width() ) {
                         prevWidth = $(window).width();
-                        $('#view-menu').hide('fast');
-                        $('#view-list').hide('fast');
-                        $('.comm-a').show('fast');
-                        $('.comm-b').show('fast');
-                        $('#container').show('fast');
+                        $('#view-menu').hide();
+                        $('#view-list').hide();
+                        $('.comm-a').show();
+                        $('.comm-b').show();
+                        $('#container').show();
                     }
                 }
             });

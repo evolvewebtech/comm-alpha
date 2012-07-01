@@ -37,9 +37,9 @@
             document.getElementById('buono-non-trovato').innerHTML = '';
             document.getElementById('dati-buono').innerHTML = '';
             document.getElementById('searc-basic').value = '';
-            $('#buono-trovato').hide('fast');
-            $('#dati-buono-01').show('fast');
-            $('#dati-buono-02').hide('fast');
+            $('#buono-trovato').hide();
+            $('#dati-buono-01').show();
+            $('#dati-buono-02').hide();
         }
     }
     
@@ -90,7 +90,7 @@
         
         document.getElementById('buono-non-trovato').innerHTML = '';
         document.getElementById('dati-buono').innerHTML = str;
-        $('#buono-trovato').show('fast');
+        $('#buono-trovato').show();
     }
     
     
@@ -104,7 +104,7 @@
         var str = "Buono prepagato non trovato o esaurito";
         document.getElementById('buono-non-trovato').innerHTML = str;
         document.getElementById('dati-buono').innerHTML = '';
-        $('#buono-trovato').hide('fast');
+        $('#buono-trovato').hide();
     }
     
     
@@ -126,8 +126,8 @@
         
         buono_cred_us = Math.round(buono_cred_us*100) / 100;
 
-        $('#dati-buono-01').hide('fast');
-        $('#dati-buono-02').show('fast');                
+        $('#dati-buono-01').hide();
+        $('#dati-buono-02').show();                
     });
     
     
@@ -140,8 +140,8 @@
         buono_ser = "";
         buono_cred_us = 0;
         
-        $('#dati-buono-01').show('fast');
-        $('#dati-buono-02').hide('fast'); 
+        $('#dati-buono-01').show();
+        $('#dati-buono-02').hide(); 
     });
 
 </script>

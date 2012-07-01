@@ -26,7 +26,7 @@ class HTTPSession {
     private $dbhandle;
     private $logged_in;
     private $user_id;
-    private $session_timeout = 10800;       # 180 minute - 3 hour inactivity timeout
+    private $session_timeout  = 10800;       # 180 minute - 3 hour inactivity timeout
     private $session_lifespan = 18000;      # 5 hour session duration
 
     /*
@@ -105,8 +105,8 @@ class HTTPSession {
                         $this->session_timeout ." seconds' OR last_impression IS NULL)";
         */
         $stmt = "SELECT id FROM http_session WHERE ascii_session_id = '" .
-                        $this->php_session_id . "' AND ((now() - created) < ' " .
-                        $this->session_lifespan . " seconds') AND ((now() - last_impression) <= '".
+                        $this->php_session_id . "' AND (( TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) )) < ' " .
+                        $this->session_lifespan . " seconds') AND (( TIME_TO_SEC( TIMEDIFF( NOW( ) , last_impression ) )) <= '".
                         $this->session_timeout ." seconds' OR last_impression IS NULL) AND user_agent='" .
                         $strUserAgent . "'";
         
@@ -124,7 +124,7 @@ class HTTPSession {
             # Delete from database - we do garbage cleanup at the same time
             $maxlifetime = $this->session_lifespan;
             $del_query = "DELETE FROM http_session WHERE (ascii_session_id = '".
-                              $this->php_session_id . "') OR (NOW() - created > '$maxlifetime seconds')";
+                              $this->php_session_id . "') OR ( TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) ) > '$maxlifetime seconds')";
             $result = mysql_query($del_query);
             if (!$result) {
                 die('2 - Invalid query: ' . mysql_error());
@@ -182,11 +182,13 @@ class HTTPSession {
         $stmt = 'SELECT logged_in'.
                 ' FROM http_session'.
                 ' WHERE ascii_session_id = "'.$this->php_session_id.'"'.
-                ' AND ((now() - created) < \''.$this->session_lifespan.' seconds\')'.
-                ' AND ((now() - last_impression) <= \''.$this->session_timeout.' seconds\')'.
+                ' AND ((TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) )) < \''.$this->session_lifespan.' seconds\')'.
+                ' AND ((TIME_TO_SEC( TIMEDIFF( NOW( ) , last_impression ) )) <= \''.$this->session_timeout.' seconds\')'.
                 ' OR last_impression IS NULL'.
                 ' AND user_agent=\''.$_SERVER["HTTP_USER_AGENT"].'\'';
-                //' AND user_agent=\'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/536.5 (KHTML, like Gecko) Chrome/19.0.1084.53 Safari/536.5\'';
+
+        //print_r($stmt);
+
         $result = mysql_query($stmt);
         if(!$result){
             return false;
@@ -195,7 +197,6 @@ class HTTPSession {
          //var_dump($row);
         $this->logged_in = $row;
 
-        //print_r($this->logged_in[0]);
         /*
          * -------------------------------------------------
          * -------------------------------------------------

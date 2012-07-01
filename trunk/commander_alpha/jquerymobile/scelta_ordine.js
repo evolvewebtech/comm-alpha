@@ -4,35 +4,6 @@ $(function(){
     var $container = $('#container');
 
     /*
-     * Inizializzazione Isotope
-     *
-     */
-    /*$container.isotope({
-    masonry: {
-        columnWidth: 120
-    },
-    sortBy: 'categorie',
-    getSortData: {
-        number: function( $elem ) {
-        var number = $elem.hasClass('element') ? 
-            $elem.find('.number').text() :
-            $elem.attr('data-number');
-        return parseInt( number, 10 );
-        },
-        alphabetical: function( $elem ) {
-        var name = $elem.find('.name'),
-            itemText = name.length ? name : $elem;
-        return itemText.text();
-        }
-    },
-    //Aggiunto per visualizzare solo le categorie
-    //al caricamento della pagina
-    filter: '.categorie',
-    layoutMode: 'fitRows'
-    });*/
-
-
-    /*
      *  Script che permette di filtrare gli elementi
      *  cliccando anche sui pulsanti "Filtro"
      *
@@ -76,7 +47,7 @@ $(function(){
      *  Funziona solo per il menu "#filter"
      *
      */
-    var $optionSets2 = $('.options-set2');
+    var $optionSets2 = $('#container .options-set2');
     $optionSets2.live("click", function() {
 
     var $this = $(this);
@@ -127,7 +98,7 @@ $(function(){
      *  alla lista dell'ordine
      *  
      */
-    var $optionSets3 = $('.options-set3');
+    var $optionSets3 = $('#container .options-set3');
     $optionSets3.live("click", function() {
 
     var $this = $(this);
@@ -207,7 +178,7 @@ $(function(){
      *  da aggiungere alla lista dell'ordine
      *
      */
-    var $optionSets4 = $('.options-set4');
+    var $optionSets4 = $('#container .options-set4');
     $optionSets4.live("click", function() {
 
     var $this = $(this);
@@ -503,7 +474,7 @@ function aggiornaTotale(){
  * Toggle visualizzazione sezione "opzioni"
  * 
  */
-$('.comm-li-link').live("click", function() {
+$('#container2 .comm-li-link').live("click", function() {
     //salvo nella var $param i parametri passati
     var $param = $(this).attr('href');
     //eliminazione carattere iniziale '#'
@@ -662,7 +633,7 @@ function visualizzaOpzioniMenu($obj, $index) {
  * Chiusura finestra opzioni
  * 
  */
-$('.close-opt').bind("click", function() {
+$('#cont-comm-opt .close-opt').bind("click", function() {
     $('#cont-comm-ord').show('fast');
     $('.cl-comm-opt').hide('fast');
     hideOptions800();
@@ -679,7 +650,7 @@ $('.close-opt').bind("click", function() {
  * Visualizzazione dialog varianti menu fisso
  * 
  */
-$('.bt-var').live("click", function() {
+$('#cont-comm-opt-menu .bt-var').live("click", function() {
     //parametri id
     var $param = $(this).attr('id');
     //split parametri
@@ -726,7 +697,7 @@ $('.bt-var').live("click", function() {
  * Decremento o cancellazione alimento dalla lista
  * 
  */
-$('.alim-min').bind("click", function() {
+$('#com-options .alim-min').bind("click", function() {
     $index = mem_index;
     for(var i=0; i<arrList.length; i++) {
         if (arrList[i]._index == $index) {
@@ -770,7 +741,7 @@ $('.alim-min').bind("click", function() {
  * Incremento alimento selezionato da opzioni varianti
  * 
  */
-$('.alim-plus').bind("click", function() {
+$('#com-options .alim-plus').bind("click", function() {
     arrList[mem_index]._num += 1;
     
     //aggiornamento lista
@@ -785,7 +756,7 @@ $('.alim-plus').bind("click", function() {
  * Cancellazione alimento dalla lista
  * 
  */
-$('.canc-all-conf').live("click", function() {
+$('#diag-conf-canc-all .canc-all-conf').live("click", function() {
     $index = mem_index;
     for(var i=0; i<arrList.length; i++) {
         if (arrList[i]._index == $index) {
@@ -816,10 +787,10 @@ $('.canc-all-conf').live("click", function() {
  * Annulla cancellazione alimento
  * 
  */
-$('.canc-ann').live("click", function() {
+$('#diag-conf-canc-all .canc-ann').live("click", function() {
     mem_index = -1;  
     //eliminata classe "selected"
-    $('#container2').find('.selected').removeClass('selected');
+    //$('#container2').find('.selected').removeClass('selected');
 });
 
 
@@ -827,7 +798,7 @@ $('.canc-ann').live("click", function() {
  * Evento click su una variante
  *
  */
-$('.var-checkbox').live("click", function() {
+$('#com-options .var-checkbox').live("click", function() {
     //aggiunta o rimozione della classe "selected"
     if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
@@ -926,7 +897,7 @@ $('.var-checkbox').live("click", function() {
  * Evento click su una variante di un menu fisso
  *
  */
-$('.var-menu-checkbox').live("click", function() {
+$('#com-options .var-menu-checkbox').live("click", function() {
     //aggiunta o rimozione della classe "selected"
     if ($(this).hasClass('selected')) {
         $(this).removeClass('selected');
@@ -1017,7 +988,7 @@ $('.var-menu-checkbox').live("click", function() {
  * Evento click su un alimento del menu fisso
  *
  */
-$('.menu-checkbox').live("click", function() {
+$('#com-options .menu-checkbox').live("click", function() {
     //verifica se alimento selezionato è cambiato
     var changed = false;
     if ($(this).hasClass('selected')) changed = true;
@@ -1080,8 +1051,8 @@ $('#canc-ord').live("click", function() {
 $('#view-menu').live("click", function() {
     $('#view-menu').hide('fast');
     $('#view-list').show('fast');
-    $('.comm-a').hide('fast');
-    $('.comm-b').show('fast');
+    $('#comm-a').hide('fast');
+    $('#comm-b').show('fast');
     $('#container').show('fast');
 //    $('#cont-comm-opt').hide('fast');
 //    $('#cont-comm-opt-menu').hide('fast'); 
@@ -1096,8 +1067,8 @@ $('#view-menu').live("click", function() {
 $('#view-list').live("click", function() {
     $('#view-menu').show('fast');
     $('#view-list').hide('fast');
-    $('.comm-b').hide('fast');
-    $('.comm-a').show('fast');
+    $('#comm-b').hide('fast');
+    $('#comm-a').show('fast');
 });
 
 
@@ -1105,8 +1076,8 @@ function viewOptions800() {
     if ($(window).width() <= 980) {
         $('#view-menu').hide('fast');
         $('#view-list').show('fast');
-        $('.comm-a').hide('fast');
-        $('.comm-b').show('fast');
+        $('#comm-a').hide('fast');
+        $('#comm-b').show('fast');
         $('#container').hide('fast');
     }
 }
@@ -1116,8 +1087,8 @@ function hideOptions800() {
     if ($(window).width() <= 980) {
         $('#view-menu').show('fast');
         $('#view-list').hide('fast');
-        $('.comm-b').hide('fast');
-        $('.comm-a').show('fast');
+        $('#comm-b').hide('fast');
+        $('#comm-a').show('fast');
         $('#container').show('fast');
     }
 }

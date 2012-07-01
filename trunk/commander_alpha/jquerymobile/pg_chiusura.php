@@ -133,7 +133,7 @@
      * Evento click pulsante sconto (dialog scelta sconto)
      * 
      */
-    $('.cl-sconto').live("click", function() {
+    $('#diag-sconto-bt .cl-sconto').live("click", function() {
         var param = $(this).attr('href');
         sconto = parseFloat(param.replace('#',''));
         scontato = parseFloat( (parseFloat(totale) * sconto) / 100 );

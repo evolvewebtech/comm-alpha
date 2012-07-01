@@ -38,7 +38,7 @@
      * Evento "click" su lista vecchi ordini
      * 
      */
-    $('.ristampa-ordine').live("click", function() {
+    $('#lista-vecchi-ordini .ristampa-ordine').live("click", function() {
         //recupero parametri passati
         var $param = $(this).attr('id');
         //eliminazione stringa "ord-id-"

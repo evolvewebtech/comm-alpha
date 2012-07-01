@@ -13,7 +13,7 @@
     <form>
         <label for="slider-0" style="text-align: center">Numero di coperti:</label>
         <input type="number" name="slider" id="slider-0" value="1" style="text-align: center; font-size: 150%" />
-        <div class="ui-grid-a">
+        <div id="cop-buttons" class="ui-grid-a">
             <div class="ui-block-a">
                 <a data-role="button" data-icon="plus" data-iconpos="top" class="ui-btn-right cop-plus"></a>
             </div>
@@ -132,7 +132,7 @@
     }
     
     
-    $(".comm-S-btn").live("click" , function() {
+    $("#sale-buttons .comm-S-btn").live("click" , function() {
         //Memorizzazione id sala e nome sala del pulsante cliccato
         var param = $(this).attr('href');
         param = param.replace('#','');
@@ -149,7 +149,7 @@
         }
     });
     
-    $(".comm-T-btn").live("click" , function() {
+    $("#tab-buttons .comm-T-btn").live("click" , function() {
         //Memorizzazione id tavolo e nome tavolo del pulsante cliccato
         var param = $(this).attr('href');
         param = param.replace('#','');
@@ -179,7 +179,7 @@
         else $('#sel-table').removeClass('ui-disabled');
     }
 
-    $('.cop-plus').live("click", function() {
+    $('#cop-buttons .cop-plus').live("click", function() {
         var temp = document.getElementById('slider-0').value;
         if (temp < 50) {
             document.getElementById('slider-0').value = parseInt(temp) + 1;
@@ -187,7 +187,7 @@
         enDisButton();
     });
 
-    $('.cop-min').live("click", function() {
+    $('#cop-buttons .cop-min').live("click", function() {
         var temp = document.getElementById('slider-0').value;
         if (temp > 0) {
             document.getElementById('slider-0').value = parseInt(temp) - 1;

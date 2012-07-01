@@ -16,7 +16,7 @@
      */
     function stampaOrdine($id, $ristampa) {
 
-        $lang = 'ita';
+        //$lang = 'ita';
         $ret = false;
         $arrStmp = array();
 
@@ -29,7 +29,7 @@
             $tavolo_id   = intval($ordine->tavolo_id);
 
             $tavolo = DataManager::getTavolo($tavolo_id);
-            $numero_tavolo = intval($tavolo['numero']);
+            //$numero_tavolo = intval($tavolo['numero']);
             $nome_tavolo   = $tavolo['nome'];
 
             for ($i=0; $i<$ordine->getNumberOfRigheOrdine(); $i++) {

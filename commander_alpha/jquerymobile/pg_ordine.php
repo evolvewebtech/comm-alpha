@@ -73,19 +73,19 @@
             <!-- <h2>Sort:</h2> -->
             <ul id="sort" class="option-set clearfix" data-option-key="sortBy">
                 <!-- <li><a href="#mixed" data-option-value="number">mixed</a></li> -->
-                <li><a id="catSort" href="#categorie" data-option-value="original-order" class="selected">Ord. Cat.</a></li>
-                <li><a href="#alphabetical" data-option-value="alphabetical">Ord. Alfab.</a></li>
+                <li><a id="catSort" href="#categorie" data-option-value="original-order" class="selected">Ord. Categorie</a></li>
+                <li><a href="#alphabetical" data-option-value="alphabetical">Ord. Alfabetico</a></li>
             </ul>
             </div>
             </div>
-            <div class="option-combo">
-            <!-- <h2>Layout: </h2> -->
+<!--            <div class="option-combo">
+             <h2>Layout: </h2> 
             <ul id="layouts" class="option-set clearfix" data-option-key="layoutMode">
                 <li><a id="fitRows" href="#fitRows" data-option-value="fitRows" class="selected">Vista 1</a></li>
                 <li><a href="#masonry" data-option-value="masonry">Vista 2</a></li>
                 <li><a href="#straightDown" data-option-value="straightDown">Vista 3</a></li>
             </ul>
-            </div>
+            </div> -->
             <div id="view-list"><a class="ui-btn-left" data-role="button" data-icon="arrow-r" data-inline="true">Vedi stato ordine</a></div>
         </section>
 
@@ -150,7 +150,6 @@
     </section>
 
 
-<!--<script src="../isotope/js/jquery-1.7.1.min.js"></script>-->
 <script src="../isotope/jquery.isotope.min.js"></script>
 <script src="scelta_ordine.js"></script>
 

@@ -173,7 +173,7 @@
 
     function enDisButton () {
         //Abilita/disabilita pulsante "Inserimento ordine"
-        if ((idTavolo <= 0) | (document.getElementById('slider-0').value <= 0) ) {
+        if ((idTavolo <= 0) | (document.getElementById('slider-0').value < 0) ) {
             $('#sel-table').addClass('ui-disabled');
         }
         else $('#sel-table').removeClass('ui-disabled');

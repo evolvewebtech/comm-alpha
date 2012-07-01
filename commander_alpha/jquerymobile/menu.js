@@ -1,5 +1,6 @@
 
 var firstCat = '';
+var memFirstUp = true;
 
 /*
  * Evento "pageshow" pagina "Ordine"
@@ -35,8 +36,7 @@ $("#ordine").live('pageshow', function() {
     }
     else {
         //aggiornamento layout Isotope
-        $('#container').isotope({ layoutMode : 'fitRows' });
-        $('#container').isotope( 'reLayout' );
+        setTimeout("layoutMansory()",200);
         //Selezionato pulsante "Categorie" in pagina ordini
         var $this = $('#fitRows');
         // don't proceed if already selected
@@ -73,8 +73,10 @@ function onEventoInfoSuccess(data, status) {
         arrAlim = new Array();
         arrMenu = new Array();
         //Svuotamento iniziale "categorie" da container Isotope
-        var $removable = $('#container').find( ".categorie" );
-        $('#container').isotope( 'remove', $removable );
+        if (!memFirstUp) {
+            var $removable = $('#container').find( ".categorie" );
+            $('#container').isotope( 'remove', $removable );
+        }
 
         //Aggiunta Categorie e Alimenti al container Isotope    
         var $str = '';
@@ -95,15 +97,18 @@ function onEventoInfoSuccess(data, status) {
                 $str = $str + '</div>';
 
                 //Aggiunta dei nuovi elementi a Isotope
-                $('#container').append( $str ).isotope( 'reloadItems' );
+                $('#container').append( $str );
+                if (!memFirstUp) $('#container').isotope( 'reloadItems' );
             }
 
             if (data['cat'].length == 1) firstCat = data['cat'][$i].nome;
             else firstCat = '';
 
             //Svuotamento iniziale "alimenti" da container Isotope
-            $removable = $('#container').find( "." + data['cat'][$i].nome );
-            $('#container').isotope( 'remove', $removable );
+            if (!memFirstUp) {
+                $removable = $('#container').find( "." + data['cat'][$i].nome );
+                $('#container').isotope( 'remove', $removable );
+            }
 
             for($j=0; $j<data['cat'][$i].alimenti.length; $j++) {
                 //Verifica se alimento esaurito
@@ -134,7 +139,8 @@ function onEventoInfoSuccess(data, status) {
                     $str = $str + '</div>';
 
                     //Aggiunta dei nuovi elementi a Isotope
-                    $('#container').append( $str ).isotope( 'reloadItems' );
+                    $('#container').append( $str );
+                    if (!memFirstUp) $('#container').isotope( 'reloadItems' );
 
                     //Creazione oggetti Variante
                     var arrTempVar = new Array();
@@ -177,12 +183,15 @@ function onEventoInfoSuccess(data, status) {
             $str = $str + '</div>';
 
             //Aggiunta dei nuovi elementi a Isotope
-            $('#container').append( $str ).isotope( 'reloadItems' );
+            $('#container').append( $str );
+             if (!memFirstUp) $('#container').isotope( 'reloadItems' );
         }
 
         //Svuotamento iniziale "menu fissi" da container Isotope
-        $removable = $('#container').find( ".menu_fissi" );
-        $('#container').isotope( 'remove', $removable );
+        if (!memFirstUp) {
+            $removable = $('#container').find( ".menu_fissi" );
+            $('#container').isotope( 'remove', $removable );
+        }
 
         //Aggiunta Menu Fissi al container Isotope   
         for($i=0; $i<data['menu'].length; $i++) {
@@ -199,7 +208,8 @@ function onEventoInfoSuccess(data, status) {
             $str = $str + '</div>';
 
             //Aggiunta dei nuovi elementi a Isotope
-            $('#container').append( $str ).isotope( 'reloadItems' );
+            $('#container').append( $str );
+            if (!memFirstUp) $('#container').isotope( 'reloadItems' );
 
             var arrTempCat = new Array();
             for($j=0; $j<data['menu'][$i].categorie.length; $j++) {
@@ -277,8 +287,15 @@ function onEventoInfoSuccess(data, status) {
             filter: '.categorie',
             layoutMode: 'fitRows'
         });
+        
+        //Modifica layout Isotope per corretta visualizzazione elementi nel container
+        setTimeout("layoutMansory()",200);
+    
     } //if (!data['aggiornato'])
-    else filterIsotope('.categorie');
+    else {
+        if (firstCat != '') filterIsotope('.' + firstCat);
+        else filterIsotope('.categorie');
+    }
     
     //Selezionato pulsante "Categorie" in pagina ordini
     var $this = $('#categorie');
@@ -297,9 +314,10 @@ function onEventoInfoSuccess(data, status) {
         $optionSet.find('.selected').removeClass('selected');
         $this.addClass('selected');
     }
-  
+    
+    memFirstUp = false;
     //Modifica layout Isotope per corretta visualizzazione elementi nel container
-    setTimeout("layoutMansory()",400);
+    //setTimeout("layoutMansory()",200);
 }
 
 
@@ -317,9 +335,9 @@ function onEventoInfoError(data, status) {
  *
  */
 function layoutMansory() {
-  $('#container').isotope({ layoutMode : 'masonry' });
+  //$('#container').isotope({ layoutMode : 'masonry' });
   $('#container').isotope( 'reLayout' );
-  setTimeout("layoutFitRows()",400);
+  setTimeout("layoutFitRows()",200);
 }
 
 
@@ -330,9 +348,7 @@ function layoutMansory() {
 function layoutFitRows() {
   $('#container').isotope({ layoutMode : 'fitRows' });
   $('#container').isotope( 'reLayout' );
-  if (firstCat != '') {
-    filterIsotope('.' + firstCat);
-  }
+  if (firstCat != '') filterIsotope('.' + firstCat);
 }
 
 

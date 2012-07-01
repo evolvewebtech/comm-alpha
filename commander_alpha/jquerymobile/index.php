@@ -103,17 +103,21 @@
                         prevWidth = $(window).width();
                         $('#view-menu').hide();
                         $('#view-list').show();
-                        $('.comm-a').hide();
-                        $('.comm-b').show();
+                        $('#comm-a').hide();
+                        $('#comm-b').show();
                     }
+                    
+                    
+
+
                 }
                 else {
                     if (prevWidth != $(window).width() ) {
                         prevWidth = $(window).width();
                         $('#view-menu').hide();
                         $('#view-list').hide();
-                        $('.comm-a').show();
-                        $('.comm-b').show();
+                        $('#comm-a').show();
+                        $('#comm-b').show();
                         $('#container').show();
                     }
                 }
@@ -152,7 +156,7 @@
         function hideAddressBar(){
         if(document.documentElement.scrollHeight<window.outerHeight/window.devicePixelRatio)
             document.documentElement.style.height=(window.outerHeight/window.devicePixelRatio)+'px';
-            setTimeout(window.scrollTo(1,1),0);
+            //setTimeout(window.scrollTo(1,1),0);
         }
         window.addEventListener("load",function(){hideAddressBar();});
         window.addEventListener("orientationchange",function(){hideAddressBar();});

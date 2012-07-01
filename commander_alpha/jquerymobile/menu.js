@@ -25,8 +25,8 @@ $("#ordine").live('pageshow', function() {
         });
 
         //Nascosta finestra "opzioni"
-        $('#cont-comm-ord').show('fast');
-        $('.cl-comm-opt').hide('fast');
+        $('#cont-comm-ord').show();
+        $('#com-options .cl-comm-opt').hide();
         show_opt = false;
 
         //Aggiorna lista

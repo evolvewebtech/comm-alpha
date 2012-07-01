@@ -35,7 +35,7 @@
         document.getElementById('slider-0').value = 1;
         
         //Rimozione classe 'selected' ai pulsanti dei tavoli
-        var $optionSet = $('.tab-buttons');
+        var $optionSet = $('#tab-buttons');
         $optionSet.find('.selected').removeClass('selected');
     }
     

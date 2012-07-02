@@ -16,21 +16,9 @@ $objSession->Impress();
  * effettuo il logout
  */
 $objSession->LogOut();
-/*
-echo "<br />SESS ID: ";
-var_dump($objSession->GetSessionIdentifier());
-echo "<br />Logged in: ";
-var_dump($objSession->IsLoggedIn());
-echo "<br />User ID: ";
-var_dump($objSession->GetUserID());
 
-$ret = $objSession->LogOut();
-echo "<br />LogOUT: ";
-var_dump($ret);
-echo "<br />";
-*/
 /*
  * reindirizzo alla pagina di login
  */
-header("location: login.php");
+header("location: index.php");
 ?>

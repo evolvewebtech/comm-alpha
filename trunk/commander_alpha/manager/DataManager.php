@@ -20,24 +20,25 @@ require_once dirname(__FILE__).'/../food/Variante.php';
 require_once dirname(__FILE__).'/../food/MenuFisso.php';
 require_once dirname(__FILE__).'/../food/CatMenu.php';
 
+require_once dirname(__FILE__).'/AppConfig.php';
 
 class DataManager {
 
     private static function _getConnection() {
       static $hDB;
-      static $database = "commander";
+//      static $database = "commander";
 
       if(isset($hDB)) {
          return $hDB;
       }
 
-      $hDB = mysql_connect("localhost", "root", "")
+      $hDB = mysql_connect(AppConfig::instance()->DB_HOST, AppConfig::instance()->DB_USER, AppConfig::instance()->DB_PASS)
          or die("Failure connecting to the database!");
 
       if (!$hDB){
           die('Could not connect: ' . mysql_error());
       }
-      mysql_select_db($database);
+      mysql_select_db(AppConfig::instance()->DB_NAME);
       mysql_set_charset('utf8',$hDB);
 
 

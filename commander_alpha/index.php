@@ -1,33 +1,46 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title></title>
-    </head>
-    <body>
-        <?php
-        // put your code here
-        require_once('manager/DataManager.php'); //everything gets included by it
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="media/css/login.css" rel="stylesheet" type="text/css" />
+    <link href="media/css/main.css" rel="stylesheet" type="text/css" />
+    <title>Comander - login</title>
+</head>
+<body>
+    <div id="content" class="login">
+    <header>
+        <h1>Comander</h1>
+    </header>
+    <?php
+    /*
+     * To change this template, choose Tools | Templates
+     * and open the template in the editor.
+     */
+    require dirname(__FILE__).'/manager/HTML_Form.php';
 
+    $frm = new HTML_Form();
 
-        /*
+    $frmLogin = $frm->startForm('login_process.php', 'post', 'LoginForm',
+        array('class'=>'myFormClass') );
+    $frmLogin .= '<fieldset>';
+    $frmLogin .= $frm->addLabelFor('username', 'username: ');
+    $frmLogin .= $frm->HTML5addInput('text', 'username', 'cec',
+                           array('id'=>'username'),'required autofocus');
 
-        //carico tutti gli utenti registrati presenti nel db
-        //e stampo a video alcune info.
+    $frmLogin .= '<br />';
+    $frmLogin .= $frm->addLabelFor('password', 'password: ');
+    $frmLogin .= $frm->HTML5addInput('password', 'password', '12345',
+                           array('id'=>'password'),'required');
+    $frmLogin .= '</fieldset>';
 
-        $arContacts = DataManager::getAllEntitiesAsObjects();
+    $frmLogin .= '<fieldset class=login>';
+    $frmLogin .= $frm->addInput('submit', 'submitMyForm', 'ENTRA',array('id'=>'submitLogin'));
+    $frmLogin .= '</fieldset>';
 
-        foreach($arContacts as $objEntity) {
-            if(get_class($objEntity) == 'Gestore') {
-                print "<h1>Gestore - {$objEntity->__toString()}</h1>";
-            } else {
-                print "<h1>Cassiere - {$objEntity->__toString()}</h1>";
-            }
-          print "<hr>\n";
+    $frmLogin .=  $frm->endForm();
 
-        }//End foreach
-        */
-        
-        ?>
-    </body>
+    echo $frmLogin;
+    ?>
+    <small>&copy; commander</small>
+    </div>
+</body>
 </html>

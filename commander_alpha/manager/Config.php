@@ -1,13 +1,8 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * Description of Config
  *
- * @author francesco
+ * @author Francesco Falanga, Alessandro Sarzina
  */
 class Config {
     

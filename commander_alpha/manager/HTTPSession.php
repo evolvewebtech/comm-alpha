@@ -1,9 +1,5 @@
 <?php
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
+require_once dirname(__FILE__).'/AppConfig.php';
 /**
  *
  * Description of HTTPSession
@@ -26,16 +22,16 @@ class HTTPSession {
     private $dbhandle;
     private $logged_in;
     private $user_id;
-    private $session_timeout  = 10800;       # 180 minute - 3 hour inactivity timeout
-    private $session_lifespan = 18000;      # 5 hour session duration
+//    private $session_timeout  = 10800;       # 180 minute - 3 hour inactivity timeout
+//    private $session_lifespan = 18000;      # 5 hour session duration
 
     /*
      * Edit the following variables
-     */
-    private $db_host = 'localhost';     // Database Host
-    private $db_user = 'root';          // Username
-    private $db_pass = '';              // Password
-    private $db_name = 'commander';     // Database
+     */   
+//    private $db_host = 'localhost';     // Database Host
+//    private $db_user = 'root';          // Username
+//    private $db_pass = '';              // Password
+//    private $db_name = 'commander';     // Database
 
     /*
      *
@@ -62,11 +58,11 @@ class HTTPSession {
     public function __construct() {
 
       # Connect to database
-      $this->dbhandle = mysql_connect($this->db_host,$this->db_user,$this->db_pass);
+      $this->dbhandle = mysql_connect(AppConfig::instance()->DB_HOST,AppConfig::instance()->DB_USER,AppConfig::instance()->DB_PASS);
       if (!$this->dbhandle) {
         die('Could not connect: ' . mysql_error());
       }
-      $seldb = mysql_select_db($this->db_name, $this->dbhandle);
+      $seldb = mysql_select_db(AppConfig::instance()->DB_NAME, $this->dbhandle);
       if (!$seldb){
         die('Could not connect: ' . mysql_error());
       }
@@ -106,8 +102,8 @@ class HTTPSession {
         */
         $stmt = "SELECT id FROM http_session WHERE ascii_session_id = '" .
                         $this->php_session_id . "' AND (( TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) )) < ' " .
-                        $this->session_lifespan . " seconds') AND (( TIME_TO_SEC( TIMEDIFF( NOW( ) , last_impression ) )) <= '".
-                        $this->session_timeout ." seconds' OR last_impression IS NULL) AND user_agent='" .
+                        AppConfig::instance()->SESSION_LIFESPAN . " seconds') AND (( TIME_TO_SEC( TIMEDIFF( NOW( ) , last_impression ) )) <= '".
+                        AppConfig::instance()->SESSION_TIMEOUT ." seconds' OR last_impression IS NULL) AND user_agent='" .
                         $strUserAgent . "'";
         
         $result = mysql_query($stmt);
@@ -122,7 +118,7 @@ class HTTPSession {
             $failed = 1;
 
             # Delete from database - we do garbage cleanup at the same time
-            $maxlifetime = $this->session_lifespan;
+            $maxlifetime = AppConfig::instance()->SESSION_LIFESPAN;
             $del_query = "DELETE FROM http_session WHERE (ascii_session_id = '".
                               $this->php_session_id . "') OR ( TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) ) > '$maxlifetime seconds')";
             $result = mysql_query($del_query);
@@ -143,7 +139,7 @@ class HTTPSession {
       };
 
       # Set the life time for the cookie
-      session_set_cookie_params($this->session_lifespan);
+      session_set_cookie_params(AppConfig::instance()->SESSION_LIFESPAN);
 
       # Call the session_start method to get things started
       session_start();
@@ -182,8 +178,8 @@ class HTTPSession {
         $stmt = 'SELECT logged_in'.
                 ' FROM http_session'.
                 ' WHERE ascii_session_id = "'.$this->php_session_id.'"'.
-                ' AND ((TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) )) < \''.$this->session_lifespan.' seconds\')'.
-                ' AND ((TIME_TO_SEC( TIMEDIFF( NOW( ) , last_impression ) )) <= \''.$this->session_timeout.' seconds\')'.
+                ' AND ((TIME_TO_SEC( TIMEDIFF( NOW( ) , created ) )) < \''.AppConfig::instance()->SESSION_LIFESPAN.' seconds\')'.
+                ' AND ((TIME_TO_SEC( TIMEDIFF( NOW( ) , last_impression ) )) <= \''.AppConfig::instance()->SESSION_TIMEOUT.' seconds\')'.
                 ' OR last_impression IS NULL'.
                 ' AND user_agent=\''.$_SERVER["HTTP_USER_AGENT"].'\'';
 

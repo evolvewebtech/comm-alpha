@@ -6,7 +6,7 @@
         <div style="padding-top: 10px; padding-bottom: 10px">
             <ul class="ui-listview" data-role="listview" style="margin: 0px">
             <li class="ui-li ui-li-divider ui-btn ui-bar-d ui-li-has-count ui-btn-up-undefined" data-role="list-divider" role="heading" style="padding-top: 14px; padding-bottom: 14px">
-                <div id="old-ord-tav" style="font-size: 22px">Tavolo</div>
+                <div id="old-ord-tav" style="font-size: 22px"></div>
                 <div id="old-ord-ser">Ordine n°</div>
                 <div id="old-ord-cop">
                 <span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -14px">Coperti 0</span>
@@ -53,7 +53,8 @@
         $totale = $arr[4];
         
         //Tavolo
-        document.getElementById('old-ord-tav').innerHTML = 'Tavolo ' + $tavolo_id;
+        if ( ($tavolo_id == 'null') || ($tavolo_id == '') ) {;}
+        else document.getElementById('old-ord-tav').innerHTML = 'Tavolo ' + $tavolo_id;
         
         //N° ordine
         document.getElementById('old-ord-ser').innerHTML = 'Ordine n° ' + $id;

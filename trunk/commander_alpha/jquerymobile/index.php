@@ -92,7 +92,7 @@
         var prevWidth = 0;
         
         $(function(){      
-            //document.location.href="#home";
+            document.location.href="#home";
             
             $(window).resize(function(){
                 if ($(window).width() <= 980) {
@@ -243,7 +243,7 @@
     <div data-role="page" id="ordine">
         <div data-role="header">
             <h1 style="margin-top: 17px">Ordinazione</h1>
-            <a id="pg-ord-back" href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Torna a tavoli</a>
+            <a id="pg-ord-back" href="#tavoli" data-icon="arrow-l" class="ui-btn-left">Torna ai tavoli</a>
             <div id="ord01" style="float: right; margin-top: -34px; margin-right: 20px"></div>
         </div>
         <div data-role="content">          

@@ -32,7 +32,8 @@
 <script type="text/javascript">
     
     function resetTavolo() {
-        document.getElementById('slider-0').value = 1;
+        if (cassa_fissa) document.getElementById('slider-0').value = 0;
+        else document.getElementById('slider-0').value = 1;
         
         //Rimozione classe 'selected' ai pulsanti dei tavoli
         var $optionSet = $('#tab-buttons');

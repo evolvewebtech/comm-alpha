@@ -74,13 +74,15 @@ function onListaOrdiniSuccess(data, status) {
             new_id = new_id + '&' + data['ordini'][i].n_coperti + '&' + data['ordini'][i].totale;
             
             var buono = data['ordini'][i].tot_buono;
+            var tavolo = data['ordini'][i].tavolo;
+            var coperti = data['ordini'][i].n_coperti;
             
             str = str + '<li class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-count ui-btn-up-c" data-corners="false" data-shadow="false" data-iconshadow="true" data-inline="false" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c">';
             str = str + '<div class="ui-btn-inner ui-li"><div class="ui-btn-text">';
             str = str + '<a class="ui-link-inherit ristampa-ordine" id="' + new_id + '" href="#ristampa-ordine">';
             str = str + '<div class="ord-num-d">' + timestamp + '</div>';
-            str = str + '<div class="ord-num-t">Tavolo ' + data['ordini'][i].tavolo + '</div>';
-            str = str + '<div class="ord-num-c">Coperti ' + data['ordini'][i].n_coperti + '</div>';
+            if (tavolo!=null) str = str + '<div class="ord-num-t">Tavolo ' + tavolo + '</div>';
+            if (coperti>0)    str = str + '<div class="ord-num-c">Coperti ' + coperti + '</div>';
             if (buono > 0) {
                 str = str + '<span class="ui-li-count ui-btn-up-c ui-btn-corner-all" style="margin-top: -15px; margin-right: 100px">'+ formatMoney(buono,2) + ' \u20ac da buono prepagato</span>';
             }

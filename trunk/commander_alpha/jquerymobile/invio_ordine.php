@@ -34,6 +34,8 @@
                 $buono_ser = $data['buono_ser'];
                 $buono_cred_us = $data['buono_cred_us'];
                 $sconto_perc = $data['sconto'];
+                $asporto = '';
+                if ($data['asporto'] == 'true') $asporto = 'ASPORTO';
                 $saldo = 0;
 
                 //Verifica se credito buono sufficiente
@@ -148,7 +150,7 @@
                  */
                 include dirname(__FILE__).'/stampa_ordine.php';
                 //stampaOrdine(ordine_id, testo_tipo_stampa, stampa_prezzi, stamp_alernativa, id_stamp_alernativa)
-                $ret = stampaOrdine($next_id, '', true, false, 0);
+                $ret = stampaOrdine($next_id, $asporto, true, false, 0);
                 
                 //Ritorno codice errore in presenza di errori di stampa
                 //(solo se l'ordine è da stampare)

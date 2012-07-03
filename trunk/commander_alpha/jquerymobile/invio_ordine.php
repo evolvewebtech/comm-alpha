@@ -67,8 +67,7 @@
                 }
                 else {
                     DataManager2::rollbackTransaction();
-                    //die();
-                    $arr['err'] = 'E104';
+                    $arr['err'] = 'E102'; //Errore buono prepagato
                     echo json_encode($arr);
                     return;
                 }
@@ -106,8 +105,17 @@
 
                         if (!$ret) {
                             DataManager2::rollbackTransaction();
-                            //die();
-                            $arr['err'] = 'E103';
+                            $arr['err'] = 'E103'; //Errore inserimento rigaOrdine 
+                            echo json_encode($arr);
+                            return;
+                        }
+                        
+                        //Decremento quantità alimento
+                        $ret = DataManager2::aggiornaQuantitaAlimento($alimento_id, $numero);
+                        
+                        if (!$ret) {
+                            DataManager2::rollbackTransaction();
+                            $arr['err'] = 'E104'; //Errore decremento quantità alimento
                             echo json_encode($arr);
                             return;
                         }
@@ -116,8 +124,7 @@
                     $ret = DataManager2::inserisciOrdineChiuso('null', $next_id);
                     if (!$ret) {
                         DataManager2::rollbackTransaction();
-                        //die();
-                        $arr['err'] = 'E102';
+                        $arr['err'] = 'E105'; //Errore inserimento ordineChiuso
                         echo json_encode($arr);
                         return;
                     }
@@ -126,16 +133,14 @@
                     $ret = $user->aggiornaCassa($saldo);
                     if (!$ret) {
                         DataManager2::rollbackTransaction();
-                        //die();
-                        $arr['err'] = 'E105';
+                        $arr['err'] = 'E106'; //Errore aggiornamento saldo 
                         echo json_encode($arr);
                         return;
                     }
                 }
                 else {
                     DataManager2::rollbackTransaction();
-                    //die();
-                    $arr['err'] = 'E101';
+                    $arr['err'] = 'E101'; //Errore inserimento ordine
                     echo json_encode($arr);
                     return;
                 }

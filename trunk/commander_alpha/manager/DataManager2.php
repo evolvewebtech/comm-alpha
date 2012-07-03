@@ -109,6 +109,28 @@ class DataManager2 {
     
     /**
      *
+     * @param <bool> $id
+     * @return boolean 
+     */
+    static function aggiornaQuantitaAlimento($id, $quantita_dec){
+        
+        $sql = "UPDATE cmd_alimento SET quantita=quantita-$quantita_dec WHERE id=$id AND quantita>0";
+        
+        if (DataManager2::_getConnection()){
+            $res = mysql_query($sql);
+            if($res) {
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+    }//end aggiornaQuantitaAlimento
+    
+    
+    
+    /**
+     *
      * @param <int> $id
      * @return <bool> 
      */

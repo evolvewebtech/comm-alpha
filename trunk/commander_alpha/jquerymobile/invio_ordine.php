@@ -147,7 +147,8 @@
                  *  
                  */
                 include dirname(__FILE__).'/stampa_ordine.php';
-                $ret = stampaOrdine($next_id, false); //ordine_id, ristampa
+                //stampaOrdine(ordine_id, testo_tipo_stampa, stampa_prezzi, stamp_alernativa, id_stamp_alernativa)
+                $ret = stampaOrdine($next_id, '', true, false, 0);
                 
                 //Ritorno codice errore in presenza di errori di stampa
                 //(solo se l'ordine è da stampare)

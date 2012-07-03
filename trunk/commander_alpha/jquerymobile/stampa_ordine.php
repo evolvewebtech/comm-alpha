@@ -10,11 +10,12 @@
     /**
      * Funzione per la stampa dell'ordine
      * 
-     * @param int $id               (ID ordine da stampare)
-     * @param bool $ristampa        (Ristampa)
-     * @return bool                 ($ret=true se stampa ok o niente da stampare)
+     * @param int $id                   (ID ordine da stampare)
+     * @param string $text_tipo_stampa  (Testo indicante il tipo di stampa)
+     * @param bool $stampa_prezzi       (Stampa prezzi alimenti se true)
+     * @return bool                     ($ret=true se stampa ok o niente da stampare)
      */
-    function stampaOrdine($id, $ristampa) {
+    function stampaOrdine($id, $text_tipo_stampa, $stampa_prezzi, $stamp_alternativa, $id_stamp_alternativa) {
 
         //$lang = 'ita';
         $ret = false;
@@ -31,6 +32,9 @@
             $tavolo = DataManager::getTavolo($tavolo_id);
             //$numero_tavolo = intval($tavolo['numero']);
             $nome_tavolo   = $tavolo['nome'];
+            
+            if ($stamp_alternativa) $stampante = DataManager2::getStampanteAsObject($id_stamp_alternativa);
+            else $stampante = null;
 
             for ($i=0; $i<$ordine->getNumberOfRigheOrdine(); $i++) {
                 $rigaOrd = $ordine->getRigaOrdine($i);
@@ -66,9 +70,10 @@
                     //Creato un array con un numero di elementi pari al numero
                     //di stampanti utilizzate per questo ordine.
                     //A ogni stampante sono inviati i rispettivi alimenti dell'ordine
-                    $num_stampanti = $alimTemp->getNumberOfStampanti();                   
+                    if ($stamp_alternativa) $num_stampanti = 1;
+                    else $num_stampanti = $alimTemp->getNumberOfStampanti();                   
                     for($j=0; $j<$num_stampanti; $j++) {
-                        $stampante = $alimTemp->getStampante($j);
+                        if (!$stamp_alternativa) $stampante = $alimTemp->getStampante($j);
                         $stampante_id = $stampante->id;
                         $ip_address = $stampante->indirizzo;
                         $nome_stamp = $stampante->nome;
@@ -119,7 +124,7 @@
             $esc->font(false,true,false,true,true);
             $esc->text("Tavolo: $nome_tavolo");
             $esc->font();
-            if ($ristampa) $esc->text("RISTAMPA");
+            if ($text_tipo_stampa != '') $esc->text($text_tipo_stampa);
             //else $esc->text("");
             $esc->text("Ordine: $seriale, coperti: $n_coperti");
             $esc->align();
@@ -146,12 +151,14 @@
                 if ($numero > 0) {
                     $esc->text("  $numero", false);
                     $esc->tab();
-                    $esc->text("$nome   $prezzoTot");
+                    if ($stampa_prezzi) $esc->text("$nome   $prezzoTot");
+                    else $esc->text("$nome");
                 }
                 else {
                     $esc->text(" ANNULLA ", false);
                     $esc->text("$numero ", false);
-                    $esc->text("$nome  $prezzoTot");
+                    if ($stampa_prezzi) $esc->text("$nome  $prezzoTot");
+                    else $esc->text("$nome");
                 }
 
                 for ($j=0; $j<count($arrStmp[$s]["alimenti"][$i][0]['arrVar']); $j++) {
@@ -176,10 +183,12 @@
             $totale_ordine_print = sprintf("%01.2f",$totale_ordine)." ".$euro;
             $data = Utility::formattaDataOra($timestamp);
 
+            if ($stampa_prezzi) {
             $esc->font();
             $esc->text("-----------------------------------------");
             $esc->font(false,true,false,false,true);
             $esc->text("  Totale: $totale_ordine_print");
+            }
             $esc->font();
             $esc->text("-----------------------------------------");
             $esc->text("  Voci in comanda: ".$voci_comanda."     Stampa ".($s+1)."/".count($arrStmp));

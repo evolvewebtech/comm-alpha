@@ -65,7 +65,7 @@
                     <ul id="filter" class="option-set clearfix" data-option-key="filter">
                         <li><a id="categorie" href="#categorie" data-option-value=".categorie" class="selected">Categorie</a></li>
                         <li><a id="show-all" href="#show-all" data-option-value="*:not(.categorie), not(.menu_fissi)">Mostra tutto</a></li>
-                        <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi">Menù</a></li>
+                        <li><a id="menu_fissi" href="#menu_fissi" data-option-value=".menu_fissi, .elback">Menù</a></li>
                 </ul>
             </div>
             <div class="isotope-sort">

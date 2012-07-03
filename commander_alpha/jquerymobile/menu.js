@@ -77,9 +77,25 @@ function onEventoInfoSuccess(data, status) {
             var $removable = $('#container').find( ".categorie" );
             $('#container').isotope( 'remove', $removable );
         }
-
-        //Aggiunta Categorie e Alimenti al container Isotope    
+        
         var $str = '';
+        //Aggiunto pulsante per tornare alle categorie
+        if ((data['cat'].length>1) && (memFirstUp)) {
+            $str = $str + '<div class="element elback" data-symbol="Sc" data-category="">';
+            $str = $str + '<a class="options-set2" href="#categorie" data-option-value=".categorie">';
+            $str = $str + '<div class="element" style="background: white">';
+            $str = $str + '<div class="element-ac">';
+            $str = $str + '<h2 class="el-name" style="color: black">Torna a tutte le categorie</h2>';
+            $str = $str + '</div>';
+            $str = $str + '</div>';
+            $str = $str + '</a>';
+            $str = $str + '</div>';
+            
+            //Aggiunta dei nuovi elementi a Isotope
+            $('#container').append( $str );
+        }
+
+        //Aggiunta Categorie e Alimenti al container Isotope           
         var textColor = '';
         for($i=0; $i<data['cat'].length; $i++) {
             //colore testo
@@ -89,7 +105,7 @@ function onEventoInfoSuccess(data, status) {
             if (data['cat'][$i].alimenti.length > 0) {
                 $str = "";
                 $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-                $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+'">';
+                $str = $str + '<a class="options-set2" href="#'+data['cat'][$i].nome+'" data-option-value=".'+data['cat'][$i].nome+', .elback">';
                 $str = $str + '<div class="element" style="background: '+data['cat'][$i].colore_bottone_predef+'">';
                 $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['cat'][$i].nome+'</h2>';
                 $str = $str + '</div>';
@@ -169,14 +185,14 @@ function onEventoInfoSuccess(data, status) {
             }
         }
 
-        textColor = contrastColor( '#ffffff' );
+        textColor = contrastColor( '#faeb9e' );
 
         //Aggiunto pulsante categoria "Menù fissi""
         if (data['menu'].length > 0) {
             $str = "";
             $str = $str + '<div class="element categorie" data-symbol="Sc" data-category="categorie">';
-            $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi">';
-            $str = $str + '<div class="element" style="background: #ffffff">';
+            $str = $str + '<a class="options-set2" href="#menu_fissi" data-option-value=".menu_fissi, .elback">';
+            $str = $str + '<div class="element" style="background: #faeb9e">';
             $str = $str + '<h2 class="el-name" style="color: '+textColor+'">Menù fissi</h2>';
             $str = $str + '</div>';
             $str = $str + '</a>';
@@ -198,7 +214,7 @@ function onEventoInfoSuccess(data, status) {
             $str = "";
             $str = $str + '<div class="element menu_fissi" data-symbol="Sc" data-category="menu_fissi">';
             $str = $str + '<a class="options-set4" href="#'+data['menu'][$i].id+'" data-option-value=".'+data['menu'][$i].nome+'">';
-            $str = $str + '<div class="element" style="background: #ffffff">';
+            $str = $str + '<div class="element" style="background: #faeb9e">';
             $str = $str + '<div class="element-ac">';
             $str = $str + '<h2 class="el-name" style="color: '+textColor+'">'+data['menu'][$i].nome+'</h2>';
             $str = $str + '<h2 class="el-prezzo" style="color: '+textColor+'">'+formatMoney(data['menu'][$i].prezzo,2,true)+' \u20ac</h2>'; //carattere "€" -> "\u20ac"

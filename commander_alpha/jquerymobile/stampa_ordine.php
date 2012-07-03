@@ -122,11 +122,12 @@
             $esc->text("SS.ANNA e GIOACCHINO");
             $esc->text("--------------------");
             $esc->font(false,true,false,true,true);
-            $esc->text("Tavolo: $nome_tavolo");
+            if ($nome_tavolo != '') $esc->text("Tavolo: $nome_tavolo");
             $esc->font();
             if ($text_tipo_stampa != '') $esc->text($text_tipo_stampa);
             //else $esc->text("");
-            $esc->text("Ordine: $seriale, coperti: $n_coperti");
+            if ($n_coperti > 0) $esc->text("Ordine: $seriale, coperti: $n_coperti");
+            else $esc->text("Ordine: $seriale");
             $esc->align();
             $esc->font();
             $esc->text("-----------------------------------------");

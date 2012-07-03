@@ -37,8 +37,9 @@ function onLivelliSuccess(data, status) {
     //Verifica se cassiere abilitato per prenotazione al tavolo
     if (livelli[1] != 2) {
         cassa_fissa = true;
+        resetTavolo();
         //nascosto pulsante "Indietro" in pagina "ordine"
-        //document.getElementById('#pg-ord-back').style.display='none';
+        $('#pg-ord-back').hide();
     }
 
     //Creazione pulsanti selezione sconto
@@ -81,7 +82,6 @@ function onLivelliError(data, status) {
  */
 $("#home").live('pageshow', function() {
     homePageShow();
-    resetTavolo();
 });
 
 

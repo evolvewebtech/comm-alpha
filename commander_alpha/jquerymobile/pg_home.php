@@ -32,8 +32,6 @@
         contanti = 0;
         sconto = 0;
         scontato = 0;
-//        arrAlim = new Array();
-//        arrMenu = new Array();
         arrMenuSel = new Array();
         arrList = new Array();
         show_opt = false;
@@ -51,6 +49,8 @@
         setBuono('0');
         setSconto('0');
         setContanti('0');
+        
+        resetTavolo();
     }
 
     
@@ -59,12 +59,8 @@
      * 
      */
     $('#new-ord-bt').live("click", function() {
-        if (cassa_fissa) {
-            document.location.href="#ordine";
-        }
-        else {
-            document.location.href="#tavoli";   
-        }
+        if (cassa_fissa) document.location.href="#ordine";
+        else document.location.href="#tavoli";
     });
     
 </script>

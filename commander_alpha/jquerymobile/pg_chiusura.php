@@ -94,8 +94,11 @@
 
         var totPersona = 0;
         try {
-            totPersona = parseFloat(totale) / parseFloat(numCoperti);
-            totPersona = Math.round(totPersona*100) / 100;
+            if (numCoperti > 0) {
+                totPersona = parseFloat(totale) / parseFloat(numCoperti);
+                totPersona = Math.round(totPersona*100) / 100;
+            }
+            else totPersona = 0; 
         }
         catch(err) {;}
 
@@ -279,6 +282,7 @@
             buono_ser:  buono_ser,
             buono_cred_us:   buono_cred_us,
             sconto: sconto,
+            asporto: cassa_fissa,
             alimenti:   alimenti
         }
         

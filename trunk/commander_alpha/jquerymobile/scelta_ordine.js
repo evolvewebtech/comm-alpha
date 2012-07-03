@@ -58,7 +58,7 @@ $(function(){
 
     //devo prelevare l'oggetto con questa categoria
     //per poter aggiungerlgi la classe selected
-    var $this = $($categoria);
+    $this = $($categoria);
     //console.log($this);
 
     //non dovrebbe + occorrere, da testare
@@ -70,7 +70,6 @@ $(function(){
 
     //ul#filter.option-set]
     var $optionSet = $('#filter');
-
     $optionSet.find('.selected').removeClass('selected');
     //$this.addClass('selected');
 
@@ -236,7 +235,7 @@ $(function(){
     else aggiornaLista("cat");
         
     });
-
+    
 
     /*
      * Script per ordinare la lista degli alimenti selezionati

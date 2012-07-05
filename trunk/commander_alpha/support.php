@@ -61,5 +61,5 @@
     </ul>
 
     <h6>&copy; Comander, some rights reserver.</h6><br />
-    <a style="text-decoration: none; font-size: 12px;" href="amministrazione.php"> <- torna</a>
+    <a style="text-decoration: none; font-size: 12px;" href="admin/amministrazione.php"> <- torna</a>
 </div>

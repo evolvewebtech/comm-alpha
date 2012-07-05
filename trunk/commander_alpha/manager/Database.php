@@ -1,4 +1,5 @@
 <?php
+require_once dirname(__FILE__).'/AppConfig.php';
 /**
  * Description of Database
  * This class allow to insert, delete and update info
@@ -7,17 +8,6 @@
  * @author francesco
  */
 class Database {
-
-    /*
-     * Edit the following variables
-     */
-    private $db_host = 'localhost';     // Database Host
-    private $db_user = 'root';          // Username
-    private $db_pass = '';              // Password
-    private $db_name = 'commander';     // Database
-    /*
-     * End edit
-     */
 
     private $con = false;               // Checks to see if the connection is active
     private $result = array();          // Results that are returned from the query
@@ -30,10 +20,10 @@ class Database {
     {
         if(!$this->con)
         {
-            $myconn = @mysql_connect($this->db_host,$this->db_user,$this->db_pass);
+            $myconn = @mysql_connect(AppConfig::instance()->DB_HOST,AppConfig::instance()->DB_USER,AppConfig::instance()->DB_PASS);
             if($myconn)
             {
-                $seldb = @mysql_select_db($this->db_name,$myconn);
+                $seldb = @mysql_select_db(AppConfig::instance()->DB_NAME,$myconn);
                 if($seldb)
                 {
                     $this->con = true;
@@ -67,7 +57,7 @@ class Database {
             {
                 $this->con = false;
                 $this->results = null;
-                $this->db_name = $name;
+                AppConfig::instance()->DB_NAME = $name;
                 $this->connect();
             }
         }
@@ -80,7 +70,7 @@ class Database {
     */
     private function tableExists($table)
     {
-        $tablesInDb = @mysql_query('SHOW TABLES FROM '.$this->db_name.' LIKE "'.$table.'"');
+        $tablesInDb = @mysql_query('SHOW TABLES FROM '.AppConfig::instance()->DB_NAME.' LIKE "'.$table.'"');
         if($tablesInDb)
         {
             if(mysql_num_rows($tablesInDb)==1)

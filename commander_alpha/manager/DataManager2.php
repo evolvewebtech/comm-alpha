@@ -4,18 +4,19 @@
  *
  * @author alessandro
  */
-require_once dirname(__FILE__).'/../food/Alimento.php';
-require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';
-require_once dirname(__FILE__).'/../food/Categoria.php';
-require_once dirname(__FILE__).'/../food/Ordine.php';
-require_once dirname(__FILE__).'/../food/RigaOrdine.php';
-require_once dirname(__FILE__).'/../food/Sala.php';
-require_once dirname(__FILE__).'/../food/Stampante.php';
-require_once dirname(__FILE__).'/../food/Tavolo.php';
-require_once dirname(__FILE__).'/../food/Variante.php';
-require_once dirname(__FILE__).'/../food/MenuFisso.php';
-require_once dirname(__FILE__).'/../food/CatMenu.php';
+require_once dirname(__FILE__).'/../object/food/Alimento.php';
+require_once dirname(__FILE__).'/../object/food/BuonoPrepagato.php';
+require_once dirname(__FILE__).'/../object/food/Categoria.php';
+require_once dirname(__FILE__).'/../object/food/Ordine.php';
+require_once dirname(__FILE__).'/../object/food/RigaOrdine.php';
+require_once dirname(__FILE__).'/../object/food/Sala.php';
+require_once dirname(__FILE__).'/../object/food/Stampante.php';
+require_once dirname(__FILE__).'/../object/food/Tavolo.php';
+require_once dirname(__FILE__).'/../object/food/Variante.php';
+require_once dirname(__FILE__).'/../object/food/MenuFisso.php';
+require_once dirname(__FILE__).'/../object/food/CatMenu.php';
 
+require_once dirname(__FILE__).'/AppConfig.php';
 
 class DataManager2 {
     
@@ -1311,30 +1312,21 @@ class DataManager2 {
         if ($ret) return true;
         else return false;
     }//end cancellaVarianteRigaOrdine
-    
-    
-    
-    
-    
-    
-    
-    
-    
+        
     private static function _getConnection() {
       static $hDB;
-      static $database = "commander";
 
       if(isset($hDB)) {
          return $hDB;
       }
 
-      $hDB = mysql_connect("localhost", "root", "")
+      $hDB = mysql_connect(AppConfig::instance()->DB_HOST, AppConfig::instance()->DB_USER, AppConfig::instance()->DB_PASS)
          or die("Failure connecting to the database!");
 
       if (!$hDB){
           die('Could not connect: ' . mysql_error());
       }
-      mysql_select_db($database);
+      mysql_select_db(AppConfig::instance()->DB_NAME);
 
       return $hDB;
     }

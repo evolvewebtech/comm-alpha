@@ -1,9 +1,6 @@
 <?php
-
 // html_form.class.php
 // version date: March 2010
-// for use: http://www.dyn-web.com/code/form_builder/
-
 /**
  *
  * The HTML_Form class is a basic php class for generating xhtml forms.

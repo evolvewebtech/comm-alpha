@@ -4,8 +4,8 @@ try
     require_once dirname(__FILE__).'/manager/Utility.php';
     require_once dirname(__FILE__).'/manager/HTTPSession.php';
 
-    require_once dirname(__FILE__).'/php_print/test/PosPrint.php';
-    require_once dirname(__FILE__).'/php_print/test/EscPos.php';
+    require_once dirname(__FILE__).'/lib/php_print/PosPrint.php';
+    require_once dirname(__FILE__).'/lib/php_print/EscPos.php';
     require_once dirname(__FILE__).'/manager/DataManager2.php';
     require_once dirname(__FILE__).'/manager/DataManager.php';
 

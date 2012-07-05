@@ -6,19 +6,19 @@
  */
 require_once dirname(__FILE__).'/DataManager2.php';
 
-require_once dirname(__FILE__).'/../user/User.php';
-require_once dirname(__FILE__).'/../user/Gestore.php';
-require_once dirname(__FILE__).'/../user/Cassiere.php';
+require_once dirname(__FILE__).'/../object/user/User.php';
+require_once dirname(__FILE__).'/../object/user/Gestore.php';
+require_once dirname(__FILE__).'/../object/user/Cassiere.php';
 
-require_once dirname(__FILE__).'/../food/Alimento.php';
-require_once dirname(__FILE__).'/../food/BuonoPrepagato.php';
-require_once dirname(__FILE__).'/../food/Categoria.php';
-require_once dirname(__FILE__).'/../food/Ordine.php';
-require_once dirname(__FILE__).'/../food/RigaOrdine.php';
-require_once dirname(__FILE__).'/../food/Stampante.php';
-require_once dirname(__FILE__).'/../food/Variante.php';
-require_once dirname(__FILE__).'/../food/MenuFisso.php';
-require_once dirname(__FILE__).'/../food/CatMenu.php';
+require_once dirname(__FILE__).'/../object/food/Alimento.php';
+require_once dirname(__FILE__).'/../object/food/BuonoPrepagato.php';
+require_once dirname(__FILE__).'/../object/food/Categoria.php';
+require_once dirname(__FILE__).'/../object/food/Ordine.php';
+require_once dirname(__FILE__).'/../object/food/RigaOrdine.php';
+require_once dirname(__FILE__).'/../object/food/Stampante.php';
+require_once dirname(__FILE__).'/../object/food/Variante.php';
+require_once dirname(__FILE__).'/../object/food/MenuFisso.php';
+require_once dirname(__FILE__).'/../object/food/CatMenu.php';
 
 require_once dirname(__FILE__).'/AppConfig.php';
 
@@ -807,7 +807,7 @@ class DataManager {
             $ret2 = $db->update('cmd_utente_registrato',
                                     array(
                                         'username'   => $username,
-                                        'md5_pw'     => $password,
+                                        'md5_pw'     => md5($password),
                                         'first_name' => $nome,
                                         'last_name'  => $cognome,
                                         'type'       => $tipo),

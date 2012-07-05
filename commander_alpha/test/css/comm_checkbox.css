@@ -1,0 +1,114 @@
+/* 
+    Document   : comm_checkbox
+    Created on : 11-apr-2012, 20.41.41
+    Author     : Alessandro
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+.comm_checkbox {
+    margin: 5px;
+    padding: 9px;
+    height: 21px;
+    width: 300px;
+    /*float: left;*/
+    cursor: pointer;
+    border-radius: 14px;
+    -moz-border-radius: 14px;
+    -webkit-border-radius: 14px;
+    
+    color: rgb(255, 255, 255);
+    text-shadow: 0pt -1px 1px rgb(20,80,114);
+
+    border-top: 1px solid rgba(255, 255, 255, 0.3);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.3);  
+    border-top-color:	rgba(255, 255, 255, 0.3);
+    border-right-color:	rgba(255, 255, 255, 0.3);
+    border-bottom-color:rgba(255, 255, 255, 0.3);
+    border-left-color:	rgba(255, 255, 255, 0.3);
+    
+    background: #5c98c2; /* Old browsers */
+    background: -moz-linear-gradient(top,  #5c98c2 0%, #396b9e 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5c98c2), color-stop(100%,#396b9e)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #5c98c2 0%,#396b9e 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #5c98c2 0%,#396b9e 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #5c98c2 0%,#396b9e 100%); /* IE10+ */
+    background: linear-gradient(top,  #5c98c2 0%,#396b9e 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5c98c2', endColorstr='#396b9e',GradientType=0 ); /* IE6-9 */
+}
+
+.comm_checkbox .cc_icon {
+    height: 18px;
+    width: 18px;
+    float: left;
+    margin-top: 1px;
+    margin-left: 5px;
+    margin-right: 10px;
+    border-radius: 4px;
+    background-color: #d0d0d0;
+}
+
+.comm_checkbox .cc_text {
+    font-family: Helvetica,Arial,sans-serif;
+    font-size:	16px;
+    font-weight: 700;
+    font-style:	normal;
+}
+
+.comm_checkbox:hover {
+    background-color: #6da9d3;
+    background: -moz-linear-gradient(top,  #6da9d3 0%, #4272a4 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6da9d3), color-stop(100%,#4272a4)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  #6da9d3 0%,#4272a4 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  #6da9d3 0%,#4272a4 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  #6da9d3 0%,#4272a4 100%); /* IE10+ */
+    background: linear-gradient(top,  #6da9d3 0%,#4272a4 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6da9d3', endColorstr='#4272a4',GradientType=0 ); /* IE6-9 */
+}
+
+.comm_checkbox.selected {
+    color: #333;
+    text-shadow: 0pt 1px 0px rgb(255,255,255);
+    background-color: #fadb4e; /* Old browsers */
+    background: -moz-linear-gradient(top,  rgba(254,252,234,1) 0%, rgba(241,218,54,1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(254,252,234,1)), color-stop(100%,rgba(241,218,54,1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(241,218,54,1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(241,218,54,1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(241,218,54,1) 100%); /* IE10+ */
+    background: linear-gradient(top,  rgba(254,252,234,1) 0%,rgba(241,218,54,1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', endColorstr='#f1da36',GradientType=0 ); /* IE6-9 */
+}
+
+.comm_checkbox.selected .cc_icon{
+    background-color: #46769e;
+    /*background-color: #e2cd71;*/
+    background-image: url("images/icons-18-white.png");
+    background-repeat: no-repeat;
+    background-position: -648px 50%;
+    background-attachment: scroll;
+    opacity: 1;
+}
+
+
+
+
+/*******************/
+/* VERSIONE "MINI" */
+/*******************/
+
+.comm_checkbox_min {
+    height: 16px;
+    width: 160px;
+    float: left;
+}
+
+.comm_checkbox_min .cc_icon {    
+    margin-top: -1px;
+}
+
+.comm_checkbox_min .cc_text {
+    font-size:	13px;
+    margin-top: -3px;
+}

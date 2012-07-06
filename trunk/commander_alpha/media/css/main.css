@@ -5,7 +5,7 @@
     Description: stylecss for commander, administrator file.
 */
 body{
-    background:#e9e8e4 url('../../img/bg-black.png');
+    background:#e9e8e4 url('../img/bg-black.png');
     font-family: MisoRegular, Helvetica, Arial, sans-serif;
 }
 #content{ 
